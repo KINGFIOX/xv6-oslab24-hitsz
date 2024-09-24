@@ -24,8 +24,7 @@ void acquire(struct spinlock *lk) {
   //   a5 = 1
   //   s1 = &lk->locked
   //   amoswap.w.aq a5, a5, (s1)
-  while (__sync_lock_test_and_set(&lk->locked, 1) != 0)
-    ;
+  while (__sync_lock_test_and_set(&lk->locked, 1) != 0);
 
   // Tell the C compiler and the processor to not move loads or stores
   // past this point, to ensure that the critical section's memory

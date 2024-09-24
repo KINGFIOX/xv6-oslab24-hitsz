@@ -88,9 +88,8 @@ int pipewrite(struct pipe *pi, uint64 addr, int n) {
 }
 
 int piperead(struct pipe *pi, uint64 addr, int n) {
-  int i;
   struct proc *pr = myproc();
-  char ch;
+  int i;
 
   acquire(&pi->lock);
   while (pi->nread == pi->nwrite && pi->writeopen) {  // DOC: pipe-empty
@@ -102,7 +101,7 @@ int piperead(struct pipe *pi, uint64 addr, int n) {
   }
   for (i = 0; i < n; i++) {  // DOC: piperead-copy
     if (pi->nread == pi->nwrite) break;
-    ch = pi->data[pi->nread++ % PIPESIZE];
+    char ch = pi->data[pi->nread++ % PIPESIZE];
     if (copyout(pr->pagetable, addr + i, &ch, 1) == -1) break;
   }
   wakeup(&pi->nwrite);  // DOC: piperead-wakeup

@@ -23,3 +23,6 @@ submissions/
 compile_commands.json
 .gdb_history
 .cache/
+
+.vscode
+.direnv
