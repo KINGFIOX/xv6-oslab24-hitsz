@@ -7,8 +7,7 @@ char *strcpy(char *s, const char *t) {
   char *os;
 
   os = s;
-  while ((*s++ = *t++) != 0)
-    ;
+  while ((*s++ = *t++) != 0);
   return os;
 }
 
@@ -20,8 +19,7 @@ int strcmp(const char *p, const char *q) {
 uint strlen(const char *s) {
   int n;
 
-  for (n = 0; s[n]; n++)
-    ;
+  for (n = 0; s[n]; n++);
   return n;
 }
 
@@ -54,13 +52,14 @@ char *gets(char *buf, int max) {
   return buf;
 }
 
-int stat(const char *n, struct stat *st) {
-  int fd;
-  int r;
-
-  fd = open(n, O_RDONLY);
+/// @brief
+/// @param file_name
+/// @param st (return)
+/// @return
+int stat(const char *file_name, struct stat *st) {
+  int fd = open(file_name, O_RDONLY);
   if (fd < 0) return -1;
-  r = fstat(fd, st);
+  int r = fstat(fd, st);
   close(fd);
   return r;
 }
@@ -76,31 +75,31 @@ int atoi(const char *s) {
 
 // convert integer to string
 void itoa(int n, char s[]) {
-    int i = 0;
-    int is_negative = 0;
+  int i = 0;
+  int is_negative = 0;
 
-    if (n < 0) {
-        is_negative = 1;
-        n = -n;
-    }
+  if (n < 0) {
+    is_negative = 1;
+    n = -n;
+  }
 
-    do {
-        s[i++] = n % 10 + '0';
-        n /= 10;
-    } while (n > 0);
+  do {
+    s[i++] = n % 10 + '0';
+    n /= 10;
+  } while (n > 0);
 
-    if (is_negative) {
-        s[i++] = '-';
-    }
+  if (is_negative) {
+    s[i++] = '-';
+  }
 
-    s[i] = '\0';
+  s[i] = '\0';
 
-    // invert string
-    for (int j = 0; j < i / 2; j++) {
-        char temp = s[j];
-        s[j] = s[i - j - 1];
-        s[i - j - 1] = temp;
-    }
+  // invert string
+  for (int j = 0; j < i / 2; j++) {
+    char temp = s[j];
+    s[j] = s[i - j - 1];
+    s[i - j - 1] = temp;
+  }
 }
 
 void *memmove(void *vdst, const void *vsrc, int n) {

@@ -3,13 +3,12 @@
 #include "user/user.h"
 #include "kernel/fs.h"
 
-char *fmtname(char *path) {
+char *base_name(char *path) {
   static char buf[DIRSIZ + 1];
   char *p;
 
   // Find first character after last slash.
-  for (p = path + strlen(path); p >= path && *p != '/'; p--)
-    ;
+  for (p = path + strlen(path); p >= path && *p != '/'; p--);
   p++;
 
   // Return blank-padded name.
@@ -20,25 +19,25 @@ char *fmtname(char *path) {
 }
 
 void ls(char *path) {
-  char buf[512], *p;
   int fd;
-  struct dirent de;
-  struct stat st;
 
   if ((fd = open(path, 0)) < 0) {
     fprintf(2, "ls: cannot open %s\n", path);
     return;
   }
 
+  struct stat st;
   if (fstat(fd, &st) < 0) {
     fprintf(2, "ls: cannot stat %s\n", path);
     close(fd);
     return;
   }
 
+  char buf[512], *p;
+  struct dirent de;  // open the dir, and get all entry
   switch (st.type) {
     case T_FILE:
-      printf("%s %d %d %l\n", fmtname(path), st.type, st.ino, st.size);
+      printf("%s %d %d %l\n", base_name(path), st.type, st.ino, st.size);
       break;
 
     case T_DIR:
@@ -53,11 +52,12 @@ void ls(char *path) {
         if (de.inum == 0) continue;
         memmove(p, de.name, DIRSIZ);
         p[DIRSIZ] = 0;
+        struct stat st;
         if (stat(buf, &st) < 0) {
           printf("ls: cannot stat %s\n", buf);
           continue;
         }
-        printf("%s %d %d %d\n", fmtname(buf), st.type, st.ino, st.size);
+        printf("%s %d %d %d\n", base_name(buf), st.type, st.ino, st.size);
       }
       break;
   }

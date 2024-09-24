@@ -74,10 +74,10 @@ void fileclose(struct file *f) {
 // addr is a user virtual address, pointing to a struct stat.
 int filestat(struct file *f, uint64 addr) {
   struct proc *p = myproc();
-  struct stat st;
 
   if (f->type == FD_INODE || f->type == FD_DEVICE) {
     ilock(f->ip);
+    struct stat st;
     stati(f->ip, &st);
     iunlock(f->ip);
     if (copyout(p->pagetable, addr, (char *)&st, sizeof(st)) < 0) return -1;
