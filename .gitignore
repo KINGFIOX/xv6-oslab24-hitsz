@@ -26,3 +26,8 @@ compile_commands.json
 
 .vscode
 .direnv
+
+
+# Added by cargo
+
+/target

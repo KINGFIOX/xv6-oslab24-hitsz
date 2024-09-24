@@ -15,7 +15,7 @@
       let
         overlays = [ (import rust-overlay) ];
         pkgs = import nixpkgs { inherit system overlays; };
-        libPath = pkgs.lib.makeLibraryPath [ ]; # 外部库用在 nix 环境中
+        libPath = pkgs.lib.makeLibraryPath [ ];
         toolchain = pkgs.rust-bin.fromRustupToolchainFile ./rust-toolchain.toml;
       in {
         devShell = pkgs.mkShell {
