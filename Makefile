@@ -114,6 +114,7 @@ tags: $(OBJS) _init
 
 ULIB = $U/ulib.o $U/usys.o $U/printf.o $U/umalloc.o
 
+# _find : find.o
 _%: %.o $(ULIB)
 	$(LD) $(LDFLAGS) -N -e main -Ttext 0 -o $@ $^
 	$(OBJDUMP) -S $@ > $*.asm
@@ -229,7 +230,7 @@ qemu-gdb: $K/kernel .gdbinit fs.img
 	$(QEMU) $(QEMUOPTS) -S $(QEMUGDB)
 
 gdb: 
-	$(GDB) -ex 'target remote localhost:$(GDBPORT)'
+	$(GDB) -ex 'target remote localhost:$(GDBPORT)' -ex 'file user/_find' -ex 'b find.c:main'
 
 ##
 ##  FOR testing lab grading script

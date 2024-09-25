@@ -28,6 +28,10 @@
             ])
             toolchain
             cargo-binutils
+            libxml2
+            pkg-config
+            clang_16
+            llvm_16
           ];
           MAKEFLAGS = "-j$(nproc)";
           RUST_SRC_PATH = "${toolchain}/lib/rustlib/src/rust/library";

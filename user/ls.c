@@ -3,7 +3,7 @@
 #include "user/user.h"
 #include "kernel/fs.h"
 
-char *base_name(char *path) {
+char *fmtname(char *path) {
   static char buf[DIRSIZ + 1];
   char *p;
 
@@ -37,7 +37,7 @@ void ls(char *path) {
   struct dirent de;  // open the dir, and get all entry
   switch (st.type) {
     case T_FILE:
-      printf("%s %d %d %l\n", base_name(path), st.type, st.ino, st.size);
+      printf("%s %d %d %l\n", fmtname(path), st.type, st.ino, st.size);
       break;
 
     case T_DIR:
@@ -57,7 +57,7 @@ void ls(char *path) {
           printf("ls: cannot stat %s\n", buf);
           continue;
         }
-        printf("%s %d %d %d\n", base_name(buf), st.type, st.ino, st.size);
+        printf("%s %d %d %d\n", fmtname(buf), st.type, st.ino, st.size);
       }
       break;
   }

@@ -3,31 +3,17 @@
 #include "user/user.h"
 #include "kernel/fs.h"
 
-void ls(char *path);
-
-/// @brief return the base name of the path, lifetime from path or static buf
-/// @param path
-/// @return
-char *base_name(const char *path) {
-  static char buf[DIRSIZ + 1];
+char *base(const char *path) {
   const char *p;
 
   // Find first character after last slash.
   for (p = path + strlen(path); p >= path && *p != '/'; p--);
   p++;
 
-  // Return blank-padded name.
-  if (strlen(p) >= DIRSIZ) return (char *)p;
-  memmove(buf, p, strlen(p));
-  memset(buf + strlen(p), ' ', DIRSIZ - strlen(p));
-  return buf;
+  return (char *)p;
 }
 
-/// @brief
-/// @param cur_path
-/// @param name the name to find
-/// @return true if found
-static bool __dfs(const char *cur_path, const char *name) {
+static bool __dfs(const char *cur_path, const char *name_to_find) {
   int fd;  // open a dir
 
   if ((fd = open(cur_path, 0)) < 0) {
@@ -43,34 +29,53 @@ static bool __dfs(const char *cur_path, const char *name) {
   }
 
   bool flag = false;
-  if (strcmp(base_name(cur_path), name) == 0) {
+  if (strcmp(base(cur_path), name_to_find) == 0) {
     printf("%s\n", cur_path);
     flag = true;
   }
 
   // 叶子节点
-  if (st.type == T_FILE || st.type == T_DEVICE) {
+  if (T_FILE == st.type || T_DEVICE == st.type) {
+    close(fd);  // 关闭文件描述符
     return flag;
   }
 
   // 非叶子节点
 
-  char buf[512] = {0};
+  char buf[512];
   strcpy(buf, cur_path);
   char *p = buf + strlen(buf);
-  *p++ = '/';  // a/b/c/
+  *p++ = '/';  // 添加斜杠
 
   struct dirent de;
   while (read(fd, &de, sizeof(de)) == sizeof(de)) {
     if (de.inum == 0) continue;
-    if (strcmp(de.name, ".") == 0 || strcmp(de.name, "..") == 0) continue;
-    memmove(p, de.name, DIRSIZ);  // a/b/c/target
-    p[DIRSIZ] = 0;
-    if (__dfs(buf, name)) {
-      flag = true;
+
+    char name[DIRSIZ + 1];
+    memmove(name, de.name, DIRSIZ);
+    name[DIRSIZ] = '\0';  // 确保字符串以'\0'结尾
+
+    // 去除可能存在的多余空白字符
+    char *trimmed_name = name;
+    while (*trimmed_name == ' ' && *trimmed_name != '\0') {
+      trimmed_name++;
     }
+
+    if (strcmp(trimmed_name, ".") == 0 || strcmp(trimmed_name, "..") == 0) continue;
+
+    // 检查路径长度是否过长
+    if (strlen(buf) + strlen(trimmed_name) + 1 > sizeof(buf)) {
+      fprintf(2, "find: path too long\n");
+      continue;
+    }
+
+    strcpy(p, trimmed_name);  // 拼接路径
+
+    // 递归调用
+    flag |= __dfs(buf, name_to_find);
   }
 
+  close(fd);  // 在函数结束前关闭文件描述符
   return flag;
 }
 
@@ -82,6 +87,9 @@ int main(int argc, char *argv[]) {
   char *path = argv[1];
   char *name = argv[2];
 
-  __dfs(path, name);
+  bool flag = __dfs(path, name);
+  if (flag == false) {
+    fprintf(2, "find: cannot find %s in %s\n", name, path);
+  }
   exit(0);
 }

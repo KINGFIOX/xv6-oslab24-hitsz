@@ -11,6 +11,11 @@ char *strcpy(char *s, const char *t) {
   return os;
 }
 
+/// @brief
+/// @return
+/// - 0: equal
+/// - <0: p < q
+/// - >0: p > q
 int strcmp(const char *p, const char *q) {
   while (*p && *p == *q) p++, q++;
   return (uchar)*p - (uchar)*q;
