@@ -127,6 +127,7 @@ static inline void w_pmpaddr0(uint64 x) { asm volatile("csrw pmpaddr0, %0" : : "
 // use riscv's sv39 page table scheme.
 #define SATP_SV39 (8L << 60)
 
+/// @brief should read the spec
 #define MAKE_SATP(pagetable) (SATP_SV39 | (((uint64)pagetable) >> 12))
 
 // supervisor address translation and protection;

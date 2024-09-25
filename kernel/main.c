@@ -8,8 +8,8 @@ volatile static int started = 0;
 
 // start() jumps here in supervisor mode on all CPUs.
 void main() {
-  if (cpuid() == 0) {
-    // consoleinit();
+  if (cpuid() == 0) {  // some init only needs to be done once
+    // consoleinit();  // console_init has moved to start
     // printfinit();
     printf("\n");
     printf("xv6 kernel is booting\n");
@@ -30,8 +30,7 @@ void main() {
     __sync_synchronize();
     started = 1;
   } else {
-    while (started == 0)
-      ;
+    while (started == 0);
     __sync_synchronize();
     printf("hart %d starting\n", cpuid());
     kvminithart();   // turn on paging

@@ -9,12 +9,12 @@
 struct cpu cpus[NCPU];
 
 /// @brief the vector of the process
-struct proc proc[NPROC];
+static struct proc proc[NPROC];
 
-struct proc *initproc;
+struct proc *initproc;  // openrc or systemd
 
-int nextpid = 1;
-struct spinlock pid_lock;
+static int nextpid = 1;
+static struct spinlock pid_lock;
 
 extern void forkret(void);
 static void wakeup1(struct proc *chan);
@@ -24,18 +24,20 @@ extern char trampoline[];  // trampoline.S
 
 // initialize the proc table at boot time.
 void procinit(void) {
-  struct proc *p;
-
   initlock(&pid_lock, "nextpid");
-  for (p = proc; p < &proc[NPROC]; p++) {
+  // 这里其实可以做的 lazy 一些的
+  for (struct proc *p = proc; p < &proc[NPROC]; p++) {
     initlock(&p->lock, "proc");
 
     // Allocate a page for the process's kernel stack.
-    // Map it high in memory, followed by an invalid
-    // guard page.
+    // Map it high in memory, followed by an invalid guard page.
     char *pa = kalloc();
     if (pa == 0) panic("kalloc");
-    uint64 va = KSTACK((int)(p - proc));
+    uint64 va = KSTACK((int)(p - proc));  // 中间会差一个 guard
+
+    // 这个时候, 可能会有两个 pte 对应一个 pa
+    // 首先, 所有的物理内存 kvminit 中被映射到了 KERNBASE 后面
+    // 然后这里从: 最高虚拟地址开始, 映射到了 pa
     kvmmap(va, (uint64)pa, PGSIZE, PTE_R | PTE_W);
     p->kstack = va;
   }
@@ -45,10 +47,7 @@ void procinit(void) {
 // Must be called with interrupts disabled,
 // to prevent race with process being moved
 // to a different CPU.
-int cpuid() {
-  int id = r_tp();
-  return id;
-}
+int cpuid() { return r_tp(); }
 
 // Return this CPU's cpu struct.
 // Interrupts must be disabled.
@@ -69,10 +68,8 @@ struct proc *myproc(void) {
 }
 
 int allocpid() {
-  int pid;
-
   acquire(&pid_lock);
-  pid = nextpid;
+  int pid = nextpid;
   nextpid = nextpid + 1;
   release(&pid_lock);
 
@@ -84,42 +81,37 @@ int allocpid() {
 // and return with p->lock held.
 // If there are no free procs, or a memory allocation fails, return 0.
 static struct proc *allocproc(void) {
-  struct proc *p;
-
-  for (p = proc; p < &proc[NPROC]; p++) {
+  for (struct proc *p = proc; p < &proc[NPROC]; p++) {
     acquire(&p->lock);
     if (p->state == UNUSED) {
-      goto found;
+      p->pid = allocpid();
+
+      // Allocate a trapframe page.
+      if ((p->trapframe = (struct trapframe *)kalloc()) == 0) {
+        release(&p->lock);
+        return 0;
+      }
+
+      // An empty user page table.
+      p->pagetable = proc_pagetable(p);
+      if (p->pagetable == 0) {
+        freeproc(p);
+        release(&p->lock);
+        return 0;
+      }
+
+      // Set up new context to start executing at forkret,
+      // which returns to user space.
+      kmemset(&p->context, 0, sizeof(p->context));
+      p->context.ra = (uint64)forkret;
+      p->context.sp = p->kstack + PGSIZE;
+
+      return p;  // exit the func
     } else {
       release(&p->lock);
     }
   }
   return 0;
-
-found:
-  p->pid = allocpid();
-
-  // Allocate a trapframe page.
-  if ((p->trapframe = (struct trapframe *)kalloc()) == 0) {
-    release(&p->lock);
-    return 0;
-  }
-
-  // An empty user page table.
-  p->pagetable = proc_pagetable(p);
-  if (p->pagetable == 0) {
-    freeproc(p);
-    release(&p->lock);
-    return 0;
-  }
-
-  // Set up new context to start executing at forkret,
-  // which returns to user space.
-  kmemset(&p->context, 0, sizeof(p->context));
-  p->context.ra = (uint64)forkret;
-  p->context.sp = p->kstack + PGSIZE;
-
-  return p;
 }
 
 // free a proc structure and the data hanging from it,

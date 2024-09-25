@@ -37,6 +37,7 @@ void kvminit() {
   kvmmap(KERNBASE, KERNBASE, (uint64)etext - KERNBASE, PTE_R | PTE_X);
 
   // map kernel data and the physical RAM we'll make use of.
+  // 恒等映射
   kvmmap((uint64)etext, (uint64)etext, PHYSTOP - (uint64)etext, PTE_R | PTE_W);
 
   // map the trampoline for trap entry/exit to
@@ -159,6 +160,13 @@ int mappages(pagetable_t pagetable, uint64 va, uint64 size, uint64 pa, int perm)
   }
   return 0;
 }
+
+/* ---------- ---------- user 相关的函数 ---------- ---------- */
+
+// 尽管下面是 uvm<xxx> , 但是, user 实际上是看不到 physical memory 的
+// 所以下面这段代码, 是在: 内核态下调用的。
+// 实际上, 内核也不一定看到的是 physical memory, 只不过 xv6 采用了: 恒等映射(I)的方式.
+// 当然,
 
 // Remove npages of mappings starting from va. va must be
 // page-aligned. The mappings must exist.
@@ -346,13 +354,11 @@ int copyout(pagetable_t pagetable, uint64 dstva, const char *src, uint64 len) {
 /// @param len
 /// @return 0 on success, -1 on error.
 int copyin(pagetable_t pagetable, char *dst, uint64 srcva, uint64 len) {
-  uint64 n, va0, pa0;
-
   while (len > 0) {
     uint64 va0 = PGROUNDDOWN(srcva);
     uint64 pa0 = walkaddr(pagetable, va0);
     if (pa0 == 0) return -1;
-    n = PGSIZE - (srcva - va0);
+    uint64 n = PGSIZE - (srcva - va0);
     if (n > len) n = len;
     kmemmove(dst, (void *)(pa0 + (srcva - va0)), n);
 

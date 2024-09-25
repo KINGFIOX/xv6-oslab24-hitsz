@@ -18,9 +18,12 @@ void kernelvec();
 
 extern int devintr();
 
+/// @brief
 void trapinit(void) { initlock(&tickslock, "time"); }
 
 // set up to take exceptions and traps while in the kernel.
+
+/// @brief 内核态的 trap vector
 void trapinithart(void) { w_stvec((uint64)kernelvec); }
 
 //
