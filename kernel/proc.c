@@ -8,6 +8,7 @@
 
 struct cpu cpus[NCPU];
 
+/// @brief the vector of the process
 struct proc proc[NPROC];
 
 struct proc *initproc;
@@ -57,11 +58,12 @@ struct cpu *mycpu(void) {
   return c;
 }
 
-// Return the current struct proc *, or zero if none.
+/// @brief Return the current struct proc *, or zero if none.
+/// @return
 struct proc *myproc(void) {
   push_off();
   struct cpu *c = mycpu();
-  struct proc *p = c->proc;
+  struct proc *p = c->proc;  // the proc running on cpu
   pop_off();
   return p;
 }
@@ -530,10 +532,11 @@ void sleep(void *chan, struct spinlock *lk) {
 
 // Wake up all processes sleeping on chan.
 // Must be called without any p->lock.
-void wakeup(void *chan) {
-  struct proc *p;
 
-  for (p = proc; p < &proc[NPROC]; p++) {
+/// @brief
+/// @param chan clock domain
+void wakeup(void *chan) {
+  for (struct proc *p = proc; p < &proc[NPROC]; p++) {
     acquire(&p->lock);
     if (p->state == SLEEPING && p->chan == chan) {
       p->state = RUNNABLE;

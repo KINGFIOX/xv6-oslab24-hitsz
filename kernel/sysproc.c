@@ -36,13 +36,11 @@ uint64 sys_sbrk(void) {
 
 uint64 sys_sleep(void) {
   int n;
-  uint ticks0;
-
   if (argint(0, &n) < 0) return -1;
   acquire(&tickslock);
-  ticks0 = ticks;
+  uint ticks0 = ticks;
   while (ticks - ticks0 < n) {
-    if (myproc()->killed) {
+    if (myproc()->killed) {  // check the status of the process
       release(&tickslock);
       return -1;
     }
@@ -52,9 +50,11 @@ uint64 sys_sleep(void) {
   return 0;
 }
 
+/// @brief
+/// @param
+/// @return
 uint64 sys_kill(void) {
   int pid;
-
   if (argint(0, &pid) < 0) return -1;
   return kill(pid);
 }
@@ -62,14 +62,14 @@ uint64 sys_kill(void) {
 // return how many clock tick interrupts have occurred
 // since start.
 uint64 sys_uptime(void) {
-  uint xticks;
-
   acquire(&tickslock);
-  xticks = ticks;
+  uint xticks = ticks;
   release(&tickslock);
   return xticks;
 }
 
+/// @brief modify the process name
+/// @return 0: success, -1: failed
 uint64 sys_rename(void) {
   char name[16];
   int len = argstr(0, name, MAXPATH);

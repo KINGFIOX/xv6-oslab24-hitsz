@@ -15,8 +15,11 @@ int fetchaddr(uint64 addr, uint64 *ip) {
   return 0;
 }
 
-// Fetch the nul-terminated string at addr from the current process.
-// Returns length of string, not including nul, or -1 for error.
+/// @brief Fetch the nul-terminated string at addr from the current process.
+/// @param addr
+/// @param buf
+/// @param max
+/// @return length of string, not including nul, or -1 for error.
 int fetchstr(uint64 addr, char *buf, int max) {
   struct proc *p = myproc();
   int err = copyinstr(p->pagetable, buf, addr, max);
@@ -24,6 +27,9 @@ int fetchstr(uint64 addr, char *buf, int max) {
   return strlen(buf);
 }
 
+/// @brief get the n-th argument
+/// @param n
+/// @return
 static uint64 argraw(int n) {
   struct proc *p = myproc();
   switch (n) {
@@ -39,20 +45,25 @@ static uint64 argraw(int n) {
       return p->trapframe->a4;
     case 5:
       return p->trapframe->a5;
+    default:
+      panic("argraw");
+      return -1;
   }
-  panic("argraw");
-  return -1;
 }
 
-// Fetch the nth 32-bit system call argument.
+/// @brief Fetch the nth 32-bit system call argument.
+/// @param n
+/// @param ip (return)
+/// @return
 int argint(int n, int *ip) {
   *ip = argraw(n);
   return 0;
 }
 
-// Retrieve an argument as a pointer.
-// Doesn't check for legality, since
-// copyin/copyout will do that.
+/// @brief Retrieve an argument as a pointer. Doesn't check for legality, since copyin/copyout will do that.
+/// @param n
+/// @param ip (return)
+/// @return 0: success
 int argaddr(int n, uint64 *ip) {
   *ip = argraw(n);
   return 0;
@@ -99,11 +110,11 @@ static uint64 (*syscalls[])(void) = {
     [SYS_close] sys_close, [SYS_rename] sys_rename,
 };
 
+/// @brief
 void syscall(void) {
-  int num;
   struct proc *p = myproc();
 
-  num = p->trapframe->a7;
+  int num = p->trapframe->a7;  // syscall number
   if (num > 0 && num < NELEM(syscalls) && syscalls[num]) {
     p->trapframe->a0 = syscalls[num]();
   } else {

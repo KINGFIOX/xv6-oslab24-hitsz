@@ -7,6 +7,8 @@
 #include "defs.h"
 
 struct spinlock tickslock;
+
+/// @brief 这个东西, 访问的时候, 要记得上锁
 uint ticks;
 
 extern char trampoline[], uservec[], userret[];
@@ -50,6 +52,7 @@ void usertrap(void) {
 
     // an interrupt will change sstatus &c registers,
     // so don't enable until done with those registers.
+    // riscv 在发生异常的时候, 会自动关闭 int enable bit
     intr_on();
 
     syscall();
@@ -138,6 +141,7 @@ void kerneltrap() {
   w_sstatus(sstatus);
 }
 
+/// @brief
 void clockintr() {
   acquire(&tickslock);
   ticks++;

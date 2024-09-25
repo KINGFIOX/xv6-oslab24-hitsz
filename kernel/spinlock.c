@@ -24,8 +24,7 @@ void acquire(struct spinlock *lk) {
   //   a5 = 1
   //   s1 = &lk->locked
   //   amoswap.w.aq a5, a5, (s1)
-  while (__sync_lock_test_and_set(&lk->locked, 1) != 0)
-    ;
+  while (__sync_lock_test_and_set(&lk->locked, 1) != 0);
 
   // Tell the C compiler and the processor to not move loads or stores
   // past this point, to ensure that the critical section's memory
@@ -79,6 +78,7 @@ void push_off(void) {
   int old = intr_get();
 
   intr_off();
+  // 只会记录: 第一层的 push_off() 时的中断状态, 因为后面不管怎么样都是 disable
   if (mycpu()->noff == 0) mycpu()->intena = old;
   mycpu()->noff += 1;
 }
@@ -86,7 +86,7 @@ void push_off(void) {
 void pop_off(void) {
   struct cpu *c = mycpu();
   if (intr_get()) panic("pop_off - interruptible");
-  if (c->noff < 1) panic("pop_off");
+  if (c->noff < 1) panic("pop_off");  // 出现了 pop 和 push 不匹配的情况
   c->noff -= 1;
   if (c->noff == 0 && c->intena) intr_on();
 }
