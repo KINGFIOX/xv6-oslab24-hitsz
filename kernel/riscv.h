@@ -215,8 +215,13 @@ static inline void sfence_vma() {
   asm volatile("sfence.vma zero, zero");
 }
 
-#define PGSIZE 4096  // bytes per page
-#define PGSHIFT 12   // bits of offset within a page
+/// @brief  bits of offset within a page
+#define PGSHIFT 12
+
+/// @brief bytes per page
+#define PGSIZE (1 << PGSHIFT)
+
+#define PGOFFSET(pg) (pg & (PGSIZE - 1))
 
 #define PGROUNDUP(sz) (((sz) + PGSIZE - 1) & ~(PGSIZE - 1))
 
