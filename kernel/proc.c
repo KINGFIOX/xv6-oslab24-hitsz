@@ -495,11 +495,8 @@ void forkret(void) {
 void sleep(void *chan, struct spinlock *lk) {
   struct proc *p = myproc();
 
-  // Must acquire p->lock in order to
-  // change p->state and then call sched.
-  // Once we hold p->lock, we can be
-  // guaranteed that we won't miss any wakeup
-  // (wakeup locks p->lock),
+  // Must acquire p->lock in order to change p->state and then call sched.
+  // Once we hold p->lock, we can be guaranteed that we won't miss any wakeup (wakeup locks p->lock),
   // so it's okay to release lk.
   if (lk != &p->lock) {  // DOC: sleeplock0
     acquire(&p->lock);   // DOC: sleeplock1
@@ -526,7 +523,7 @@ void sleep(void *chan, struct spinlock *lk) {
 // Must be called without any p->lock.
 
 /// @brief
-/// @param chan clock domain
+/// @param chan could be lock,
 void wakeup(void *chan) {
   for (struct proc *p = proc; p < &proc[NPROC]; p++) {
     acquire(&p->lock);

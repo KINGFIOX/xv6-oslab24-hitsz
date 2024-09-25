@@ -16,7 +16,7 @@ extern char trampoline[], uservec[], userret[];
 // in kernelvec.S, calls kerneltrap().
 void kernelvec();
 
-extern int devintr();
+int devintr();
 
 /// @brief
 void trapinit(void) { initlock(&tickslock, "time"); }
@@ -30,6 +30,9 @@ void trapinithart(void) { w_stvec((uint64)kernelvec); }
 // handle an interrupt, exception, or system call from user space.
 // called from trampoline.S
 //
+
+/// @brief
+/// @param
 void usertrap(void) {
   int which_dev = 0;
 

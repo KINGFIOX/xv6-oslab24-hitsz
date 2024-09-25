@@ -8,7 +8,7 @@
 # kernel.ld causes this to be aligned
 # to a page boundary.
 #
-        .section   trampsec
+        .section   trampsec         # 说明下面的内容都是 trampsec 段的内容
         .globl     trampoline
 trampoline:
         .align     4

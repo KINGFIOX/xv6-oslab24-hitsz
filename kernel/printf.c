@@ -15,6 +15,7 @@
 #include "defs.h"
 #include "proc.h"
 
+/// @brief if call panic, then set this to 1
 volatile int panicked = 0;
 
 // lock to avoid interleaving concurrent printf's.

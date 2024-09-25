@@ -171,6 +171,8 @@ void consoleintr(int c) {
   release(&cons.lock);
 }
 
+/// @brief called in start.c if this is the root cpu
+/// @param
 void consoleinit(void) {
   initlock(&cons.lock, "cons");
 
