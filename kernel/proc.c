@@ -115,7 +115,7 @@ found:
 
   // Set up new context to start executing at forkret,
   // which returns to user space.
-  memset(&p->context, 0, sizeof(p->context));
+  kmemset(&p->context, 0, sizeof(p->context));
   p->context.ra = (uint64)forkret;
   p->context.sp = p->kstack + PGSIZE;
 
@@ -199,7 +199,7 @@ void userinit(void) {
   p->trapframe->epc = 0;      // user program counter
   p->trapframe->sp = PGSIZE;  // user stack pointer
 
-  safestrcpy(p->name, "initcode", sizeof(p->name));
+  ksafestrcpy(p->name, "initcode", sizeof(p->name));
   p->cwd = namei("/");
 
   p->state = RUNNABLE;
@@ -258,7 +258,7 @@ int fork(void) {
     if (p->ofile[i]) np->ofile[i] = filedup(p->ofile[i]);
   np->cwd = idup(p->cwd);
 
-  safestrcpy(np->name, p->name, sizeof(p->name));
+  ksafestrcpy(np->name, p->name, sizeof(p->name));
 
   pid = np->pid;
 
@@ -584,7 +584,7 @@ int either_copyout(int user_dst, uint64 dst, void *src, uint64 len) {
   if (user_dst) {
     return copyout(p->pagetable, dst, src, len);
   } else {
-    memmove((char *)dst, src, len);
+    kmemmove((char *)dst, src, len);
     return 0;
   }
 }
@@ -597,7 +597,7 @@ int either_copyin(void *dst, int user_src, uint64 src, uint64 len) {
   if (user_src) {
     return copyin(p->pagetable, dst, src, len);
   } else {
-    memmove(dst, (char *)src, len);
+    kmemmove(dst, (char *)src, len);
     return 0;
   }
 }

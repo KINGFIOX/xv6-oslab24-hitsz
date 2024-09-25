@@ -89,7 +89,7 @@ void virtio_disk_init(void) {
   if (max == 0) panic("virtio disk has no queue 0");
   if (max < NUM) panic("virtio disk max queue too short");
   *R(VIRTIO_MMIO_QUEUE_NUM) = NUM;
-  memset(disk.pages, 0, sizeof(disk.pages));
+  kmemset(disk.pages, 0, sizeof(disk.pages));
   *R(VIRTIO_MMIO_QUEUE_PFN) = ((uint64)disk.pages) >> PGSHIFT;
 
   // desc = pages -- num * VRingDesc

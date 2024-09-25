@@ -133,13 +133,13 @@ int holdingsleep(struct sleeplock *);
 void initsleeplock(struct sleeplock *, char *);
 
 // string.c
-int memcmp(const void *, const void *, uint);
-void *memmove(void *, const void *, uint);
-void *memset(void *, int, uint);
-char *safestrcpy(char *, const char *, int);
-int strlen(const char *);
-int strncmp(const char *, const char *, uint);
-char *strncpy(char *, const char *, int);
+int kmemcmp(const void *, const void *, uint);
+void *kmemmove(void *, const void *, uint);
+void *kmemset(void *, int, uint);
+char *ksafestrcpy(char *, const char *, int);
+int kstrlen(const char *);
+int kstrncmp(const char *, const char *, uint);
+char *kstrncpy(char *, const char *, int);
 
 // syscall.c
 int argint(int, int *);

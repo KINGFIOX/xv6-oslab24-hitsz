@@ -24,7 +24,7 @@ int fetchstr(uint64 addr, char *buf, int max) {
   struct proc *p = myproc();
   int err = copyinstr(p->pagetable, buf, addr, max);
   if (err < 0) return err;
-  return strlen(buf);
+  return kstrlen(buf);
 }
 
 /// @brief get the n-th argument

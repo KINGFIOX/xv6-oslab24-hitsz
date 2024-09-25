@@ -31,7 +31,7 @@ static void readsb(int dev, struct superblock *sb) {
   struct buf *bp;
 
   bp = bread(dev, 1);
-  memmove(sb, bp->data, sizeof(*sb));
+  kmemmove(sb, bp->data, sizeof(*sb));
   brelse(bp);
 }
 
@@ -47,7 +47,7 @@ static void bzero(int dev, int bno) {
   struct buf *bp;
 
   bp = bread(dev, bno);
-  memset(bp->data, 0, BSIZE);
+  kmemset(bp->data, 0, BSIZE);
   log_write(bp);
   brelse(bp);
 }
@@ -188,7 +188,7 @@ struct inode *ialloc(uint dev, short type) {
     bp = bread(dev, IBLOCK(inum, sb));
     dip = (struct dinode *)bp->data + inum % IPB;
     if (dip->type == 0) {  // a free inode
-      memset(dip, 0, sizeof(*dip));
+      kmemset(dip, 0, sizeof(*dip));
       dip->type = type;
       log_write(bp);  // mark it allocated on the disk
       brelse(bp);
@@ -214,7 +214,7 @@ void iupdate(struct inode *ip) {
   dip->minor = ip->minor;
   dip->nlink = ip->nlink;
   dip->size = ip->size;
-  memmove(dip->addrs, ip->addrs, sizeof(ip->addrs));
+  kmemmove(dip->addrs, ip->addrs, sizeof(ip->addrs));
   log_write(bp);
   brelse(bp);
 }
@@ -279,7 +279,7 @@ void ilock(struct inode *ip) {
     ip->minor = dip->minor;
     ip->nlink = dip->nlink;
     ip->size = dip->size;
-    memmove(ip->addrs, dip->addrs, sizeof(ip->addrs));
+    kmemmove(ip->addrs, dip->addrs, sizeof(ip->addrs));
     brelse(bp);
     ip->valid = 1;
     if (ip->type == 0) panic("ilock: no type");
@@ -464,7 +464,7 @@ int writei(struct inode *ip, int user_src, uint64 src, uint off, uint n) {
 
 // Directories
 
-int namecmp(const char *s, const char *t) { return strncmp(s, t, DIRSIZ); }
+int namecmp(const char *s, const char *t) { return kstrncmp(s, t, DIRSIZ); }
 
 // Look for a directory entry in a directory.
 // If found, set *poff to byte offset of entry.
@@ -506,7 +506,7 @@ int dirlink(struct inode *dp, char *name, uint inum) {
     if (de.inum == 0) break;
   }
 
-  strncpy(de.name, name, DIRSIZ);
+  kstrncpy(de.name, name, DIRSIZ);
   de.inum = inum;
   if (writei(dp, 0, (uint64)&de, off, sizeof(de)) != sizeof(de)) panic("dirlink");
 
@@ -537,9 +537,9 @@ static char *skipelem(char *path, char *name) {
   while (*path != '/' && *path != 0) path++;
   len = path - s;
   if (len >= DIRSIZ)
-    memmove(name, s, DIRSIZ);
+    kmemmove(name, s, DIRSIZ);
   else {
-    memmove(name, s, len);
+    kmemmove(name, s, len);
     name[len] = 0;
   }
   while (*path == '/') path++;

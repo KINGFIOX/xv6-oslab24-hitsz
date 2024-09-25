@@ -65,10 +65,10 @@ int exec(char *path, char **argv) {
   // Push argument strings, prepare rest of stack in ustack.
   for (argc = 0; argv[argc]; argc++) {
     if (argc >= MAXARG) goto bad;
-    sp -= strlen(argv[argc]) + 1;
+    sp -= kstrlen(argv[argc]) + 1;
     sp -= sp % 16;  // riscv sp must be 16-byte aligned
     if (sp < stackbase) goto bad;
-    if (copyout(pagetable, sp, argv[argc], strlen(argv[argc]) + 1) < 0) goto bad;
+    if (copyout(pagetable, sp, argv[argc], kstrlen(argv[argc]) + 1) < 0) goto bad;
     ustack[argc] = sp;
   }
   ustack[argc] = 0;
@@ -87,7 +87,7 @@ int exec(char *path, char **argv) {
   // Save program name for debugging.
   for (last = s = path; *s; s++)
     if (*s == '/') last = s + 1;
-  safestrcpy(p->name, last, sizeof(p->name));
+  ksafestrcpy(p->name, last, sizeof(p->name));
 
   // Commit to the user image.
   oldpagetable = p->pagetable;

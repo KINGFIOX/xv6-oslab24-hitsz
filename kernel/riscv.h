@@ -219,6 +219,8 @@ static inline void sfence_vma() {
 #define PGSHIFT 12   // bits of offset within a page
 
 #define PGROUNDUP(sz) (((sz) + PGSIZE - 1) & ~(PGSIZE - 1))
+
+/// @brief clear the low 12 bit (offset)
 #define PGROUNDDOWN(a) (((a)) & ~(PGSIZE - 1))
 
 #define PTE_V (1L << 0)  // valid
@@ -230,13 +232,19 @@ static inline void sfence_vma() {
 // shift a physical address to the right place for a PTE.
 #define PA2PTE(pa) ((((uint64)pa) >> 12) << 10)
 
+/// @brief reserved [63:54] | ppn [53:10] | RSW(reserved for supervisor software) [9:8] | D(dirty) [7] | A(accessed) [6]
+/// | G(global) [5] | U [4] | X [3] | W [2] | R [1] | V [0]
 #define PTE2PA(pte) (((pte) >> 10) << 12)
 
 #define PTE_FLAGS(pte) ((pte) & 0x3FF)
 
 // extract the three 9-bit page table indices from a virtual address.
 #define PXMASK 0x1FF  // 9 bits
+
+/// @brief the shift amount for the level-th level of the page table.
 #define PXSHIFT(level) (PGSHIFT + (9 * (level)))
+
+/// @brief get the index of the page table entry at level for a virtual address.
 #define PX(level, va) ((((uint64)(va)) >> PXSHIFT(level)) & PXMASK)
 
 // one beyond the highest possible virtual address.

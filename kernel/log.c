@@ -68,7 +68,7 @@ static void install_trans(void) {
   for (tail = 0; tail < log.lh.n; tail++) {
     struct buf *lbuf = bread(log.dev, log.start + tail + 1);  // read log block
     struct buf *dbuf = bread(log.dev, log.lh.block[tail]);    // read dst
-    memmove(dbuf->data, lbuf->data, BSIZE);                   // copy block to dst
+    kmemmove(dbuf->data, lbuf->data, BSIZE);                  // copy block to dst
     bwrite(dbuf);                                             // write dst to disk
     bunpin(dbuf);
     brelse(lbuf);
@@ -164,7 +164,7 @@ static void write_log(void) {
   for (tail = 0; tail < log.lh.n; tail++) {
     struct buf *to = bread(log.dev, log.start + tail + 1);  // log block
     struct buf *from = bread(log.dev, log.lh.block[tail]);  // cache block
-    memmove(to->data, from->data, BSIZE);
+    kmemmove(to->data, from->data, BSIZE);
     bwrite(to);  // write the log
     brelse(from);
     brelse(to);

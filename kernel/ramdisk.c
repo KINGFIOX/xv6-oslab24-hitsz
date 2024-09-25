@@ -27,11 +27,11 @@ void ramdiskrw(struct buf *b) {
 
   if (b->flags & B_DIRTY) {
     // write
-    memmove(addr, b->data, BSIZE);
+    kmemmove(addr, b->data, BSIZE);
     b->flags &= ~B_DIRTY;
   } else {
     // read
-    memmove(b->data, addr, BSIZE);
+    kmemmove(b->data, addr, BSIZE);
     b->flags |= B_VALID;
   }
 }
