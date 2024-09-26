@@ -81,7 +81,7 @@ struct trapframe {
 };
 
 /// @brief the status of the element in proc. 这个比 proc 实际的状态要多一点内容
-enum procstate { UNUSED, SLEEPING, RUNNABLE /* ready */, RUNNING, ZOMBIE };
+enum procstate { UNUSED, SLEEPING, READY /* ready */, RUNNING, ZOMBIE };
 
 // Per-process state
 struct proc {

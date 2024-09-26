@@ -118,6 +118,7 @@ void usertrapret(void) {
   // switches to the user page table, restores user registers,
   // and switches to user mode with sret.
   uint64 fn = TRAMPOLINE + (userret - trampoline);
+  // 因为 trapframe 在 proc 是固定地址
   ((void (*)(uint64, uint64))fn)(TRAPFRAME, satp);
 }
 
