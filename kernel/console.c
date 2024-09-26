@@ -122,12 +122,9 @@ int consoleread(int user_dst, uint64 dst, int n) {
   return target - n;
 }
 
-//
-// the console input interrupt handler.
-// uartintr() calls this for input character.
-// do erase/kill processing, append to cons.buf,
-// wake up consoleread() if a whole line has arrived.
-//
+/// @brief the console input interrupt handler. uartintr() calls this for input character.
+/// do erase/kill processing, append to cons.buf, wake up consoleread() if a whole line has arrived.
+/// @param c
 void consoleintr(int c) {
   acquire(&cons.lock);
 

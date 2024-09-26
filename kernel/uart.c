@@ -113,10 +113,9 @@ void uartputc(int c) {
   }
 }
 
-// alternate version of uartputc() that doesn't
-// use interrupts, for use by kernel printf() and
-// to echo characters. it spins waiting for the uart's
-// output register to be empty.
+/// @brief alternate version of uartputc() that doesn't use interrupts, for use by kernel printf() and to echo char.
+/// it spins waiting for the uart's output register to be empty.
+/// @param c
 void uartputc_sync(int c) {
   push_off();
 
@@ -124,8 +123,8 @@ void uartputc_sync(int c) {
     for (;;);
   }
 
-  // wait for Transmit Holding Empty to be set in LSR.
-  while ((ReadReg(LSR) & LSR_TX_IDLE) == 0);
+  // wait for Transmit Holding Empty to be set in LSR(line status register).
+  while ((ReadReg(LSR) & LSR_TX_IDLE) == 0);  // transmit holding empty -> transmit buf 是否 空, 空了才能发射
   WriteReg(THR, c);
 
   pop_off();
@@ -137,6 +136,7 @@ void uartputc_sync(int c) {
 /// @globals
 /// - (mut) uart_tx_buf
 /// - (mut) uart_tx_r
+/// - uart_tx_w
 static void __uartstart() {
   while (1) {
     if (uart_tx_w == uart_tx_r) {
@@ -144,13 +144,14 @@ static void __uartstart() {
       return;
     }
 
-    if ((ReadReg(LSR) & LSR_TX_IDLE) == 0) {
+    if ((ReadReg(LSR) & LSR_TX_IDLE) == 0) {  // transmit buf 是否空, 空了才能发射
       // the UART transmit holding register is full,
       // so we cannot give it another byte.
       // it will interrupt when it's ready for a new byte.
       return;
     }
 
+    // c <- pop a char
     int c = uart_tx_buf[uart_tx_r];
     uart_tx_r = (uart_tx_r + 1) % UART_TX_BUF_SIZE;
 
@@ -162,10 +163,10 @@ static void __uartstart() {
   }
 }
 
-// read one input character from the UART.
-// return -1 if none is waiting.
+/// @brief read one input character from the UART.
+/// @return -1 if none is waiting.
 int uartgetc(void) {
-  if (ReadReg(LSR) & 0x01) {
+  if (ReadReg(LSR) & LSR_RX_READY) {
     // input data is ready.
     return ReadReg(RHR);
   } else {
@@ -173,14 +174,13 @@ int uartgetc(void) {
   }
 }
 
-// handle a uart interrupt, raised because input has
-// arrived, or the uart is ready for more output, or
-// both. called from trap.c.
+/// @brief handle a uart interrupt, raised because input has arrived, or the uart is ready for more output, or both.
+/// called from trap.c.
 void uartintr(void) {
   // read and process incoming characters.
   while (1) {
     int c = uartgetc();
-    if (c == -1) break;
+    if (c == -1) break;  // exit loop
     consoleintr(c);
   }
 
