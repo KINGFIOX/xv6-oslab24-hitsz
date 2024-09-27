@@ -13,8 +13,15 @@ char *base(const char *path) {
   return (char *)p;
 }
 
+static void close_cleanup(int *fd) {
+  if (*fd >= 0) {
+    close(*fd);
+    // fprintf(2, "call close cleanup\n");
+  }
+}
+
 static bool __dfs(const char *cur_path, const char *name_to_find) {
-  int fd;  // open a dir
+  int fd __attribute__((cleanup(close_cleanup))) = -1;  // open a dir
 
   if ((fd = open(cur_path, 0)) < 0) {
     // fprintf(2, "find: cannot open %s\n", cur_path);
@@ -24,7 +31,7 @@ static bool __dfs(const char *cur_path, const char *name_to_find) {
   struct stat st;
   if (fstat(fd, &st) < 0) {
     fprintf(2, "find: cannot stat %s\n", cur_path);
-    close(fd);
+    // close(fd);
     return false;
   }
 
@@ -36,7 +43,7 @@ static bool __dfs(const char *cur_path, const char *name_to_find) {
 
   // 叶子节点
   if (T_FILE == st.type || T_DEVICE == st.type) {
-    close(fd);  // 关闭文件描述符
+    // close(fd);  // 关闭文件描述符
     return flag;
   }
 
@@ -75,7 +82,7 @@ static bool __dfs(const char *cur_path, const char *name_to_find) {
     flag |= __dfs(buf, name_to_find);
   }
 
-  close(fd);  // 在函数结束前关闭文件描述符
+  // close(fd);  // 在函数结束前关闭文件描述符
   return flag;
 }
 
