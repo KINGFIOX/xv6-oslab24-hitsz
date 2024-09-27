@@ -41,7 +41,8 @@ void consputc(int c) {
   }
 }
 
-struct {
+/// @brief
+static struct {
   struct spinlock lock;
 
   // input
@@ -76,11 +77,7 @@ int consolewrite(int user_src, uint64 src, int n) {
 // or kernel address.
 //
 int consoleread(int user_dst, uint64 dst, int n) {
-  uint target;
-  int c;
-  char cbuf;
-
-  target = n;
+  uint target = n;
   acquire(&cons.lock);
   while (n > 0) {
     // wait until interrupt handler has put some
@@ -93,7 +90,7 @@ int consoleread(int user_dst, uint64 dst, int n) {
       sleep(&cons.r, &cons.lock);
     }
 
-    c = cons.buf[cons.r++ % INPUT_BUF];
+    int c = cons.buf[cons.r++ % INPUT_BUF];
 
     if (c == C('D')) {  // end-of-file
       if (n < target) {
@@ -105,7 +102,7 @@ int consoleread(int user_dst, uint64 dst, int n) {
     }
 
     // copy the input byte to the user-space buffer.
-    cbuf = c;
+    char cbuf = c;
     if (either_copyout(user_dst, dst, &cbuf, 1) == -1) break;
 
     dst++;

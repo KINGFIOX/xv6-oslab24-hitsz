@@ -22,7 +22,8 @@ static void freeproc(struct proc *p);
 
 extern char trampoline[];  // trampoline.S
 
-// initialize the proc table at boot time.
+/// @brief initialize the proc table at boot time.
+/// @param
 void procinit(void) {
   initlock(&pid_lock, "nextpid");
   // 这里其实可以做的 lazy 一些的
@@ -44,16 +45,14 @@ void procinit(void) {
   kvminithart();
 }
 
-// Must be called with interrupts disabled,
-// to prevent race with process being moved
-// to a different CPU.
-
 /// @brief
 /// @return
+/// @warning Must be called with interrupts disabled, to prevent race with process being moved to a different CPU.
 int cpuid() { return r_tp(); }
 
-// Return this CPU's cpu struct.
-// Interrupts must be disabled.
+/// @brief
+/// @return this CPU's cpu struct.
+/// @warning Interrupts must be disabled, because of calling cpuid().
 struct cpu *mycpu(void) {
   int id = cpuid();
   struct cpu *c = &cpus[id];
@@ -79,13 +78,13 @@ int allocpid() {
   return pid;
 }
 
-// Look in the process table for an UNUSED proc.
-// If found, initialize state required to run in the kernel,
-// and return with p->lock held.
-// If there are no free procs, or a memory allocation fails, return 0.
+/// @brief Look in the process table for an UNUSED proc.
+/// @return
+/// - If found, initialize state required to run in the kernel, and return with p->lock held.
+/// - If there are no free procs, or a memory allocation fails, return 0.
 static struct proc *allocproc(void) {
   for (struct proc *p = proc; p < &proc[NPROC]; p++) {
-    acquire(&p->lock);
+    acquire(&p->lock);  // 防止被其他核心偷偷占用了
     if (p->state == UNUSED) {
       p->pid = allocpid();
 
@@ -106,7 +105,7 @@ static struct proc *allocproc(void) {
       // Set up new context to start executing at forkret,
       // which returns to user space.
       kmemset(&p->context, 0, sizeof(p->context));
-      p->context.ra = (uint64)forkret;
+      p->context.ra = (uint64)forkret;  // xv6 中, 用 fork 创建进程
       p->context.sp = p->kstack + PGSIZE;
 
       return p;  // exit the func
@@ -117,9 +116,9 @@ static struct proc *allocproc(void) {
   return 0;
 }
 
-// free a proc structure and the data hanging from it,
-// including user pages.
-// p->lock must be held.
+/// @brief free a proc structure and the data hanging from it, including user pages.
+/// @param p
+/// @warning p->lock must be held.
 static void freeproc(struct proc *p) {
   if (p->trapframe) kfree((void *)p->trapframe);
   p->trapframe = 0;

@@ -14,8 +14,9 @@ void initlock(struct spinlock *lk, char *name) {
   lk->cpu = 0;
 }
 
-// Acquire the lock.
-// Loops (spins) until the lock is acquired.
+/// @brief Acquire the lock. Loops (spins) until the lock is acquired.
+/// @param lk
+/// @warning close the interrupt to avoid deadlock.
 void acquire(struct spinlock *lk) {
   push_off();  // disable interrupts to avoid deadlock.
   if (holding(lk)) panic("acquire");
@@ -59,11 +60,16 @@ void release(struct spinlock *lk) {
   //   amoswap.w zero, zero, (s1)
   __sync_lock_release(&lk->locked);
 
+  // 这里是 pop_off, 而不能是直接的开中断.
+  // 我们要做的是: 中断前后的状态机, 除了临界资源修改外, 其他的状态不做任何的改变
+  // 就是有一种可能: 之前是关中断的, 又关了一遍, 但是这里不小心打开了
   pop_off();
 }
 
-// Check whether this cpu is holding the lock.
-// Interrupts must be off.
+/// @brief Check whether this cpu is holding the lock.
+/// @param lk
+/// @return (bool)
+/// @warning Interrupts must be off, when entering this function.
 int holding(struct spinlock *lk) {
   int r;
   r = (lk->locked && lk->cpu == mycpu());
