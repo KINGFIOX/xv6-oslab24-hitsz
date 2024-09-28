@@ -33,9 +33,13 @@
 void consputc(int c) {
   if (c == BACKSPACE) {
     // if the user typed backspace, overwrite with a space.
+    // origin:>  x'
     uartputc_sync('\b');
+    // 'x
     uartputc_sync(' ');
+    // _'
     uartputc_sync('\b');
+    // '_
   } else {
     uartputc_sync(c);
   }
@@ -53,12 +57,13 @@ static struct {
   uint e;  // Edit index
 } cons;
 
-//
-// user write()s to the console go here.
-//
+/// @brief user write()s to the console go here.
+/// @param user_src
+/// @param src
+/// @param n
+/// @return
 int consolewrite(int user_src, uint64 src, int n) {
   int i;
-
   acquire(&cons.lock);
   for (i = 0; i < n; i++) {
     char c;

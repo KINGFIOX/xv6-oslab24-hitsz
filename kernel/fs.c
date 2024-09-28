@@ -293,13 +293,10 @@ void iunlock(struct inode *ip) {
   releasesleep(&ip->lock);
 }
 
-// Drop a reference to an in-memory inode.
-// If that was the last reference, the inode cache entry can
-// be recycled.
-// If that was the last reference and the inode has no links
-// to it, free the inode (and its content) on disk.
-// All calls to iput() must be inside a transaction in
-// case it has to free the inode.
+/// @brief Drop a reference to an in-memory inode. If that was the last reference, the inode cache entry can be
+/// recycled. If that was the last reference and the inode has no links to it, free the inode (and its content) on disk.
+/// All calls to iput() must be inside a transaction in case it has to free the inode.
+/// @param ip
 void iput(struct inode *ip) {
   acquire(&icache.lock);
 

@@ -18,6 +18,9 @@ uint64 sys_getpid(void) { return myproc()->pid; }
 
 uint64 sys_fork(void) { return fork(); }
 
+/// @brief
+/// @param (reg a0)
+/// @return
 uint64 sys_wait(void) {
   uint64 p;
   if (argaddr(0, &p) < 0) return -1;

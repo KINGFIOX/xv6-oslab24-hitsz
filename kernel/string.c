@@ -80,16 +80,16 @@ char *kstrncpy(char *s, const char *t, int n) {
   return os;
 }
 
-/// @brief Like strncpy but guaranteed to NUL-terminate.
-/// @param s
-/// @param t
+/// @brief Like strncpy but guaranteed to NUL-terminate. (依然是在内核态)
+/// @param dst
+/// @param src
 /// @param n
 /// @return
-char *ksafestrcpy(char *s, const char *t, int n) {
-  char *os = s;
+char *ksafestrcpy(char *dst, const char *src, int n) {
+  char *os = dst;
   if (n <= 0) return os;
-  while (--n > 0 && (*s++ = *t++) != 0);
-  *s = 0;
+  while (--n > 0 && (*dst++ = *src++) != 0);
+  *dst = 0;
   return os;
 }
 
