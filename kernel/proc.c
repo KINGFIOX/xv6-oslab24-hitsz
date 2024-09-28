@@ -228,14 +228,15 @@ int growproc(int n) {
   return 0;
 }
 
-// Create a new process, copying the parent.
-// Sets up child kernel stack to return as if from fork() system call.
+/// @brief Create a new process, copying the parent.
+/// Sets up child kernel stack to return as if from fork() system call.
+/// @param
+/// @return
 int fork(void) {
-  int i, pid;
-  struct proc *np;
   struct proc *p = myproc();
 
   // Allocate process.
+  struct proc *np;
   if ((np = allocproc()) == 0) {
     return -1;
   }
@@ -257,13 +258,13 @@ int fork(void) {
   np->trapframe->a0 = 0;
 
   // increment reference counts on open file descriptors.
-  for (i = 0; i < NOFILE; i++)
+  for (int i = 0; i < NOFILE; i++)
     if (p->ofile[i]) np->ofile[i] = filedup(p->ofile[i]);
   np->cwd = idup(p->cwd);
 
   ksafestrcpy(np->name, p->name, sizeof(p->name));
 
-  pid = np->pid;
+  int pid = np->pid;
 
   np->state = READY;
 
@@ -272,12 +273,11 @@ int fork(void) {
   return pid;
 }
 
-// Pass p's abandoned children to init.
-// Caller must hold p->lock.
+/// @brief Pass p's abandoned children to init. (认贼作父)(指的是: 将自己的 child 全部给 init)
+/// @warning Caller must hold p->lock.
+/// @param p
 void reparent(struct proc *p) {
-  struct proc *pp;
-
-  for (pp = proc; pp < &proc[NPROC]; pp++) {
+  for (struct proc *pp = proc; pp < &proc[NPROC]; pp++) {
     // this code uses pp->parent without holding pp->lock.
     // acquiring the lock first could cause a deadlock
     // if pp or a child of pp were also in exit()
@@ -341,7 +341,7 @@ void exit(int status) {
   // the parent-then-child rule says we have to lock it first.
   acquire(&original_parent->lock);
 
-  acquire(&p->lock);
+  acquire(&p->lock);  // it should be locked before entering sched() and wouldn't be scheduled in again
 
   // Give any children to init.
   reparent(p);
@@ -349,13 +349,16 @@ void exit(int status) {
   // Parent might be sleeping in wait().
   wakeup1(original_parent);
 
-  p->xstate = status;
-  p->state = ZOMBIE;
+  p->xstate = status;  // record the exit status for wait()
+  p->state = ZOMBIE;   // step into the zombie state
 
   release(&original_parent->lock);
 
   // Jump into the scheduler, never to return.
   sched();
+  // sched() into the scheduler. 但是状态是 zombie, 不是 ready, 因此不会再被调度
+
+  // unreachable!()
   panic("zombie exit");
 }
 
@@ -363,7 +366,7 @@ void exit(int status) {
 /// @param addr to save the child's exit status.
 /// @return -1 if this process has no children.
 int wait(uint64 addr) {
-  struct proc *p = myproc();
+  struct proc *p = myproc();  // caller process
 
   // hold p->lock for the whole time to avoid lost
   // wakeups from a child's exit().
@@ -372,7 +375,7 @@ int wait(uint64 addr) {
   for (;;) {
     // Scan through table looking for exited children.
     int havekids = 0;
-    for (struct proc *np = proc; np < &proc[NPROC]; np++) {
+    for (struct proc *np = proc; np < &proc[NPROC]; np++) {  // np 是迭代器
       // this code uses np->parent without holding np->lock.
       // acquiring the lock first would cause a deadlock,
       // since np might be an ancestor, and we already hold p->lock.
@@ -458,7 +461,8 @@ void scheduler(void) {
 
 /// @brief Switch to scheduler.
 /// @warning Must hold only p->lock and have changed proc->state.
-/// @warning It should be proc->intena and proc->noff,
+/// the lock would be released in scheduler after swtch()
+/// @warning It should be proc->intena and proc->noff
 /// but that would break in the few places where a lock is held but there's no process
 void sched(void) {
   struct proc *p = myproc();
