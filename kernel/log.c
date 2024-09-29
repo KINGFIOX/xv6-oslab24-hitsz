@@ -41,7 +41,7 @@ struct log {
   struct spinlock lock;
   int start;
   int size;
-  int outstanding;  // how many FS sys calls are executing.
+  int outstanding;  // how many FS sys calls are executing. (未解决的, 杰出的)
   int committing;   // in commit(), please wait.
   int dev;
   struct logheader lh;
@@ -65,11 +65,13 @@ void initlog(int dev, struct superblock *sb) {
 }
 
 /// @brief Copy committed blocks from log to their home location
+/// 我发现一件事情:
+/// 他会先将 home block 读出来 dbuf，然后将 log block 也读出来, 覆盖 dbuf，然后再写回磁盘
 static void install_trans(void) {
-  for (int tail = 0; tail < log.lh.n; tail++) {
+  for (int i = 0; i < log.lh.n; i++) {
     // 这里的 +1 是为了跳过 header
-    struct buf *lbuf = bread(log.dev, log.start + tail + 1);  // read log block, 这里是 log block
-    struct buf *dbuf = bread(log.dev, log.lh.block[tail]);    // read dst, 这里是普通的 block
+    struct buf *lbuf = bread(log.dev, log.start + i + 1);  // read log block, 这里是 log block
+    struct buf *dbuf = bread(log.dev, log.lh.block[i]);    // read dst, 这里是普通的 block
 
     kmemmove(dbuf->data, lbuf->data, BSIZE);  // copy block to dst, 将 log block 中暂存的 block 内容拷贝到 dst 中
     bwrite(dbuf);                             // write dst to disk, cause the refcnt++
@@ -121,13 +123,14 @@ static void recover_from_log(void) {
   write_head();  // clear the log
 }
 
-// called at the start of each FS system call.
+/// @brief called at the start of each FS system call.
 void begin_op(void) {
   acquire(&log.lock);
   while (1) {
-    if (log.committing) {
+    if (log.committing) {  // 如果当前 log 系统正在 committing, 那么阻塞
       sleep(&log, &log.lock);
     } else if (log.lh.n + (log.outstanding + 1) * MAXOPBLOCKS > LOGSIZE) {
+      // 如果当前日志条目数量 + 即将进行的操作可能占用的日志空间大小 > LOGSIZE, 则等待
       // this op might exhaust log space; wait for commit.
       sleep(&log, &log.lock);
     } else {
@@ -138,31 +141,31 @@ void begin_op(void) {
   }
 }
 
-// called at the end of each FS system call.
-// commits if this was the last outstanding operation.
-void end_op(void) {
-  int do_commit = 0;
+// 发现一个规律: 都是: wakeup(&log); release(&log.lock); 的
 
+/// @brief called at the end of each FS system call.
+/// commits if this was the last outstanding operation.
+void end_op(void) {
   acquire(&log.lock);
   log.outstanding -= 1;
   if (log.committing) panic("log.committing");
   if (log.outstanding == 0) {
-    do_commit = 1;
     log.committing = 1;
-  } else {
-    // begin_op() may be waiting for log space,
-    // and decrementing log.outstanding has decreased
-    // the amount of reserved space.
-    wakeup(&log);
-  }
-  release(&log.lock);
-
-  if (do_commit) {
+    release(&log.lock);
     // call commit w/o holding locks, since not allowed
     // to sleep with locks.
     commit();
+
     acquire(&log.lock);
     log.committing = 0;
+    wakeup(&log);
+    release(&log.lock);
+  } else {
+    // begin_op() may be waiting for log space,
+    // and decrementing log.outstanding has decreased the amount of reserved space.
+    // 说明, 并没有全部完成, 即 still outstanding
+    // 但是我们已经取得了一些进展: log.outstanding -= 1;
+    // 可能会有 begin_op 被满足, 因此 wakeup. 发现这是一组同步关系
     wakeup(&log);
     release(&log.lock);
   }
@@ -209,8 +212,8 @@ void log_write(struct buf *b) {
     if (log.lh.block[i] == b->blockno)  // log absorbtion
       break;
   }
-  log.lh.block[i] = b->blockno;
-  if (i == log.lh.n) {  // Add new block to log?
+  log.lh.block[i] = b->blockno;  // 两种情况: 1. 找到了, 2. 没找到( i <- log.lh.n )
+  if (i == log.lh.n) {           // Add new block to log?
     bpin(b);
     log.lh.n++;
   }

@@ -205,7 +205,7 @@ void panic(char *s) {
   printf(s);
   printf("\n");
   panicked = 1;  // freeze uart output from other CPUs
-  for (;;);      // 里面一层死循环, 防止 cpu 跑飞
+  for (;;);      // 里面一层死循环, 防止 cpu 跑飞, 以及神秘重启的现象
 }
 
 void printfinit(void) {

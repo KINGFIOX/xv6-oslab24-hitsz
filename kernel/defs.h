@@ -134,7 +134,7 @@ void initsleeplock(struct sleeplock *, char *);
 
 // string.c
 int kmemcmp(const void *, const void *, uint);
-void *kmemmove(void *, const void *, uint);
+void *kmemmove(void *dst, const void *src, uint n);
 void *kmemset(void *, int, uint);
 char *ksafestrcpy(char *, const char *, int);
 int kstrlen(const char *);
