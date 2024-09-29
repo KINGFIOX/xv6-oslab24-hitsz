@@ -55,7 +55,7 @@ void start() {
   }
 
   // switch to supervisor mode and jump to main().
-  asm volatile("mret");
+  __asm__ volatile("mret");
 }
 
 // set up to receive timer interrupts in machine mode,

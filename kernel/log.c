@@ -30,8 +30,8 @@
 //   ...
 // Log appends are synchronous.
 
-// Contents of the header block, used for both the on-disk header block
-// and to keep track in memory of logged block# before commit.
+/// @brief Contents of the header block,
+/// used for both the on-disk header block and to keep track in memory of logged block# before commit.
 struct logheader {
   int n;
   int block[LOGSIZE];
@@ -46,14 +46,17 @@ struct log {
   int dev;
   struct logheader lh;
 };
-struct log log;
+
+static struct log log;
 
 static void recover_from_log(void);
 static void commit();
 
+/// @brief
+/// @param dev
+/// @param sb
 void initlog(int dev, struct superblock *sb) {
   if (sizeof(struct logheader) >= BSIZE) panic("initlog: too big logheader");
-
   initlock(&log.lock, "log");
   log.start = sb->logstart;
   log.size = sb->nlog;
@@ -61,51 +64,59 @@ void initlog(int dev, struct superblock *sb) {
   recover_from_log();
 }
 
-// Copy committed blocks from log to their home location
+/// @brief Copy committed blocks from log to their home location
 static void install_trans(void) {
-  int tail;
+  for (int tail = 0; tail < log.lh.n; tail++) {
+    // 这里的 +1 是为了跳过 header
+    struct buf *lbuf = bread(log.dev, log.start + tail + 1);  // read log block, 这里是 log block
+    struct buf *dbuf = bread(log.dev, log.lh.block[tail]);    // read dst, 这里是普通的 block
 
-  for (tail = 0; tail < log.lh.n; tail++) {
-    struct buf *lbuf = bread(log.dev, log.start + tail + 1);  // read log block
-    struct buf *dbuf = bread(log.dev, log.lh.block[tail]);    // read dst
-    kmemmove(dbuf->data, lbuf->data, BSIZE);                  // copy block to dst
-    bwrite(dbuf);                                             // write dst to disk
-    bunpin(dbuf);
+    kmemmove(dbuf->data, lbuf->data, BSIZE);  // copy block to dst, 将 log block 中暂存的 block 内容拷贝到 dst 中
+    bwrite(dbuf);                             // write dst to disk, cause the refcnt++
+    bunpin(dbuf);                             // in order to release the dbuf, should decrease the refcnt
+
+    // clean
     brelse(lbuf);
     brelse(dbuf);
   }
 }
 
-// Read the log header from disk into the in-memory log header
+/// @brief Read the log header from disk into the in-memory log header
+/// @globals
+/// - (mut) log, init the log.lh.n and log.lh.block
 static void read_head(void) {
-  struct buf *buf = bread(log.dev, log.start);
+  struct buf *buf = bread(log.dev, log.start);  // in order to read the data from disk, should read the buffer first
   struct logheader *lh = (struct logheader *)(buf->data);
-  int i;
   log.lh.n = lh->n;
-  for (i = 0; i < log.lh.n; i++) {
+  for (int i = 0; i < log.lh.n; i++) {
     log.lh.block[i] = lh->block[i];
   }
-  brelse(buf);
+  brelse(buf);  // release the buf from bread
 }
 
-// Write in-memory log header to disk.
-// This is the true point at which the
-// current transaction commits.
+/// @brief Write in-memory log header to disk. This is the true point at which the current transaction commits.
+/// @globals
+/// - (mut) log
 static void write_head(void) {
   struct buf *buf = bread(log.dev, log.start);
   struct logheader *hb = (struct logheader *)(buf->data);
-  int i;
   hb->n = log.lh.n;
-  for (i = 0; i < log.lh.n; i++) {
+  for (int i = 0; i < log.lh.n; i++) {
     hb->block[i] = log.lh.block[i];
   }
   bwrite(buf);
   brelse(buf);
 }
 
+/// @brief
+/// @globals
+/// - (mut) log
 static void recover_from_log(void) {
-  read_head();
-  install_trans();  // if committed, copy from log to disk
+  read_head();  // init log header
+  install_trans();  // if committed, copy from log to disk. 将在 log block 中暂存的 block 拷贝到 普通的 block 中
+  // 这里是为了: 可能关机前, 还有一些 log block 没有 copy 到普通 block 中, 所以这里需要将这些 log block copy 到普通
+  // block 中
+
   log.lh.n = 0;
   write_head();  // clear the log
 }

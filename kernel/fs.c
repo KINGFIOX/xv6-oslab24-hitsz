@@ -22,15 +22,18 @@
 #include "file.h"
 
 #define min(a, b) ((a) < (b) ? (a) : (b))
-// there should be one superblock per disk device, but we run with
-// only one device
-struct superblock sb;
 
-// Read the super block.
+/// @brief there should be one superblock per disk device,
+/// but we run with only one device.
+///
+/// init in fsinit(int dev) using readsb(int dev, struct superblock *sb)
+static struct superblock sb;
+
+/// @brief Read the super block. only called by fsinit.
+/// @param dev
+/// @param sb (return)
 static void readsb(int dev, struct superblock *sb) {
-  struct buf *bp;
-
-  bp = bread(dev, 1);
+  struct buf *bp = bread(dev, 1);  // superblock 是 1 号 block, buf with locked
   kmemmove(sb, bp->data, sizeof(*sb));
   brelse(bp);
 }
@@ -44,9 +47,7 @@ void fsinit(int dev) {
 
 // Zero a block.
 static void bzero(int dev, int bno) {
-  struct buf *bp;
-
-  bp = bread(dev, bno);
+  struct buf *bp = bread(dev, bno);
   kmemset(bp->data, 0, BSIZE);
   log_write(bp);
   brelse(bp);

@@ -1,10 +1,9 @@
-//
-// driver for qemu's virtio disk device.
-// uses qemu's mmio interface to virtio.
-// qemu presents a "legacy" virtio interface.
-//
-// qemu ... -drive file=fs.img,if=none,format=raw,id=x0 -device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0
-//
+//! driver for qemu's virtio disk device.
+//! uses qemu's mmio interface to virtio.
+//! qemu presents a "legacy" virtio interface.
+//!
+//! qemu ... -drive file=fs.img,if=none,format=raw,id=x0 -device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0
+//!
 
 #include "types.h"
 #include "riscv.h"
@@ -17,14 +16,13 @@
 #include "buf.h"
 #include "virtio.h"
 
-// the address of virtio mmio register r.
+/// @brief the address of virtio mmio register r.
 #define R(r) ((volatile uint32 *)(VIRTIO0 + (r)))
 
 static struct disk {
   // memory for virtio descriptors &c for queue 0.
-  // this is a global instead of allocated because it must
-  // be multiple contiguous pages, which kalloc()
-  // doesn't support, and page aligned.
+  // this is a global instead of allocated because it must be multiple contiguous pages,
+  // which kalloc() doesn't support, and page aligned.
   char pages[2 * PGSIZE];
   struct VRingDesc *desc;
   uint16 *avail;
@@ -105,7 +103,8 @@ void virtio_disk_init(void) {
   // plic.c and trap.c arrange for interrupts from VIRTIO0_IRQ.
 }
 
-// find a free descriptor, mark it non-free, return its index.
+/// @brief find a free descriptor, mark it non-free, return its index.
+/// @return
 static int alloc_desc() {
   for (int i = 0; i < NUM; i++) {
     if (disk.free[i]) {
@@ -116,7 +115,8 @@ static int alloc_desc() {
   return -1;
 }
 
-// mark a descriptor as free.
+/// @brief mark a descriptor as free.
+/// @param i
 static void free_desc(int i) {
   if (i >= NUM) panic("virtio_disk_intr 1");
   if (disk.free[i]) panic("virtio_disk_intr 2");
@@ -147,6 +147,9 @@ static int alloc3_desc(int *idx) {
   return 0;
 }
 
+/// @brief
+/// @param b
+/// @param write 0:read, 1:write
 void virtio_disk_rw(struct buf *b, int write) {
   uint64 sector = b->blockno * (BSIZE / 512);
 
@@ -228,6 +231,7 @@ void virtio_disk_rw(struct buf *b, int write) {
   release(&disk.vdisk_lock);
 }
 
+/// @brief this will only called by devintr() in trap.c
 void virtio_disk_intr() {
   acquire(&disk.vdisk_lock);
 

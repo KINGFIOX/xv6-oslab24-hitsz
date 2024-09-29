@@ -454,7 +454,7 @@ void scheduler(void) {
     }
     if (found == 0) {
       intr_on();
-      asm volatile("wfi");
+      __asm__ volatile("wfi");
     }
   }
 }
