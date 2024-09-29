@@ -9,17 +9,14 @@
 
 // Simple logging that allows concurrent FS system calls.
 //
-// A log transaction contains the updates of multiple FS system
-// calls. The logging system only commits when there are
-// no FS system calls active. Thus there is never
-// any reasoning required about whether a commit might
+// A log transaction contains the updates of multiple FS system calls.
+// The logging system only commits when there are no FS system calls active.
+//  Thus there is never any reasoning required about whether a commit might
 // write an uncommitted system call's updates to disk.
 //
-// A system call should call begin_op()/end_op() to mark
-// its start and end. Usually begin_op() just increments
-// the count of in-progress FS system calls and returns.
-// But if it thinks the log is close to running out, it
-// sleeps until the last outstanding end_op() commits.
+// A system call should call begin_op()/end_op() to mark its start and end.
+// Usually begin_op() just increments the count of in-progress FS system calls and returns.
+// But if it thinks the log is close to running out, it sleeps until the last outstanding end_op() commits.
 //
 // The log is a physical re-do log containing disk blocks.
 // The on-disk log format:
@@ -52,7 +49,7 @@ static struct log log;
 static void recover_from_log(void);
 static void commit();
 
-/// @brief
+/// @brief called once by the master cpu by fsinit() in fs.c
 /// @param dev
 /// @param sb
 void initlog(int dev, struct superblock *sb) {
@@ -173,9 +170,9 @@ void end_op(void) {
 
 /// @brief Copy modified blocks from cache to log.
 static void write_log(void) {
-  for (int tail = 0; tail < log.lh.n; tail++) {
-    struct buf *to = bread(log.dev, log.start + tail + 1);  // log block
-    struct buf *from = bread(log.dev, log.lh.block[tail]);  // cache block
+  for (int i = 0; i < log.lh.n; i++) {
+    struct buf *to = bread(log.dev, log.start + i + 1);  // log block
+    struct buf *from = bread(log.dev, log.lh.block[i]);  // cache block (memory) (home)
     kmemmove(to->data, from->data, BSIZE);
     bwrite(to);  // write the log
     brelse(from);
@@ -193,15 +190,16 @@ static void commit() {
   }
 }
 
-// Caller has modified b->data and is done with the buffer.
-// Record the block number and pin in the cache by increasing refcnt.
-// commit()/write_log() will do the disk write.
-//
-// log_write() replaces bwrite(); a typical use is:
-//   bp = bread(...)
-//   modify bp->data[]
-//   log_write(bp)
-//   brelse(bp)
+/// @brief Caller has modified b->data and is done with the buffer.
+/// Record the block number and pin in the cache by increasing refcnt.
+/// commit()/write_log() will do the disk write.
+/// 这个操作的步骤: 1. 将 block number 记录到 log.lh.block[] 中, 2. pin 到双向链表中
+///
+/// log_write() replaces bwrite(); a typical use is:
+///   bp = bread(...)
+///   modify bp->data[]
+///   log_write(bp)
+///   brelse(bp)
 void log_write(struct buf *b) {
   if (log.lh.n >= LOGSIZE || log.lh.n >= log.size - 1) panic("too big a transaction");
   if (log.outstanding < 1) panic("log_write outside of trans");

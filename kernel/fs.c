@@ -34,18 +34,22 @@ static struct superblock sb;
 /// @param sb (return)
 static void readsb(int dev, struct superblock *sb) {
   struct buf *bp = bread(dev, 1);  // superblock 是 1 号 block, buf with locked
-  kmemmove(sb, bp->data, sizeof(*sb));
+  kmemmove(sb, bp->data, sizeof(struct superblock));
   brelse(bp);
 }
 
-// Init fs
+/// @brief init fs
+/// @globals
+/// - (mut) sb
 void fsinit(int dev) {
   readsb(dev, &sb);
   if (sb.magic != FSMAGIC) panic("invalid file system");
   initlog(dev, &sb);
 }
 
-// Zero a block.
+/// @brief Zero a block.
+/// @param dev
+/// @param bno block number
 static void bzero(int dev, int bno) {
   struct buf *bp = bread(dev, bno);
   kmemset(bp->data, 0, BSIZE);
@@ -55,16 +59,15 @@ static void bzero(int dev, int bno) {
 
 // Blocks.
 
-// Allocate a zeroed disk block.
+/// @brief Allocate a zeroed disk block.
+/// @param dev
+/// @return
 static uint balloc(uint dev) {
-  int b, bi, m;
-  struct buf *bp;
-
-  bp = 0;
-  for (b = 0; b < sb.size; b += BPB) {
+  struct buf *bp = 0;
+  for (int b = 0; b < sb.size; b += BPB) {
     bp = bread(dev, BBLOCK(b, sb));
-    for (bi = 0; bi < BPB && b + bi < sb.size; bi++) {
-      m = 1 << (bi % 8);
+    for (int bi = 0; bi < BPB && b + bi < sb.size; bi++) {
+      int m = 1 << (bi % 8);
       if ((bp->data[bi / 8] & m) == 0) {  // Is block free?
         bp->data[bi / 8] |= m;            // Mark block in use.
         log_write(bp);
@@ -78,14 +81,13 @@ static uint balloc(uint dev) {
   panic("balloc: out of blocks");
 }
 
-// Free a disk block.
+/// @brief Free a disk block.
+/// @param dev
+/// @param b
 static void bfree(int dev, uint b) {
-  struct buf *bp;
-  int bi, m;
-
-  bp = bread(dev, BBLOCK(b, sb));
-  bi = b % BPB;
-  m = 1 << (bi % 8);
+  struct buf *bp = bread(dev, BBLOCK(b, sb));
+  int bi = b % BPB;
+  int m = 1 << (bi % 8);
   if ((bp->data[bi / 8] & m) == 0) panic("freeing free block");
   bp->data[bi / 8] &= ~m;
   log_write(bp);
@@ -161,16 +163,14 @@ static void bfree(int dev, uint b) {
 // dev, and inum.  One must hold ip->lock in order to
 // read or write that inode's ip->valid, ip->size, ip->type, &c.
 
-struct {
+static struct {
   struct spinlock lock;
   struct inode inode[NINODE];
 } icache;
 
 void iinit() {
-  int i = 0;
-
   initlock(&icache.lock, "icache");
-  for (i = 0; i < NINODE; i++) {
+  for (int i = 0; i < NINODE; i++) {
     initsleeplock(&icache.inode[i].lock, "inode");
   }
 }
@@ -224,13 +224,12 @@ void iupdate(struct inode *ip) {
 // and return the in-memory copy. Does not lock
 // the inode and does not read it from disk.
 static struct inode *iget(uint dev, uint inum) {
-  struct inode *ip, *empty;
-
   acquire(&icache.lock);
 
   // Is the inode already cached?
-  empty = 0;
-  for (ip = &icache.inode[0]; ip < &icache.inode[NINODE]; ip++) {
+  struct inode *empty = 0;
+  struct inode *ip;
+  for (struct inode *ip = &icache.inode[0]; ip < &icache.inode[NINODE]; ip++) {
     if (ip->ref > 0 && ip->dev == dev && ip->inum == inum) {
       ip->ref++;
       release(&icache.lock);
@@ -265,16 +264,13 @@ struct inode *idup(struct inode *ip) {
 // Lock the given inode.
 // Reads the inode from disk if necessary.
 void ilock(struct inode *ip) {
-  struct buf *bp;
-  struct dinode *dip;
-
   if (ip == 0 || ip->ref < 1) panic("ilock");
 
   acquiresleep(&ip->lock);
 
   if (ip->valid == 0) {
-    bp = bread(ip->dev, IBLOCK(ip->inum, sb));
-    dip = (struct dinode *)bp->data + ip->inum % IPB;
+    struct buf *bp = bread(ip->dev, IBLOCK(ip->inum, sb));
+    struct dinode *dip = (struct dinode *)bp->data + ip->inum % IPB;
     ip->type = dip->type;
     ip->major = dip->major;
     ip->minor = dip->minor;
