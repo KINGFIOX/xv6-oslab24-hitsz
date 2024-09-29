@@ -512,8 +512,10 @@ void forkret(void) {
   usertrapret();
 }
 
-// Atomically release lock and sleep on chan.
-// Reacquires lock when awakened.
+/// @brief Atomically release lock and sleep on chan. Reacquires lock when awakened.
+/// 这个实际上就是: 等待条件变量
+/// @param chan (条件变量)
+/// @param lk (release the lock during sleep)
 void sleep(void *chan, struct spinlock *lk) {
   struct proc *p = myproc();
 
@@ -529,7 +531,7 @@ void sleep(void *chan, struct spinlock *lk) {
   p->chan = chan;
   p->state = SLEEPING;
 
-  sched();
+  sched();  // 调用: 切出, 返回: 切入, 并且 state <- READY
 
   // Tidy up.
   p->chan = 0;
@@ -542,7 +544,7 @@ void sleep(void *chan, struct spinlock *lk) {
 }
 
 /// @brief Wake up all processes sleeping on chan. Must be called without any p->lock.
-/// @param chan
+/// @param chan channel 就相当于是一个绳子. wakeup(chan) 让所有监听这个绳子的人都醒来 (绳子铃铛)
 void wakeup(void *chan) {
   for (struct proc *p = proc; p < &proc[NPROC]; p++) {
     acquire(&p->lock);

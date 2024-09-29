@@ -168,11 +168,9 @@ void end_op(void) {
   }
 }
 
-// Copy modified blocks from cache to log.
+/// @brief Copy modified blocks from cache to log.
 static void write_log(void) {
-  int tail;
-
-  for (tail = 0; tail < log.lh.n; tail++) {
+  for (int tail = 0; tail < log.lh.n; tail++) {
     struct buf *to = bread(log.dev, log.start + tail + 1);  // log block
     struct buf *from = bread(log.dev, log.lh.block[tail]);  // cache block
     kmemmove(to->data, from->data, BSIZE);
@@ -202,12 +200,11 @@ static void commit() {
 //   log_write(bp)
 //   brelse(bp)
 void log_write(struct buf *b) {
-  int i;
-
   if (log.lh.n >= LOGSIZE || log.lh.n >= log.size - 1) panic("too big a transaction");
   if (log.outstanding < 1) panic("log_write outside of trans");
 
   acquire(&log.lock);
+  int i;
   for (i = 0; i < log.lh.n; i++) {
     if (log.lh.block[i] == b->blockno)  // log absorbtion
       break;
