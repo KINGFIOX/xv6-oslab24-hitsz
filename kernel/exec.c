@@ -9,7 +9,7 @@
 
 static int loadseg(pde_t *pgdir, uint64 addr, struct inode *ip, uint offset, uint sz);
 
-int exec(char *path, char **argv) {
+int kexec(char *path, char **argv) {
   char *s, *last;
   int i, off;
   uint64 argc, sz = 0, sp, ustack[MAXARG + 1], stackbase;

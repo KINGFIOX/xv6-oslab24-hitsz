@@ -372,6 +372,7 @@ static uint bmap(struct inode *ip, uint bn) {
 }
 
 /// @brief Truncate inode (discard contents).
+/// 就是将 ip 对应的 inode 的所有 block 都清空, 包括直接索引 block, 一级间接索引 block
 /// @param ip
 /// @warning Caller must hold ip->lock
 void itrunc(struct inode *ip) {
@@ -489,7 +490,7 @@ int namecmp(const char *s, const char *t) { return kstrncmp(s, t, DIRSIZ); }
 /// @brief Look for a directory entry in a directory.
 /// @param dp
 /// @param name
-/// @param poff If found, set *poff to byte offset of entry.
+/// @param poff (return) If found, set *poff to byte offset of entry.
 /// @return inode of the entry; 0 failed
 struct inode *dirlookup(struct inode *dp, const char *name, uint *poff) {
   if (dp->type != T_DIR) panic("dirlookup not DIR");
@@ -499,7 +500,7 @@ struct inode *dirlookup(struct inode *dp, const char *name, uint *poff) {
     if (de.inum == 0) continue;
     if (namecmp(name, de.name) == 0) {  // name == de.name
       // entry matches path element
-      if (poff) *poff = off;
+      if (poff) *poff = off;  // 如果 poff 不是 NULL, 就会作为返回值
       uint inum = de.inum;
       return iget(dp->dev, inum);  // inode
     }

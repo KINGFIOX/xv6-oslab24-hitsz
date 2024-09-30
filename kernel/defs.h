@@ -23,7 +23,7 @@ void consoleintr(int);
 void consputc(int);
 
 // exec.c
-int exec(char *, char **);
+int kexec(char *, char **);
 
 // file.c
 struct file *filealloc(void);
@@ -178,7 +178,7 @@ void uvmfree(pagetable_t, uint64);
 void uvmunmap(pagetable_t, uint64, uint64, int);
 void uvmclear(pagetable_t, uint64);
 uint64 walkaddr(pagetable_t, uint64);
-int copyout(pagetable_t, uint64, const char *, uint64);
+int copyout(pagetable_t pagetable, uint64 dstva, const char *src, uint64 len);
 int copyin(pagetable_t, char *, uint64, uint64);
 int copyinstr(pagetable_t, char *, uint64, uint64);
 
