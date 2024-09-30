@@ -7,25 +7,25 @@
 #include "fs.h"
 #include "buf.h"
 
-// Simple logging that allows concurrent FS system calls.
-//
-// A log transaction contains the updates of multiple FS system calls.
-// The logging system only commits when there are no FS system calls active.
-//  Thus there is never any reasoning required about whether a commit might
-// write an uncommitted system call's updates to disk.
-//
-// A system call should call begin_op()/end_op() to mark its start and end.
-// Usually begin_op() just increments the count of in-progress FS system calls and returns.
-// But if it thinks the log is close to running out, it sleeps until the last outstanding end_op() commits.
-//
-// The log is a physical re-do log containing disk blocks.
-// The on-disk log format:
-//   header block, containing block #s for block A, B, C, ...
-//   block A
-//   block B
-//   block C
-//   ...
-// Log appends are synchronous.
+//! Simple logging that allows concurrent FS system calls.
+//!
+//! A log transaction contains the updates of multiple FS system calls.
+//! The logging system only commits when there are no FS system calls active.
+//!  Thus there is never any reasoning required about whether a commit might
+//! write an uncommitted system call's updates to disk.
+//!
+//! A system call should call begin_op()/end_op() to mark its start and end.
+//! Usually begin_op() just increments the count of in-progress FS system calls and returns.
+//! But if it thinks the log is close to running out, it sleeps until the last outstanding end_op() commits.
+//!
+//! The log is a physical re-do log containing disk blocks.
+//! The on-disk log format:
+//!   header block, containing block #s for block A, B, C, ...
+//!   block A
+//!   block B
+//!   block C
+//!   ...
+//! Log appends are synchronous.
 
 /// @brief Contents of the header block,
 /// used for both the on-disk header block and to keep track in memory of logged block# before commit.
@@ -68,11 +68,13 @@ static void install_trans(void) {
   for (int i = 0; i < log.lh.n; i++) {
     // 这里的 +1 是为了跳过 header
     struct buf *lbuf = bread(log.dev, log.start + i + 1);  // read log block, 这里是 log block
-    struct buf *dbuf = bread(log.dev, log.lh.block[i]);    // read dst, 这里是普通的 block
+    struct buf *dbuf = bread(log.dev, log.lh.block[i]);    // read dst, 这里是 home block
 
     kmemmove(dbuf->data, lbuf->data, BSIZE);  // copy block to dst, 将 log block 中暂存的 block 内容拷贝到 dst 中
     bwrite(dbuf);                             // write dst to disk, cause the refcnt++
-    bunpin(dbuf);                             // in order to release the dbuf, should decrease the refcnt
+
+    // 因为 dbuf 对应的 block, 在 log 的列表中也有引用, 看 log_write(struct buf *b) 的 bpin
+    bunpin(dbuf);  // in order to release the dbuf, should decrease the refcnt
 
     // clean
     brelse(lbuf);
@@ -84,13 +86,14 @@ static void install_trans(void) {
 /// @globals
 /// - (mut) log, init the log.lh.n and log.lh.block
 static void read_head(void) {
+  // log.start 对应的 block 里面存放有 log header
   struct buf *buf = bread(log.dev, log.start);  // in order to read the data from disk, should read the buffer first
   struct logheader *lh = (struct logheader *)(buf->data);
-  log.lh.n = lh->n;
+  log.lh.n = lh->n;  // 这个 buf 是临时的, 主要是为了服务于全局变量 log 的
   for (int i = 0; i < log.lh.n; i++) {
     log.lh.block[i] = lh->block[i];
   }
-  brelse(buf);  // release the buf from bread
+  brelse(buf);  // release the buf from bread. bread invoke the bget, bget 是构造函数, brelse 是析构函数
 }
 
 /// @brief Write in-memory log header to disk. This is the true point at which the current transaction commits.
@@ -169,6 +172,7 @@ void end_op(void) {
 }
 
 /// @brief Copy modified blocks from cache to log.
+/// 将: home block 对应的 buf, 搬到 log block 中
 static void write_log(void) {
   for (int i = 0; i < log.lh.n; i++) {
     struct buf *to = bread(log.dev, log.start + i + 1);  // log block
@@ -183,7 +187,7 @@ static void write_log(void) {
 static void commit() {
   if (log.lh.n > 0) {
     write_log();      // Write modified blocks from cache to log
-    write_head();     // Write header to disk -- the real commit
+    write_head();     // Write header(metadata) to disk -- the real commit
     install_trans();  // Now install writes to home locations
     log.lh.n = 0;
     write_head();  // Erase the transaction from the log
@@ -193,7 +197,8 @@ static void commit() {
 /// @brief Caller has modified b->data and is done with the buffer.
 /// Record the block number and pin in the cache by increasing refcnt.
 /// commit()/write_log() will do the disk write.
-/// 这个操作的步骤: 1. 将 block number 记录到 log.lh.block[] 中, 2. pin 到双向链表中
+/// 做的事情就是: 如果 modify bp->data[], 那么就一定要调用 log_write(bp), 在 log 中写一条记录
+/// 如果记录已经存在, 那么啥也不干 (log absorb) ; 如果不存在, 那么追加一条记录.
 ///
 /// log_write() replaces bwrite(); a typical use is:
 ///   bp = bread(...)
@@ -205,15 +210,15 @@ void log_write(struct buf *b) {
   if (log.outstanding < 1) panic("log_write outside of trans");
 
   acquire(&log.lock);
-  int i;
-  for (i = 0; i < log.lh.n; i++) {
-    if (log.lh.block[i] == b->blockno)  // log absorbtion
-      break;
+  for (int i = 0; i < log.lh.n; i++) {
+    if (log.lh.block[i] == b->blockno) {  // log absorbtion, 记录已经存在, 啥也不干
+      release(&log.lock);
+      return;
+    }
   }
-  log.lh.block[i] = b->blockno;  // 两种情况: 1. 找到了, 2. 没找到( i <- log.lh.n )
-  if (i == log.lh.n) {           // Add new block to log?
-    bpin(b);
-    log.lh.n++;
-  }
+  // 如果记录不存在
+  log.lh.block[log.lh.n] = b->blockno;
+  bpin(b);  // 这个是为了防止: buf 被拿走的情况, 在没有 commit 前, buf 需要驻留在 bcache 中
+  log.lh.n++;
   release(&log.lock);
 }

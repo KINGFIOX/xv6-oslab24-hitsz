@@ -14,20 +14,20 @@
 #include "proc.h"
 
 struct devsw devsw[NDEV];
-struct {
+
+/// @brief 这个就是: 打开文件表
+static struct {
   struct spinlock lock;
   struct file file[NFILE];
 } ftable;
 
 void fileinit(void) { initlock(&ftable.lock, "ftable"); }
 
-// Allocate a file structure.
+/// @brief Allocate a file structure.
 struct file *filealloc(void) {
-  struct file *f;
-
   acquire(&ftable.lock);
-  for (f = ftable.file; f < ftable.file + NFILE; f++) {
-    if (f->ref == 0) {
+  for (struct file *f = ftable.file; f < ftable.file + NFILE; f++) {
+    if (f->ref == 0) {  // 分配
       f->ref = 1;
       release(&ftable.lock);
       return f;
@@ -37,7 +37,8 @@ struct file *filealloc(void) {
   return 0;
 }
 
-// Increment ref count for file f.
+/// @brief Increment ref count for file f.
+/// @param f
 struct file *filedup(struct file *f) {
   acquire(&ftable.lock);
   if (f->ref < 1) panic("filedup");
@@ -46,17 +47,17 @@ struct file *filedup(struct file *f) {
   return f;
 }
 
-// Close file f.  (Decrement ref count, close when reaches 0.)
+/// @brief Close file f.  (Decrement ref count, close when reaches 0.)
+/// @param f
 void fileclose(struct file *f) {
-  struct file ff;
-
   acquire(&ftable.lock);
   if (f->ref < 1) panic("fileclose");
   if (--f->ref > 0) {
     release(&ftable.lock);
     return;
   }
-  ff = *f;
+  // f->ref == 0
+  struct file ff = *f;  // copy (old)
   f->ref = 0;
   f->type = FD_NONE;
   release(&ftable.lock);
@@ -70,16 +71,17 @@ void fileclose(struct file *f) {
   }
 }
 
-// Get metadata about file f.
-// addr is a user virtual address, pointing to a struct stat.
+/// @brief Get metadata about file f.
+/// @param f
+/// @param addr a user virtual address, pointing to a struct stat.
+/// @return
 int filestat(struct file *f, uint64 addr) {
-  struct proc *p = myproc();
-  struct stat st;
-
   if (f->type == FD_INODE || f->type == FD_DEVICE) {
     ilock(f->ip);
+    struct stat st;
     stati(f->ip, &st);
     iunlock(f->ip);
+    struct proc *p = myproc();
     if (copyout(p->pagetable, addr, (char *)&st, sizeof(st)) < 0) return -1;
     return 0;
   }
@@ -89,10 +91,8 @@ int filestat(struct file *f, uint64 addr) {
 // Read from file f.
 // addr is a user virtual address.
 int fileread(struct file *f, uint64 addr, int n) {
-  int r = 0;
-
   if (f->readable == 0) return -1;
-
+  int r = 0;
   if (f->type == FD_PIPE) {
     r = piperead(f->pipe, addr, n);
   } else if (f->type == FD_DEVICE) {
@@ -112,10 +112,11 @@ int fileread(struct file *f, uint64 addr, int n) {
 // Write to file f.
 // addr is a user virtual address.
 int filewrite(struct file *f, uint64 addr, int n) {
-  int r, ret = 0;
+  // int r, ret = 0;
 
   if (f->writable == 0) return -1;
 
+  int ret = 0;
   if (f->type == FD_PIPE) {
     ret = pipewrite(f->pipe, addr, n);
   } else if (f->type == FD_DEVICE) {
@@ -136,6 +137,7 @@ int filewrite(struct file *f, uint64 addr, int n) {
 
       begin_op();
       ilock(f->ip);
+      int r;
       if ((r = writei(f->ip, 1, addr + i, f->off, n1)) > 0) f->off += r;
       iunlock(f->ip);
       end_op();

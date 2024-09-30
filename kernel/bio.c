@@ -51,6 +51,7 @@ void binit(void) {
 }
 
 /// @brief Look through buffer cache for block on device dev.
+/// 这个相当于是: struct buf 的构造函数了
 /// @param dev
 /// @param blockno
 /// @warning return with lock
@@ -75,6 +76,8 @@ static struct buf *bget(uint dev, uint blockno) {
 
   // Not cached.
   // Recycle the least recently used (LRU) unused buffer.
+  // cache 中, 没找到
+  // 回收一个没用的, 也就是 refcnt == 0 的
   for (struct buf *b = bcache.head.prev; b != &bcache.head; b = b->prev) {
     if (b->refcnt == 0) {  // 但是这里好像不会 victim 之类的
       b->dev = dev;
@@ -95,7 +98,7 @@ static struct buf *bget(uint dev, uint blockno) {
 /// @return a locked buf with the contents of the indicated block.
 /// @warning return with lock
 struct buf *bread(uint dev, uint blockno) {
-  struct buf *b = bget(dev, blockno);
+  struct buf *b = bget(dev, blockno);  // bget 只是分配, 而 bread 会从 disk 中读取数据
   if (!b->valid) {
     // 如果这里是 valid, 那么就说明实际上已经缓存了, 就不用再次 read 了
     virtio_disk_rw(b, 0);
@@ -112,6 +115,7 @@ void bwrite(struct buf *b) {
 }
 
 /// @brief Release a locked buffer. Move to the head of the most-recently-used list.
+/// 这个就是 struct buf 的析构函数, 内部维护引用计数
 /// @param b
 /// @warning should with lock
 /// @globals
@@ -135,6 +139,8 @@ void brelse(struct buf *b) {
 
   release(&bcache.lock);
 }
+
+// this 2 function below are controlling the refcnt in struct buf
 
 void bpin(struct buf *b) {
   acquire(&bcache.lock);  // 不过, 为什么这个要获取 bcache 的 spinlock 呢 ?
