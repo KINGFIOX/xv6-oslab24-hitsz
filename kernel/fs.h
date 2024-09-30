@@ -24,6 +24,7 @@ struct superblock {
 #define FSMAGIC 0x10203040
 
 /// @brief 间接索引块的个数 (xv6 中只有一级间接索引)
+/// 1024 / 4 == 256
 #define NINDIRECT (BSIZE / sizeof(uint))
 
 /// @brief 直接索引块的个数

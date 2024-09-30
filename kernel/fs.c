@@ -182,28 +182,26 @@ static struct inode *iget(uint dev, uint inum);
 /// @param type
 /// @return an unlocked but allocated and referenced inode.
 struct inode *ialloc(uint dev, short type) {
-  for (int inum = 1; inum < sb.ninodes; inum++) {  // 线性查找: 还没被使用的 inode number
-    struct buf *bp = bread(dev, IBLOCK(inum, sb));
+  for (int inum = 1; inum < sb.ninodes; inum++) {                 // 线性查找: 还没被使用的 inode number
+    struct buf *bp = bread(dev, IBLOCK(inum, sb));                // base pointer
     struct dinode *dip = (struct dinode *)bp->data + inum % IPB;  // 获取对应的 inode entry
     if (dip->type == 0) {                                         // a free inode, disk inode
-      kmemset(dip, 0, sizeof(*dip));                              // clear
+      kmemset(dip, 0, sizeof(struct dinode));                     // clear
       dip->type = type;
-
-      log_write(bp);  // mark it allocated on the disk
+      log_write(bp);  // mark it allocated on the disk, 上面有对 struct buf 的 write, 下面就应该有 log_write
       brelse(bp);
 
-      return iget(dev, inum);
+      return iget(dev, inum);  // iget: 获取一个 inode, 他对应与 dinode
     }
     brelse(bp);
   }
   panic("ialloc: no inodes");
 }
 
-/// @brief Copy a modified in-memory inode to disk.
-/// Must be called after every change to an ip->xxx field that lives on disk, since i-node cache is write-through.
-/// Caller must hold ip->lock.
+/// @brief Copy a modified in-memory inode to disk. Must be called after every change to an ip->xxx field that lives on disk,
+/// since i-node cache is write-through. Caller must hold ip->lock.
 /// @param ip
-void iupdate(struct inode *ip) {
+void iupdate(const struct inode *ip) {
   struct buf *bp = bread(ip->dev, IBLOCK(ip->inum, sb));
   struct dinode *dip = (struct dinode *)bp->data + ip->inum % IPB;
   dip->type = ip->type;  // 一个一个 copy, 是因为: dip 与 ip 不一样
@@ -211,13 +209,14 @@ void iupdate(struct inode *ip) {
   dip->minor = ip->minor;
   dip->nlink = ip->nlink;
   dip->size = ip->size;
-  kmemmove(dip->addrs, ip->addrs, sizeof(ip->addrs));
+  kmemmove(dip->addrs, ip->addrs, sizeof(ip->addrs));  // uint ip->addrs[NDIRECT + 1];
   log_write(bp);
   brelse(bp);
 }
 
 /// @brief Find the inode with number inum on device dev and return the in-memory copy.
 /// Does not lock the inode and does not read it from disk.
+/// 相当于是: inode 的构造函数
 /// @param dev
 /// @param inum
 /// @return
@@ -228,7 +227,7 @@ static struct inode *iget(uint dev, uint inum) {
   struct inode *empty = 0;
   struct inode *ip;
   for (ip = &icache.inode[0]; ip < &icache.inode[NINODE]; ip++) {
-    if (ip->ref > 0 && ip->dev == dev && ip->inum == inum) {
+    if (ip->ref > 0 && ip->dev == dev && ip->inum == inum) {  // inode-cache 命中
       ip->ref++;
       release(&icache.lock);
       return ip;
@@ -236,6 +235,8 @@ static struct inode *iget(uint dev, uint inum) {
     if (empty == 0 && ip->ref == 0)  // Remember empty slot.
       empty = ip;
   }
+
+  // 说明 inode-cache 没有命中
 
   // Recycle an inode cache entry.
   if (empty == 0) panic("iget: no inodes");
@@ -261,14 +262,14 @@ struct inode *idup(struct inode *ip) {
   return ip;
 }
 
-// Lock the given inode.
-// Reads the inode from disk if necessary.
+/// @brief Lock the given inode.
+/// @param ip Reads the inode from disk if necessary.
 void ilock(struct inode *ip) {
   if (ip == 0 || ip->ref < 1) panic("ilock");
 
   acquiresleep(&ip->lock);
 
-  if (ip->valid == 0) {
+  if (ip->valid == 0) {  // 如果上锁醒来后, 发现 invalid 了, 那么就重新从 disk 中读取
     struct buf *bp = bread(ip->dev, IBLOCK(ip->inum, sb));
     struct dinode *dip = (struct dinode *)bp->data + ip->inum % IPB;
     ip->type = dip->type;
@@ -277,7 +278,7 @@ void ilock(struct inode *ip) {
     ip->nlink = dip->nlink;
     ip->size = dip->size;
     kmemmove(ip->addrs, dip->addrs, sizeof(ip->addrs));
-    brelse(bp);
+    brelse(bp);  // bp 的生命周期至少要比 dip 长
     ip->valid = 1;
     if (ip->type == 0) panic("ilock: no type");
   }
@@ -293,6 +294,8 @@ void iunlock(struct inode *ip) {
 /// @brief Drop a reference to an in-memory inode. If that was the last reference, the inode cache entry can be
 /// recycled. If that was the last reference and the inode has no links to it, free the inode (and its content) on disk.
 /// All calls to iput() must be inside a transaction in case it has to free the inode.
+/// put 的含义就是: 放下, 丢弃. 如果 inode->nlink 都是 0 了, 也就可以丢弃了.
+/// @warning 因为里面会用到 log_write, 因此要记得: begin_op 和 end_op
 /// @param ip
 void iput(struct inode *ip) {
   acquire(&icache.lock);
@@ -304,11 +307,11 @@ void iput(struct inode *ip) {
     // so this acquiresleep() won't block (or deadlock).
     acquiresleep(&ip->lock);
 
-    release(&icache.lock);
+    release(&icache.lock);  // 因为接下来是操作 disk 了, 不会用到内存中的缓存
 
     itrunc(ip);
     ip->type = 0;
-    iupdate(ip);
+    iupdate(ip);  // 更新 inode 对应的 dinode
     ip->valid = 0;
 
     releasesleep(&ip->lock);
@@ -332,23 +335,33 @@ void iunlockput(struct inode *ip) {
 // The first NDIRECT block numbers are listed in ip->addrs[].  The next NINDIRECT blocks are
 // listed in block ip->addrs[NDIRECT].
 
-// Return the disk block address of the nth block in inode ip.
-// If there is no such block, bmap allocates one.
+/// @brief
+/// @param ip
+/// @param bn
+/// @return the disk block address of the nth block in inode ip. If there is no such block, bmap allocates one.
 static uint bmap(struct inode *ip, uint bn) {
-  uint addr;
-  if (bn < NDIRECT) {
-    if ((addr = ip->addrs[bn]) == 0) ip->addrs[bn] = addr = balloc(ip->dev);
+  if (bn < NDIRECT) {  // 直接索引块
+    uint addr;
+    if ((addr = ip->addrs[bn]) == 0) {
+      addr = balloc(ip->dev);  // 分配
+      ip->addrs[bn] = addr;
+    }
     return addr;
   }
-  bn -= NDIRECT;
 
-  if (bn < NINDIRECT) {
+  uint bnn = bn - NDIRECT;  // 第一级间接索引块的 index
+  if (bnn < NINDIRECT) {
     // Load indirect block, allocating if necessary.
-    if ((addr = ip->addrs[NDIRECT]) == 0) ip->addrs[NDIRECT] = addr = balloc(ip->dev);
+    uint addr;
+    if ((addr = ip->addrs[NDIRECT]) == 0) {
+      addr = balloc(ip->dev);  // 分配一个 block, 用来做表
+      ip->addrs[NDIRECT] = addr;
+    }
     struct buf *bp = bread(ip->dev, addr);
     uint *a = (uint *)bp->data;
-    if ((addr = a[bn]) == 0) {
-      a[bn] = addr = balloc(ip->dev);
+    if ((addr = a[bnn]) == 0) {
+      addr = balloc(ip->dev);  // 分配
+      a[bnn] = addr;
       log_write(bp);
     }
     brelse(bp);
@@ -362,7 +375,7 @@ static uint bmap(struct inode *ip, uint bn) {
 /// @param ip
 /// @warning Caller must hold ip->lock
 void itrunc(struct inode *ip) {
-  for (int i = 0; i < NDIRECT; i++) {
+  for (int i = 0; i < NDIRECT; i++) {  // 直接索引
     if (ip->addrs[i]) {
       bfree(ip->dev, ip->addrs[i]);
       ip->addrs[i] = 0;
@@ -373,7 +386,9 @@ void itrunc(struct inode *ip) {
     struct buf *bp = bread(ip->dev, ip->addrs[NDIRECT]);
     uint *a = (uint *)bp->data;
     for (int j = 0; j < NINDIRECT; j++) {
-      if (a[j]) bfree(ip->dev, a[j]);
+      if (a[j]) {
+        bfree(ip->dev, a[j]);
+      }
     }
     brelse(bp);
     bfree(ip->dev, ip->addrs[NDIRECT]);
@@ -384,8 +399,10 @@ void itrunc(struct inode *ip) {
   iupdate(ip);
 }
 
-// Copy stat information from inode.
-// Caller must hold ip->lock.
+/// @brief Copy stat information from inode.
+/// @param ip
+/// @param st
+/// @warning Caller must hold ip->lock.
 void stati(const struct inode *ip, struct stat *st) {
   st->dev = ip->dev;
   st->ino = ip->inum;
