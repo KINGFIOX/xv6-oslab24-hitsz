@@ -411,21 +411,24 @@ void stati(const struct inode *ip, struct stat *st) {
   st->size = ip->size;
 }
 
-// Read data from inode.
-// Caller must hold ip->lock.
-// If user_dst==1, then dst is a user virtual address;
-// otherwise, dst is a kernel address.
+/// @brief Read data from inode.
+/// @param ip
+/// @param user_dst If user_dst==1, then dst is a user virtual address; otherwise, dst is a kernel address.
+/// @param dst 目标地址, 数据将被读取到 该地址
+/// @param off
+/// @param n
+/// @return
+/// @warning Caller must hold ip->lock.
 int readi(struct inode *ip, int user_dst, uint64 dst, uint off, uint n) {
-  uint tot, m;
-  struct buf *bp;
-
   if (off > ip->size || off + n < off) return 0;
   if (off + n > ip->size) n = ip->size - off;
 
-  for (tot = 0; tot < n; tot += m, off += m, dst += m) {
-    bp = bread(ip->dev, bmap(ip, off / BSIZE));
+  uint tot = 0, m = 0;
+  for (; tot < n; tot += m, off += m, dst += m) {
+    struct buf *bp = bread(ip->dev, bmap(ip, off / BSIZE));  // bmap 会改 ip
     m = min(n - tot, BSIZE - off % BSIZE);
-    if (either_copyout(user_dst, dst, bp->data + (off % BSIZE), m) == -1) {
+    uchar *src = bp->data + (off % BSIZE);  // 将 user_dst/dst 复制到 src
+    if (either_copyout(user_dst, dst, src, m) == -1) {
       brelse(bp);
       break;
     }
@@ -434,21 +437,24 @@ int readi(struct inode *ip, int user_dst, uint64 dst, uint off, uint n) {
   return tot;
 }
 
-// Write data to inode.
-// Caller must hold ip->lock.
-// If user_src==1, then src is a user virtual address;
-// otherwise, src is a kernel address.
+/// @brief Write data to inode.
+/// @param ip
+/// @param user_src If user_src==1, then src is a user virtual address; otherwise, src is a kernel address.
+/// @param src
+/// @param off
+/// @param n
+/// @return n in success, -1 in failure
+/// @warning Caller must hold ip->lock.
 int writei(struct inode *ip, int user_src, uint64 src, uint off, uint n) {
-  uint tot, m;
-  struct buf *bp;
-
   if (off > ip->size || off + n < off) return -1;
   if (off + n > MAXFILE * BSIZE) return -1;
 
-  for (tot = 0; tot < n; tot += m, off += m, src += m) {
-    bp = bread(ip->dev, bmap(ip, off / BSIZE));
+  uint tot = 0, m = 0;
+  for (; tot < n; tot += m, off += m, src += m) {
+    struct buf *bp = bread(ip->dev, bmap(ip, off / BSIZE));
     m = min(n - tot, BSIZE - off % BSIZE);
-    if (either_copyin(bp->data + (off % BSIZE), user_src, src, m) == -1) {
+    uchar *dst = bp->data + (off % BSIZE);  // 将 user_src/src 复制到 dst
+    if (either_copyin(dst, user_src, src, m) == -1) {
       brelse(bp);
       break;
     }
@@ -457,7 +463,9 @@ int writei(struct inode *ip, int user_src, uint64 src, uint off, uint n) {
   }
 
   if (n > 0) {
-    if (off > ip->size) ip->size = off;
+    if (off > ip->size) {
+      ip->size = off;  // 这个 off 最后会是 size
+    }
     // write the i-node back to disk even if the size didn't change
     // because the loop above might have called bmap() and added a new
     // block to ip->addrs[].
@@ -469,36 +477,44 @@ int writei(struct inode *ip, int user_src, uint64 src, uint off, uint n) {
 
 // Directories
 
+/// @brief
+/// @param s
+/// @param t
+/// @return
 int namecmp(const char *s, const char *t) { return kstrncmp(s, t, DIRSIZ); }
 
-// Look for a directory entry in a directory.
-// If found, set *poff to byte offset of entry.
-struct inode *dirlookup(struct inode *dp, char *name, uint *poff) {
-  uint off, inum;
-  struct dirent de;
+//
+//
 
+/// @brief Look for a directory entry in a directory.
+/// @param dp
+/// @param name
+/// @param poff If found, set *poff to byte offset of entry.
+/// @return inode of the entry; 0 failed
+struct inode *dirlookup(struct inode *dp, const char *name, uint *poff) {
   if (dp->type != T_DIR) panic("dirlookup not DIR");
-
-  for (off = 0; off < dp->size; off += sizeof(de)) {
+  for (uint off = 0; off < dp->size; off += sizeof(struct dirent)) {
+    struct dirent de;
     if (readi(dp, 0, (uint64)&de, off, sizeof(de)) != sizeof(de)) panic("dirlookup read");
     if (de.inum == 0) continue;
-    if (namecmp(name, de.name) == 0) {
+    if (namecmp(name, de.name) == 0) {  // name == de.name
       // entry matches path element
       if (poff) *poff = off;
-      inum = de.inum;
-      return iget(dp->dev, inum);
+      uint inum = de.inum;
+      return iget(dp->dev, inum);  // inode
     }
   }
 
   return 0;
 }
 
-// Write a new directory entry (name, inum) into the directory dp.
+/// @brief Write a new directory entry (name, inum) into the directory dp.
+/// @param dp
+/// @param name
+/// @param inum
+/// @return
 int dirlink(struct inode *dp, char *name, uint inum) {
-  int off;
-  struct dirent de;
   struct inode *ip;
-
   // Check that name is not present.
   if ((ip = dirlookup(dp, name, 0)) != 0) {
     iput(ip);
@@ -506,13 +522,15 @@ int dirlink(struct inode *dp, char *name, uint inum) {
   }
 
   // Look for an empty dirent.
-  for (off = 0; off < dp->size; off += sizeof(de)) {
+  int off = 0;
+  struct dirent de;
+  for (; off < dp->size; off += sizeof(de)) {
     if (readi(dp, 0, (uint64)&de, off, sizeof(de)) != sizeof(de)) panic("dirlink read");
     if (de.inum == 0) break;
   }
 
   kstrncpy(de.name, name, DIRSIZ);
-  de.inum = inum;
+  de.inum = inum;  // 复制 de -> off
   if (writei(dp, 0, (uint64)&de, off, sizeof(de)) != sizeof(de)) panic("dirlink");
 
   return 0;
@@ -532,36 +550,42 @@ int dirlink(struct inode *dp, char *name, uint inum) {
 //   skipelem("a", name) = "", setting name = "a"
 //   skipelem("", name) = skipelem("////", name) = 0
 //
-static char *skipelem(char *path, char *name) {
-  char *s;
-  int len;
 
-  while (*path == '/') path++;
-  if (*path == 0) return 0;
-  s = path;
+/// @brief
+/// @param path
+/// @param name (return)
+/// @return
+static char *skipelem(const char *path, char *name) {
+  while (*path == '/') path++; /* ///a/b, 跳过前面一连串的 `/` */
+  if (*path == 0) return 0;    /* 说明是 /// */
+  const char *s = path;
   while (*path != '/' && *path != 0) path++;
-  len = path - s;
+  int len = path - s;
   if (len >= DIRSIZ)
-    kmemmove(name, s, DIRSIZ);
+    kmemmove(name, s, DIRSIZ);  // 截断
   else {
     kmemmove(name, s, len);
     name[len] = 0;
   }
   while (*path == '/') path++;
-  return path;
+  return (char *)path;
 }
 
-// Look up and return the inode for a path name.
-// If parent != 0, return the inode for the parent and copy the final
-// path element into name, which must have room for DIRSIZ bytes.
-// Must be called inside a transaction since it calls iput().
-static struct inode *namex(char *path, int nameiparent, char *name) {
-  struct inode *ip, *next;
+/// @brief Look up and return the inode for a path name.
+/// If parent != 0, return the inode for the parent and copy the final
+/// path element into name, which must have room for DIRSIZ bytes.
+/// Must be called inside a transaction since it calls iput().
+/// @param path
+/// @param nameiparent (bool)
+/// @param name (return)
+/// @return
+static struct inode *namex(const char *path, int nameiparent, char *name) {
+  struct inode *ip;
 
   if (*path == '/')
-    ip = iget(ROOTDEV, ROOTINO);
+    ip = iget(ROOTDEV, ROOTINO);  // 绝对地址
   else
-    ip = idup(myproc()->cwd);
+    ip = idup(myproc()->cwd);  // 相对地址
 
   while ((path = skipelem(path, name)) != 0) {
     ilock(ip);
@@ -574,6 +598,8 @@ static struct inode *namex(char *path, int nameiparent, char *name) {
       iunlock(ip);
       return ip;
     }
+
+    struct inode *next;
     if ((next = dirlookup(ip, name, 0)) == 0) {
       iunlockput(ip);
       return 0;
@@ -588,9 +614,16 @@ static struct inode *namex(char *path, int nameiparent, char *name) {
   return ip;
 }
 
-struct inode *namei(char *path) {
+/// @brief 根据 path, 返回 path 对应的 inode
+/// @param path
+/// @return
+struct inode *namei(const char *path) {
   char name[DIRSIZ];
   return namex(path, 0, name);
 }
 
-struct inode *nameiparent(char *path, char *name) { return namex(path, 1, name); }
+/// @brief
+/// @param path
+/// @param name
+/// @return
+struct inode *nameiparent(const char *path, char *name) { return namex(path, 1, name); }

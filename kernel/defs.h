@@ -37,7 +37,7 @@ int filewrite(struct file *, uint64, int n);
 // fs.c
 void fsinit(int);
 int dirlink(struct inode *, char *, uint);
-struct inode *dirlookup(struct inode *, char *, uint *);
+struct inode *dirlookup(struct inode *, const char *, uint *);
 struct inode *ialloc(uint, short);
 struct inode *idup(struct inode *);
 void iinit();
@@ -47,11 +47,11 @@ void iunlock(struct inode *);
 void iunlockput(struct inode *);
 void iupdate(const struct inode *);
 int namecmp(const char *, const char *);
-struct inode *namei(char *);
-struct inode *nameiparent(char *, char *);
-int readi(struct inode *, int, uint64, uint, uint);
+struct inode *namei(const char *);
+struct inode *nameiparent(const char *, char *);
+int readi(struct inode *ip, int user_dst, uint64 dst, uint off, uint n);
 void stati(const struct inode *, struct stat *);
-int writei(struct inode *, int, uint64, uint, uint);
+int writei(struct inode *ip, int user_src, uint64 src, uint off, uint n);
 void itrunc(struct inode *);
 
 // ramdisk.c
