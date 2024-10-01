@@ -1,5 +1,5 @@
 //
-// formatted console output -- printf, panic.
+// formatted console output -- kprintf, panic.
 //
 
 #include <stdarg.h>
@@ -18,7 +18,7 @@
 /// @brief if call panic, then set this to 1
 volatile int panicked = 0;
 
-// lock to avoid interleaving concurrent printf's.
+// lock to avoid interleaving concurrent kprintf's.
 static struct {
   struct spinlock lock;
   int locking;
@@ -201,9 +201,9 @@ _printf(char *fmt, ...)
 /// @param s
 void panic(char *s) {
   pr.locking = 0;
-  printf("panic: ");
-  printf(s);
-  printf("\n");
+  kprintf("panic: ");
+  kprintf(s);
+  kprintf("\n");
   panicked = 1;  // freeze uart output from other CPUs
   for (;;);      // 里面一层死循环, 防止 cpu 跑飞, 以及神秘重启的现象
 }

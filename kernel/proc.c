@@ -310,6 +310,20 @@ void exit(int status) {
     }
   }
 
+#if 1
+  {
+    static char *states[] = {[UNUSED] "unused", [SLEEPING] "sleep ", [READY] "runble", [RUNNING] "run   ", [ZOMBIE] "zombie"};
+    struct proc *parent = p->parent;
+    kprintf("proc %d exit, parent pid %d, name %s, state %s\n", p->pid, parent->pid, parent->name, states[parent->state]);
+    int i = 0;
+    for (const struct proc *child = proc; child < &proc[NPROC]; child++) {
+      if (child->parent == p) {
+        kprintf("proc %d exit, child %d, pid %d, name %s, state %s\n", p->pid, i++, child->pid, child->name, states[child->state]);
+      }
+    }
+  }
+#endif
+
   begin_op();
   iput(p->cwd);
   end_op();
@@ -614,7 +628,7 @@ int either_copyin(void *dst, int user_src, uint64 src, uint64 len) {
 void procdump(void) {
   static char *states[] = {[UNUSED] "unused", [SLEEPING] "sleep ", [READY] "runble", [RUNNING] "run   ", [ZOMBIE] "zombie"};
 
-  printf("\n");
+  kprintf("\n");
   for (struct proc *p = proc; p < &proc[NPROC]; p++) {
     if (p->state == UNUSED) continue;
     char *state;
@@ -622,7 +636,7 @@ void procdump(void) {
       state = states[p->state];
     else
       state = "???";
-    printf("%d %s %s", p->pid, state, p->name);
-    printf("\n");
+    kprintf("%d %s %s", p->pid, state, p->name);
+    kprintf("\n");
   }
 }

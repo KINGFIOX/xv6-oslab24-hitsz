@@ -11,9 +11,9 @@ int main() {
   if (cpuid() == 0) {  // some init only needs to be done once
     // consoleinit();  // console_init has moved to start
     // printfinit();
-    printf("\n");
-    printf("xv6 kernel is booting\n");
-    printf("\n");
+    kprintf("\n");
+    kprintf("xv6 kernel is booting\n");
+    kprintf("\n");
     kinit();             // physical page allocator
     kvminit();           // create kernel page table
     kvminithart();       // turn on paging
@@ -32,7 +32,7 @@ int main() {
   } else {
     while (started == 0);
     __sync_synchronize();
-    printf("hart %d starting\n", cpuid());
+    kprintf("hart %d starting\n", cpuid());
     kvminithart();   // turn on paging
     trapinithart();  // install kernel trap vector
     plicinithart();  // ask PLIC for device interrupts

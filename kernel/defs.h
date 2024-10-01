@@ -76,12 +76,12 @@ void pipeclose(struct pipe *, int);
 int piperead(struct pipe *, uint64, int);
 int pipewrite(struct pipe *, uint64, int);
 
-// printf.c
+// kprintf.c
 #ifdef TEST
-#define printf(...) _printf(__FILE__, __LINE__, __VA_ARGS__)
+#define kprintf(...) _printf(__FILE__, __LINE__, __VA_ARGS__)
 void _printf(const char *, unsigned int, char *, ...);
 #else
-#define printf(...) _printf(__VA_ARGS__)
+#define kprintf(...) _printf(__VA_ARGS__)
 void _printf(char *, ...);
 #endif
 
