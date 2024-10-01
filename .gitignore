@@ -22,7 +22,8 @@ xv6.out*
 submissions/
 ph
 barrier
+
+.vscode
+.direnv
+.cache
 compile_commands.json
-.gdb_history
-.cache/
-commit.patch
