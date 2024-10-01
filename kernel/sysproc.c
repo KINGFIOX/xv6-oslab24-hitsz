@@ -21,6 +21,13 @@ uint64 sys_getpid(void) { return myproc()->pid; }
 // pid_t fork(void);
 uint64 sys_fork(void) { return fork(); }
 
+uint64 sys_yield() {
+  struct proc *p = myproc();
+  kprintf("start to yield, user pc %p\n", p->trapframe->epc);
+  yield();
+  return 0;
+}
+
 // int wait(int *status, int flags)
 uint64 sys_wait(void) {
   uint64 p;
