@@ -309,6 +309,9 @@ endif
 qemu: $K/kernel fs.img
 	$(QEMU) $(QEMUOPTS)
 
+gdb:
+	$(TOOLPREFIX)gdb -ex 'target remote localhost:$(GDBPORT)' $K/kernel
+
 .gdbinit: .gdbinit.tmpl-riscv
 	sed "s/:1234/:$(GDBPORT)/" < $^ > $@
 
