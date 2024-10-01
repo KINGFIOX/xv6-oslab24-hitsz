@@ -23,19 +23,19 @@
 #include "proc.h"
 
 #define BACKSPACE 0x100
-#define C(x)  ((x)-'@')  // Control-x
+#define C(x) ((x) - '@')  // Control-x
 
 //
 // send one character to the uart.
 // called by printf, and to echo input characters,
 // but not from write().
 //
-void
-consputc(int c)
-{
-  if(c == BACKSPACE){
+void consputc(int c) {
+  if (c == BACKSPACE) {
     // if the user typed backspace, overwrite with a space.
-    uartputc_sync('\b'); uartputc_sync(' '); uartputc_sync('\b');
+    uartputc_sync('\b');
+    uartputc_sync(' ');
+    uartputc_sync('\b');
   } else {
     uartputc_sync(c);
   }
@@ -43,7 +43,7 @@ consputc(int c)
 
 struct {
   struct spinlock lock;
-  
+
   // input
 #define INPUT_BUF 128
   char buf[INPUT_BUF];
@@ -55,16 +55,13 @@ struct {
 //
 // user write()s to the console go here.
 //
-int
-consolewrite(int user_src, uint64 src, int n)
-{
+int consolewrite(int user_src, uint64 src, int n) {
   int i;
 
   acquire(&cons.lock);
-  for(i = 0; i < n; i++){
+  for (i = 0; i < n; i++) {
     char c;
-    if(either_copyin(&c, user_src, src+i, 1) == -1)
-      break;
+    if (either_copyin(&c, user_src, src + i, 1) == -1) break;
     uartputc(c);
   }
   release(&cons.lock);
@@ -78,20 +75,18 @@ consolewrite(int user_src, uint64 src, int n)
 // user_dist indicates whether dst is a user
 // or kernel address.
 //
-int
-consoleread(int user_dst, uint64 dst, int n)
-{
+int consoleread(int user_dst, uint64 dst, int n) {
   uint target;
   int c;
   char cbuf;
 
   target = n;
   acquire(&cons.lock);
-  while(n > 0){
+  while (n > 0) {
     // wait until interrupt handler has put some
     // input into cons.buffer.
-    while(cons.r == cons.w){
-      if(myproc()->killed){
+    while (cons.r == cons.w) {
+      if (myproc()->killed) {
         release(&cons.lock);
         return -1;
       }
@@ -100,8 +95,8 @@ consoleread(int user_dst, uint64 dst, int n)
 
     c = cons.buf[cons.r++ % INPUT_BUF];
 
-    if(c == C('D')){  // end-of-file
-      if(n < target){
+    if (c == C('D')) {  // end-of-file
+      if (n < target) {
         // Save ^D for next time, to make sure
         // caller gets a 0-byte result.
         cons.r--;
@@ -111,13 +106,12 @@ consoleread(int user_dst, uint64 dst, int n)
 
     // copy the input byte to the user-space buffer.
     cbuf = c;
-    if(either_copyout(user_dst, dst, &cbuf, 1) == -1)
-      break;
+    if (either_copyout(user_dst, dst, &cbuf, 1) == -1) break;
 
     dst++;
     --n;
 
-    if(c == '\n'){
+    if (c == '\n') {
       // a whole line has arrived, return to
       // the user-level read().
       break;
@@ -134,55 +128,50 @@ consoleread(int user_dst, uint64 dst, int n)
 // do erase/kill processing, append to cons.buf,
 // wake up consoleread() if a whole line has arrived.
 //
-void
-consoleintr(int c)
-{
+void consoleintr(int c) {
   acquire(&cons.lock);
 
-  switch(c){
-  case C('P'):  // Print process list.
-    procdump();
-    break;
-  case C('U'):  // Kill line.
-    while(cons.e != cons.w &&
-          cons.buf[(cons.e-1) % INPUT_BUF] != '\n'){
-      cons.e--;
-      consputc(BACKSPACE);
-    }
-    break;
-  case C('H'): // Backspace
-  case '\x7f':
-    if(cons.e != cons.w){
-      cons.e--;
-      consputc(BACKSPACE);
-    }
-    break;
-  default:
-    if(c != 0 && cons.e-cons.r < INPUT_BUF){
-      c = (c == '\r') ? '\n' : c;
-
-      // echo back to the user.
-      consputc(c);
-
-      // store for consumption by consoleread().
-      cons.buf[cons.e++ % INPUT_BUF] = c;
-
-      if(c == '\n' || c == C('D') || cons.e == cons.r+INPUT_BUF){
-        // wake up consoleread() if a whole line (or end-of-file)
-        // has arrived.
-        cons.w = cons.e;
-        wakeup(&cons.r);
+  switch (c) {
+    case C('P'):  // Print process list.
+      procdump();
+      break;
+    case C('U'):  // Kill line.
+      while (cons.e != cons.w && cons.buf[(cons.e - 1) % INPUT_BUF] != '\n') {
+        cons.e--;
+        consputc(BACKSPACE);
       }
-    }
-    break;
+      break;
+    case C('H'):  // Backspace
+    case '\x7f':
+      if (cons.e != cons.w) {
+        cons.e--;
+        consputc(BACKSPACE);
+      }
+      break;
+    default:
+      if (c != 0 && cons.e - cons.r < INPUT_BUF) {
+        c = (c == '\r') ? '\n' : c;
+
+        // echo back to the user.
+        consputc(c);
+
+        // store for consumption by consoleread().
+        cons.buf[cons.e++ % INPUT_BUF] = c;
+
+        if (c == '\n' || c == C('D') || cons.e == cons.r + INPUT_BUF) {
+          // wake up consoleread() if a whole line (or end-of-file)
+          // has arrived.
+          cons.w = cons.e;
+          wakeup(&cons.r);
+        }
+      }
+      break;
   }
-  
+
   release(&cons.lock);
 }
 
-void
-consoleinit(void)
-{
+void consoleinit(void) {
   initlock(&cons.lock, "cons");
 
   uartinit();
