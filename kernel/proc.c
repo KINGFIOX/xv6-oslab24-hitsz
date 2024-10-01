@@ -369,13 +369,40 @@ void exit(int status) {
 /// @brief Wait for a child process to exit and return its pid.
 /// @param addr to save the child's exit status.
 /// @return -1 if this process has no children.
-int wait(uint64 addr) {
+int wait(uint64 addr, int flags) {
   struct proc *p = myproc();  // caller process
 
   // hold p->lock for the whole time to avoid lost
   // wakeups from a child's exit().
   acquire(&p->lock);
 
+  if (flags == 1) {
+    for (struct proc *child = proc; child < &proc[NPROC]; child++) {  // np 是迭代器
+      if (child->parent == p) {
+        acquire(&child->lock);
+        if (child->state == ZOMBIE) {
+          // Found one.
+          int pid = child->pid;
+          if (addr != 0 && copyout(p->pagetable, addr, (char *)&child->xstate, sizeof(child->xstate)) < 0) {  // failed: copyout
+            release(&child->lock);
+            release(&p->lock);
+            return -1;
+          }
+          // addr == 0 or copyout succeeded
+          freeproc(child);
+          release(&child->lock);
+          release(&p->lock);
+          return pid;
+        }
+        release(&child->lock);
+      }
+    }
+    // 走到这里, 说明是非阻塞, 并且已经遍历完了所有的进程了
+    release(&p->lock);
+    return -1;
+  }
+
+  // 下面这个是阻塞的
   for (;;) {
     // Scan through table looking for exited children.
     int havekids = 0;

@@ -4,7 +4,7 @@
 #include "riscv.h"
 #include "defs.h"
 
-void main();
+int main();
 void timerinit();
 
 // entry.S needs one stack per CPU.

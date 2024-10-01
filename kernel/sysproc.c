@@ -21,13 +21,13 @@ uint64 sys_getpid(void) { return myproc()->pid; }
 // pid_t fork(void);
 uint64 sys_fork(void) { return fork(); }
 
-/// @brief
-/// @param (reg a0)
-/// @return
+// int wait(int *status, int flags)
 uint64 sys_wait(void) {
   uint64 p;
   if (argaddr(0, &p) < 0) return -1;
-  return wait(p);
+  int flags;
+  if (argint(1, &flags) < 0) return -1;
+  return wait(p, flags);
 }
 
 // void *sbrk(intptr_t increment);
