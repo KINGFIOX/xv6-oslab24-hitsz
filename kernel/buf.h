@@ -7,6 +7,7 @@ struct buf {
   uint refcnt;
   struct buf *prev;
   struct buf *next;
+  uint timestamp;
   uchar data[BSIZE];
 };
 

@@ -56,6 +56,7 @@ void binit(void) {
     initsleeplock(&bcache.buf[i].lock, "buffer");
     bcache.buf[i].next = bcache.free.next;
     bcache.buf[i].prev = &bcache.free;
+    bcache.buf[i].timestamp = 0;
     bcache.free.next = &bcache.buf[i];
     if (bcache.buf[i].next) {
       bcache.buf[i].next->prev = &bcache.buf[i];
@@ -72,43 +73,56 @@ static struct buf *bget(uint dev, uint blockno) {
   for (buf_t *cur = bcache.buckets[hash].head.next; cur; cur = cur->next) {
     if (cur->dev == dev && cur->blockno == blockno) {
       cur->refcnt++;
+      cur->timestamp = ticks;
       release(&bcache.buckets[hash].lock);  // 找到, 解锁, 返回
       acquiresleep(&cur->lock);
       return cur;
     }
   }
 
-  while (1) {
-    acquire(&bcache.freelock);
-    buf_t *cur = bcache.free.next;
-    if (cur == 0) {
-      release(&bcache.freelock);
-      continue;  // 有点自旋的意思
-    }
-    // pop cur from free
-    if (cur->next != 0) {
-      cur->next->prev = cur->prev;
-    }
-    bcache.free.next = cur->next;
+retry:
+  acquire(&bcache.freelock);
+  buf_t *iter = bcache.free.next;
+  if (iter == 0) {
     release(&bcache.freelock);
-
-    cur->dev = dev;  // init
-    cur->blockno = blockno;
-    cur->valid = 0;
-    cur->refcnt = 1;
-
-    // push cur to head
-    cur->next = bcache.buckets[blockno % NBUCKET].head.next;
-    cur->prev = &bcache.buckets[blockno % NBUCKET].head;
-    bcache.buckets[blockno % NBUCKET].head.next = cur;
-    if (cur->next) {
-      cur->next->prev = cur;
-    }
-    release(&bcache.buckets[blockno % NBUCKET].lock);
-
-    acquiresleep(&cur->lock);
-    return cur;
+    goto retry;  // 有点自旋的意思
   }
+  buf_t *cur = iter;
+  uint lru = ticks;
+  for (; iter; iter = iter->next) {
+    if (iter->timestamp == 0) {
+      break;
+      cur = iter;
+    } else if (iter->timestamp < lru) {
+      lru = iter->timestamp;
+      cur = iter;
+    }
+  }
+
+  // pop cur from free
+  if (cur->next != 0) {
+    cur->next->prev = cur->prev;
+  }
+  bcache.free.next = cur->next;
+  release(&bcache.freelock);
+
+  cur->dev = dev;  // init
+  cur->blockno = blockno;
+  cur->valid = 0;
+  cur->refcnt = 1;
+  cur->timestamp = ticks;
+
+  // push cur to head
+  cur->next = bcache.buckets[blockno % NBUCKET].head.next;
+  cur->prev = &bcache.buckets[blockno % NBUCKET].head;
+  bcache.buckets[blockno % NBUCKET].head.next = cur;
+  if (cur->next) {
+    cur->next->prev = cur;
+  }
+  release(&bcache.buckets[blockno % NBUCKET].lock);
+
+  acquiresleep(&cur->lock);
+  return cur;
 
   // failed
   release(&bcache.freelock);
