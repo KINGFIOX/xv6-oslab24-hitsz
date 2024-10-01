@@ -300,11 +300,9 @@ void reparent(struct proc *p) {
 /// @param status
 void exit(int status) {
   struct proc *p = myproc();
-
   if (p == initproc) panic("init exiting");
 
-  // Close all open files.
-  for (int fd = 0; fd < NOFILE; fd++) {
+  for (int fd = 0; fd < NOFILE; fd++) {  // Close all open files.
     if (p->ofile[fd]) {
       struct file *f = p->ofile[fd];
       fileclose(f);
@@ -315,6 +313,7 @@ void exit(int status) {
   begin_op();
   iput(p->cwd);
   end_op();
+
   p->cwd = 0;
 
   // we might re-parent a child to init. we can't be precise about
@@ -339,22 +338,14 @@ void exit(int status) {
   // we need the parent's lock in order to wake it up from wait().
   // the parent-then-child rule says we have to lock it first.
   acquire(&original_parent->lock);
-
-  acquire(&p->lock);  // it should be locked before entering sched() and wouldn't be scheduled in again
-
-  // Give any children to init.
-  reparent(p);
-
-  // Parent might be sleeping in wait().
-  wakeup1(original_parent);
-
-  p->xstate = status;  // record the exit status for wait()
-  p->state = ZOMBIE;   // step into the zombie state
-
+  acquire(&p->lock);         // it should be locked before entering sched() and wouldn't be scheduled in again
+  reparent(p);               // Give any children to init.
+  wakeup1(original_parent);  // Parent might be sleeping in wait().
+  p->xstate = status;        // record the exit status for wait()
+  p->state = ZOMBIE;         // step into the zombie state
   release(&original_parent->lock);
 
-  // Jump into the scheduler, never to return.
-  sched();
+  sched();  // Jump into the scheduler, never to return.
   // sched() into the scheduler. 但是状态是 zombie, 不是 ready, 因此不会再被调度
 
   // unreachable!()

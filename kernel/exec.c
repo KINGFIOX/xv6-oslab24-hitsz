@@ -9,41 +9,70 @@
 
 static int loadseg(pde_t *pgdir, uint64 addr, struct inode *ip, uint offset, uint sz);
 
+#define HANDLE_BAD                                    \
+  {                                                   \
+    if (pagetable) proc_freepagetable(pagetable, sz); \
+    if (ip) {                                         \
+      iunlockput(ip);                                 \
+      end_op();                                       \
+    }                                                 \
+    return -1;                                        \
+  }
+
 int kexec(char *path, char **argv) {
-  char *s, *last;
-  int i, off;
   uint64 argc, sz = 0, sp, ustack[MAXARG + 1], stackbase;
-  struct elfhdr elf;
-  struct inode *ip;
-  struct proghdr ph;
-  pagetable_t pagetable = 0, oldpagetable;
+
+  pagetable_t oldpagetable;
+
   struct proc *p = myproc();
 
   begin_op();
 
-  if ((ip = namei(path)) == 0) {
+  struct inode *ip = namei(path);
+  if (ip == 0) {  // 文件不存在
     end_op();
     return -1;
   }
   ilock(ip);
 
   // Check ELF header
-  if (readi(ip, 0, (uint64)&elf, 0, sizeof(elf)) != sizeof(elf)) goto bad;
-  if (elf.magic != ELF_MAGIC) goto bad;
+  struct elfhdr elf;
+  if (readi(ip, 0, (uint64)&elf, 0, sizeof(elf)) != sizeof(elf)) {
+    if (ip) {
+      iunlockput(ip);
+      end_op();
+    }
+    return -1;
+  }
+  if (elf.magic != ELF_MAGIC) {
+    if (ip) {
+      iunlockput(ip);
+      end_op();
+    }
+    return -1;
+  }
 
-  if ((pagetable = proc_pagetable(p)) == 0) goto bad;
+  pagetable_t pagetable = proc_pagetable(p);
+  if (pagetable == 0) {  // 创建地址空间失败
+    if (ip) {
+      iunlockput(ip);
+      end_op();
+    }
+    return -1;
+  }
 
   // Load program into memory.
-  for (i = 0, off = elf.phoff; i < elf.phnum; i++, off += sizeof(ph)) {
-    if (readi(ip, 0, (uint64)&ph, off, sizeof(ph)) != sizeof(ph)) goto bad;
+  for (int i = 0, off = elf.phoff; i < elf.phnum; i++, off += sizeof(struct proghdr)) {
+    struct proghdr ph;
+    if (readi(ip, 0, (uint64)&ph, off, sizeof(struct proghdr)) != sizeof(struct proghdr)) HANDLE_BAD;
     if (ph.type != ELF_PROG_LOAD) continue;
-    if (ph.memsz < ph.filesz) goto bad;
-    if (ph.vaddr + ph.memsz < ph.vaddr) goto bad;
+    if (ph.memsz < ph.filesz) HANDLE_BAD;
+    if (ph.vaddr + ph.memsz < ph.vaddr) HANDLE_BAD;
     uint64 sz1;
-    if ((sz1 = uvmalloc(pagetable, sz, ph.vaddr + ph.memsz)) == 0) goto bad;
+    if ((sz1 = uvmalloc(pagetable, sz, ph.vaddr + ph.memsz)) == 0) HANDLE_BAD;
     sz = sz1;
-    if (ph.vaddr % PGSIZE != 0) goto bad;
-    if (loadseg(pagetable, ph.vaddr, ip, ph.off, ph.filesz) < 0) goto bad;
+    if (ph.vaddr % PGSIZE != 0) HANDLE_BAD;
+    if (loadseg(pagetable, ph.vaddr, ip, ph.off, ph.filesz) < 0) HANDLE_BAD;
   }
   iunlockput(ip);
   end_op();
@@ -56,7 +85,7 @@ int kexec(char *path, char **argv) {
   // Use the second as the user stack.
   sz = PGROUNDUP(sz);
   uint64 sz1;
-  if ((sz1 = uvmalloc(pagetable, sz, sz + 2 * PGSIZE)) == 0) goto bad;
+  if ((sz1 = uvmalloc(pagetable, sz, sz + 2 * PGSIZE)) == 0) HANDLE_BAD;
   sz = sz1;
   uvmclear(pagetable, sz - 2 * PGSIZE);
   sp = sz;
@@ -64,11 +93,11 @@ int kexec(char *path, char **argv) {
 
   // Push argument strings, prepare rest of stack in ustack.
   for (argc = 0; argv[argc]; argc++) {
-    if (argc >= MAXARG) goto bad;
+    if (argc >= MAXARG) HANDLE_BAD;
     sp -= kstrlen(argv[argc]) + 1;
     sp -= sp % 16;  // riscv sp must be 16-byte aligned
-    if (sp < stackbase) goto bad;
-    if (copyout(pagetable, sp, argv[argc], kstrlen(argv[argc]) + 1) < 0) goto bad;
+    if (sp < stackbase) HANDLE_BAD;
+    if (copyout(pagetable, sp, argv[argc], kstrlen(argv[argc]) + 1) < 0) HANDLE_BAD;
     ustack[argc] = sp;
   }
   ustack[argc] = 0;
@@ -76,8 +105,8 @@ int kexec(char *path, char **argv) {
   // push the array of argv[] pointers.
   sp -= (argc + 1) * sizeof(uint64);
   sp -= sp % 16;
-  if (sp < stackbase) goto bad;
-  if (copyout(pagetable, sp, (char *)ustack, (argc + 1) * sizeof(uint64)) < 0) goto bad;
+  if (sp < stackbase) HANDLE_BAD;
+  if (copyout(pagetable, sp, (char *)ustack, (argc + 1) * sizeof(uint64)) < 0) HANDLE_BAD;
 
   // arguments to user main(argc, argv)
   // argc is returned via the system call return
@@ -85,6 +114,7 @@ int kexec(char *path, char **argv) {
   p->trapframe->a1 = sp;
 
   // Save program name for debugging.
+  char *s, *last;
   for (last = s = path; *s; s++)
     if (*s == '/') last = s + 1;
   ksafestrcpy(p->name, last, sizeof(p->name));
@@ -98,35 +128,27 @@ int kexec(char *path, char **argv) {
   proc_freepagetable(oldpagetable, oldsz);
 
   return argc;  // this ends up in a0, the first argument to main(argc, argv)
-
-bad:
-  if (pagetable) proc_freepagetable(pagetable, sz);
-  if (ip) {
-    iunlockput(ip);
-    end_op();
-  }
-  return -1;
 }
 
-// Load a program segment into pagetable at virtual address va.
-// va must be page-aligned
-// and the pages from va to va+sz must already be mapped.
-// Returns 0 on success, -1 on failure.
+/// @brief Load a program segment into pagetable at virtual address va.
+/// @warning va must be page-aligned and the pages from va to va+sz must already be mapped.
+/// @param pagetable
+/// @param va
+/// @param ip
+/// @param offset
+/// @param sz
+/// @return 0 on success, -1 on failure.
 static int loadseg(pagetable_t pagetable, uint64 va, struct inode *ip, uint offset, uint sz) {
-  uint i, n;
-  uint64 pa;
-
   if ((va % PGSIZE) != 0) panic("loadseg: va must be page aligned");
-
-  for (i = 0; i < sz; i += PGSIZE) {
-    pa = walkaddr(pagetable, va + i);
+  for (int i = 0; i < sz; i += PGSIZE) {
+    uint64 pa = walkaddr(pagetable, va + i);
     if (pa == 0) panic("loadseg: address should exist");
+    uint n;
     if (sz - i < PGSIZE)
       n = sz - i;
     else
       n = PGSIZE;
     if (readi(ip, 0, (uint64)pa, offset + i, n) != n) return -1;
   }
-
   return 0;
 }

@@ -7,6 +7,7 @@
 #include "spinlock.h"
 #include "proc.h"
 
+// void exit(int status);
 uint64 sys_exit(void) {
   int n;
   if (argint(0, &n) < 0) return -1;
@@ -14,8 +15,10 @@ uint64 sys_exit(void) {
   return 0;  // not reached
 }
 
+// pid_t getpid(void);
 uint64 sys_getpid(void) { return myproc()->pid; }
 
+// pid_t fork(void);
 uint64 sys_fork(void) { return fork(); }
 
 /// @brief
@@ -27,16 +30,16 @@ uint64 sys_wait(void) {
   return wait(p);
 }
 
+// void *sbrk(intptr_t increment);
 uint64 sys_sbrk(void) {
-  int addr;
   int n;
-
   if (argint(0, &n) < 0) return -1;
-  addr = myproc()->sz;
+  uint64 addr = myproc()->sz;
   if (growproc(n) < 0) return -1;
   return addr;
 }
 
+// unsigned int sleep(unsigned int seconds);
 uint64 sys_sleep(void) {
   int n;
   if (argint(0, &n) < 0) return -1;
