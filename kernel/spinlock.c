@@ -14,13 +14,11 @@
 static struct spinlock *locks[NLOCK];
 struct spinlock lock_locks;
 
-void
-freelock(struct spinlock *lk)
-{
+void freelock(struct spinlock *lk) {
   acquire(&lock_locks);
   int i;
   for (i = 0; i < NLOCK; i++) {
-    if(locks[i] == lk) {
+    if (locks[i] == lk) {
       locks[i] = 0;
       break;
     }
@@ -28,12 +26,11 @@ freelock(struct spinlock *lk)
   release(&lock_locks);
 }
 
-static void
-findslot(struct spinlock *lk) {
+static void findslot(struct spinlock *lk) {
   acquire(&lock_locks);
   int i;
   for (i = 0; i < NLOCK; i++) {
-    if(locks[i] == 0) {
+    if (locks[i] == 0) {
       locks[i] = lk;
       release(&lock_locks);
       return;
@@ -43,9 +40,7 @@ findslot(struct spinlock *lk) {
 }
 #endif
 
-void
-initlock(struct spinlock *lk, char *name)
-{
+void initlock(struct spinlock *lk, char *name) {
   lk->name = name;
   lk->locked = 0;
   lk->cpu = 0;
@@ -53,31 +48,28 @@ initlock(struct spinlock *lk, char *name)
   lk->nts = 0;
   lk->n = 0;
   findslot(lk);
-#endif  
+#endif
 }
 
 // Acquire the lock.
 // Loops (spins) until the lock is acquired.
-void
-acquire(struct spinlock *lk)
-{
-  push_off(); // disable interrupts to avoid deadlock.
-  if(holding(lk))
-    panic("acquire");
+void acquire(struct spinlock *lk) {
+  push_off();  // disable interrupts to avoid deadlock.
+  if (holding(lk)) panic("acquire");
 
 #ifdef LAB_LOCK
-    __sync_fetch_and_add(&(lk->n), 1);
-#endif      
+  __sync_fetch_and_add(&(lk->n), 1);
+#endif
 
   // On RISC-V, sync_lock_test_and_set turns into an atomic swap:
   //   a5 = 1
   //   s1 = &lk->locked
   //   amoswap.w.aq a5, a5, (s1)
-  while(__sync_lock_test_and_set(&lk->locked, 1) != 0) {
+  while (__sync_lock_test_and_set(&lk->locked, 1) != 0) {
 #ifdef LAB_LOCK
     __sync_fetch_and_add(&(lk->nts), 1);
 #else
-   ;
+    ;
 #endif
   }
 
@@ -92,11 +84,8 @@ acquire(struct spinlock *lk)
 }
 
 // Release the lock.
-void
-release(struct spinlock *lk)
-{
-  if(!holding(lk))
-    panic("release");
+void release(struct spinlock *lk) {
+  if (!holding(lk)) panic("release");
 
   lk->cpu = 0;
 
@@ -122,9 +111,7 @@ release(struct spinlock *lk)
 
 // Check whether this cpu is holding the lock.
 // Interrupts must be off.
-int
-holding(struct spinlock *lk)
-{
+int holding(struct spinlock *lk) {
   int r;
   r = (lk->locked && lk->cpu == mycpu());
   return r;
@@ -134,57 +121,43 @@ holding(struct spinlock *lk)
 // it takes two pop_off()s to undo two push_off()s.  Also, if interrupts
 // are initially off, then push_off, pop_off leaves them off.
 
-void
-push_off(void)
-{
+void push_off(void) {
   int old = intr_get();
 
   intr_off();
-  if(mycpu()->noff == 0)
-    mycpu()->intena = old;
+  if (mycpu()->noff == 0) mycpu()->intena = old;
   mycpu()->noff += 1;
 }
 
-void
-pop_off(void)
-{
+void pop_off(void) {
   struct cpu *c = mycpu();
-  if(intr_get())
-    panic("pop_off - interruptible");
-  if(c->noff < 1)
-    panic("pop_off");
+  if (intr_get()) panic("pop_off - interruptible");
+  if (c->noff < 1) panic("pop_off");
   c->noff -= 1;
-  if(c->noff == 0 && c->intena)
-    intr_on();
+  if (c->noff == 0 && c->intena) intr_on();
 }
 
 #ifdef LAB_LOCK
-int
-snprint_lock(char *buf, int sz, struct spinlock *lk)
-{
+int snprint_lock(char *buf, int sz, struct spinlock *lk) {
   int n = 0;
-  if(lk->n > 0) {
-    n = snprintf(buf, sz, "lock: %s: #fetch-and-add %d #acquire() %d\n",
-                 lk->name, lk->nts, lk->n);
+  if (lk->n > 0) {
+    n = snprintf(buf, sz, "lock: %s: #fetch-and-add %d #acquire() %d\n", lk->name, lk->nts, lk->n);
   }
   return n;
 }
 
-int
-statslock(char *buf, int sz) {
+int statslock(char *buf, int sz) {
   int n;
   int tot = 0;
   int found = 0;
 
   acquire(&lock_locks);
   n = snprintf(buf, sz, "--- lock kmem/bcache stats\n");
-  for(int i = 0; i < NLOCK; i++) {
-    if(locks[i] == 0)
-      break;
-    if(strncmp(locks[i]->name, "bcache", strlen("bcache")) == 0 ||
-       strncmp(locks[i]->name, "kmem", strlen("kmem")) == 0) {
+  for (int i = 0; i < NLOCK; i++) {
+    if (locks[i] == 0) break;
+    if (strncmp(locks[i]->name, "bcache", strlen("bcache")) == 0 || strncmp(locks[i]->name, "kmem", strlen("kmem")) == 0) {
       tot += locks[i]->nts;
-      n += snprint_lock(buf +n, sz-n, locks[i]);
+      n += snprint_lock(buf + n, sz - n, locks[i]);
       found += 1;
     }
   }
@@ -193,24 +166,23 @@ statslock(char *buf, int sz) {
   if (found < 2) {
     tot = -1;
   }
-  
-  n += snprintf(buf+n, sz-n, "--- top 5 contended locks:\n");
+
+  n += snprintf(buf + n, sz - n, "--- top 5 contended locks:\n");
   int last = 100000000;
   // stupid way to compute top 5 contended locks
-  for(int t = 0; t < 5; t++) {
+  for (int t = 0; t < 5; t++) {
     int top = 0;
-    for(int i = 0; i < NLOCK; i++) {
-      if(locks[i] == 0)
-        break;
-      if(locks[i]->nts > locks[top]->nts && locks[i]->nts < last) {
+    for (int i = 0; i < NLOCK; i++) {
+      if (locks[i] == 0) break;
+      if (locks[i]->nts > locks[top]->nts && locks[i]->nts < last) {
         top = i;
       }
     }
-    n += snprint_lock(buf+n, sz-n, locks[top]);
+    n += snprint_lock(buf + n, sz - n, locks[top]);
     last = locks[top]->nts;
   }
-  n += snprintf(buf+n, sz-n, "tot= %d\n", tot);
-  release(&lock_locks);  
+  n += snprintf(buf + n, sz - n, "tot= %d\n", tot);
+  release(&lock_locks);
   return n;
 }
 #endif
