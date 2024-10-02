@@ -7,6 +7,54 @@
 #include "defs.h"
 #include "elf.h"
 
+static inline char *setflags(pte_t pte) {
+  static char flags[] = "----";
+  flags[0] = (pte & PTE_R) ? 'r' : '-';
+  flags[1] = (pte & PTE_W) ? 'w' : '-';
+  flags[2] = (pte & PTE_X) ? 'x' : '-';
+  flags[3] = (pte & PTE_U) ? 'u' : '-';
+  return flags;
+}
+
+static void _vmprint0(pagetable_t pgtbl, uint64 vpn2, uint64 vpn1) {
+  for (int i = 0; i < 512; i++) {
+    pte_t pte = pgtbl[i];
+    if (pte & PTE_V) {
+      char *flags = setflags(pte);
+      uint64 va = (vpn2 << 30) | (vpn1 << 21) | (i << 12);
+      printf("||   ||   ||idx: %d: va: %p -> pa: %p, flags: %s\n", i, va, PTE2PA(pte), flags);
+    }
+  }
+  return;
+}
+
+static void _vmprint1(pagetable_t pgtbl, uint64 vpn2) {
+  for (int i = 0; i < 512; i++) {
+    pte_t pte = pgtbl[i];
+    if (pte & PTE_V) {
+      uint64 child = PTE2PA(pte);
+      char *flags = setflags(pte);
+      printf("||   ||idx: %d: pa: %p, flags: %s\n", i, child, flags);
+      _vmprint0((pagetable_t)child, vpn2, i);
+    }
+  }
+  return;
+}
+
+void vmprint(pagetable_t pgtbl) {
+  printf("page table %p\n", pgtbl);
+  for (int i = 0; i < 512; i++) {
+    pte_t pte = pgtbl[i];
+    if (pte & PTE_V) {
+      uint64 child = PTE2PA(pte);
+      char *flags = setflags(pte);
+      printf("||idx: %d: pa: %p, flags: %s\n", i, child, flags);
+      _vmprint1((pagetable_t)child, i);
+    }
+  }
+  return;
+}
+
 static int loadseg(pde_t *pgdir, uint64 addr, struct inode *ip, uint offset, uint sz);
 
 int exec(char *path, char **argv) {
@@ -97,6 +145,9 @@ int exec(char *path, char **argv) {
   p->trapframe->sp = sp;          // initial stack pointer
   proc_freepagetable(oldpagetable, oldsz);
 
+  if (p->pid == 1) {  // 这个应该是 shell
+    vmprint(p->pagetable);
+  }
   return argc;  // this ends up in a0, the first argument to main(argc, argv)
 
 bad:
