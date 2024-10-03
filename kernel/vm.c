@@ -22,14 +22,14 @@ void g_space_init() {
   g_space = (pagetable_t)kalloc();
   memset(g_space, 0, PGSIZE);
 
-  if (mappages(g_space, UART0, PGSIZE, UART0, PTE_R | PTE_W) != 0) panic("g_space_init");
-  if (mappages(g_space, VIRTIO0, PGSIZE, VIRTIO0, PTE_R | PTE_W) != 0) panic("g_space_init");
-  if (mappages(g_space, CLINT, 0x10000, CLINT, PTE_R | PTE_W) != 0) panic("g_space_init");
-  if (mappages(g_space, PLIC, 0x400000, PLIC, PTE_R | PTE_W) != 0) panic("g_space_init");
+  if (space_map(g_space, UART0, PGSIZE, UART0, PTE_R | PTE_W) != 0) panic("g_space_init");
+  if (space_map(g_space, VIRTIO0, PGSIZE, VIRTIO0, PTE_R | PTE_W) != 0) panic("g_space_init");
+  if (space_map(g_space, CLINT, 0x10000, CLINT, PTE_R | PTE_W) != 0) panic("g_space_init");
+  if (space_map(g_space, PLIC, 0x400000, PLIC, PTE_R | PTE_W) != 0) panic("g_space_init");
 
-  if (mappages(g_space, KERNBASE, (uint64)etext - KERNBASE, KERNBASE, PTE_R | PTE_X) != 0) panic("g_space_init");
-  if (mappages(g_space, (uint64)etext, PHYSTOP - (uint64)etext, (uint64)etext, PTE_R | PTE_W) != 0) panic("g_space_init");  // 剩余的一些物理地址
-  if (mappages(g_space, TRAMPOLINE, PGSIZE, (uint64)trampoline, PTE_R | PTE_X) != 0) panic("g_space_init");
+  if (space_map(g_space, KERNBASE, (uint64)etext - KERNBASE, KERNBASE, PTE_R | PTE_X) != 0) panic("g_space_init");
+  if (space_map(g_space, (uint64)etext, PHYSTOP - (uint64)etext, (uint64)etext, PTE_R | PTE_W) != 0) panic("g_space_init");  // 剩余的一些物理地址
+  if (space_map(g_space, TRAMPOLINE, PGSIZE, (uint64)trampoline, PTE_R | PTE_X) != 0) panic("g_space_init");
 }
 
 // Switch h/w page table register to the kernel's page table,
@@ -101,16 +101,17 @@ uint64 kvmpa(uint64 va) {
 }
 
 // Create PTEs for virtual addresses starting at va that refer to
-// physical addresses starting at pa. va and size might not
-// be page-aligned. Returns 0 on success, -1 if walk() couldn't
-// allocate a needed page-table page.
-int mappages(pagetable_t pagetable, uint64 va, uint64 size, uint64 pa, int perm) {
-  uint64 a, last;
-  pte_t *pte;
+// physical addresses starting at pa.
 
-  a = PGROUNDDOWN(va);
-  last = PGROUNDDOWN(va + size - 1);
+/// @brief
+/// @warning va and size might not be page-aligned.
+/// @return Returns 0 on success, -1 if walk() couldn't allocate a needed page-table page.
+int space_map(pagetable_t pagetable, uint64 va, uint64 size, uint64 pa, int perm) {
+  uint64 a = PGROUNDDOWN(va);
+  uint64 last = PGROUNDDOWN(va + size - 1);
   for (;;) {
+    pte_t *pte;
+    // 因为这个是写记录, 所以 walk 的时候, 会进行 alloc
     if ((pte = walk(pagetable, a, 1)) == 0) return -1;
     if (*pte & PTE_V) panic("remap");
     *pte = PA2PTE(pa) | perm | PTE_V;
@@ -121,19 +122,17 @@ int mappages(pagetable_t pagetable, uint64 va, uint64 size, uint64 pa, int perm)
   return 0;
 }
 
-// Remove npages of mappings starting from va. va must be
-// page-aligned. The mappings must exist.
-// Optionally free the physical memory.
-void uvmunmap(pagetable_t pagetable, uint64 va, uint64 npages, int do_free) {
-  uint64 a;
-  pte_t *pte;
+/// @brief 这里是: 在 space 中删除一个范围的连续的记录(npages)
+/// @warning va must be page-aligned
+/// @param do_free Optionally free the physical memory.
+void space_unmap(pagetable_t space, uint64 va, uint64 npages, int do_free) {
+  if ((va % PGSIZE) != 0) panic("space_unmap: not aligned");
 
-  if ((va % PGSIZE) != 0) panic("uvmunmap: not aligned");
-
-  for (a = va; a < va + npages * PGSIZE; a += PGSIZE) {
-    if ((pte = walk(pagetable, a, 0)) == 0) panic("uvmunmap: walk");
-    if ((*pte & PTE_V) == 0) panic("uvmunmap: not mapped");
-    if (PTE_FLAGS(*pte) == PTE_V) panic("uvmunmap: not a leaf");
+  for (uint64 a = va; a < va + npages * PGSIZE; a += PGSIZE) {
+    pte_t *pte;
+    if ((pte = walk(space, a, 0)) == 0) panic("space_unmap: walk");
+    if ((*pte & PTE_V) == 0) panic("space_unmap: not mapped");
+    if (PTE_FLAGS(*pte) == PTE_V) panic("space_unmap: not a leaf");
     if (do_free) {
       uint64 pa = PTE2PA(*pte);
       kfree((void *)pa);
@@ -161,7 +160,7 @@ void uvminit(pagetable_t pagetable, uchar *src, uint sz) {
   if (sz >= PGSIZE) panic("inituvm: more than a page");
   mem = kalloc();
   memset(mem, 0, PGSIZE);
-  mappages(pagetable, 0, PGSIZE, (uint64)mem, PTE_W | PTE_R | PTE_X | PTE_U);
+  space_map(pagetable, 0, PGSIZE, (uint64)mem, PTE_W | PTE_R | PTE_X | PTE_U);
   memmove(mem, src, sz);
 }
 
@@ -181,7 +180,7 @@ uint64 uvmalloc(pagetable_t pagetable, uint64 oldsz, uint64 newsz) {
       return 0;
     }
     memset(mem, 0, PGSIZE);
-    if (mappages(pagetable, a, PGSIZE, (uint64)mem, PTE_W | PTE_X | PTE_R | PTE_U) != 0) {
+    if (space_map(pagetable, a, PGSIZE, (uint64)mem, PTE_W | PTE_X | PTE_R | PTE_U) != 0) {
       kfree(mem);
       uvmdealloc(pagetable, a, oldsz);
       return 0;
@@ -199,14 +198,14 @@ uint64 uvmdealloc(pagetable_t pagetable, uint64 oldsz, uint64 newsz) {
 
   if (PGROUNDUP(newsz) < PGROUNDUP(oldsz)) {
     int npages = (PGROUNDUP(oldsz) - PGROUNDUP(newsz)) / PGSIZE;
-    uvmunmap(pagetable, PGROUNDUP(newsz), npages, 1);
+    space_unmap(pagetable, PGROUNDUP(newsz), npages, 1);
   }
 
   return newsz;
 }
 
-// Recursively free page-table pages.
-// All leaf mappings must already have been removed.
+/// @brief Recursively free page-table pages. 就是说: 这个值会删除目录
+/// @warning All leaf mappings must already have been removed.
 void freewalk(pagetable_t pagetable) {
   // there are 2^9 = 512 PTEs in a page table.
   for (int i = 0; i < 512; i++) {
@@ -223,10 +222,12 @@ void freewalk(pagetable_t pagetable) {
   kfree((void *)pagetable);
 }
 
-// Free user memory pages,
-// then free page-table pages.
+//
+
+/// @brief Free user memory pages, then free page-table pages.
+/// 就是: 这个只会 unmap 用户的内容(从 0 开始), 在进入到这一步之前, 我们会先 unmap TRAMPOLINE, TRAPFRAME 之类的
 void uvmfree(pagetable_t pagetable, uint64 sz) {
-  if (sz > 0) uvmunmap(pagetable, 0, PGROUNDUP(sz) / PGSIZE, 1);
+  if (sz > 0) space_unmap(pagetable, 0, PGROUNDUP(sz) / PGSIZE, 1);  // 会先删除用户空间(从0开始)
   freewalk(pagetable);
 }
 
@@ -249,7 +250,7 @@ int uvmcopy(pagetable_t old, pagetable_t new, uint64 sz) {
     flags = PTE_FLAGS(*pte);
     if ((mem = kalloc()) == 0) goto err;
     memmove(mem, (char *)pa, PGSIZE);
-    if (mappages(new, i, PGSIZE, (uint64)mem, flags) != 0) {
+    if (space_map(new, i, PGSIZE, (uint64)mem, flags) != 0) {
       kfree(mem);
       goto err;
     }
@@ -257,7 +258,7 @@ int uvmcopy(pagetable_t old, pagetable_t new, uint64 sz) {
   return 0;
 
 err:
-  uvmunmap(new, 0, i / PGSIZE, 1);
+  space_unmap(new, 0, i / PGSIZE, 1);
   return -1;
 }
 
