@@ -21,8 +21,6 @@ static void freeproc(struct proc *p);
 
 extern char trampoline[];  // trampoline.S
 
-extern pagetable_t g_space;
-
 // initialize the proc table at boot time.
 void procinit(void) {
   struct proc *p;
@@ -37,7 +35,8 @@ void procinit(void) {
     char *pa = kalloc();
     if (pa == 0) panic("kalloc");
     uint64 va = KSTACK((int)(p - proc));
-    if (mappages(g_space, va, PGSIZE, (uint64)pa, PTE_R | PTE_W) != 0) panic("proc_init");  // 设置 stack
+    extern pagetable_t g_space;
+    if (space_map(g_space, va, PGSIZE, (uint64)pa, PTE_R | PTE_W) != 0) panic("proc_init");  // 设置 stack
     p->kstack = va;
   }
   kvminithart();
@@ -99,7 +98,7 @@ static struct proc *allocproc(void) {
 found:
   p->pid = allocpid();
 
-  // Allocate a trapframe page.
+  // Allocate a trapframe page. trapframe 是用户态与内核态桥梁
   if ((p->trapframe = (struct trapframe *)kalloc()) == 0) {
     release(&p->lock);
     return 0;
@@ -143,24 +142,66 @@ static void freeproc(struct proc *p) {
 // Create a user page table for a given process,
 // with no user memory, but with trampoline pages.
 pagetable_t proc_pagetable(struct proc *p) {
-  pagetable_t pagetable;
-
   // An empty page table.
-  pagetable = uvmcreate();
+  pagetable_t pagetable = uvmcreate();
   if (pagetable == 0) return 0;
 
   // map the trampoline code (for system call return)
   // at the highest user virtual address.
   // only the supervisor uses it, on the way
   // to/from user space, so not PTE_U.
-  if (mappages(pagetable, TRAMPOLINE, PGSIZE, (uint64)trampoline, PTE_R | PTE_X) < 0) {
+  if (space_map(pagetable, TRAMPOLINE, PGSIZE, (uint64)trampoline, PTE_R | PTE_X) < 0) {
     uvmfree(pagetable, 0);
     return 0;
   }
 
   // map the trapframe just below TRAMPOLINE, for trampoline.S.
-  if (mappages(pagetable, TRAPFRAME, PGSIZE, (uint64)(p->trapframe), PTE_R | PTE_W) < 0) {
-    uvmunmap(pagetable, TRAMPOLINE, 1, 0);
+  if (space_map(pagetable, TRAPFRAME, PGSIZE, (uint64)(p->trapframe), PTE_R | PTE_W) < 0) {
+    space_unmap(pagetable, TRAMPOLINE, 1, 0);  // 能到这一步, 说明上面 uvmmap 成功了, 这里要回滚
+    uvmfree(pagetable, 0);
+    return 0;
+  }
+
+  extern char etext[];
+
+  // 与 g_space_init 相比, 少了 TRAMPOLINE, CLINT
+  if (space_map(pagetable, UART0, PGSIZE, UART0, PTE_R | PTE_W) != 0) {
+    space_unmap(pagetable, TRAMPOLINE, 1, 0);
+    space_unmap(pagetable, TRAPFRAME, 1, 0);
+    uvmfree(pagetable, 0);
+    return 0;
+  }
+  if (space_map(pagetable, VIRTIO0, PGSIZE, VIRTIO0, PTE_R | PTE_W) != 0) {
+    space_unmap(pagetable, UART0, 1, 0);
+    space_unmap(pagetable, TRAMPOLINE, 1, 0);
+    space_unmap(pagetable, TRAPFRAME, 1, 0);
+    uvmfree(pagetable, 0);
+    return 0;
+  }
+  if (space_map(pagetable, PLIC, 0x400000, PLIC, PTE_R | PTE_W) != 0) {
+    space_unmap(pagetable, VIRTIO0, 1, 0);
+    space_unmap(pagetable, UART0, 1, 0);
+    space_unmap(pagetable, TRAMPOLINE, 1, 0);
+    space_unmap(pagetable, TRAPFRAME, 1, 0);
+    uvmfree(pagetable, 0);
+    return 0;
+  }
+  if (space_map(pagetable, KERNBASE, (uint64)etext - KERNBASE, KERNBASE, PTE_R | PTE_X) != 0) {
+    space_unmap(pagetable, PLIC, 0x400000 / PGSIZE, 0);
+    space_unmap(pagetable, VIRTIO0, 1, 0);
+    space_unmap(pagetable, UART0, 1, 0);
+    space_unmap(pagetable, TRAMPOLINE, 1, 0);
+    space_unmap(pagetable, TRAPFRAME, 1, 0);
+    uvmfree(pagetable, 0);
+    return 0;
+  }
+  if (space_map(pagetable, (uint64)etext, PHYSTOP - (uint64)etext, (uint64)etext, PTE_R | PTE_W) != 0) {  // 这个是为了看到物理内存
+    space_unmap(pagetable, KERNBASE, ((uint64)etext - KERNBASE) / PGSIZE, 0);
+    space_unmap(pagetable, PLIC, (0x400000 / PGSIZE), 0);
+    space_unmap(pagetable, VIRTIO0, 1, 0);
+    space_unmap(pagetable, UART0, 1, 0);
+    space_unmap(pagetable, TRAMPOLINE, 1, 0);
+    space_unmap(pagetable, TRAPFRAME, 1, 0);
     uvmfree(pagetable, 0);
     return 0;
   }
@@ -171,8 +212,15 @@ pagetable_t proc_pagetable(struct proc *p) {
 // Free a process's page table, and free the
 // physical memory it refers to.
 void proc_freepagetable(pagetable_t pagetable, uint64 sz) {
-  uvmunmap(pagetable, TRAMPOLINE, 1, 0);
-  uvmunmap(pagetable, TRAPFRAME, 1, 0);
+  space_unmap(pagetable, TRAMPOLINE, 1, 0);
+  space_unmap(pagetable, TRAPFRAME, 1, 0);
+  extern char etext[];
+
+  space_unmap(pagetable, (uint64)etext, (PHYSTOP - (uint64)etext) / PGSIZE, 0);
+  space_unmap(pagetable, KERNBASE, ((uint64)etext - KERNBASE) / PGSIZE, 0);
+  space_unmap(pagetable, PLIC, (0x400000 / PGSIZE), 0);
+  space_unmap(pagetable, VIRTIO0, 1, 0);
+  space_unmap(pagetable, UART0, 1, 0);
   uvmfree(pagetable, sz);
 }
 
@@ -184,9 +232,7 @@ uchar initcode[] = {0x17, 0x05, 0x00, 0x00, 0x13, 0x05, 0x45, 0x02, 0x97, 0x05, 
 
 // Set up first user process.
 void userinit(void) {
-  struct proc *p;
-
-  p = allocproc();
+  struct proc *p = allocproc();
   initproc = p;
 
   // allocate one user page and copy init's instructions
