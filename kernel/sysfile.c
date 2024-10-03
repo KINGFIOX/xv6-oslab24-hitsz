@@ -321,8 +321,7 @@ uint64 sys_mknod(void) {
   int major, minor;
 
   begin_op();
-  if ((argstr(0, path, MAXPATH)) < 0 || argint(1, &major) < 0 || argint(2, &minor) < 0 ||
-      (ip = create(path, T_DEVICE, major, minor)) == 0) {
+  if ((argstr(0, path, MAXPATH)) < 0 || argint(1, &major) < 0 || argint(2, &minor) < 0 || (ip = create(path, T_DEVICE, major, minor)) == 0) {
     end_op();
     return -1;
   }
@@ -405,8 +404,7 @@ uint64 sys_pipe(void) {
     fileclose(wf);
     return -1;
   }
-  if (copyout(p->pagetable, fdarray, (char *)&fd0, sizeof(fd0)) < 0 ||
-      copyout(p->pagetable, fdarray + sizeof(fd0), (char *)&fd1, sizeof(fd1)) < 0) {
+  if (copyout(p->pagetable, fdarray, (char *)&fd0, sizeof(fd0)) < 0 || copyout(p->pagetable, fdarray + sizeof(fd0), (char *)&fd1, sizeof(fd1)) < 0) {
     p->ofile[fd0] = 0;
     p->ofile[fd1] = 0;
     fileclose(rf);
