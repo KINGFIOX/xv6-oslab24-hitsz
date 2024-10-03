@@ -24,6 +24,7 @@
             pkg-config
             clang_16
             llvm_16
+            bear
           ];
           MAKEFLAGS = "-j$(nproc)";
           RUST_GDB = "riscv64-none-elf-gdb";
