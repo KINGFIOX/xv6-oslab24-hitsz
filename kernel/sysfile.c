@@ -150,14 +150,12 @@ static int isdirempty(struct inode *dp) {
 }
 
 uint64 sys_unlink(void) {
-  struct inode *ip, *dp;
-  struct dirent de;
-  char name[DIRSIZ], path[MAXPATH];
-  uint off;
-
+  char path[MAXPATH];
   if (argstr(0, path, MAXPATH) < 0) return -1;
 
   begin_op();
+  struct inode *dp;
+  char name[DIRSIZ];
   if ((dp = nameiparent(path, name)) == 0) {
     end_op();
     return -1;
@@ -168,6 +166,8 @@ uint64 sys_unlink(void) {
   // Cannot unlink "." or "..".
   if (namecmp(name, ".") == 0 || namecmp(name, "..") == 0) goto bad;
 
+  struct inode *ip;
+  uint off;
   if ((ip = dirlookup(dp, name, &off)) == 0) goto bad;
   ilock(ip);
 
@@ -177,6 +177,7 @@ uint64 sys_unlink(void) {
     goto bad;
   }
 
+  struct dirent de;
   memset(&de, 0, sizeof(de));
   if (writei(dp, 0, (uint64)&de, off, sizeof(de)) != sizeof(de)) panic("unlink: writei");
   if (ip->type == T_DIR) {
