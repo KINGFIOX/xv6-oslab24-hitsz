@@ -2485,7 +2485,6 @@ int main(int argc, char *argv[]) {
     void (*f)(char *);
     char *s;
   } tests[] = {
-      {execout, "execout"},
       {copyin, "copyin"},
       {copyout, "copyout"},
       {copyinstr1, "copyinstr1"},
@@ -2541,6 +2540,7 @@ int main(int argc, char *argv[]) {
       {iref, "iref"},
       {forktest, "forktest"},
       {bigdir, "bigdir"},  // slow
+      {execout, "execout"},
       {0, 0},
   };
 
