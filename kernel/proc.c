@@ -477,6 +477,9 @@ void scheduler(void) {
         // before jumping back to us.
         p->state = RUNNING;
         c->proc = p;
+
+        w_satp(MAKE_SATP(p->su_space));
+        sfence_vma();
         swtch(&c->context, &p->context);
 
         // Process is done running for now.
@@ -515,7 +518,12 @@ void sched(void) {
   if (intr_get()) panic("sched interruptible");
 
   intena = mycpu()->intena;
+
+  extern pagetable_t g_space;
+  w_satp(MAKE_SATP(g_space));
+  sfence_vma();
   swtch(&p->context, &mycpu()->context);
+
   mycpu()->intena = intena;
 }
 
@@ -640,7 +648,7 @@ int either_copyout(int user_dst, uint64 dst, void *src, uint64 len) {
 // Copy from either a user address, or kernel address,
 // depending on usr_src.
 // Returns 0 on success, -1 on error.
-int either_copyin(void *dst, int user_src, uint64 src, uint64 len) {
+int either_copyin(void *dst, bool user_src, uint64 src, uint64 len) {
   struct proc *p = myproc();
   if (user_src) {
     return copyin(p->su_space, dst, src, len);

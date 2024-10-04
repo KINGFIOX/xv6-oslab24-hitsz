@@ -85,7 +85,7 @@ void usertrapret(void) {
 
   // set up trapframe values that uservec will need when
   // the process next re-enters the kernel.
-  p->trapframe->kernel_satp = r_satp();             // kernel page table
+  p->trapframe->kernel_satp = r_satp();             // 这里是: 保存了 g_space, 会在 uservec 中使用
   p->trapframe->kernel_sp = p->kstack_pa + PGSIZE;  // process's kernel stack
   p->trapframe->kernel_trap = (uint64)usertrap;
   p->trapframe->kernel_hartid = r_tp();  // hartid for cpuid()
