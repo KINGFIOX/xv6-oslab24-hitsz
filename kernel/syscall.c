@@ -11,7 +11,7 @@
 int fetchaddr(uint64 addr, uint64 *ip) {
   struct proc *p = myproc();
   if (addr >= p->sz || addr + sizeof(uint64) > p->sz) return -1;
-  if (copyin(p->pagetable, (char *)ip, addr, sizeof(*ip)) != 0) return -1;
+  if (copyin(p->su_space, (char *)ip, addr, sizeof(*ip)) != 0) return -1;
   return 0;
 }
 
@@ -19,7 +19,7 @@ int fetchaddr(uint64 addr, uint64 *ip) {
 // Returns length of string, not including nul, or -1 for error.
 int fetchstr(uint64 addr, char *buf, int max) {
   struct proc *p = myproc();
-  int err = copyinstr(p->pagetable, buf, addr, max);
+  int err = copyinstr(p->su_space, buf, addr, max);
   if (err < 0) return err;
   return strlen(buf);
 }

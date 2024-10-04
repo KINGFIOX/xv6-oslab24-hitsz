@@ -85,8 +85,8 @@ void usertrapret(void) {
 
   // set up trapframe values that uservec will need when
   // the process next re-enters the kernel.
-  p->trapframe->kernel_satp = r_satp();          // kernel page table
-  p->trapframe->kernel_sp = p->kstack + PGSIZE;  // process's kernel stack
+  p->trapframe->kernel_satp = r_satp();             // kernel page table
+  p->trapframe->kernel_sp = p->kstack_pa + PGSIZE;  // process's kernel stack
   p->trapframe->kernel_trap = (uint64)usertrap;
   p->trapframe->kernel_hartid = r_tp();  // hartid for cpuid()
 
@@ -103,7 +103,7 @@ void usertrapret(void) {
   w_sepc(p->trapframe->epc);
 
   // tell trampoline.S the user page table to switch to.
-  uint64 satp = MAKE_SATP(p->pagetable);
+  uint64 satp = MAKE_SATP(p->su_space);
 
   // jump to trampoline.S at the top of memory, which
   // switches to the user page table, restores user registers,

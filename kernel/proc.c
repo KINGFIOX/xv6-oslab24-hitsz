@@ -34,10 +34,10 @@ void procinit(void) {
     // guard page.
     char *pa = kalloc();
     if (pa == 0) panic("kalloc");
-    uint64 va = KSTACK((int)(p - proc));
-    extern pagetable_t g_space;
-    if (space_map(g_space, va, PGSIZE, (uint64)pa, PTE_R | PTE_W) != 0) panic("proc_init");  // 设置 stack
-    p->kstack = va;
+    // uint64 va = KSTACK((int)(p - proc));
+    // extern pagetable_t g_space;
+    // if (space_map(g_space, va, PGSIZE, (uint64)pa, PTE_R | PTE_W) != 0) panic("proc_init");  // 设置 stack
+    p->kstack_pa = (uint64)pa;
   }
   kvminithart();
 }
@@ -105,8 +105,8 @@ found:
   }
 
   // An empty user page table.
-  p->pagetable = proc_pagetable(p);
-  if (p->pagetable == 0) {
+  p->su_space = proc_pagetable(p);
+  if (p->su_space == 0) {
     freeproc(p);
     release(&p->lock);
     return 0;
@@ -116,7 +116,7 @@ found:
   // which returns to user space.
   memset(&p->context, 0, sizeof(p->context));
   p->context.ra = (uint64)forkret;
-  p->context.sp = p->kstack + PGSIZE;
+  p->context.sp = p->kstack_pa + PGSIZE;
 
   return p;
 }
@@ -127,8 +127,8 @@ found:
 static void freeproc(struct proc *p) {
   if (p->trapframe) kfree((void *)p->trapframe);
   p->trapframe = 0;
-  if (p->pagetable) proc_freepagetable(p->pagetable, p->sz);
-  p->pagetable = 0;
+  if (p->su_space) proc_freepagetable(p->su_space, p->sz);
+  p->su_space = 0;
   p->sz = 0;
   p->pid = 0;
   p->parent = 0;
@@ -237,7 +237,7 @@ void userinit(void) {
 
   // allocate one user page and copy init's instructions
   // and data into it.
-  uvminit(p->pagetable, initcode, sizeof(initcode));
+  uvminit(p->su_space, initcode, sizeof(initcode));
   p->sz = PGSIZE;
 
   // prepare for the very first "return" from kernel to user.
@@ -260,11 +260,11 @@ int growproc(int n) {
 
   sz = p->sz;
   if (n > 0) {
-    if ((sz = uvmalloc(p->pagetable, sz, sz + n)) == 0) {
+    if ((sz = uvmalloc(p->su_space, sz, sz + n)) == 0) {
       return -1;
     }
   } else if (n < 0) {
-    sz = uvmdealloc(p->pagetable, sz, sz + n);
+    sz = uvmdealloc(p->su_space, sz, sz + n);
   }
   p->sz = sz;
   return 0;
@@ -283,7 +283,7 @@ int fork(void) {
   }
 
   // Copy user memory from parent to child.
-  if (uvmcopy(p->pagetable, np->pagetable, p->sz) < 0) {
+  if (uvmcopy(p->su_space, np->su_space, p->sz) < 0) {
     freeproc(np);
     release(&np->lock);
     return -1;
@@ -427,7 +427,7 @@ int wait(uint64 addr) {
         if (np->state == ZOMBIE) {
           // Found one.
           pid = np->pid;
-          if (addr != 0 && copyout(p->pagetable, addr, (char *)&np->xstate, sizeof(np->xstate)) < 0) {
+          if (addr != 0 && copyout(p->su_space, addr, (char *)&np->xstate, sizeof(np->xstate)) < 0) {
             release(&np->lock);
             release(&p->lock);
             return -1;
@@ -630,7 +630,7 @@ int kill(int pid) {
 int either_copyout(int user_dst, uint64 dst, void *src, uint64 len) {
   struct proc *p = myproc();
   if (user_dst) {
-    return copyout(p->pagetable, dst, src, len);
+    return copyout(p->su_space, dst, src, len);
   } else {
     memmove((char *)dst, src, len);
     return 0;
@@ -643,7 +643,7 @@ int either_copyout(int user_dst, uint64 dst, void *src, uint64 len) {
 int either_copyin(void *dst, int user_src, uint64 src, uint64 len) {
   struct proc *p = myproc();
   if (user_src) {
-    return copyin(p->pagetable, dst, src, len);
+    return copyin(p->su_space, dst, src, len);
   } else {
     memmove(dst, (char *)src, len);
     return 0;

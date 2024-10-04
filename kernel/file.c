@@ -80,7 +80,7 @@ int filestat(struct file *f, uint64 addr) {
     ilock(f->ip);
     stati(f->ip, &st);
     iunlock(f->ip);
-    if (copyout(p->pagetable, addr, (char *)&st, sizeof(st)) < 0) return -1;
+    if (copyout(p->su_space, addr, (char *)&st, sizeof(st)) < 0) return -1;
     return 0;
   }
   return -1;
