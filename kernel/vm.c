@@ -112,7 +112,11 @@ int space_map(pagetable_t pagetable, uint64 va, uint64 size, uint64 pa, int perm
   for (;;) {
     pte_t *pte;
     // 因为这个是写记录, 所以 walk 的时候, 会进行 alloc
-    if ((pte = walk(pagetable, a, 1)) == 0) return -1;
+    if ((pte = walk(pagetable, a, 1)) == 0) {
+      // clean up, unmap, 被创建出来的目录的话, 之前会调用 uvmfree 来清理, 范围是 PGROUNDDOWN(va) ~ a
+      space_unmap(pagetable, PGROUNDDOWN(va), (a - PGROUNDDOWN(va)) / PGSIZE, 0);
+      return -1;
+    };
     if (*pte & PTE_V) panic("remap");
     *pte = PA2PTE(pa) | perm | PTE_V;
     if (a == last) break;
@@ -167,14 +171,13 @@ void uvminit(pagetable_t pagetable, uchar *src, uint sz) {
 // Allocate PTEs and physical memory to grow process from oldsz to
 // newsz, which need not be page aligned.  Returns new size or 0 on error.
 uint64 uvmalloc(pagetable_t pagetable, uint64 oldsz, uint64 newsz) {
-  char *mem;
-  uint64 a;
-
   if (newsz < oldsz) return oldsz;
-
+  if (newsz >= PLIC) {  // 分配地址要注意边界
+    return 0;
+  }
   oldsz = PGROUNDUP(oldsz);
-  for (a = oldsz; a < newsz; a += PGSIZE) {
-    mem = kalloc();
+  for (uint64 a = oldsz; a < newsz; a += PGSIZE) {
+    char *mem = kalloc();
     if (mem == 0) {
       uvmdealloc(pagetable, a, oldsz);
       return 0;
