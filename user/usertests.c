@@ -28,7 +28,7 @@ void copyin(char *s) {
   uint64 addrs[] = {0x80000000LL, 0xffffffffffffffff};
 
   for (int ai = 0; ai < 2; ai++) {
-    uint64 addr = addrs[ai];
+    uint64 addr = addrs[ai];  // 0x80000000 or 0xffffffffffffffff
 
     int fd = open("copyin1", O_CREATE | O_WRONLY);
     if (fd < 0) {
@@ -37,7 +37,7 @@ void copyin(char *s) {
     }
     int n = write(fd, (void *)addr, 8192);
     if (n >= 0) {
-      printf("write(fd, %p, 8192) returned %d, not -1\n", addr, n);
+      printf("write(fd, %p, 8192) returned %d, not -1, %d\n", addr, n, __LINE__);
       exit(1);
     }
     close(fd);
@@ -45,7 +45,7 @@ void copyin(char *s) {
 
     n = write(1, (char *)addr, 8192);
     if (n > 0) {
-      printf("write(1, %p, 8192) returned %d, not -1 or 0\n", addr, n);
+      printf("write(1, %p, 8192) returned %d, not -1 or 0, %d\n", addr, n, __LINE__);
       exit(1);
     }
 
@@ -56,7 +56,7 @@ void copyin(char *s) {
     }
     n = write(fds[1], (char *)addr, 8192);
     if (n > 0) {
-      printf("write(pipe, %p, 8192) returned %d, not -1 or 0\n", addr, n);
+      printf("write(pipe, %p, 8192) returned %d, not -1 or 0, %d\n", addr, n, __LINE__);
       exit(1);
     }
     close(fds[0]);

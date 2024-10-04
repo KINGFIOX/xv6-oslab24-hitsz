@@ -433,7 +433,7 @@ int readi(struct inode *ip, int user_dst, uint64 dst, uint off, uint n) {
 // Caller must hold ip->lock.
 // If user_src==1, then src is a user virtual address;
 // otherwise, src is a kernel address.
-int writei(struct inode *ip, int user_src, uint64 src, uint off, uint n) {
+int writei(struct inode *ip, bool user_src, uint64 src, uint off, uint n) {
   uint tot, m;
   struct buf *bp;
 

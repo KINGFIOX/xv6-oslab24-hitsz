@@ -317,7 +317,7 @@ qemu-gdb: $K/kernel .gdbinit fs.img
 	@echo "*** Now run 'gdb' in another window." 1>&2
 	$(QEMU) $(QEMUOPTS) -S $(QEMUGDB)
 
-gdb:
+gdb: .gdbinit
 	$(TOOLPREFIX)gdb $K/kernel -x .gdbinit
 
 ifeq ($(LAB),net)
