@@ -279,10 +279,6 @@ void uvmclear(pagetable_t pagetable, uint64 va) {
 // Copy len bytes from src to virtual address dstva in a given page table.
 // Return 0 on success, -1 on error.
 int copyout(pagetable_t pagetable, uint64 dstva, char *src, uint64 len) {
-  // w_sstatus(r_sstatus() | SSTATUS_SUM);
-  // memmove((void *)dstva, src, len);
-  // w_sstatus(r_sstatus() & ~SSTATUS_SUM);
-
   uint64 n, va0, pa0;
   while (len > 0) {
     va0 = PGROUNDDOWN(dstva);
@@ -333,8 +329,7 @@ int copyin(pagetable_t pagetable, char *dst, uint64 srcva, uint64 len) {
 // Return 0 on success, -1 on error.
 int copyinstr(pagetable_t pagetable, char *dst, uint64 srcva, uint64 max) {
   uint64 n, va0, pa0;
-  int got_null = 0;
-
+  bool got_null = false;
   while (got_null == 0 && max > 0) {
     va0 = PGROUNDDOWN(srcva);
     pa0 = walkaddr(pagetable, va0);
