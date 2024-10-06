@@ -7,7 +7,8 @@ char *base(const char *path) {
   const char *p;
 
   // Find first character after last slash.
-  for (p = path + strlen(path); p >= path && *p != '/'; p--);
+  for (p = path + strlen(path); p >= path && *p != '/'; p--)
+    ;
   p++;
 
   return (char *)p;
@@ -21,7 +22,7 @@ static void close_cleanup(int *fd) {
 }
 
 static bool __dfs(const char *cur_path, const char *name_to_find) {
-  int fd __attribute__((cleanup(close_cleanup))) = -1;  // open a dir
+  int fd __attribute__((cleanup(close_cleanup))) = -1;  // open a dir (raii)
 
   if ((fd = open(cur_path, 0)) < 0) {
     // fprintf(2, "find: cannot open %s\n", cur_path);

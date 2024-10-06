@@ -230,7 +230,7 @@ qemu-gdb: $K/kernel .gdbinit fs.img
 	$(QEMU) $(QEMUOPTS) -S $(QEMUGDB)
 
 gdb: 
-	$(GDB) -ex 'target remote localhost:$(GDBPORT)' -ex 'file user/_find' -ex 'b find.c:main'
+	$(TOOLPREFIX)gdb $K/kernel -x .gdbinit
 
 ##
 ##  FOR testing lab grading script

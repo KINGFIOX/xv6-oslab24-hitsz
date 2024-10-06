@@ -27,6 +27,7 @@ compile_commands.json
 .vscode
 .direnv
 
+commit.patch
 
 # Added by cargo
 

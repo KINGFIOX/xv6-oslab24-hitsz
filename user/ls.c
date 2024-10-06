@@ -8,7 +8,8 @@ char *fmtname(char *path) {
   char *p;
 
   // Find first character after last slash.
-  for (p = path + strlen(path); p >= path && *p != '/'; p--);
+  for (p = path + strlen(path); p >= path && *p != '/'; p--)
+    ;
   p++;
 
   // Return blank-padded name.
