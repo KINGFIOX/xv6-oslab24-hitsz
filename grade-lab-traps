@@ -15,7 +15,7 @@ def test_answers():
 BACKTRACE_RE = r"^(0x000000008[0-9a-f]+)"
 
 def addr2line():
-    for f in ['riscv64-unknown-elf-addr2line', 'riscv64-linux-gnu-addr2line', 'addr2line', ]:
+    for f in ['riscv64-unknown-elf-addr2line', 'riscv64-linux-gnu-addr2line', 'addr2line', 'riscv64-none-elf-addr2line', ]:
         try:
             devnull = open(os.devnull)
             subprocess.Popen([f], stdout=devnull, stderr=devnull).communicate()

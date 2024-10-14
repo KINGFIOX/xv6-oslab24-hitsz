@@ -215,7 +215,7 @@ void userinit(void) {
   safestrcpy(p->name, "initcode", sizeof(p->name));
   p->cwd = namei("/");
 
-  p->state = RUNNABLE;
+  p->state = READY;
 
   release(&p->lock);
 }
@@ -280,7 +280,7 @@ int fork(void) {
   release(&wait_lock);
 
   acquire(&np->lock);
-  np->state = RUNNABLE;
+  np->state = READY;
   release(&np->lock);
 
   return pid;
@@ -407,7 +407,7 @@ void scheduler(void) {
 
     for (p = proc; p < &proc[NPROC]; p++) {
       acquire(&p->lock);
-      if (p->state == RUNNABLE) {
+      if (p->state == READY) {
         // Switch to chosen process.  It is the process's job
         // to release its lock and then reacquire it
         // before jumping back to us.
@@ -449,7 +449,7 @@ void sched(void) {
 void yield(void) {
   struct proc *p = myproc();
   acquire(&p->lock);
-  p->state = RUNNABLE;
+  p->state = READY;
   sched();
   release(&p->lock);
 }
@@ -514,7 +514,7 @@ void wakeup(void *chan) {
     if (p != myproc()) {
       acquire(&p->lock);
       if (p->state == SLEEPING && p->chan == chan) {
-        p->state = RUNNABLE;
+        p->state = READY;
       }
       release(&p->lock);
     }
@@ -533,7 +533,7 @@ int kill(int pid) {
       p->killed = 1;
       if (p->state == SLEEPING) {
         // Wake process from sleep().
-        p->state = RUNNABLE;
+        p->state = READY;
       }
       release(&p->lock);
       return 0;
@@ -588,7 +588,7 @@ int either_copyin(void *dst, int user_src, uint64 src, uint64 len) {
 // Runs when user types ^P on console.
 // No lock to avoid wedging a stuck machine further.
 void procdump(void) {
-  static char *states[] = {[UNUSED] "unused", [USED] "used", [SLEEPING] "sleep ", [RUNNABLE] "runble", [RUNNING] "run   ", [ZOMBIE] "zombie"};
+  static char *states[] = {[UNUSED] "unused", [USED] "used", [SLEEPING] "sleep ", [READY] "runble", [RUNNING] "run   ", [ZOMBIE] "zombie"};
   struct proc *p;
   char *state;
 

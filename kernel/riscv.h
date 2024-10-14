@@ -199,6 +199,14 @@ static inline uint64 r_tp() {
 
 static inline void w_tp(uint64 x) { asm volatile("mv tp, %0" : : "r"(x)); }
 
+static inline uint64 r_fp() {
+  uint64 x;
+  asm volatile("mv %0, fp" : "=r"(x));
+  return x;
+}
+
+static inline void w_fp(uint64 x) { asm volatile("mv fp, %0" : : "r"(x)); }
+
 static inline uint64 r_ra() {
   uint64 x;
   asm volatile("mv %0, ra" : "=r"(x));

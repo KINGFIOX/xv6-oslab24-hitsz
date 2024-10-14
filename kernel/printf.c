@@ -52,6 +52,19 @@ static void printptr(uint64 x) {
   for (i = 0; i < (sizeof(uint64) * 2); i++, x <<= 4) consputc(digits[x >> (sizeof(uint64) * 8 - 4)]);
 }
 
+void backtrace(void) {
+  uint64 cur = r_fp();  // linked list
+
+  while (1) {
+    uint64 ra = *(uint64 *)(cur - 8);
+    printf("%p\n", ra);
+    uint64 fp = *(uint64 *)(cur - 16);
+    if (PGROUNDDOWN(fp) != PGROUNDDOWN(cur)) break;
+    cur = fp;
+  }
+  return;
+}
+
 // Print to the console. only understands %d, %x, %p, %s.
 void printf(char *fmt, ...) {
   va_list ap;
