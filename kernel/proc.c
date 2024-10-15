@@ -148,6 +148,7 @@ found:
 // p->lock must be held.
 static void freeproc(struct proc *p) {
   if (p->trapframe) kfree((void *)p->trapframe);
+  if (p->alarm_before) kfree((void *)p->alarm_before);
   p->trapframe = 0;
   if (p->pagetable) proc_freepagetable(p->pagetable, p->sz);
   p->pagetable = 0;
@@ -628,10 +629,9 @@ int sigalarm(int ticks, uint64 handler) {
 }
 
 int sigreturn(void) {
-  // restore
   struct proc *p = myproc();
   *p->trapframe = *p->alarm_before;
   p->alarm_ticks = 0;
   p->alarm_active = false;
-  return 0;
+  return p->trapframe->a0;
 }
