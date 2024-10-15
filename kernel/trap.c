@@ -64,7 +64,18 @@ void usertrap(void) {
   if (killed(p)) exit(-1);
 
   // give up the CPU if this is a timer interrupt.
-  if (which_dev == 2) yield();
+  if (which_dev == 2) {
+    p->alarm_ticks++;
+    if (p->alarm_ticks == p->alarm_interval && p->alarm_interval > 0) {
+      // context
+      *p->alarm_before = *p->trapframe;
+      p->trapframe->epc = p->alarm_handler_va;
+      // reset
+      p->alarm_ticks = 0;
+    } else {
+      yield();
+    }
+  }
 
   usertrapret();
 }
@@ -178,7 +189,7 @@ int devintr() {
     // software interrupt from a machine-mode timer interrupt,
     // forwarded by timervec in kernelvec.S.
 
-    if (cpuid() == 0) {
+    if (cpuid() == 0) {  // 只有一个 cpu 允许 ticks++
       clockintr();
     }
 

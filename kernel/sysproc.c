@@ -70,3 +70,14 @@ uint64 sys_uptime(void) {
   release(&tickslock);
   return xticks;
 }
+
+uint64 sys_sigalarm(void) {
+  int ticks;
+  uint64 handler;
+
+  argint(0, &ticks);
+  argaddr(1, &handler);
+  return sigalarm(ticks, handler);
+}
+
+uint64 sys_sigreturn(void) { return sigreturn(); }
