@@ -106,6 +106,7 @@ struct proc {
   char name[16];                // Process name (debugging)
 
   // for alarm
+  bool alarm_active;        // alarm is active
   int alarm_ticks;          // remaining ticks
   int alarm_interval;       // interval in ticks
   uint64 alarm_handler_va;  // handler virtual address (user space)

@@ -631,5 +631,7 @@ int sigreturn(void) {
   // restore
   struct proc *p = myproc();
   *p->trapframe = *p->alarm_before;
+  p->alarm_ticks = 0;
+  p->alarm_active = false;
   return 0;
 }
