@@ -1,0 +1,2155 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../part1/">
+      
+      
+        <link rel="next" href="../part3/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.3">
+    
+    
+      
+        <title>实验原理 - 操作系统2023秋 | 哈工大（深圳）</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.79e020e9.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="操作系统2023秋 | 哈工大（深圳）" class="md-header__button md-logo" aria-label="操作系统2023秋 | 哈工大（深圳）" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M220.8 123.3c1 .5 1.8 1.7 3 1.7 1.1 0 2.8-.4 2.9-1.5.2-1.4-1.9-2.3-3.2-2.9-1.7-.7-3.9-1-5.5-.1-.4.2-.8.7-.6 1.1.3 1.3 2.3 1.1 3.4 1.7zm-21.9 1.7c1.2 0 2-1.2 3-1.7 1.1-.6 3.1-.4 3.5-1.6.2-.4-.2-.9-.6-1.1-1.6-.9-3.8-.6-5.5.1-1.3.6-3.4 1.5-3.2 2.9.1 1 1.8 1.5 2.8 1.4zM420 403.8c-3.6-4-5.3-11.6-7.2-19.7-1.8-8.1-3.9-16.8-10.5-22.4-1.3-1.1-2.6-2.1-4-2.9-1.3-.8-2.7-1.5-4.1-2 9.2-27.3 5.6-54.5-3.7-79.1-11.4-30.1-31.3-56.4-46.5-74.4-17.1-21.5-33.7-41.9-33.4-72C311.1 85.4 315.7.1 234.8 0 132.4-.2 158 103.4 156.9 135.2c-1.7 23.4-6.4 41.8-22.5 64.7-18.9 22.5-45.5 58.8-58.1 96.7-6 17.9-8.8 36.1-6.2 53.3-6.5 5.8-11.4 14.7-16.6 20.2-4.2 4.3-10.3 5.9-17 8.3s-14 6-18.5 14.5c-2.1 3.9-2.8 8.1-2.8 12.4 0 3.9.6 7.9 1.2 11.8 1.2 8.1 2.5 15.7.8 20.8-5.2 14.4-5.9 24.4-2.2 31.7 3.8 7.3 11.4 10.5 20.1 12.3 17.3 3.6 40.8 2.7 59.3 12.5 19.8 10.4 39.9 14.1 55.9 10.4 11.6-2.6 21.1-9.6 25.9-20.2 12.5-.1 26.3-5.4 48.3-6.6 14.9-1.2 33.6 5.3 55.1 4.1.6 2.3 1.4 4.6 2.5 6.7v.1c8.3 16.7 23.8 24.3 40.3 23 16.6-1.3 34.1-11 48.3-27.9 13.6-16.4 36-23.2 50.9-32.2 7.4-4.5 13.4-10.1 13.9-18.3.4-8.2-4.4-17.3-15.5-29.7zM223.7 87.3c9.8-22.2 34.2-21.8 44-.4 6.5 14.2 3.6 30.9-4.3 40.4-1.6-.8-5.9-2.6-12.6-4.9 1.1-1.2 3.1-2.7 3.9-4.6 4.8-11.8-.2-27-9.1-27.3-7.3-.5-13.9 10.8-11.8 23-4.1-2-9.4-3.5-13-4.4-1-6.9-.3-14.6 2.9-21.8zM183 75.8c10.1 0 20.8 14.2 19.1 33.5-3.5 1-7.1 2.5-10.2 4.6 1.2-8.9-3.3-20.1-9.6-19.6-8.4.7-9.8 21.2-1.8 28.1 1 .8 1.9-.2-5.9 5.5-15.6-14.6-10.5-52.1 8.4-52.1zm-13.6 60.7c6.2-4.6 13.6-10 14.1-10.5 4.7-4.4 13.5-14.2 27.9-14.2 7.1 0 15.6 2.3 25.9 8.9 6.3 4.1 11.3 4.4 22.6 9.3 8.4 3.5 13.7 9.7 10.5 18.2-2.6 7.1-11 14.4-22.7 18.1-11.1 3.6-19.8 16-38.2 14.9-3.9-.2-7-1-9.6-2.1-8-3.5-12.2-10.4-20-15-8.6-4.8-13.2-10.4-14.7-15.3-1.4-4.9 0-9 4.2-12.3zm3.3 334c-2.7 35.1-43.9 34.4-75.3 18-29.9-15.8-68.6-6.5-76.5-21.9-2.4-4.7-2.4-12.7 2.6-26.4v-.2c2.4-7.6.6-16-.6-23.9-1.2-7.8-1.8-15 .9-20 3.5-6.7 8.5-9.1 14.8-11.3 10.3-3.7 11.8-3.4 19.6-9.9 5.5-5.7 9.5-12.9 14.3-18 5.1-5.5 10-8.1 17.7-6.9 8.1 1.2 15.1 6.8 21.9 16l19.6 35.6c9.5 19.9 43.1 48.4 41 68.9zm-1.4-25.9c-4.1-6.6-9.6-13.6-14.4-19.6 7.1 0 14.2-2.2 16.7-8.9 2.3-6.2 0-14.9-7.4-24.9-13.5-18.2-38.3-32.5-38.3-32.5-13.5-8.4-21.1-18.7-24.6-29.9s-3-23.3-.3-35.2c5.2-22.9 18.6-45.2 27.2-59.2 2.3-1.7.8 3.2-8.7 20.8-8.5 16.1-24.4 53.3-2.6 82.4.6-20.7 5.5-41.8 13.8-61.5 12-27.4 37.3-74.9 39.3-112.7 1.1.8 4.6 3.2 6.2 4.1 4.6 2.7 8.1 6.7 12.6 10.3 12.4 10 28.5 9.2 42.4 1.2 6.2-3.5 11.2-7.5 15.9-9 9.9-3.1 17.8-8.6 22.3-15 7.7 30.4 25.7 74.3 37.2 95.7 6.1 11.4 18.3 35.5 23.6 64.6 3.3-.1 7 .4 10.9 1.4 13.8-35.7-11.7-74.2-23.3-84.9-4.7-4.6-4.9-6.6-2.6-6.5 12.6 11.2 29.2 33.7 35.2 59 2.8 11.6 3.3 23.7.4 35.7 16.4 6.8 35.9 17.9 30.7 34.8-2.2-.1-3.2 0-4.2 0 3.2-10.1-3.9-17.6-22.8-26.1-19.6-8.6-36-8.6-38.3 12.5-12.1 4.2-18.3 14.7-21.4 27.3-2.8 11.2-3.6 24.7-4.4 39.9-.5 7.7-3.6 18-6.8 29-32.1 22.9-76.7 32.9-114.3 7.2zm257.4-11.5c-.9 16.8-41.2 19.9-63.2 46.5-13.2 15.7-29.4 24.4-43.6 25.5s-26.5-4.8-33.7-19.3c-4.7-11.1-2.4-23.1 1.1-36.3 3.7-14.2 9.2-28.8 9.9-40.6.8-15.2 1.7-28.5 4.2-38.7 2.6-10.3 6.6-17.2 13.7-21.1.3-.2.7-.3 1-.5.8 13.2 7.3 26.6 18.8 29.5 12.6 3.3 30.7-7.5 38.4-16.3 9-.3 15.7-.9 22.6 5.1 9.9 8.5 7.1 30.3 17.1 41.6 10.6 11.6 14 19.5 13.7 24.6zM173.3 148.7c2 1.9 4.7 4.5 8 7.1 6.6 5.2 15.8 10.6 27.3 10.6 11.6 0 22.5-5.9 31.8-10.8 4.9-2.6 10.9-7 14.8-10.4s5.9-6.3 3.1-6.6-2.6 2.6-6 5.1c-4.4 3.2-9.7 7.4-13.9 9.8-7.4 4.2-19.5 10.2-29.9 10.2s-18.7-4.8-24.9-9.7c-3.1-2.5-5.7-5-7.7-6.9-1.5-1.4-1.9-4.6-4.3-4.9-1.4-.1-1.8 3.7 1.7 6.5z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            操作系统2023秋 | 哈工大（深圳）
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              实验原理
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../.." class="md-tabs__link">
+          
+  
+  实验概述
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../faq/faq-env/" class="md-tabs__link">
+          
+  
+  常见问题
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../lab1/part1/" class="md-tabs__link">
+          
+  
+  Lab1：XV6与Unix实用程序
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../lab2/part1/" class="md-tabs__link">
+          
+  
+  Lab2：进程与系统调用
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../part1/" class="md-tabs__link">
+          
+  
+  Lab3：锁机制的应用
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../lab4/part1/" class="md-tabs__link">
+          
+  
+  Lab4：页表
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../lab5/part1/" class="md-tabs__link">
+          
+  
+  Lab5：基于FUSE的青春版EXT2文件系统
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../oscomp/oscomp/" class="md-tabs__link">
+          
+  
+  OS竞赛招新
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="操作系统2023秋 | 哈工大（深圳）" class="md-nav__button md-logo" aria-label="操作系统2023秋 | 哈工大（深圳）" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M220.8 123.3c1 .5 1.8 1.7 3 1.7 1.1 0 2.8-.4 2.9-1.5.2-1.4-1.9-2.3-3.2-2.9-1.7-.7-3.9-1-5.5-.1-.4.2-.8.7-.6 1.1.3 1.3 2.3 1.1 3.4 1.7zm-21.9 1.7c1.2 0 2-1.2 3-1.7 1.1-.6 3.1-.4 3.5-1.6.2-.4-.2-.9-.6-1.1-1.6-.9-3.8-.6-5.5.1-1.3.6-3.4 1.5-3.2 2.9.1 1 1.8 1.5 2.8 1.4zM420 403.8c-3.6-4-5.3-11.6-7.2-19.7-1.8-8.1-3.9-16.8-10.5-22.4-1.3-1.1-2.6-2.1-4-2.9-1.3-.8-2.7-1.5-4.1-2 9.2-27.3 5.6-54.5-3.7-79.1-11.4-30.1-31.3-56.4-46.5-74.4-17.1-21.5-33.7-41.9-33.4-72C311.1 85.4 315.7.1 234.8 0 132.4-.2 158 103.4 156.9 135.2c-1.7 23.4-6.4 41.8-22.5 64.7-18.9 22.5-45.5 58.8-58.1 96.7-6 17.9-8.8 36.1-6.2 53.3-6.5 5.8-11.4 14.7-16.6 20.2-4.2 4.3-10.3 5.9-17 8.3s-14 6-18.5 14.5c-2.1 3.9-2.8 8.1-2.8 12.4 0 3.9.6 7.9 1.2 11.8 1.2 8.1 2.5 15.7.8 20.8-5.2 14.4-5.9 24.4-2.2 31.7 3.8 7.3 11.4 10.5 20.1 12.3 17.3 3.6 40.8 2.7 59.3 12.5 19.8 10.4 39.9 14.1 55.9 10.4 11.6-2.6 21.1-9.6 25.9-20.2 12.5-.1 26.3-5.4 48.3-6.6 14.9-1.2 33.6 5.3 55.1 4.1.6 2.3 1.4 4.6 2.5 6.7v.1c8.3 16.7 23.8 24.3 40.3 23 16.6-1.3 34.1-11 48.3-27.9 13.6-16.4 36-23.2 50.9-32.2 7.4-4.5 13.4-10.1 13.9-18.3.4-8.2-4.4-17.3-15.5-29.7zM223.7 87.3c9.8-22.2 34.2-21.8 44-.4 6.5 14.2 3.6 30.9-4.3 40.4-1.6-.8-5.9-2.6-12.6-4.9 1.1-1.2 3.1-2.7 3.9-4.6 4.8-11.8-.2-27-9.1-27.3-7.3-.5-13.9 10.8-11.8 23-4.1-2-9.4-3.5-13-4.4-1-6.9-.3-14.6 2.9-21.8zM183 75.8c10.1 0 20.8 14.2 19.1 33.5-3.5 1-7.1 2.5-10.2 4.6 1.2-8.9-3.3-20.1-9.6-19.6-8.4.7-9.8 21.2-1.8 28.1 1 .8 1.9-.2-5.9 5.5-15.6-14.6-10.5-52.1 8.4-52.1zm-13.6 60.7c6.2-4.6 13.6-10 14.1-10.5 4.7-4.4 13.5-14.2 27.9-14.2 7.1 0 15.6 2.3 25.9 8.9 6.3 4.1 11.3 4.4 22.6 9.3 8.4 3.5 13.7 9.7 10.5 18.2-2.6 7.1-11 14.4-22.7 18.1-11.1 3.6-19.8 16-38.2 14.9-3.9-.2-7-1-9.6-2.1-8-3.5-12.2-10.4-20-15-8.6-4.8-13.2-10.4-14.7-15.3-1.4-4.9 0-9 4.2-12.3zm3.3 334c-2.7 35.1-43.9 34.4-75.3 18-29.9-15.8-68.6-6.5-76.5-21.9-2.4-4.7-2.4-12.7 2.6-26.4v-.2c2.4-7.6.6-16-.6-23.9-1.2-7.8-1.8-15 .9-20 3.5-6.7 8.5-9.1 14.8-11.3 10.3-3.7 11.8-3.4 19.6-9.9 5.5-5.7 9.5-12.9 14.3-18 5.1-5.5 10-8.1 17.7-6.9 8.1 1.2 15.1 6.8 21.9 16l19.6 35.6c9.5 19.9 43.1 48.4 41 68.9zm-1.4-25.9c-4.1-6.6-9.6-13.6-14.4-19.6 7.1 0 14.2-2.2 16.7-8.9 2.3-6.2 0-14.9-7.4-24.9-13.5-18.2-38.3-32.5-38.3-32.5-13.5-8.4-21.1-18.7-24.6-29.9s-3-23.3-.3-35.2c5.2-22.9 18.6-45.2 27.2-59.2 2.3-1.7.8 3.2-8.7 20.8-8.5 16.1-24.4 53.3-2.6 82.4.6-20.7 5.5-41.8 13.8-61.5 12-27.4 37.3-74.9 39.3-112.7 1.1.8 4.6 3.2 6.2 4.1 4.6 2.7 8.1 6.7 12.6 10.3 12.4 10 28.5 9.2 42.4 1.2 6.2-3.5 11.2-7.5 15.9-9 9.9-3.1 17.8-8.6 22.3-15 7.7 30.4 25.7 74.3 37.2 95.7 6.1 11.4 18.3 35.5 23.6 64.6 3.3-.1 7 .4 10.9 1.4 13.8-35.7-11.7-74.2-23.3-84.9-4.7-4.6-4.9-6.6-2.6-6.5 12.6 11.2 29.2 33.7 35.2 59 2.8 11.6 3.3 23.7.4 35.7 16.4 6.8 35.9 17.9 30.7 34.8-2.2-.1-3.2 0-4.2 0 3.2-10.1-3.9-17.6-22.8-26.1-19.6-8.6-36-8.6-38.3 12.5-12.1 4.2-18.3 14.7-21.4 27.3-2.8 11.2-3.6 24.7-4.4 39.9-.5 7.7-3.6 18-6.8 29-32.1 22.9-76.7 32.9-114.3 7.2zm257.4-11.5c-.9 16.8-41.2 19.9-63.2 46.5-13.2 15.7-29.4 24.4-43.6 25.5s-26.5-4.8-33.7-19.3c-4.7-11.1-2.4-23.1 1.1-36.3 3.7-14.2 9.2-28.8 9.9-40.6.8-15.2 1.7-28.5 4.2-38.7 2.6-10.3 6.6-17.2 13.7-21.1.3-.2.7-.3 1-.5.8 13.2 7.3 26.6 18.8 29.5 12.6 3.3 30.7-7.5 38.4-16.3 9-.3 15.7-.9 22.6 5.1 9.9 8.5 7.1 30.3 17.1 41.6 10.6 11.6 14 19.5 13.7 24.6zM173.3 148.7c2 1.9 4.7 4.5 8 7.1 6.6 5.2 15.8 10.6 27.3 10.6 11.6 0 22.5-5.9 31.8-10.8 4.9-2.6 10.9-7 14.8-10.4s5.9-6.3 3.1-6.6-2.6 2.6-6 5.1c-4.4 3.2-9.7 7.4-13.9 9.8-7.4 4.2-19.5 10.2-29.9 10.2s-18.7-4.8-24.9-9.7c-3.1-2.5-5.7-5-7.7-6.9-1.5-1.4-1.9-4.6-4.3-4.9-1.4-.1-1.8 3.7 1.7 6.5z"/></svg>
+
+    </a>
+    操作系统2023秋 | 哈工大（深圳）
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    实验概述
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            实验概述
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验须知
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../env/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验平台以及环境配置
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tools/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验实用工具
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Linux/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Linux开发环境基础知识
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../remote_env/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    远程实验平台使用指南
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../remote_env_gdb/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    VSCode图形化调试指南(一)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../remote_env_gdb2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    VSCode图形化调试指南(二)——系统调用
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    常见问题
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            常见问题
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    2022/2023
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            2022/2023
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../faq/faq-env/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验环境问题
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../faq/lab1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab1问题
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../faq/lab2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab2问题
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../faq/lab3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab3问题
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../faq/lab4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab4问题
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Lab1：XV6与Unix实用程序
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Lab1：XV6与Unix实用程序
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab1/part1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验概述
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab1/part2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验原理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab1/part3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验步骤
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab1/part4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    提交文档
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Lab2：进程与系统调用
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Lab2：进程与系统调用
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab2/part1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验概述
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab2/part2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验原理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab2/part3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验实现
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab2/part4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    提交文档
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+    
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Lab3：锁机制的应用
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Lab3：锁机制的应用
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../part1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验概述
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    实验原理
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    实验原理
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-memory-allocator" class="md-nav__link">
+    1. 内存分配器（Memory Allocator）
+  </a>
+  
+    <nav class="md-nav" aria-label="1. 内存分配器（Memory Allocator）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11" class="md-nav__link">
+    1.1 简介
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12" class="md-nav__link">
+    1.2 功能与操作
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13" class="md-nav__link">
+    1.3 锁机制
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14" class="md-nav__link">
+    1.4 优化方法（重要）
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-buffer-cache" class="md-nav__link">
+    2. 磁盘缓存（Buffer Cache）
+  </a>
+  
+    <nav class="md-nav" aria-label="2. 磁盘缓存（Buffer Cache）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21" class="md-nav__link">
+    2.1 简介
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22" class="md-nav__link">
+    2.2 基本结构
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23" class="md-nav__link">
+    2.3 功能与操作
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24" class="md-nav__link">
+    2.4 优化方法（重要）
+  </a>
+  
+    <nav class="md-nav" aria-label="2.4 优化方法（重要）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#241" class="md-nav__link">
+    2.4.1 哈希桶
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#242" class="md-nav__link">
+    2.4.2 时间戳
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#243-clock" class="md-nav__link">
+    2.4.3 CLOCK算法
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#25" class="md-nav__link">
+    2.5 避免死锁（重要）
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../part3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验实现
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../part4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    xv-6中Lock的实现（选读）
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../part5/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    提交文档
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Lab4：页表
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Lab4：页表
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab4/part1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验概述
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab4/part2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验原理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab4/part3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验实现
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab4/part4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    提交文档
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Lab5：基于FUSE的青春版EXT2文件系统
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            Lab5：基于FUSE的青春版EXT2文件系统
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab5/part1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验概述
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab5/part2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验原理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab5/part3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验实现
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab5/part4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    提交文档
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab5/part5/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    常见问题（补充）
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab5/part6/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    选择阅读（补充）
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    OS竞赛招新
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            OS竞赛招新
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../oscomp/oscomp/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2024年“全国大学生计算机系统能力大赛操作系统设计赛”火热报名中！
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-memory-allocator" class="md-nav__link">
+    1. 内存分配器（Memory Allocator）
+  </a>
+  
+    <nav class="md-nav" aria-label="1. 内存分配器（Memory Allocator）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11" class="md-nav__link">
+    1.1 简介
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12" class="md-nav__link">
+    1.2 功能与操作
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13" class="md-nav__link">
+    1.3 锁机制
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14" class="md-nav__link">
+    1.4 优化方法（重要）
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-buffer-cache" class="md-nav__link">
+    2. 磁盘缓存（Buffer Cache）
+  </a>
+  
+    <nav class="md-nav" aria-label="2. 磁盘缓存（Buffer Cache）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21" class="md-nav__link">
+    2.1 简介
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22" class="md-nav__link">
+    2.2 基本结构
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23" class="md-nav__link">
+    2.3 功能与操作
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24" class="md-nav__link">
+    2.4 优化方法（重要）
+  </a>
+  
+    <nav class="md-nav" aria-label="2.4 优化方法（重要）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#241" class="md-nav__link">
+    2.4.1 哈希桶
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#242" class="md-nav__link">
+    2.4.2 时间戳
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#243-clock" class="md-nav__link">
+    2.4.3 CLOCK算法
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#25" class="md-nav__link">
+    2.5 避免死锁（重要）
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="_1">实验原理<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<div class="admonition info">
+<p class="admonition-title">关于锁的一些解释</p>
+<p>锁用来保证数据一致性的手段十分简单粗暴：当有人操作的时候，不允许其他人操作。</p>
+<p>在多核情况下，这就会导致当很多CPU核心要操作一个数据结构（如kalloc中的freelist）时，需要排队，一个个来。一个核心在干活，其他的核心只能被阻塞住，这就导致了并行性的下降。</p>
+<p>那我们把锁删了，不阻塞，并行性不就上去了吗？确实，但这样功能就不能保证正确了。功能正确的重要性往往比性能高的重要性大得多。因此在成熟的操作系统中，一般都会采取锁的机制，同时通过减少锁争用的方法优化性能。这是本实验的 <strong>根本目的</strong> ，之后的章节主要讨论使用锁的一些部件，我们在这些场景下来进行锁的优化。</p>
+</div>
+<h2 id="1-memory-allocator">1. 内存分配器（Memory Allocator）<a class="headerlink" href="#1-memory-allocator" title="Permanent link">&para;</a></h2>
+<div class="admonition warning">
+<p class="admonition-title">注意</p>
+<p>本部分，你应该要知道：</p>
+<ul>
+<li>什么是内存分配器？</li>
+<li>内存分配器的数据结构是什么？</li>
+<li>内存分配器的所有操作及其对数据结构的改变？</li>
+<li>我们应该如何修改内存分配器以达到实验目标？</li>
+</ul>
+</div>
+<h3 id="11">1.1 简介<a class="headerlink" href="#11" title="Permanent link">&para;</a></h3>
+<p>在xv6中，设置了总量为128MB的物理内存空间，见Makefile中的编译运行选项：</p>
+<div class="highlight"><pre><span></span><code><span class="nv">QEMUOPTS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>-machine<span class="w"> </span>virt<span class="w"> </span>-bios<span class="w"> </span>none<span class="w"> </span>-kernel<span class="w"> </span><span class="nv">$K</span>/kernel<span class="w"> </span>-m<span class="w"> </span>128M<span class="w"> </span>-smp<span class="w"> </span><span class="k">$(</span>CPUS<span class="k">)</span><span class="w"> </span>-nographic
+</code></pre></div>
+<p>在内核代码中，也给出了内存地址定义，在kernel/memlayout.h。</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// the kernel expects there to be RAM</span>
+<span class="c1">// for use by the kernel and user pages</span>
+<span class="c1">// from physical address 0x80000000 to PHYSTOP.</span>
+<span class="cp">#define KERNBASE 0x80000000L</span>
+<span class="cp">#define PHYSTOP (KERNBASE + 128*1024*1024)</span>
+</code></pre></div>
+<p>在xv6 book 3.2小节，给出了物理地址和虚拟地址的分布及映射关系（见下图）。下图左边是内核的虚拟地址，右边上半部分是物理内存（DRAM），右边下半部分是I/O设备。本次实验主要关注图中的右边上半部分（我们会在下一个实验中再次介绍左边部分的虚拟地址：）。当操作系统启动时，会从地址0x80000000开始运行，这个地址其实是由硬件设计者决定的。在xv6内核刚启动时，从kernel结束地址（end）一直到PHYSTOP的空间都是空闲的。实际上，内核代码段（kernel text）和数据段（kernel data）会占用一部分空间，导致剩余的空闲空间比128MB要小。</p>
+<p><img alt="image-20221012175648080" src="../part2.assets/image-20221012175648080.png" /></p>
+<div class="admonition info">
+<p class="admonition-title">拓展阅读</p>
+<ul>
+<li><strong>trampoline</strong>：用户态-内核态跳板</li>
+<li><strong>kstack</strong> ：每个进程的内核栈空间</li>
+<li><strong>Guard page</strong>：同时在内核空间和用户空间用来保护Stack。如果kernel stack耗尽了，它会溢出到Guard page，但是因为Guard page的PTE中Valid标志位未设置，会导致立即触发page fault，这样的结果好过内存越界之后造成的数据混乱。</li>
+<li><strong>free memory</strong>：页分配器管理的地址空间，即本次实验中freerange要管理的地址空间</li>
+<li><strong>kernel data/text</strong>：数据段/代码段</li>
+<li><strong>KERNBASE</strong>：内核态基址</li>
+<li><strong>VIRTIO disk</strong>：磁盘IO操作地址</li>
+<li><strong>UART0</strong>：串口IO操作地址</li>
+<li><strong>PLIC</strong>：平台级中断控制器地址</li>
+<li><strong>CLINT</strong>：core-local中断控制器地址</li>
+<li><strong>boot ROM</strong>：用于启动操作系统。当主板上电后，运行的是存储在boot ROM中的代码，当boot完成之后，会跳转到地址0x80000000。</li>
+</ul>
+</div>
+<p>xv6内存分配器对上层提供kalloc()和kfree()接口来管理这段剩余的空闲物理内存。在需要使用新内存空间的时候调用kalloc()，在需要释放内存空间的时候调用kfree()。
+物理内存分配器（allocator）定义在kernel/kalloc.c。</p>
+<div class="highlight"><pre><span></span><code><span class="k">struct</span><span class="w"> </span><span class="nc">run</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">run</span><span class="w"> </span><span class="o">*</span><span class="n">next</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="k">struct</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">spinlock</span><span class="w"> </span><span class="n">lock</span><span class="p">;</span>
+<span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">run</span><span class="w"> </span><span class="o">*</span><span class="n">freelist</span><span class="p">;</span>
+<span class="p">}</span><span class="w"> </span><span class="n">kmem</span><span class="p">;</span>
+</code></pre></div>
+<p>分配器的核心数据结构是由空闲物理页组成的链表<code>freelist</code>，这个空闲页链表将物理内存划分成4KB大小的页帧来管理，并使用 <strong>自旋锁</strong> （spinlock）进行保护。每个空闲页在链表里都是<code>struct run next</code>指向下一个空闲物理页。</p>
+<p>这可能比较难理解，我们不妨从这个链表的构建开始了解。在系统启动时，<code>main()</code>函数（见kernel/main.c）调用<code>kinit()</code>来初始化分配器，它通过保存所有空闲页来初始化链表。kinit()调用<code>freerange()</code>来把空闲内存页加到链表里，freerange()则是通过调用<code>kfree()</code>把每个空闲页（地址范围从pa_start至pa_end）逐一加到链表里来实现此功能的。kfree() 函数用于释放指定的物理内存页，将其添加至<code>freelist</code>中，参数<code>pa</code>为需要释放的物理页页号，即物理页的首地址，它被看作一个没有类型的指针。在kfree()中，pa被 <strong>强制转换</strong> 为run类型的指针，进而可以放入freelist中。因为空闲页里什么都没有，所以结构体<code>run</code>的成员可以直接 <strong>保存在空闲页自身里</strong> 。</p>
+<div align="center"> <img src="../part2.assets/kalloc执行流.png" width = 60%/> </div>
+
+<!--
+<div class="highlight"><pre><span></span><code><span class="kt">void</span><span class="w"> </span><span class="nf">freerange</span><span class="p">(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">pa_start</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">pa_end</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">p</span><span class="p">;</span>
+<span class="w">  </span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="kt">char</span><span class="o">*</span><span class="p">)</span><span class="n">PGROUNDUP</span><span class="p">((</span><span class="n">uint64</span><span class="p">)</span><span class="n">pa_start</span><span class="p">);</span>
+<span class="w">  </span><span class="k">for</span><span class="p">(;</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">PGSIZE</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="p">(</span><span class="kt">char</span><span class="o">*</span><span class="p">)</span><span class="n">pa_end</span><span class="p">;</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">PGSIZE</span><span class="p">)</span>
+<span class="w">    </span><span class="n">kfree</span><span class="p">(</span><span class="n">p</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">kfree</span><span class="p">(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">pa</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="p">...</span>
+<span class="w">  </span><span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">run</span><span class="o">*</span><span class="p">)</span><span class="n">pa</span><span class="p">;</span>
+<span class="w">  </span><span class="n">acquire</span><span class="p">(</span><span class="o">&amp;</span><span class="n">kmem</span><span class="p">.</span><span class="n">lock</span><span class="p">);</span>
+<span class="w">  </span><span class="n">r</span><span class="o">-&gt;</span><span class="n">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">kmem</span><span class="p">.</span><span class="n">freelist</span><span class="p">;</span>
+<span class="w">  </span><span class="n">kmem</span><span class="p">.</span><span class="n">freelist</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">r</span><span class="p">;</span>
+<span class="w">  </span><span class="n">release</span><span class="p">(</span><span class="o">&amp;</span><span class="n">kmem</span><span class="p">.</span><span class="n">lock</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+-->
+<h3 id="12">1.2 功能与操作<a class="headerlink" href="#12" title="Permanent link">&para;</a></h3>
+<p>关于链表的操作主要有两个：</p>
+<p>1、释放内存</p>
+<p>释放内存的函数是<code>kfree(void *pa)</code>，首先将 <code>void *pa</code> 开始的物理页的内容全部置为1，这是为了让之前使用它的代码不能再读取到有效的内容，使得这些代码能尽早崩溃以暴露问题。然后将这空闲页物理内存加到链表头。</p>
+<div align="center"> <img src="../part2.assets/image-20201121160342435.png" width = 60%/> </div>
+
+<p>2、申请内存</p>
+<p><code>void* kalloc(void *)</code>用来分配内存物理页，功能很简单，就是移除并返回空闲链表头的第一个元素，即给调用者分配1页物理内存。</p>
+<div align="center"> <img src="../part2.assets/image-20201121160419011.png" width = 70%/> </div>
+
+<p>由于物理内存是在多进程之间共享的，所以不管是分配还是释放页面，每次操作kmem.freelist时都需要先申请kmem.lock，此后再进行内存页面的操作。</p>
+<div align="center"> <img src="../part2.assets/freelist.png" width = 70%/> </div>
+
+<h3 id="13">1.3 锁机制<a class="headerlink" href="#13" title="Permanent link">&para;</a></h3>
+<div class="admonition info">
+<p class="admonition-title"><code>kalloc</code>在什么情况下使用了锁？</p>
+<p>查阅<code>kalloc.c</code>代码可知，<code>kalloc</code>只在<code>kalloc()</code>和<code>kfree()</code>中使用了锁，那这两个用锁的情况有什么共同之处呢？</p>
+<p>没错，他们都是把 <strong>对<code>freelist</code>的操作</strong> 锁了起来。<code>kfree()</code>在往<code>freelist</code>里加入空闲页前锁了一下，操作完之后解锁了。<code>kalloc()</code>在移除<code>freelist</code>第一个元素时也同样加了锁，操作完成再释放锁。所以对于内存分配器中需要锁保护的只有对<code>freelist</code>的操作。</p>
+</div>
+<h3 id="14">1.4 优化方法（重要）<a class="headerlink" href="#14" title="Permanent link">&para;</a></h3>
+<p>修改空闲内存链表就是<code>freelist</code>，现在我们要减少锁的争抢， <strong>使每个<code>CPU</code>核使用独立的链表</strong> ，而不是现在的共享链表。这样等分，就不会让所有的<code>CPU</code>争抢一个空闲区域。<strong>注意</strong>：每个空闲物理页只能存在于一个freelist中。 </p>
+<div align="center"> <img src="../part2.assets/kalloc.png" width = 70%/> </div>
+
+<h2 id="2-buffer-cache">2. 磁盘缓存（Buffer Cache）<a class="headerlink" href="#2-buffer-cache" title="Permanent link">&para;</a></h2>
+<div class="admonition warning">
+<p class="admonition-title">注意</p>
+<p>本部分，你应该要知道：</p>
+<ul>
+<li>什么是磁盘缓存？</li>
+<li>磁盘缓存的数据结构是什么（bcache和buf）？</li>
+<li>磁盘缓存的所有操作及其对数据结构的改变？</li>
+<li>我们应该如何修改磁盘缓存以达到实验目标？  </li>
+</ul>
+</div>
+<h3 id="21">2.1 简介<a class="headerlink" href="#21" title="Permanent link">&para;</a></h3>
+<p>xv6的文件系统是以磁盘数据块为单位从磁盘读写数据的。由于对磁盘的读取非常慢，而内存的速度要快得多，因此将最近经常访问的磁盘块缓存在内存里可以大大提升性能（此时内存起到cache的作用）。Buffer Cache（也称为bcache）就担任了磁盘缓存一职，它是磁盘与文件系统交互的中间层。</p>
+<p>xv6的磁盘缓存模块主要提供了以下功能：</p>
+<ol>
+<li>同步访问磁盘块以确保内存里每个块只有一份复制，且每次只有一个内核进程可以使用那份复制。  </li>
+<li>缓存常用块，使得不必每次都从硬盘上读取它们。  </li>
+<li>修改缓存块的内容后，确保磁盘中对应内容的更新。  </li>
+</ol>
+<div align="center"> <img src="../part2.assets/bcache3.png" width = 70%/> </div>
+
+<h3 id="22">2.2 基本结构<a class="headerlink" href="#22" title="Permanent link">&para;</a></h3>
+<p>数据结构bcache（见kernel/bio.c）维护了一个由静态数组<code>struct buf buf[NBUF]</code>组成的双向链表，它以块为单位，每次读入或写出一个磁盘块，放到一个内存缓存块中（bcache.buf），同时自旋锁<code>bcache.lock</code>用于用户互斥访问。所有对缓存块的访问都是通过<code>bcache.head</code>引用链表来实现的，而不是buf数组。</p>
+<div class="highlight"><pre><span></span><code><span class="k">struct</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">spinlock</span><span class="w"> </span><span class="n">lock</span><span class="p">;</span>
+<span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">buf</span><span class="w"> </span><span class="n">buf</span><span class="p">[</span><span class="n">NBUF</span><span class="p">];</span>
+<span class="w">  </span><span class="c1">// Linked list of all buffers, through prev/next.</span>
+<span class="w">  </span><span class="c1">// head.next is most recently used.</span>
+<span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">buf</span><span class="w"> </span><span class="n">head</span><span class="p">;</span>
+<span class="p">}</span><span class="w"> </span><span class="n">bcache</span><span class="p">;</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="k">struct</span><span class="w"> </span><span class="nc">buf</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">valid</span><span class="p">;</span><span class="w">   </span><span class="c1">// has data been read from disk?</span>
+<span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">disk</span><span class="p">;</span><span class="w">    </span><span class="c1">// does disk &quot;own&quot; buf?</span>
+<span class="w">  </span><span class="n">uint</span><span class="w"> </span><span class="n">dev</span><span class="p">;</span>
+<span class="w">  </span><span class="n">uint</span><span class="w"> </span><span class="n">blockno</span><span class="p">;</span>
+<span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">sleeplock</span><span class="w"> </span><span class="n">lock</span><span class="p">;</span>
+<span class="w">  </span><span class="n">uint</span><span class="w"> </span><span class="n">refcnt</span><span class="p">;</span>
+<span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">buf</span><span class="w"> </span><span class="o">*</span><span class="n">prev</span><span class="p">;</span><span class="w"> </span><span class="c1">// LRU cache list</span>
+<span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">buf</span><span class="w"> </span><span class="o">*</span><span class="n">next</span><span class="p">;</span>
+<span class="w">  </span><span class="n">uchar</span><span class="w"> </span><span class="n">data</span><span class="p">[</span><span class="n">BSIZE</span><span class="p">];</span>
+<span class="p">};</span>
+</code></pre></div>
+<p>每个缓存块（见struct buf）都由三个部分组成：</p>
+<ul>
+<li>（1）<strong><code>data</code>字段</strong> <code>（data[BSIZE]）</code>标示了它的内容;</li>
+<li>（2）<strong>指针字段</strong> <code>（\*prev，\*next）</code>用于组成链表;</li>
+<li>
+<p>（3）<strong>数值字段</strong> 用于标示它的属性，如</p>
+<ul>
+<li><em><code>valid</code></em> 是缓存区包含了一个块的复制（即该buffer包含对应磁盘块的数据）;</li>
+<li><em><code>disk</code></em> 是缓存区的内容是否已经被提交到了磁盘;</li>
+<li><em><code>dev</code></em> 是磁盘块的设备号，本实验中dev都是0;</li>
+<li><em><code>blockno</code></em> 是缓存的磁盘块号;</li>
+<li><em><code>refcnt</code></em> 是该块被引用次数（即被多少个进程拥有）;</li>
+<li><em><code>lock</code></em> 是缓存磁盘块的睡眠锁。</li>
+</ul>
+</li>
+</ul>
+<div align="center"> <img src="../part2.assets/buffercache.png" width = 40%/> </div>
+
+<p>上图是bcache结构示意图。bcache.lock是自旋锁，用于表示 bcache 链表是否被锁住。b-&gt;lock是睡眠锁，用于表示缓存数据块buf是否被锁住。</p>
+<div class="admonition note">
+<p class="admonition-title">关于bcache</p>
+<p>看到这里，大家还是否记得我们在《计算机组成原理》实验课程上做过的Cache实验，其结构是：有效位（Valid）、标记（Tag）和数据（Data）。主要差异在于，组成原理实验是硬件Cache，本次实验是用C语言写的内存Cache。</p>
+</div>
+<h3 id="23">2.3 功能与操作<a class="headerlink" href="#23" title="Permanent link">&para;</a></h3>
+<p>对bcache的操作如下：</p>
+<ul>
+<li>在系统启动时，<code>main()</code>函数（见kernel/main.c）调用<code>binit()</code>来初始化缓存，随即调用<code>initlock()</code>初始化<code>bcache.lock</code>，然后循环遍历<code>buf</code>数组，采用头插法逐个链接到<code>bcache.head</code>后面。</li>
+<li>上层文件系统读磁盘时，调用<code>bread()</code>，随即调用<code>bget()</code>检查请求的磁盘块是否在缓存中。<code>bget()</code>使用LRU（Least Recent Used）算法首先从链表头部开始查找，如果命中，返回缓存命令结果；如果未命中，则从链表尾部开始找到最不常使用的block cache，腾出空间以用来存放新的block cache。然后，转到底层的<code>virtio_disk_rw()</code>函数先将此磁盘块从磁盘加载进block cache中，再返回此磁盘块。</li>
+<li>上层文件系统写磁盘时，调用<code>bwrite()</code>，随即调用<code>virtio_disk_rw()</code>函数直接将缓存中的数据写入磁盘。</li>
+<li>上层文件系统可通过调用<code>brelse()</code>首先释放了sleep clock，之后获取bcahce的锁，减少block cache的引用计数，表明某个进程不再对block cache进行操作。如果当引用计数为0时，则将block cache脱离出链表，再将它插入到链表头部，这样表示这个block cache是最近使用过的block cache，以便在bget()中使用LRU算法。也就是说如果一个block cache最近被使用过，那么很有可能它很快会再被使用。</li>
+<li>上层文件系统可通过<code>bpin()</code>将block固定在buffer cache中，它是通过给block cache增加引用计算来避免cache撤回对应的blcok。因为在<code>brelse()</code>中，如果引用计数不为0，那么bcache是不会撤回block cache的。<code>bunpin()</code>的用法则与之相反。</li>
+</ul>
+<div class="admonition info">
+<p class="admonition-title">提示</p>
+<p>磁盘层在virtio_disk.c，实际上就是硬盘驱动。</p>
+<p>缓冲区缓存层用到的接口是virtio_disc_rw(struct buf *b, int write)</p>
+<ul>
+<li>作用：对磁盘进行读或写</li>
+<li>*b : 缓冲区的指针   </li>
+<li>write : 当为1时是把缓冲区的内容写入到磁盘，为0时是把磁盘的内容读取到缓冲区   </li>
+</ul>
+</div>
+<h3 id="24">2.4 优化方法（重要）<a class="headerlink" href="#24" title="Permanent link">&para;</a></h3>
+<p>在kernel/bio.c中，可以看到，所有的buffer都被组织到 <strong>一条链表</strong> 中，因此如果有多个进程要使用buffer，它们并发的请求只能被顺序地处理。</p>
+<div align="center"> <img src="../part2.assets/bcache2.png" width = 65%/> </div>
+
+<div class="admonition note">
+<p class="admonition-title">关于bcache的优化策略</p>
+<p>MIT官方指导书推荐使用 <strong>哈希桶</strong> 和 <strong>时间戳</strong> 两个方案，此外，本实验还给出了基于 <strong>CLOCK算法</strong> 的优化策略，大家可以自行选择优化策略，也可以一起使用（如哈希桶结合时间戳），也可以单独分开用，需要自行测试看看能否通过测评程序。</p>
+</div>
+<h4 id="241">2.4.1 哈希桶<a class="headerlink" href="#241" title="Permanent link">&para;</a></h4>
+<p>使用哈希桶，将各块块号blockno的某种散列值作为key对块进行分组，并为每个哈希桶分配一个专用的锁。通过哈希桶来代替链表，当要获取和释放缓存块时，只需要对某个哈希桶进行加锁，桶之间的操作就可以并行进行，提供并行性能。  </p>
+<ol>
+<li>
+<p>在<code>bget()</code>中查找指定块时，锁上对应的锁（获取空闲块号须另作处理）。  </p>
+</li>
+<li>
+<p>当bget()查找数据块未命中时，bget()可从其他哈希桶选择一个未被使用的缓存块，移入到当前的哈希桶链表中使用。</p>
+</li>
+<li>
+<p>选择合适的散列函数以分组，分组的数量不必动态调整，可以取定值，推荐使用质数组（如13组）以减少哈希争用。  </p>
+</li>
+<li>
+<p>哈希表的搜索和空闲缓存块的查找需要保证原子性。 </p>
+</li>
+</ol>
+<div align="center"> <img src="../part2.assets/hash.png" width = 70%/> </div>
+
+<h4 id="242">2.4.2 时间戳<a class="headerlink" href="#242" title="Permanent link">&para;</a></h4>
+<p>移除空闲缓存块列表(<code>bcache.head</code>)。使用 <strong>时间戳</strong> 作为判断缓存块最一次被访问的顺序的依据。  </p>
+<ol>
+<li>
+<p>此项改动可使<code>brelse</code>不再需要锁上<code>bcache lock</code>。  </p>
+</li>
+<li>
+<p>bget在找空闲块时也可通过时间戳得知最后一次被访问时间最早的空闲缓存块。  </p>
+</li>
+<li>
+<p>时间戳可通过kernel/trap.c中的ticks函数获得（ticks已在kernel/def.h中声明，bio.c中可直接使用）。  </p>
+</li>
+</ol>
+<div align="center"> <img src="../part2.assets/timestamp.png" width = 70%/> </div>
+
+<h4 id="243-clock">2.4.3 CLOCK算法<a class="headerlink" href="#243-clock" title="Permanent link">&para;</a></h4>
+<p>除此之外，理论课上我们还学习过除了 LRU 以外的替换算法，例如 CLOCK 算法等，也可以在本实验中使用。</p>
+<div align="center"> <img src="../part2.assets/CLOCK.png" width = 70%/> </div>
+
+<p>CLOCK 算法的实现思路为:</p>
+<ol>
+<li>
+<p>将数据结构改为使用 <strong>数组</strong> 构成的循环队列，每个 buf 拥有自己的锁。</p>
+</li>
+<li>
+<p><code>bget()</code> 查找时，不需要获取对应的锁，查找到之后，锁上对应的锁，然后重新检查这个 buf 是否是想要的，检查完后进行对应的操作。</p>
+</li>
+<li>
+<p>每个 buf 维护一个访问位，当 <code>bget()</code> 没有找到对应的缓存 buf 时，根据 CLOCK 算法维护访问位并分配一个 buf。</p>
+<ol>
+<li>
+<p>如当前查询的 buf 命中，访问位 -&gt; 置“1”，指针保持不动</p>
+</li>
+<li>
+<p>否则，循环检查各页面的使用情况。若访问位为“0”，选择该页淘汰，指针前进一步。若访问位为“1”，复位访问位为“0”，指针进一步。</p>
+</li>
+</ol>
+</li>
+</ol>
+<p>CLOCK 算法实现思路中我们提到，查找时不需要获取对应的锁，那么这个是否安全？如果查找时也获取对应的锁，会发生什么？其实这两种做法分别对应“ <strong>乐观锁</strong> ”和“ <strong>悲观锁</strong> ”。“乐观锁”每次去拿数据的时候都认为别人不会修改，所以不会上锁，但是在更新的时候会判断一下在此期间别人有没有去更新这个数据。“悲观锁”总是假设最坏的情况，每次去拿数据的时候都认为别人会修改，所以每次在拿数据的时候都会上锁。感兴趣的同学可以尝试比较这两种做法，再与网上搜索的常见用途相对比。</p>
+<hr />
+<p>上述三个方案在以下情况中都存在少量锁争用，在本实验中，这是允许的：</p>
+<ol>
+<li>当两个进程同时访问同一个缓存数据块号blockno时；</li>
+<li>当两个进程同时没有命中cache，需要找一个未使用的block来替代时；</li>
+<li>当两个进程同时使用块时，无论使用何种模式划分数据块和锁，都会产生争用的情况，比如在哈希桶的优化策略中，如果两个进程使用的两个数据块，通过哈希表映射到同一个哈希组部分（这取决于具体的设计，请尝试调整具体的模式来避免争用，比如可以调整哈希表的大小）。</li>
+</ol>
+<hr />
+<h3 id="25">2.5 避免死锁（重要）<a class="headerlink" href="#25" title="Permanent link">&para;</a></h3>
+<p>bcache 与前面 kalloc 实验的重要区别是，bcache 实验需要处理替换/分配情况，因此同学们第一次设计 <strong>极易</strong> 出现死锁。</p>
+<p>死锁的发生具有概率性，所以<code>bcachetest</code>通过并不代表你编写的代码不存在死锁。实验要求同学们通过的<code>usertests</code>是较为全面的测试，对操作系统的各方面均进行了较大强度的测试，所以如果你的代码不能够通过<code>usertests</code>或在测试中卡死，或 <strong>有概率不通过</strong> 测试，那么一般来说代表你的代码出现死锁/竞争条件。</p>
+<div class="admonition warning">
+<p class="admonition-title">注意</p>
+<p>即使你的设计通过了全部的测试，也不代表你的代码100%没有死锁。如何确保代码是无 bug 的超出了操作系统课程的范畴，感兴趣的同学可以了解 <strong>形式化验证</strong>。</p>
+<p>同样，设计方案时形式化地思考理论课上学习的知识，有助于你设计出正确的代码。</p>
+</div>
+<p>为什么会出现死锁？以哈希桶的优化为例，同学们一般做法都会为每个哈希桶设置一个锁。但是在需要进行替换/分配的时候，往届同学们的做法通常是内核持有一个桶的锁，然后同时抢另一个桶的锁，此时出现了同时持有 <strong>两个自旋锁</strong>，这种情况在实际业务代码里是比较危险的，在本实验也会导致死锁，请同学们思考这是为什么。</p>
+<div class="admonition warning">
+<p class="admonition-title">注意</p>
+<p>有的同学为了解决死锁问题，设计了一种方法：</p>
+<p>先释放原有桶的锁，然后再获取另一个桶的锁。</p>
+<p>这种做法是不安全的，请大家思考为什么不安全？</p>
+</div>
+<p>下面以哈希桶的优化方式为例给出一种替换/分配思路，这个思路也出现了同时持有两个或以上自旋锁的情况，请同学们思考这种做法是否有死锁，是否出现竞争。</p>
+<ol>
+<li>首先获取请求对应桶的锁，查找不到以后进入替换/分配流程，释放锁。</li>
+<li>然后获取全局分配大锁，获取原有桶的锁，获取新桶的锁，检查是否已完成替换，如未完成则进行替换，最后按序释放所有锁。</li>
+</ol>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2023 - 2024 哈尔滨工业大学（深圳）
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+    <a href="mailto:<xiawen@hit.edu.cn>" target="_blank" rel="noopener" title="xiawen@hit.edu.cn" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M498.1 5.6c10.1 7 15.4 19.1 13.5 31.2l-64 416c-1.5 9.7-7.4 18.2-16 23s-18.9 5.4-28 1.6L284 427.7l-68.5 74.1c-8.9 9.7-22.9 12.9-35.2 8.1S160 493.2 160 480v-83.6c0-4 1.5-7.8 4.2-10.7l167.6-182.9c5.8-6.3 5.6-16-.4-22s-15.7-6.4-22-.7L106 360.8l-88.3-44.2C7.1 311.3.3 300.7 0 288.9s5.9-22.8 16.1-28.7l448-256c10.7-6.1 23.9-5.5 34 1.4z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.top", "navigation.tabs.sticky", "navigation.tracking"], "search": "../../assets/javascripts/workers/search.a264c092.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.6eac0284.min.js"></script>
+      
+        <script src="../../js/baidu-tongji.js"></script>
+      
+    
+  </body>
+</html>

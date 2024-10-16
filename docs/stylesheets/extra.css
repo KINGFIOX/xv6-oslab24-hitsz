@@ -1,0 +1,18 @@
+.md-typeset h5 {
+    font-size: 1em; /* 调整四级标题的大小 */
+    color: black;
+}
+.md-typeset h1 {
+    font-weight: 700;
+    color: black;
+}
+.md-typeset h2 {
+    font-weight: 400;
+    color: black;
+}
+.md-typeset h3 {
+    color: black;
+}
+.md-typeset h4 {
+    color: black;
+}

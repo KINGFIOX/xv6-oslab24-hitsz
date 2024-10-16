@@ -1,0 +1,2067 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../part2/">
+      
+      
+        <link rel="next" href="../part4/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.3">
+    
+    
+      
+        <title>实验实现 - 操作系统2023秋 | 哈工大（深圳）</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.79e020e9.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="操作系统2023秋 | 哈工大（深圳）" class="md-header__button md-logo" aria-label="操作系统2023秋 | 哈工大（深圳）" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M220.8 123.3c1 .5 1.8 1.7 3 1.7 1.1 0 2.8-.4 2.9-1.5.2-1.4-1.9-2.3-3.2-2.9-1.7-.7-3.9-1-5.5-.1-.4.2-.8.7-.6 1.1.3 1.3 2.3 1.1 3.4 1.7zm-21.9 1.7c1.2 0 2-1.2 3-1.7 1.1-.6 3.1-.4 3.5-1.6.2-.4-.2-.9-.6-1.1-1.6-.9-3.8-.6-5.5.1-1.3.6-3.4 1.5-3.2 2.9.1 1 1.8 1.5 2.8 1.4zM420 403.8c-3.6-4-5.3-11.6-7.2-19.7-1.8-8.1-3.9-16.8-10.5-22.4-1.3-1.1-2.6-2.1-4-2.9-1.3-.8-2.7-1.5-4.1-2 9.2-27.3 5.6-54.5-3.7-79.1-11.4-30.1-31.3-56.4-46.5-74.4-17.1-21.5-33.7-41.9-33.4-72C311.1 85.4 315.7.1 234.8 0 132.4-.2 158 103.4 156.9 135.2c-1.7 23.4-6.4 41.8-22.5 64.7-18.9 22.5-45.5 58.8-58.1 96.7-6 17.9-8.8 36.1-6.2 53.3-6.5 5.8-11.4 14.7-16.6 20.2-4.2 4.3-10.3 5.9-17 8.3s-14 6-18.5 14.5c-2.1 3.9-2.8 8.1-2.8 12.4 0 3.9.6 7.9 1.2 11.8 1.2 8.1 2.5 15.7.8 20.8-5.2 14.4-5.9 24.4-2.2 31.7 3.8 7.3 11.4 10.5 20.1 12.3 17.3 3.6 40.8 2.7 59.3 12.5 19.8 10.4 39.9 14.1 55.9 10.4 11.6-2.6 21.1-9.6 25.9-20.2 12.5-.1 26.3-5.4 48.3-6.6 14.9-1.2 33.6 5.3 55.1 4.1.6 2.3 1.4 4.6 2.5 6.7v.1c8.3 16.7 23.8 24.3 40.3 23 16.6-1.3 34.1-11 48.3-27.9 13.6-16.4 36-23.2 50.9-32.2 7.4-4.5 13.4-10.1 13.9-18.3.4-8.2-4.4-17.3-15.5-29.7zM223.7 87.3c9.8-22.2 34.2-21.8 44-.4 6.5 14.2 3.6 30.9-4.3 40.4-1.6-.8-5.9-2.6-12.6-4.9 1.1-1.2 3.1-2.7 3.9-4.6 4.8-11.8-.2-27-9.1-27.3-7.3-.5-13.9 10.8-11.8 23-4.1-2-9.4-3.5-13-4.4-1-6.9-.3-14.6 2.9-21.8zM183 75.8c10.1 0 20.8 14.2 19.1 33.5-3.5 1-7.1 2.5-10.2 4.6 1.2-8.9-3.3-20.1-9.6-19.6-8.4.7-9.8 21.2-1.8 28.1 1 .8 1.9-.2-5.9 5.5-15.6-14.6-10.5-52.1 8.4-52.1zm-13.6 60.7c6.2-4.6 13.6-10 14.1-10.5 4.7-4.4 13.5-14.2 27.9-14.2 7.1 0 15.6 2.3 25.9 8.9 6.3 4.1 11.3 4.4 22.6 9.3 8.4 3.5 13.7 9.7 10.5 18.2-2.6 7.1-11 14.4-22.7 18.1-11.1 3.6-19.8 16-38.2 14.9-3.9-.2-7-1-9.6-2.1-8-3.5-12.2-10.4-20-15-8.6-4.8-13.2-10.4-14.7-15.3-1.4-4.9 0-9 4.2-12.3zm3.3 334c-2.7 35.1-43.9 34.4-75.3 18-29.9-15.8-68.6-6.5-76.5-21.9-2.4-4.7-2.4-12.7 2.6-26.4v-.2c2.4-7.6.6-16-.6-23.9-1.2-7.8-1.8-15 .9-20 3.5-6.7 8.5-9.1 14.8-11.3 10.3-3.7 11.8-3.4 19.6-9.9 5.5-5.7 9.5-12.9 14.3-18 5.1-5.5 10-8.1 17.7-6.9 8.1 1.2 15.1 6.8 21.9 16l19.6 35.6c9.5 19.9 43.1 48.4 41 68.9zm-1.4-25.9c-4.1-6.6-9.6-13.6-14.4-19.6 7.1 0 14.2-2.2 16.7-8.9 2.3-6.2 0-14.9-7.4-24.9-13.5-18.2-38.3-32.5-38.3-32.5-13.5-8.4-21.1-18.7-24.6-29.9s-3-23.3-.3-35.2c5.2-22.9 18.6-45.2 27.2-59.2 2.3-1.7.8 3.2-8.7 20.8-8.5 16.1-24.4 53.3-2.6 82.4.6-20.7 5.5-41.8 13.8-61.5 12-27.4 37.3-74.9 39.3-112.7 1.1.8 4.6 3.2 6.2 4.1 4.6 2.7 8.1 6.7 12.6 10.3 12.4 10 28.5 9.2 42.4 1.2 6.2-3.5 11.2-7.5 15.9-9 9.9-3.1 17.8-8.6 22.3-15 7.7 30.4 25.7 74.3 37.2 95.7 6.1 11.4 18.3 35.5 23.6 64.6 3.3-.1 7 .4 10.9 1.4 13.8-35.7-11.7-74.2-23.3-84.9-4.7-4.6-4.9-6.6-2.6-6.5 12.6 11.2 29.2 33.7 35.2 59 2.8 11.6 3.3 23.7.4 35.7 16.4 6.8 35.9 17.9 30.7 34.8-2.2-.1-3.2 0-4.2 0 3.2-10.1-3.9-17.6-22.8-26.1-19.6-8.6-36-8.6-38.3 12.5-12.1 4.2-18.3 14.7-21.4 27.3-2.8 11.2-3.6 24.7-4.4 39.9-.5 7.7-3.6 18-6.8 29-32.1 22.9-76.7 32.9-114.3 7.2zm257.4-11.5c-.9 16.8-41.2 19.9-63.2 46.5-13.2 15.7-29.4 24.4-43.6 25.5s-26.5-4.8-33.7-19.3c-4.7-11.1-2.4-23.1 1.1-36.3 3.7-14.2 9.2-28.8 9.9-40.6.8-15.2 1.7-28.5 4.2-38.7 2.6-10.3 6.6-17.2 13.7-21.1.3-.2.7-.3 1-.5.8 13.2 7.3 26.6 18.8 29.5 12.6 3.3 30.7-7.5 38.4-16.3 9-.3 15.7-.9 22.6 5.1 9.9 8.5 7.1 30.3 17.1 41.6 10.6 11.6 14 19.5 13.7 24.6zM173.3 148.7c2 1.9 4.7 4.5 8 7.1 6.6 5.2 15.8 10.6 27.3 10.6 11.6 0 22.5-5.9 31.8-10.8 4.9-2.6 10.9-7 14.8-10.4s5.9-6.3 3.1-6.6-2.6 2.6-6 5.1c-4.4 3.2-9.7 7.4-13.9 9.8-7.4 4.2-19.5 10.2-29.9 10.2s-18.7-4.8-24.9-9.7c-3.1-2.5-5.7-5-7.7-6.9-1.5-1.4-1.9-4.6-4.3-4.9-1.4-.1-1.8 3.7 1.7 6.5z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            操作系统2023秋 | 哈工大（深圳）
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              实验实现
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../.." class="md-tabs__link">
+          
+  
+  实验概述
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../faq/faq-env/" class="md-tabs__link">
+          
+  
+  常见问题
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../lab1/part1/" class="md-tabs__link">
+          
+  
+  Lab1：XV6与Unix实用程序
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../lab2/part1/" class="md-tabs__link">
+          
+  
+  Lab2：进程与系统调用
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../lab3/part1/" class="md-tabs__link">
+          
+  
+  Lab3：锁机制的应用
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../part1/" class="md-tabs__link">
+          
+  
+  Lab4：页表
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../lab5/part1/" class="md-tabs__link">
+          
+  
+  Lab5：基于FUSE的青春版EXT2文件系统
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../oscomp/oscomp/" class="md-tabs__link">
+          
+  
+  OS竞赛招新
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="操作系统2023秋 | 哈工大（深圳）" class="md-nav__button md-logo" aria-label="操作系统2023秋 | 哈工大（深圳）" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M220.8 123.3c1 .5 1.8 1.7 3 1.7 1.1 0 2.8-.4 2.9-1.5.2-1.4-1.9-2.3-3.2-2.9-1.7-.7-3.9-1-5.5-.1-.4.2-.8.7-.6 1.1.3 1.3 2.3 1.1 3.4 1.7zm-21.9 1.7c1.2 0 2-1.2 3-1.7 1.1-.6 3.1-.4 3.5-1.6.2-.4-.2-.9-.6-1.1-1.6-.9-3.8-.6-5.5.1-1.3.6-3.4 1.5-3.2 2.9.1 1 1.8 1.5 2.8 1.4zM420 403.8c-3.6-4-5.3-11.6-7.2-19.7-1.8-8.1-3.9-16.8-10.5-22.4-1.3-1.1-2.6-2.1-4-2.9-1.3-.8-2.7-1.5-4.1-2 9.2-27.3 5.6-54.5-3.7-79.1-11.4-30.1-31.3-56.4-46.5-74.4-17.1-21.5-33.7-41.9-33.4-72C311.1 85.4 315.7.1 234.8 0 132.4-.2 158 103.4 156.9 135.2c-1.7 23.4-6.4 41.8-22.5 64.7-18.9 22.5-45.5 58.8-58.1 96.7-6 17.9-8.8 36.1-6.2 53.3-6.5 5.8-11.4 14.7-16.6 20.2-4.2 4.3-10.3 5.9-17 8.3s-14 6-18.5 14.5c-2.1 3.9-2.8 8.1-2.8 12.4 0 3.9.6 7.9 1.2 11.8 1.2 8.1 2.5 15.7.8 20.8-5.2 14.4-5.9 24.4-2.2 31.7 3.8 7.3 11.4 10.5 20.1 12.3 17.3 3.6 40.8 2.7 59.3 12.5 19.8 10.4 39.9 14.1 55.9 10.4 11.6-2.6 21.1-9.6 25.9-20.2 12.5-.1 26.3-5.4 48.3-6.6 14.9-1.2 33.6 5.3 55.1 4.1.6 2.3 1.4 4.6 2.5 6.7v.1c8.3 16.7 23.8 24.3 40.3 23 16.6-1.3 34.1-11 48.3-27.9 13.6-16.4 36-23.2 50.9-32.2 7.4-4.5 13.4-10.1 13.9-18.3.4-8.2-4.4-17.3-15.5-29.7zM223.7 87.3c9.8-22.2 34.2-21.8 44-.4 6.5 14.2 3.6 30.9-4.3 40.4-1.6-.8-5.9-2.6-12.6-4.9 1.1-1.2 3.1-2.7 3.9-4.6 4.8-11.8-.2-27-9.1-27.3-7.3-.5-13.9 10.8-11.8 23-4.1-2-9.4-3.5-13-4.4-1-6.9-.3-14.6 2.9-21.8zM183 75.8c10.1 0 20.8 14.2 19.1 33.5-3.5 1-7.1 2.5-10.2 4.6 1.2-8.9-3.3-20.1-9.6-19.6-8.4.7-9.8 21.2-1.8 28.1 1 .8 1.9-.2-5.9 5.5-15.6-14.6-10.5-52.1 8.4-52.1zm-13.6 60.7c6.2-4.6 13.6-10 14.1-10.5 4.7-4.4 13.5-14.2 27.9-14.2 7.1 0 15.6 2.3 25.9 8.9 6.3 4.1 11.3 4.4 22.6 9.3 8.4 3.5 13.7 9.7 10.5 18.2-2.6 7.1-11 14.4-22.7 18.1-11.1 3.6-19.8 16-38.2 14.9-3.9-.2-7-1-9.6-2.1-8-3.5-12.2-10.4-20-15-8.6-4.8-13.2-10.4-14.7-15.3-1.4-4.9 0-9 4.2-12.3zm3.3 334c-2.7 35.1-43.9 34.4-75.3 18-29.9-15.8-68.6-6.5-76.5-21.9-2.4-4.7-2.4-12.7 2.6-26.4v-.2c2.4-7.6.6-16-.6-23.9-1.2-7.8-1.8-15 .9-20 3.5-6.7 8.5-9.1 14.8-11.3 10.3-3.7 11.8-3.4 19.6-9.9 5.5-5.7 9.5-12.9 14.3-18 5.1-5.5 10-8.1 17.7-6.9 8.1 1.2 15.1 6.8 21.9 16l19.6 35.6c9.5 19.9 43.1 48.4 41 68.9zm-1.4-25.9c-4.1-6.6-9.6-13.6-14.4-19.6 7.1 0 14.2-2.2 16.7-8.9 2.3-6.2 0-14.9-7.4-24.9-13.5-18.2-38.3-32.5-38.3-32.5-13.5-8.4-21.1-18.7-24.6-29.9s-3-23.3-.3-35.2c5.2-22.9 18.6-45.2 27.2-59.2 2.3-1.7.8 3.2-8.7 20.8-8.5 16.1-24.4 53.3-2.6 82.4.6-20.7 5.5-41.8 13.8-61.5 12-27.4 37.3-74.9 39.3-112.7 1.1.8 4.6 3.2 6.2 4.1 4.6 2.7 8.1 6.7 12.6 10.3 12.4 10 28.5 9.2 42.4 1.2 6.2-3.5 11.2-7.5 15.9-9 9.9-3.1 17.8-8.6 22.3-15 7.7 30.4 25.7 74.3 37.2 95.7 6.1 11.4 18.3 35.5 23.6 64.6 3.3-.1 7 .4 10.9 1.4 13.8-35.7-11.7-74.2-23.3-84.9-4.7-4.6-4.9-6.6-2.6-6.5 12.6 11.2 29.2 33.7 35.2 59 2.8 11.6 3.3 23.7.4 35.7 16.4 6.8 35.9 17.9 30.7 34.8-2.2-.1-3.2 0-4.2 0 3.2-10.1-3.9-17.6-22.8-26.1-19.6-8.6-36-8.6-38.3 12.5-12.1 4.2-18.3 14.7-21.4 27.3-2.8 11.2-3.6 24.7-4.4 39.9-.5 7.7-3.6 18-6.8 29-32.1 22.9-76.7 32.9-114.3 7.2zm257.4-11.5c-.9 16.8-41.2 19.9-63.2 46.5-13.2 15.7-29.4 24.4-43.6 25.5s-26.5-4.8-33.7-19.3c-4.7-11.1-2.4-23.1 1.1-36.3 3.7-14.2 9.2-28.8 9.9-40.6.8-15.2 1.7-28.5 4.2-38.7 2.6-10.3 6.6-17.2 13.7-21.1.3-.2.7-.3 1-.5.8 13.2 7.3 26.6 18.8 29.5 12.6 3.3 30.7-7.5 38.4-16.3 9-.3 15.7-.9 22.6 5.1 9.9 8.5 7.1 30.3 17.1 41.6 10.6 11.6 14 19.5 13.7 24.6zM173.3 148.7c2 1.9 4.7 4.5 8 7.1 6.6 5.2 15.8 10.6 27.3 10.6 11.6 0 22.5-5.9 31.8-10.8 4.9-2.6 10.9-7 14.8-10.4s5.9-6.3 3.1-6.6-2.6 2.6-6 5.1c-4.4 3.2-9.7 7.4-13.9 9.8-7.4 4.2-19.5 10.2-29.9 10.2s-18.7-4.8-24.9-9.7c-3.1-2.5-5.7-5-7.7-6.9-1.5-1.4-1.9-4.6-4.3-4.9-1.4-.1-1.8 3.7 1.7 6.5z"/></svg>
+
+    </a>
+    操作系统2023秋 | 哈工大（深圳）
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    实验概述
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            实验概述
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验须知
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../env/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验平台以及环境配置
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tools/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验实用工具
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Linux/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Linux开发环境基础知识
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../remote_env/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    远程实验平台使用指南
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../remote_env_gdb/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    VSCode图形化调试指南(一)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../remote_env_gdb2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    VSCode图形化调试指南(二)——系统调用
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    常见问题
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            常见问题
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    2022/2023
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            2022/2023
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../faq/faq-env/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验环境问题
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../faq/lab1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab1问题
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../faq/lab2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab2问题
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../faq/lab3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab3问题
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../faq/lab4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab4问题
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Lab1：XV6与Unix实用程序
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Lab1：XV6与Unix实用程序
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab1/part1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验概述
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab1/part2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验原理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab1/part3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验步骤
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab1/part4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    提交文档
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Lab2：进程与系统调用
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Lab2：进程与系统调用
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab2/part1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验概述
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab2/part2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验原理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab2/part3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验实现
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab2/part4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    提交文档
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Lab3：锁机制的应用
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Lab3：锁机制的应用
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab3/part1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验概述
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab3/part2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验原理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab3/part3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验实现
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab3/part4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    xv-6中Lock的实现（选读）
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab3/part5/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    提交文档
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+    
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Lab4：页表
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Lab4：页表
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../part1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验概述
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../part2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验原理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    实验实现
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    实验实现
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#0" class="md-nav__link">
+    0. 任务零：回答问题
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    1. 任务一 ：打印页表
+  </a>
+  
+    <nav class="md-nav" aria-label="1. 任务一 ：打印页表">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11" class="md-nav__link">
+    1.1 流程
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12" class="md-nav__link">
+    1.2 实现
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    2  任务二 独立内核页表
+  </a>
+  
+    <nav class="md-nav" aria-label="2 任务二 独立内核页表">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21" class="md-nav__link">
+    2.1 （一种可参考的）流程
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22" class="md-nav__link">
+    2.2 实现
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    3  任务三 简化软件模拟地址翻译
+  </a>
+  
+    <nav class="md-nav" aria-label="3 任务三 简化软件模拟地址翻译">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31" class="md-nav__link">
+    3.1 （一种可参考的）流程
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32" class="md-nav__link">
+    3.2 实现
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../part4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    提交文档
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Lab5：基于FUSE的青春版EXT2文件系统
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            Lab5：基于FUSE的青春版EXT2文件系统
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab5/part1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验概述
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab5/part2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验原理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab5/part3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验实现
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab5/part4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    提交文档
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab5/part5/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    常见问题（补充）
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab5/part6/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    选择阅读（补充）
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    OS竞赛招新
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            OS竞赛招新
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../oscomp/oscomp/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2024年“全国大学生计算机系统能力大赛操作系统设计赛”火热报名中！
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#0" class="md-nav__link">
+    0. 任务零：回答问题
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    1. 任务一 ：打印页表
+  </a>
+  
+    <nav class="md-nav" aria-label="1. 任务一 ：打印页表">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11" class="md-nav__link">
+    1.1 流程
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12" class="md-nav__link">
+    1.2 实现
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    2  任务二 独立内核页表
+  </a>
+  
+    <nav class="md-nav" aria-label="2 任务二 独立内核页表">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21" class="md-nav__link">
+    2.1 （一种可参考的）流程
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22" class="md-nav__link">
+    2.2 实现
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    3  任务三 简化软件模拟地址翻译
+  </a>
+  
+    <nav class="md-nav" aria-label="3 任务三 简化软件模拟地址翻译">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31" class="md-nav__link">
+    3.1 （一种可参考的）流程
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32" class="md-nav__link">
+    3.2 实现
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="_1">实验实现<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<p>这里，我们将对一些实现的细节做一定的提醒。但是完整的流程需要自己把握，我们 <strong>不会给出每一步实现步骤</strong> 。因此，最重要的还是阅读 “<a href="../part2/">实验原理</a>” 内容，得出自己的解决方案，然后参考 ”实验实现“ 这部分的内容。</p>
+<p>值得注意的是，xv6的代码是可以参考的，可以看看相关实验原理是怎么实现的。同时，还可以插桩，使用printf等方法看看具体的内容。同时，还可以阅读 xv6 指导书，看看背后的设计机理。</p>
+<div class="admonition note">
+<p class="admonition-title">温馨提示</p>
+<p>本次实验的后两个任务非常硬核，但真正凸显了操作系统的魅力：）虽然最后一个任务的分值不多，我们依然建议你努力尝试，如果能坚持做完，就一定会对操作系统的内存管理有更高层次的认知。</p>
+</div>
+<p>本次实验 <strong>你可能会用到很多kernel/vm.c中的函数</strong> ，它们有比较完善的注释，请仔细阅读理解。</p>
+<h2 id="0">0. 任务零：回答问题<a class="headerlink" href="#0" title="Permanent link">&para;</a></h2>
+<div class="admonition tip">
+<p class="admonition-title">回答问题</p>
+<p>任务开始之前，我们应该先要首先回答一些原理性的问题，这部分应该被包含在实验报告中：</p>
+<ol>
+<li>
+<p>查阅资料，简要阐述页表机制为什么会被发明，它有什么好处？</p>
+</li>
+<li>
+<p>按照步骤，阐述SV39标准下，给定一个64位虚拟地址为0xFFFFFFE789ABCDEF的时候，是如何一步一步得到最终的物理地址的？（页表内容可以自行假设）</p>
+</li>
+<li>
+<p>我们注意到，SV39标准下虚拟地址的L2, L1, L0 均为9位。这实际上是设计中的必然结果，它们只能是9位，不能是10位或者是8位，你能说出其中的理由吗？（提示：一个页目录的大小必须与页的大小等大）</p>
+</li>
+<li>
+<p>在“实验原理”部分，我们知道SV39中的39是什么意思。但是其实还有一种标准，叫做SV48，采用了四级页表而非三级页表，你能模仿“实验原理”部分示意图，画出SV48页表的数据结构和翻译的模式图示吗？（SV39原图如下）</p>
+</li>
+</ol>
+<p><img alt="image-20211009204518009" src="../part3.assets/image-20211009204518009.png" /></p>
+</div>
+<h2 id="1">1. 任务一 ：打印页表<a class="headerlink" href="#1" title="Permanent link">&para;</a></h2>
+<p>本任务中，你需要加入 <strong>页表打印功能</strong> ，来帮助你在之后的实验中进行debug。</p>
+<p><code>void vmprint(pagetable_t pgtbl)</code></p>
+<h3 id="11">1.1 流程<a class="headerlink" href="#11" title="Permanent link">&para;</a></h3>
+<p><strong>Step 1</strong> ：更新本地代码，切换到<code>pgtbl</code>分支。</p>
+<p><strong>Step 2</strong> ：理解页表的原理。</p>
+<p><strong>Step 3</strong> ：实现 <code>vmprint()</code> ，并在 <code>exec()</code> 函数中插入语句 <code>if(p-&gt;pid==1) vmprint(p-&gt;pagetable)</code>， 这条语句插在 <code>exec.c</code> 中 <code>return argc</code> 代码之前，即在第一个进程启动时打印页表信息。</p>
+<div class="admonition info">
+<p class="admonition-title">拓展阅读：xv6第一个进程</p>
+<p>我们从xv6的启动来分析：</p>
+<ul>
+<li>上电后，先运行ROM的bootloader，bootloader再加载xv6内核到内存0x80000000处，然后从xv6内核的<code>_entry</code>开始。那为什么不加载到0x0地址呢？原因是0x0~0x80000000之间包含了I/O设备，详见《XV6 book》Figure3.3。</li>
+<li><code>_entry</code>用于设置C代码的运行指定栈，完成后就跳转到<code>start</code>函数执行C代码。</li>
+<li><code>start</code>函数处于机器模式下，初始化计时器中断，为切换到管理模式做好准备，然后到<code>main</code>函数开始执行。</li>
+<li><code>main</code>函数初始化一些设备和子系统，调用<code>userinit</code>来创建第一个进程。</li>
+<li>第一个进程执行了一个小程序<code>user/initcode.S</code>，通过系统调用<code>exec</code>执行一个新的程序<code>user/init</code>。</li>
+<li><code>user/init</code>创建了一个控制台设备文件，并作为文件描述符0，1，2来打开它。之后在<code>for(;;)</code>无限循环中启动<code>shell</code>，并处理僵尸进程。这样，系统就启动了。</li>
+</ul>
+</div>
+<p><strong>Step 4</strong> ：启动测试程序进行测试。</p>
+<h3 id="12">1.2 实现<a class="headerlink" href="#12" title="Permanent link">&para;</a></h3>
+<ul>
+<li>
+<p>把 <code>vmprint()</code> 放在 <code>kernel/vm.c</code>。   </p>
+</li>
+<li>
+<p>可以使用 <code>kernel/riscv.h</code> 中尾部的宏定义 ，比如：</p>
+</li>
+</ul>
+<div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">kernel/riscv.h</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="w">  </span><span class="cp">#define PGSIZE 4096 </span><span class="c1">// bytes per page</span>
+<span class="w">  </span><span class="cp">#define PGSHIFT 12  </span><span class="c1">// bits of offset within a page</span>
+
+<span class="w">  </span><span class="cp">#define PTE_V (1L &lt;&lt; 0) </span><span class="c1">// valid</span>
+<span class="w">  </span><span class="cp">#define PTE_R (1L &lt;&lt; 1)</span>
+<span class="w">  </span><span class="cp">#define PTE_W (1L &lt;&lt; 2)</span>
+<span class="w">  </span><span class="cp">#define PTE_X (1L &lt;&lt; 3)</span>
+<span class="w">  </span><span class="cp">#define PTE_U (1L &lt;&lt; 4) </span><span class="c1">// 1 -&gt; user can access</span>
+
+<span class="w">  </span><span class="c1">// shift a physical address to the right place for a PTE.</span>
+<span class="w">  </span><span class="cp">#define PA2PTE(pa) ((((uint64)pa) &gt;&gt; 12) &lt;&lt; 10)</span>
+
+<span class="w">  </span><span class="cp">#define PTE2PA(pte) (((pte) &gt;&gt; 10) &lt;&lt; 12)</span>
+</code></pre></div></td></tr></table></div>
+<ul>
+<li><code>kernel/vm.c</code>中的函数 <code>freewalk()</code> 能帮助你理解遍历页表的过程。  </li>
+</ul>
+<div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">kernel/vm.c</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1">// Recursively free page-table pages.</span>
+<span class="c1">// All leaf mappings must already have been removed.</span>
+<span class="w"> </span><span class="kt">void</span>
+<span class="w"> </span><span class="nf">freewalk</span><span class="p">(</span><span class="n">pagetable_t</span><span class="w"> </span><span class="n">pagetable</span><span class="p">)</span>
+<span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// there are 2^9 = 512 PTEs in a page table.</span>
+<span class="w">  </span><span class="c1">// 遍历一个页表页的PTE表项 </span>
+<span class="w">  </span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">512</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">){</span>
+<span class="w">    </span><span class="n">pte_t</span><span class="w"> </span><span class="n">pte</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pagetable</span><span class="p">[</span><span class="n">i</span><span class="p">];</span><span class="w"> </span><span class="c1">//获取第i条PTE </span>
+
+<span class="w">    </span><span class="cm">/* 判断PTE的Flag位，如果还有下一级页表(即当前是根页表或次页表)，</span>
+<span class="cm">       则递归调用freewalk释放页表项，并将对应的PTE清零 */</span>
+<span class="w">    </span><span class="k">if</span><span class="p">((</span><span class="n">pte</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">PTE_V</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="p">(</span><span class="n">pte</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="p">(</span><span class="n">PTE_R</span><span class="o">|</span><span class="n">PTE_W</span><span class="o">|</span><span class="n">PTE_X</span><span class="p">))</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">){</span><span class="w"> </span>
+<span class="w">      </span><span class="c1">// this PTE points to a lower-level page table.</span>
+<span class="w">      </span><span class="n">uint64</span><span class="w"> </span><span class="n">child</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PTE2PA</span><span class="p">(</span><span class="n">pte</span><span class="p">);</span><span class="w"> </span><span class="c1">// 将PTE转为为物理地址</span>
+<span class="w">      </span><span class="n">freewalk</span><span class="p">((</span><span class="n">pagetable_t</span><span class="p">)</span><span class="n">child</span><span class="p">);</span><span class="w"> </span><span class="c1">// 递归调用freewalk</span>
+<span class="w">      </span><span class="n">pagetable</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="c1">// 清零</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="p">(</span><span class="n">pte</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">PTE_V</span><span class="p">){</span><span class="w"> </span>
+
+<span class="w">      </span><span class="cm">/* 如果叶子页表的虚拟地址还有映射到物理地址，报错panic。</span>
+<span class="cm">         因为调用freewalk之前应该会先uvmunmap释放物理内存 */</span><span class="w">    </span>
+<span class="w">      </span><span class="n">panic</span><span class="p">(</span><span class="s">&quot;freewalk: leaf&quot;</span><span class="p">);</span><span class="w"> </span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="n">kfree</span><span class="p">((</span><span class="kt">void</span><span class="o">*</span><span class="p">)</span><span class="n">pagetable</span><span class="p">);</span><span class="w"> </span><span class="c1">// 释放pagetable指向的物理页</span>
+<span class="w"> </span><span class="p">}</span>
+</code></pre></div></td></tr></table></div>
+<ul>
+<li>
+<p>在 <code>kernel/defs.h</code> 中定义 <code>vmprint()</code> 的接口，这样你才能在 <code>exec()</code> 中使用它。  </p>
+</li>
+<li>
+<p>使用 <code>printf()</code> 打印页表数据中的指针时，你可以直接使用 <code>%p</code> 标示。  </p>
+</li>
+<li>建议参考VSCode图形化调试指南(二)——<a href="../../../remote_env_gdb2">系统调用</a>，进入QEMU界面的console，输入<code>info mem</code>获取页表，可用于对比你自己打印的页表与系统中的页表是否一致。</li>
+</ul>
+<h2 id="2">2  任务二 独立内核页表<a class="headerlink" href="#2" title="Permanent link">&para;</a></h2>
+<p>我们需要 <strong>将共享内核页表改成独立内核页表</strong> ，使得每个进程拥有自己独立的内核页表。</p>
+<h3 id="21">2.1 （一种可参考的）流程<a class="headerlink" href="#21" title="Permanent link">&para;</a></h3>
+<div class="admonition tip">
+<p class="admonition-title">实验说明</p>
+<p>以下给同学提供了一种可参考的实验解决方案，但它并不是唯一的解决方案。如果你有更好的方法也是可以的，只要能够通过实验测评即可。</p>
+</div>
+<p><strong>Step 1</strong> ：修改<code>kernel/proc.h</code>中的 <code>struct proc</code>， 增加两个新成员：<code>pagetable_t k_pagetable;</code>和<code>uint64 kstack_pa;</code>，分别用于给每个进程中设置一个内核独立页表和内核栈的物理地址。</p>
+<p><strong>Step 2</strong> ：仿照<code>kvminit()</code> 函数重新写一个创建内核页表的函数。</p>
+<ul>
+<li><strong>为进程分配内核页表的一种解决方案</strong> ：不要修改全局的内核页表（kernel/vm.c中的<code>pagetable_t kernel_pagetable</code>），而是直接创建一个新的内核页表，并将其地址<code>k_pagetable</code>返回。实现的时候不要映射CLINT，否则会在任务三发生地址重合问题。</li>
+</ul>
+<p><strong>Step 3</strong> ：修改<code>procinit</code>函数。<code>procinit()</code>是在系统引导时（见<code>kernel/main.c</code>的<code>main</code>函数），用于给进程分配内核栈的物理页并在页表建立映射。</p>
+<ul>
+<li><strong>参考优化方法</strong> ：把<code>procinit()</code>中内核栈的物理地址<code>pa</code>拷贝到PCB新增的成员<code>kstack_pa</code>中，同时还需要保留内核栈在全局页表<code>kernel_pagetable</code>的映射，然后在Step 4 <code>allocproc()</code>中再把它映射到进程的内核页表里。关于内核栈说明，见<a href="../part2/#34">实验原理 3.4</a>.</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">为什么要保留初始内核页表？</p>
+<p>保留原有的<code>kvminit()</code>以及<code>kernel/vm.c</code>中的<code>kernel_pagetable</code>，因为有些时候CPU可能并未执行用户进程。</p>
+</div>
+<p><strong>Step 4</strong> ：修改<code>allocproc</code>函数。<code>allocproc()</code>会在系统启动时被第一个进程和<code>fork</code>调用。在<code>allocproc</code>函数里调用Step 2 创建的函数设置内核页表，并且参考借鉴<code>kvmmap</code>函数将Step 3 设置的内核栈映射到页表<code>k_pagetable</code>里。</p>
+<div class="admonition tip">
+<p class="admonition-title"><code>allocproc</code>函数功能说明</p>
+<p>在进程表中查找空闲<code>PCB</code>，如果找到，初始化在内核中运行所需的状态，并保持<code>p-&gt;lock</code>返回。如果没有空闲<code>PCB</code>，或者内存分配失败，则返回0。</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">关于内核栈映射</p>
+<p>注意，要保证在每一个进程的内核页表中映射该进程的内核栈。xv6本会在 <code>procinit()</code> 中分配内核栈的物理页并在页表建立映射。但是现在，应该在<code>allocproc()</code>中实现该功能，因为执行<code>procinit()</code>的时候进程的内核页表还未被创建。你可以在<code>procinit()</code>中只保留内存的分配，但在<code>allocproc()</code>中完成映射。</p>
+</div>
+<p><strong>Step 5</strong> ：修改调度器（<code>scheduler</code>），使得切换进程的时候切换内核页表。</p>
+<ul>
+<li>
+<p><strong>参考方法</strong> ：在进程切换的同时也要切换页表将其放入寄存器<code>satp</code>中，请借鉴 <code>kvminithart()</code>的页表载入方式），在调用<code>w_satp()</code> 之后调用 <code>sfence_vma()</code>，具体原理可查阅实验原理的<a href="../part2/#33">3.3 内核对用户空间的访问</a>。</p>
+</li>
+<li>
+<p><strong>无进程运行的适配</strong> ：当目前没有进程运行的时候，<code>scheduler()</code> 应该要<code>satp</code>载入全局的内核页表<code>kernel_pagetable</code> (kernel/vm.c)。</p>
+</li>
+<li>
+<p>关于<code>scheduler</code>调度器，可以参考<a href="https://www.bilibili.com/video/BV1Te4y1i77z?share_source=copy_web&amp;vd_source=225a99017e082147ac525beeddd6e3e2">HITSZ操作系统课程组讲解XV6（三）内存管理</a></p>
+</li>
+</ul>
+<p>这里我们给出一个调度器内的页表切换流程图，同学们可以对照<a href="../part2/#32">实验原理部分的原版xv6的调度器流程</a>比对观察区别：  </p>
+<p><img alt="process-timeslice-perfer" src="../part3.assets/process-timeslice-perfer.png" /></p>
+<p>需要注意的是：调度器作为一个永不返回的程序，其运行也需要页表的支持，所以同学们需要实现方框中红色字体的部分，这样可以使得 <strong>每个进程都运行在自己的内核独立页表的支持下</strong> ，<strong>调度器运行在全局内核页表的支持下</strong> ，不会出现地址映射混乱的情况。</p>
+<p><strong>Step 6</strong> ：当进程结束的时候，你需要修改<code>freeproc()</code>函数来释放对应的内核页表。你需要找到 <strong>释放页表但不释放叶子页表指向的物理页帧</strong> 的方法。你可参考<code>kernel/vm.c</code>中的<code>freewalk</code>，其用于释放整个页表，但要求叶子页表的页项已经被清空。</p>
+<ul>
+<li>虽然我们为每个进程引入了内核页表，但是内核的代码和数据都还是唯一的。这意味着，在各个内核页表的叶子页表中，页表项指向了共享的物理页，如下图所示：</li>
+</ul>
+<p><img alt="页表释放示意" src="../part3.assets/%E9%A1%B5%E8%A1%A8%E9%87%8A%E6%94%BE%E7%A4%BA%E6%84%8F.png" /></p>
+<ul>
+<li>因此，在我们释放某个进程的内核页表的时候，不应该把这个共享物理页帧释放，否则会产生非常严重的后果！ </li>
+</ul>
+<p><strong>Step 7</strong> ：通过<code>usertests</code>和<code>kvmtest</code>测试。</p>
+<h3 id="22">2.2 实现<a class="headerlink" href="#22" title="Permanent link">&para;</a></h3>
+<p>这里有必要提醒一下同学，要以最简单的方法以及工程量最小的方法实现，最好不要因为优化等问题，大改内核机制。</p>
+<ul>
+<li>好好利用 <code>vmprint()</code> 来帮助debug。</li>
+<li>页表的bug通常会导致映射缺失的traps，访存失败，指令运行错误等报错。如果 <strong>内核</strong> 缺失了地址映射造成了页缺失（page fault），通常会打印个 <code>sepc=0x00000000XXXXXXXX</code> ，这代表的是出错时pc的值，你可以查<code>kernel/kernel.asm</code> 看看 <strong>对应地址</strong> 的代码的含义。 可参考<a href="../../faq/lab3/#3">常见问题</a>来找bug：）</li>
+<li>你的实现可以修改原有的函数或者是新增函数，最好放在 <code>kernel/vm.c +kernel/proc.c</code> 中，但是 <strong>千万不要修改</strong> <code>kernel/vmcopyin.c +kernel/stats.c + user/usertests.c + user/stats.c</code>。</li>
+</ul>
+<h2 id="3">3  任务三 简化软件模拟地址翻译<a class="headerlink" href="#3" title="Permanent link">&para;</a></h2>
+<div class="admonition note">
+<p class="admonition-title">具体要求</p>
+<p>我们需要 <strong>在独立内核页表加上用户页表的映射，同时替换 <code>copyin()/copyinstr()</code> 为 <code>copyin_new()/copyinstr_new()</code></strong> ，使得内核能够不必花费大量时间，用软件模拟的方法一步一步遍历页表，而是直接利用硬件。</p>
+</div>
+<h3 id="31">3.1 （一种可参考的）流程<a class="headerlink" href="#31" title="Permanent link">&para;</a></h3>
+<div class="admonition tip">
+<p class="admonition-title">实验说明</p>
+<p>以下给同学提供了一种可参考的实验解决方案，但它并不是唯一的解决方案。如果你有更好的方法也是可以的，只要能够通过实验测评即可。</p>
+</div>
+<p><strong>Step 1</strong> ：写一个<code>sync_pagetable</code>函数把进程的用户页表映射到内核页表中，同时在defs.h中声明。</p>
+<ul>
+<li>
+<p><strong>推荐一种较为优雅的实现方法</strong> ：内核页表直接共享用户页表的叶子页表，即内核页表中次页表的部分目录项直接指向用户页表的叶子页表。这样可以不必将用户页表的页表项全部复制进内核页表，也不必修改页表项标志位，简化实现的同时也可以提升性能，但在页表回收的时候需要避免重复回收。</p>
+</li>
+<li>
+<p>提示：前面已经提到用户地址空间的范围为0x0-0xC000000，见“<a href="../part2/#35">实验原理 3.5</a>”。试计算，多少个次级页表项就能涵盖整个用户地址空间？</p>
+</li>
+</ul>
+<p><img alt="用户共享页表" src="../part3.assets/%E7%94%A8%E6%88%B7%E5%85%B1%E4%BA%AB%E9%A1%B5%E8%A1%A8.png" /></p>
+<p><strong>Step 2</strong> ：用函数 <code>copyin_new()</code> （在 <code>kernel/vmcopyin.c</code>中定义）代替 <code>copyin()</code> （在 <code>kernel/vm.c</code>中定义）。即删除<code>copyin()</code>原来的实现方案，直接在<code>copyin()</code>里调用函数 <code>copyin_new()</code> 。在做完所有修改，确保程序 <strong>能运行</strong> <code>copyin_new()</code> 之后再用 <code>copyinstr_new()</code> 以代替 <code>copyinstr()</code>。</p>
+<p><strong>Step 3</strong> ：在独立内核页表加上用户页表的映射，以保证刚刚替换地新函数能够使用。注意独立内核页表的用户页表的映射的标志位的选择。标志位User一旦被设置，内核就不能访问该虚拟地址了。</p>
+<ul>
+<li><strong>推荐方案</strong> ：</li>
+<li>在调用<code>copyin_new()</code>/<code>copyinstr_new()</code>之前修改sstatus寄存器的SUM位： <ul>
+<li><code>w_sstatus(r_sstatus() | SSTATUS_SUM);</code> </li>
+</ul>
+</li>
+<li>在调用<code>copyin_new()</code>/<code>copyinstr_new()</code>之后去掉sstatus寄存器的SUM位：<ul>
+<li><code>w_sstatus(r_sstatus() &amp; ~SSTATUS_SUM);</code></li>
+</ul>
+</li>
+</ul>
+<p><strong>Step 4</strong> ：在独立内核页表加上用户页表的映射的时候，每一次用户页表被修改了映射的同时，都要修改对应独立内核页表的相应部分保持同步。这通常在<code>fork()</code>, <code>exec()</code>, <code>sbrk()</code>中发生，其中<code>sbrk()</code>调用<code>growproc()</code>来实现内存分配或回收。也就是，需要在<code>fork()</code>、<code>exec()</code>和<code>growproc()</code>这三个函数里将改变后的进程页表同步（调用<code>sync_pagetable</code>函数）到内核页表中。</p>
+<p><strong>Step 5</strong> ：注意：第一个进程也需要将用户页表映射到内核页表中（调用<code>sync_pagetable</code>函数），见kernel/proc.c: userinit()。</p>
+<p><strong>Step 6</strong> ：通过 <code>usertests</code>, <code>make grade</code>。</p>
+<h3 id="32">3.2 实现<a class="headerlink" href="#32" title="Permanent link">&para;</a></h3>
+<ul>
+<li>
+<p>注意独立内核页表的用户页表的映射的 <strong>标志位</strong> 的选择。（标志位User一旦被设置，内核就不能访问该虚拟地址了）</p>
+</li>
+<li>
+<p>再次提醒地址重合问题，见“<a href="../part2/#35">实验原理 3.5</a>”.</p>
+</li>
+</ul>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2023 - 2024 哈尔滨工业大学（深圳）
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+    <a href="mailto:<xiawen@hit.edu.cn>" target="_blank" rel="noopener" title="xiawen@hit.edu.cn" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M498.1 5.6c10.1 7 15.4 19.1 13.5 31.2l-64 416c-1.5 9.7-7.4 18.2-16 23s-18.9 5.4-28 1.6L284 427.7l-68.5 74.1c-8.9 9.7-22.9 12.9-35.2 8.1S160 493.2 160 480v-83.6c0-4 1.5-7.8 4.2-10.7l167.6-182.9c5.8-6.3 5.6-16-.4-22s-15.7-6.4-22-.7L106 360.8l-88.3-44.2C7.1 311.3.3 300.7 0 288.9s5.9-22.8 16.1-28.7l448-256c10.7-6.1 23.9-5.5 34 1.4z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.top", "navigation.tabs.sticky", "navigation.tracking"], "search": "../../assets/javascripts/workers/search.a264c092.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.6eac0284.min.js"></script>
+      
+        <script src="../../js/baidu-tongji.js"></script>
+      
+    
+  </body>
+</html>

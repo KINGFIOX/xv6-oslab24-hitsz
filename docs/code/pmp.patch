@@ -1,0 +1,40 @@
+diff --git a/kernel/riscv.h b/kernel/riscv.h
+index 0aec003..5fbd4e0 100644
+--- a/kernel/riscv.h
++++ b/kernel/riscv.h
+@@ -181,6 +181,19 @@ w_mtvec(uint64 x)
+   asm volatile("csrw mtvec, %0" : : "r" (x));
+ }
+ 
++// Physical Memory Protection
++static inline void
++w_pmpcfg0(uint64 x)
++{
++  asm volatile("csrw pmpcfg0, %0" : : "r" (x));
++}
++
++static inline void
++w_pmpaddr0(uint64 x)
++{
++  asm volatile("csrw pmpaddr0, %0" : : "r" (x));
++}
++
+ // use riscv's sv39 page table scheme.
+ #define SATP_SV39 (8L << 60)
+ 
+diff --git a/kernel/start.c b/kernel/start.c
+index 4eb6c2d..352c578 100644
+--- a/kernel/start.c
++++ b/kernel/start.c
+@@ -38,6 +38,11 @@ start()
+   w_mideleg(0xffff);
+   w_sie(r_sie() | SIE_SEIE | SIE_STIE | SIE_SSIE);
+ 
++  // configure Physical Memory Protection to give supervisor mode
++  // access to all of physical memory.
++  w_pmpaddr0(0x1fffffffffffffull);
++  w_pmpcfg0(0x1f);
++
+   // ask for clock interrupts.
+   timerinit();
+ 

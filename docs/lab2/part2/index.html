@@ -1,0 +1,2461 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../part1/">
+      
+      
+        <link rel="next" href="../part3/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.3">
+    
+    
+      
+        <title>实验原理 - 操作系统2023秋 | 哈工大（深圳）</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.79e020e9.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="操作系统2023秋 | 哈工大（深圳）" class="md-header__button md-logo" aria-label="操作系统2023秋 | 哈工大（深圳）" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M220.8 123.3c1 .5 1.8 1.7 3 1.7 1.1 0 2.8-.4 2.9-1.5.2-1.4-1.9-2.3-3.2-2.9-1.7-.7-3.9-1-5.5-.1-.4.2-.8.7-.6 1.1.3 1.3 2.3 1.1 3.4 1.7zm-21.9 1.7c1.2 0 2-1.2 3-1.7 1.1-.6 3.1-.4 3.5-1.6.2-.4-.2-.9-.6-1.1-1.6-.9-3.8-.6-5.5.1-1.3.6-3.4 1.5-3.2 2.9.1 1 1.8 1.5 2.8 1.4zM420 403.8c-3.6-4-5.3-11.6-7.2-19.7-1.8-8.1-3.9-16.8-10.5-22.4-1.3-1.1-2.6-2.1-4-2.9-1.3-.8-2.7-1.5-4.1-2 9.2-27.3 5.6-54.5-3.7-79.1-11.4-30.1-31.3-56.4-46.5-74.4-17.1-21.5-33.7-41.9-33.4-72C311.1 85.4 315.7.1 234.8 0 132.4-.2 158 103.4 156.9 135.2c-1.7 23.4-6.4 41.8-22.5 64.7-18.9 22.5-45.5 58.8-58.1 96.7-6 17.9-8.8 36.1-6.2 53.3-6.5 5.8-11.4 14.7-16.6 20.2-4.2 4.3-10.3 5.9-17 8.3s-14 6-18.5 14.5c-2.1 3.9-2.8 8.1-2.8 12.4 0 3.9.6 7.9 1.2 11.8 1.2 8.1 2.5 15.7.8 20.8-5.2 14.4-5.9 24.4-2.2 31.7 3.8 7.3 11.4 10.5 20.1 12.3 17.3 3.6 40.8 2.7 59.3 12.5 19.8 10.4 39.9 14.1 55.9 10.4 11.6-2.6 21.1-9.6 25.9-20.2 12.5-.1 26.3-5.4 48.3-6.6 14.9-1.2 33.6 5.3 55.1 4.1.6 2.3 1.4 4.6 2.5 6.7v.1c8.3 16.7 23.8 24.3 40.3 23 16.6-1.3 34.1-11 48.3-27.9 13.6-16.4 36-23.2 50.9-32.2 7.4-4.5 13.4-10.1 13.9-18.3.4-8.2-4.4-17.3-15.5-29.7zM223.7 87.3c9.8-22.2 34.2-21.8 44-.4 6.5 14.2 3.6 30.9-4.3 40.4-1.6-.8-5.9-2.6-12.6-4.9 1.1-1.2 3.1-2.7 3.9-4.6 4.8-11.8-.2-27-9.1-27.3-7.3-.5-13.9 10.8-11.8 23-4.1-2-9.4-3.5-13-4.4-1-6.9-.3-14.6 2.9-21.8zM183 75.8c10.1 0 20.8 14.2 19.1 33.5-3.5 1-7.1 2.5-10.2 4.6 1.2-8.9-3.3-20.1-9.6-19.6-8.4.7-9.8 21.2-1.8 28.1 1 .8 1.9-.2-5.9 5.5-15.6-14.6-10.5-52.1 8.4-52.1zm-13.6 60.7c6.2-4.6 13.6-10 14.1-10.5 4.7-4.4 13.5-14.2 27.9-14.2 7.1 0 15.6 2.3 25.9 8.9 6.3 4.1 11.3 4.4 22.6 9.3 8.4 3.5 13.7 9.7 10.5 18.2-2.6 7.1-11 14.4-22.7 18.1-11.1 3.6-19.8 16-38.2 14.9-3.9-.2-7-1-9.6-2.1-8-3.5-12.2-10.4-20-15-8.6-4.8-13.2-10.4-14.7-15.3-1.4-4.9 0-9 4.2-12.3zm3.3 334c-2.7 35.1-43.9 34.4-75.3 18-29.9-15.8-68.6-6.5-76.5-21.9-2.4-4.7-2.4-12.7 2.6-26.4v-.2c2.4-7.6.6-16-.6-23.9-1.2-7.8-1.8-15 .9-20 3.5-6.7 8.5-9.1 14.8-11.3 10.3-3.7 11.8-3.4 19.6-9.9 5.5-5.7 9.5-12.9 14.3-18 5.1-5.5 10-8.1 17.7-6.9 8.1 1.2 15.1 6.8 21.9 16l19.6 35.6c9.5 19.9 43.1 48.4 41 68.9zm-1.4-25.9c-4.1-6.6-9.6-13.6-14.4-19.6 7.1 0 14.2-2.2 16.7-8.9 2.3-6.2 0-14.9-7.4-24.9-13.5-18.2-38.3-32.5-38.3-32.5-13.5-8.4-21.1-18.7-24.6-29.9s-3-23.3-.3-35.2c5.2-22.9 18.6-45.2 27.2-59.2 2.3-1.7.8 3.2-8.7 20.8-8.5 16.1-24.4 53.3-2.6 82.4.6-20.7 5.5-41.8 13.8-61.5 12-27.4 37.3-74.9 39.3-112.7 1.1.8 4.6 3.2 6.2 4.1 4.6 2.7 8.1 6.7 12.6 10.3 12.4 10 28.5 9.2 42.4 1.2 6.2-3.5 11.2-7.5 15.9-9 9.9-3.1 17.8-8.6 22.3-15 7.7 30.4 25.7 74.3 37.2 95.7 6.1 11.4 18.3 35.5 23.6 64.6 3.3-.1 7 .4 10.9 1.4 13.8-35.7-11.7-74.2-23.3-84.9-4.7-4.6-4.9-6.6-2.6-6.5 12.6 11.2 29.2 33.7 35.2 59 2.8 11.6 3.3 23.7.4 35.7 16.4 6.8 35.9 17.9 30.7 34.8-2.2-.1-3.2 0-4.2 0 3.2-10.1-3.9-17.6-22.8-26.1-19.6-8.6-36-8.6-38.3 12.5-12.1 4.2-18.3 14.7-21.4 27.3-2.8 11.2-3.6 24.7-4.4 39.9-.5 7.7-3.6 18-6.8 29-32.1 22.9-76.7 32.9-114.3 7.2zm257.4-11.5c-.9 16.8-41.2 19.9-63.2 46.5-13.2 15.7-29.4 24.4-43.6 25.5s-26.5-4.8-33.7-19.3c-4.7-11.1-2.4-23.1 1.1-36.3 3.7-14.2 9.2-28.8 9.9-40.6.8-15.2 1.7-28.5 4.2-38.7 2.6-10.3 6.6-17.2 13.7-21.1.3-.2.7-.3 1-.5.8 13.2 7.3 26.6 18.8 29.5 12.6 3.3 30.7-7.5 38.4-16.3 9-.3 15.7-.9 22.6 5.1 9.9 8.5 7.1 30.3 17.1 41.6 10.6 11.6 14 19.5 13.7 24.6zM173.3 148.7c2 1.9 4.7 4.5 8 7.1 6.6 5.2 15.8 10.6 27.3 10.6 11.6 0 22.5-5.9 31.8-10.8 4.9-2.6 10.9-7 14.8-10.4s5.9-6.3 3.1-6.6-2.6 2.6-6 5.1c-4.4 3.2-9.7 7.4-13.9 9.8-7.4 4.2-19.5 10.2-29.9 10.2s-18.7-4.8-24.9-9.7c-3.1-2.5-5.7-5-7.7-6.9-1.5-1.4-1.9-4.6-4.3-4.9-1.4-.1-1.8 3.7 1.7 6.5z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            操作系统2023秋 | 哈工大（深圳）
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              实验原理
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../.." class="md-tabs__link">
+          
+  
+  实验概述
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../faq/faq-env/" class="md-tabs__link">
+          
+  
+  常见问题
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../lab1/part1/" class="md-tabs__link">
+          
+  
+  Lab1：XV6与Unix实用程序
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../part1/" class="md-tabs__link">
+          
+  
+  Lab2：进程与系统调用
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../lab3/part1/" class="md-tabs__link">
+          
+  
+  Lab3：锁机制的应用
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../lab4/part1/" class="md-tabs__link">
+          
+  
+  Lab4：页表
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../lab5/part1/" class="md-tabs__link">
+          
+  
+  Lab5：基于FUSE的青春版EXT2文件系统
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../oscomp/oscomp/" class="md-tabs__link">
+          
+  
+  OS竞赛招新
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="操作系统2023秋 | 哈工大（深圳）" class="md-nav__button md-logo" aria-label="操作系统2023秋 | 哈工大（深圳）" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M220.8 123.3c1 .5 1.8 1.7 3 1.7 1.1 0 2.8-.4 2.9-1.5.2-1.4-1.9-2.3-3.2-2.9-1.7-.7-3.9-1-5.5-.1-.4.2-.8.7-.6 1.1.3 1.3 2.3 1.1 3.4 1.7zm-21.9 1.7c1.2 0 2-1.2 3-1.7 1.1-.6 3.1-.4 3.5-1.6.2-.4-.2-.9-.6-1.1-1.6-.9-3.8-.6-5.5.1-1.3.6-3.4 1.5-3.2 2.9.1 1 1.8 1.5 2.8 1.4zM420 403.8c-3.6-4-5.3-11.6-7.2-19.7-1.8-8.1-3.9-16.8-10.5-22.4-1.3-1.1-2.6-2.1-4-2.9-1.3-.8-2.7-1.5-4.1-2 9.2-27.3 5.6-54.5-3.7-79.1-11.4-30.1-31.3-56.4-46.5-74.4-17.1-21.5-33.7-41.9-33.4-72C311.1 85.4 315.7.1 234.8 0 132.4-.2 158 103.4 156.9 135.2c-1.7 23.4-6.4 41.8-22.5 64.7-18.9 22.5-45.5 58.8-58.1 96.7-6 17.9-8.8 36.1-6.2 53.3-6.5 5.8-11.4 14.7-16.6 20.2-4.2 4.3-10.3 5.9-17 8.3s-14 6-18.5 14.5c-2.1 3.9-2.8 8.1-2.8 12.4 0 3.9.6 7.9 1.2 11.8 1.2 8.1 2.5 15.7.8 20.8-5.2 14.4-5.9 24.4-2.2 31.7 3.8 7.3 11.4 10.5 20.1 12.3 17.3 3.6 40.8 2.7 59.3 12.5 19.8 10.4 39.9 14.1 55.9 10.4 11.6-2.6 21.1-9.6 25.9-20.2 12.5-.1 26.3-5.4 48.3-6.6 14.9-1.2 33.6 5.3 55.1 4.1.6 2.3 1.4 4.6 2.5 6.7v.1c8.3 16.7 23.8 24.3 40.3 23 16.6-1.3 34.1-11 48.3-27.9 13.6-16.4 36-23.2 50.9-32.2 7.4-4.5 13.4-10.1 13.9-18.3.4-8.2-4.4-17.3-15.5-29.7zM223.7 87.3c9.8-22.2 34.2-21.8 44-.4 6.5 14.2 3.6 30.9-4.3 40.4-1.6-.8-5.9-2.6-12.6-4.9 1.1-1.2 3.1-2.7 3.9-4.6 4.8-11.8-.2-27-9.1-27.3-7.3-.5-13.9 10.8-11.8 23-4.1-2-9.4-3.5-13-4.4-1-6.9-.3-14.6 2.9-21.8zM183 75.8c10.1 0 20.8 14.2 19.1 33.5-3.5 1-7.1 2.5-10.2 4.6 1.2-8.9-3.3-20.1-9.6-19.6-8.4.7-9.8 21.2-1.8 28.1 1 .8 1.9-.2-5.9 5.5-15.6-14.6-10.5-52.1 8.4-52.1zm-13.6 60.7c6.2-4.6 13.6-10 14.1-10.5 4.7-4.4 13.5-14.2 27.9-14.2 7.1 0 15.6 2.3 25.9 8.9 6.3 4.1 11.3 4.4 22.6 9.3 8.4 3.5 13.7 9.7 10.5 18.2-2.6 7.1-11 14.4-22.7 18.1-11.1 3.6-19.8 16-38.2 14.9-3.9-.2-7-1-9.6-2.1-8-3.5-12.2-10.4-20-15-8.6-4.8-13.2-10.4-14.7-15.3-1.4-4.9 0-9 4.2-12.3zm3.3 334c-2.7 35.1-43.9 34.4-75.3 18-29.9-15.8-68.6-6.5-76.5-21.9-2.4-4.7-2.4-12.7 2.6-26.4v-.2c2.4-7.6.6-16-.6-23.9-1.2-7.8-1.8-15 .9-20 3.5-6.7 8.5-9.1 14.8-11.3 10.3-3.7 11.8-3.4 19.6-9.9 5.5-5.7 9.5-12.9 14.3-18 5.1-5.5 10-8.1 17.7-6.9 8.1 1.2 15.1 6.8 21.9 16l19.6 35.6c9.5 19.9 43.1 48.4 41 68.9zm-1.4-25.9c-4.1-6.6-9.6-13.6-14.4-19.6 7.1 0 14.2-2.2 16.7-8.9 2.3-6.2 0-14.9-7.4-24.9-13.5-18.2-38.3-32.5-38.3-32.5-13.5-8.4-21.1-18.7-24.6-29.9s-3-23.3-.3-35.2c5.2-22.9 18.6-45.2 27.2-59.2 2.3-1.7.8 3.2-8.7 20.8-8.5 16.1-24.4 53.3-2.6 82.4.6-20.7 5.5-41.8 13.8-61.5 12-27.4 37.3-74.9 39.3-112.7 1.1.8 4.6 3.2 6.2 4.1 4.6 2.7 8.1 6.7 12.6 10.3 12.4 10 28.5 9.2 42.4 1.2 6.2-3.5 11.2-7.5 15.9-9 9.9-3.1 17.8-8.6 22.3-15 7.7 30.4 25.7 74.3 37.2 95.7 6.1 11.4 18.3 35.5 23.6 64.6 3.3-.1 7 .4 10.9 1.4 13.8-35.7-11.7-74.2-23.3-84.9-4.7-4.6-4.9-6.6-2.6-6.5 12.6 11.2 29.2 33.7 35.2 59 2.8 11.6 3.3 23.7.4 35.7 16.4 6.8 35.9 17.9 30.7 34.8-2.2-.1-3.2 0-4.2 0 3.2-10.1-3.9-17.6-22.8-26.1-19.6-8.6-36-8.6-38.3 12.5-12.1 4.2-18.3 14.7-21.4 27.3-2.8 11.2-3.6 24.7-4.4 39.9-.5 7.7-3.6 18-6.8 29-32.1 22.9-76.7 32.9-114.3 7.2zm257.4-11.5c-.9 16.8-41.2 19.9-63.2 46.5-13.2 15.7-29.4 24.4-43.6 25.5s-26.5-4.8-33.7-19.3c-4.7-11.1-2.4-23.1 1.1-36.3 3.7-14.2 9.2-28.8 9.9-40.6.8-15.2 1.7-28.5 4.2-38.7 2.6-10.3 6.6-17.2 13.7-21.1.3-.2.7-.3 1-.5.8 13.2 7.3 26.6 18.8 29.5 12.6 3.3 30.7-7.5 38.4-16.3 9-.3 15.7-.9 22.6 5.1 9.9 8.5 7.1 30.3 17.1 41.6 10.6 11.6 14 19.5 13.7 24.6zM173.3 148.7c2 1.9 4.7 4.5 8 7.1 6.6 5.2 15.8 10.6 27.3 10.6 11.6 0 22.5-5.9 31.8-10.8 4.9-2.6 10.9-7 14.8-10.4s5.9-6.3 3.1-6.6-2.6 2.6-6 5.1c-4.4 3.2-9.7 7.4-13.9 9.8-7.4 4.2-19.5 10.2-29.9 10.2s-18.7-4.8-24.9-9.7c-3.1-2.5-5.7-5-7.7-6.9-1.5-1.4-1.9-4.6-4.3-4.9-1.4-.1-1.8 3.7 1.7 6.5z"/></svg>
+
+    </a>
+    操作系统2023秋 | 哈工大（深圳）
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    实验概述
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            实验概述
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验须知
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../env/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验平台以及环境配置
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tools/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验实用工具
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Linux/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Linux开发环境基础知识
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../remote_env/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    远程实验平台使用指南
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../remote_env_gdb/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    VSCode图形化调试指南(一)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../remote_env_gdb2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    VSCode图形化调试指南(二)——系统调用
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    常见问题
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            常见问题
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    2022/2023
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            2022/2023
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../faq/faq-env/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验环境问题
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../faq/lab1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab1问题
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../faq/lab2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab2问题
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../faq/lab3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab3问题
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../faq/lab4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab4问题
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Lab1：XV6与Unix实用程序
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Lab1：XV6与Unix实用程序
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab1/part1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验概述
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab1/part2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验原理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab1/part3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验步骤
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab1/part4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    提交文档
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+    
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Lab2：进程与系统调用
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Lab2：进程与系统调用
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../part1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验概述
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    实验原理
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    实验原理
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    1. 系统调用
+  </a>
+  
+    <nav class="md-nav" aria-label="1. 系统调用">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11" class="md-nav__link">
+    1.1 系统调用的使用：用户的权力
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12" class="md-nav__link">
+    1.2 系统调用的接口：操作系统内核和用户程序的中间体
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13" class="md-nav__link">
+    1.3 系统调用的参数：寄存器传参
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14" class="md-nav__link">
+    1.4 系统调用的分发和实现：解耦合
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    2. 举例：系统调用的实现
+  </a>
+  
+    <nav class="md-nav" aria-label="2. 举例：系统调用的实现">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21" class="md-nav__link">
+    2.1 用户程序调用
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-usyss" class="md-nav__link">
+    2.2 usys.S汇编
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-uservec" class="md-nav__link">
+    2.3 uservec汇编
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-usertrap" class="md-nav__link">
+    2.4 usertrap
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#25-syscall" class="md-nav__link">
+    2.5 syscall
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#26-sys_sleep" class="md-nav__link">
+    2.6 sys_sleep
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#27" class="md-nav__link">
+    2.7 执行完后返回用户空间
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-pcb" class="md-nav__link">
+    3. 进程控制块（PCB）
+  </a>
+  
+    <nav class="md-nav" aria-label="3. 进程控制块（PCB）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-trapframe" class="md-nav__link">
+    3.1 trapframe
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-exit" class="md-nav__link">
+    4. exit系统调用工作流程
+  </a>
+  
+    <nav class="md-nav" aria-label="4. exit系统调用工作流程">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41" class="md-nav__link">
+    4.1 进程资源回收
+  </a>
+  
+    <nav class="md-nav" aria-label="4.1 进程资源回收">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#411" class="md-nav__link">
+    4.1.1 打开文件回收
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#412" class="md-nav__link">
+    4.1.2 子进程回收
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42" class="md-nav__link">
+    4.2 更改当前进程状态
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43" class="md-nav__link">
+    4.3 进入调度器等待被回收
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-wait" class="md-nav__link">
+    5. wait系统调用（阻塞与非阻塞）的工作流程
+  </a>
+  
+    <nav class="md-nav" aria-label="5. wait系统调用（阻塞与非阻塞）的工作流程">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-wait" class="md-nav__link">
+    5.1 阻塞方式的wait
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-wait" class="md-nav__link">
+    5.2 非阻塞方式的wait
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-yield" class="md-nav__link">
+    6. yield进程挂起的语义介绍
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7" class="md-nav__link">
+    7. 参考资料
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../part3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验实现
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../part4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    提交文档
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Lab3：锁机制的应用
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Lab3：锁机制的应用
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab3/part1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验概述
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab3/part2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验原理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab3/part3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验实现
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab3/part4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    xv-6中Lock的实现（选读）
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab3/part5/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    提交文档
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Lab4：页表
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Lab4：页表
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab4/part1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验概述
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab4/part2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验原理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab4/part3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验实现
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab4/part4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    提交文档
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Lab5：基于FUSE的青春版EXT2文件系统
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            Lab5：基于FUSE的青春版EXT2文件系统
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab5/part1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验概述
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab5/part2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验原理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab5/part3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验实现
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab5/part4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    提交文档
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab5/part5/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    常见问题（补充）
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab5/part6/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    选择阅读（补充）
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    OS竞赛招新
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            OS竞赛招新
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../oscomp/oscomp/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2024年“全国大学生计算机系统能力大赛操作系统设计赛”火热报名中！
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    1. 系统调用
+  </a>
+  
+    <nav class="md-nav" aria-label="1. 系统调用">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11" class="md-nav__link">
+    1.1 系统调用的使用：用户的权力
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12" class="md-nav__link">
+    1.2 系统调用的接口：操作系统内核和用户程序的中间体
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13" class="md-nav__link">
+    1.3 系统调用的参数：寄存器传参
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14" class="md-nav__link">
+    1.4 系统调用的分发和实现：解耦合
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    2. 举例：系统调用的实现
+  </a>
+  
+    <nav class="md-nav" aria-label="2. 举例：系统调用的实现">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21" class="md-nav__link">
+    2.1 用户程序调用
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-usyss" class="md-nav__link">
+    2.2 usys.S汇编
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-uservec" class="md-nav__link">
+    2.3 uservec汇编
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-usertrap" class="md-nav__link">
+    2.4 usertrap
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#25-syscall" class="md-nav__link">
+    2.5 syscall
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#26-sys_sleep" class="md-nav__link">
+    2.6 sys_sleep
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#27" class="md-nav__link">
+    2.7 执行完后返回用户空间
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-pcb" class="md-nav__link">
+    3. 进程控制块（PCB）
+  </a>
+  
+    <nav class="md-nav" aria-label="3. 进程控制块（PCB）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-trapframe" class="md-nav__link">
+    3.1 trapframe
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-exit" class="md-nav__link">
+    4. exit系统调用工作流程
+  </a>
+  
+    <nav class="md-nav" aria-label="4. exit系统调用工作流程">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41" class="md-nav__link">
+    4.1 进程资源回收
+  </a>
+  
+    <nav class="md-nav" aria-label="4.1 进程资源回收">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#411" class="md-nav__link">
+    4.1.1 打开文件回收
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#412" class="md-nav__link">
+    4.1.2 子进程回收
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42" class="md-nav__link">
+    4.2 更改当前进程状态
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43" class="md-nav__link">
+    4.3 进入调度器等待被回收
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-wait" class="md-nav__link">
+    5. wait系统调用（阻塞与非阻塞）的工作流程
+  </a>
+  
+    <nav class="md-nav" aria-label="5. wait系统调用（阻塞与非阻塞）的工作流程">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-wait" class="md-nav__link">
+    5.1 阻塞方式的wait
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-wait" class="md-nav__link">
+    5.2 非阻塞方式的wait
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-yield" class="md-nav__link">
+    6. yield进程挂起的语义介绍
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7" class="md-nav__link">
+    7. 参考资料
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="_1">实验原理<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<div class="admonition note">
+<p class="admonition-title">提示</p>
+<p>这一章讲述本次实验的实验原理，以下知识会大大帮助你理解xv6是如何工作的。但是你需要加以思考，并且将其一个一个串接起来，以形成一个整体的思维。</p>
+</div>
+<h2 id="1">1. 系统调用<a class="headerlink" href="#1" title="Permanent link">&para;</a></h2>
+<p>系统调用就是调用操作系统提供的一系列内核函数。由于用户程序运行在CPU的用户态（又称非特权模式，用户模式），无法直接访问系统硬件和操作系统中的系统数据，用户程序只能发出请求，然后由内核调用相应的内核函数来帮着处理，最后将结果返回给应用程序。</p>
+<h3 id="11">1.1 系统调用的使用：用户的权力<a class="headerlink" href="#11" title="Permanent link">&para;</a></h3>
+<p>在第一个实验中，我们将系统调用和C语言的函数放在一起做了一定的说明。</p>
+<p>“系统调用被 <strong>封装</strong> 为函数以向用户提供接口，用户程序可以通过函数调用的方式请求操作系统的服务”。从这里我们需要注意，虽然两者看起来一样，但是这是因为封装的结果。接下来我们简要介绍xv6是怎样封装的。</p>
+<p>首先看<code>user/user.h</code>文件，我们可以看到对应有许多的函数接口，其中标识了系统调用和用户库（<code>ulib</code>）。但是我们只看到了封装的接口，那么实际上系统调用的实现是什么样的呢？</p>
+<h3 id="12">1.2 系统调用的接口：操作系统内核和用户程序的中间体<a class="headerlink" href="#12" title="Permanent link">&para;</a></h3>
+<p>现在我们看到<code>user/usys.pl</code>文件，该脚本文件会在编译期间被执行，生成一个汇编文件<code>usys.S</code>。其对每一个系统调用抽象接口都生成了一个具体的实现，叫做<code>entry</code>。</p>
+<div class="highlight"><pre><span></span><code><span class="w"> </span><span class="mi">1</span><span class="w">  </span><span class="c1">#!/usr/bin/perl -w</span>
+<span class="w"> </span><span class="mi">2</span>
+<span class="w"> </span><span class="mi">3</span><span class="w">  </span><span class="c1"># Generate usys.S, the stubs for syscalls.</span>
+<span class="w"> </span><span class="mi">4</span>
+<span class="w"> </span><span class="mi">5</span><span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="s">&quot;# generated by usys.pl - do not edit\n&quot;</span><span class="p">;</span>
+<span class="w"> </span><span class="mi">6</span>
+<span class="w"> </span><span class="mi">7</span><span class="w">  </span><span class="k">print</span><span class="w"> </span><span class="s">&quot;#include \&quot;kernel/syscall.h\&quot;\n&quot;</span><span class="p">;</span>
+<span class="w"> </span><span class="mi">8</span>
+<span class="w"> </span><span class="mi">9</span><span class="w">  </span><span class="k">sub</span><span class="w"> </span><span class="nf">entry</span><span class="w"> </span><span class="p">{</span>
+<span class="mi">10</span><span class="w">      </span><span class="k">my</span><span class="w"> </span><span class="nv">$name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">shift</span><span class="p">;</span>
+<span class="mi">11</span><span class="w">      </span><span class="k">print</span><span class="w"> </span><span class="s">&quot;.global $name\n&quot;</span><span class="p">;</span>
+<span class="mi">12</span><span class="w">      </span><span class="k">print</span><span class="w"> </span><span class="s">&quot;${name}:\n&quot;</span><span class="p">;</span>
+<span class="mi">13</span><span class="w">      </span><span class="k">print</span><span class="w"> </span><span class="s">&quot; li a7, SYS_${name}\n&quot;</span><span class="p">;</span>
+<span class="mi">14</span><span class="w">      </span><span class="k">print</span><span class="w"> </span><span class="s">&quot; ecall\n&quot;</span><span class="p">;</span>
+<span class="mi">15</span><span class="w">      </span><span class="k">print</span><span class="w"> </span><span class="s">&quot; ret\n&quot;</span><span class="p">;</span>
+<span class="mi">16</span><span class="w">  </span><span class="p">}</span>
+<span class="mi">17</span>
+<span class="mi">18</span><span class="w">  </span><span class="n">entry</span><span class="p">(</span><span class="s">&quot;fork&quot;</span><span class="p">);</span>
+<span class="mi">19</span><span class="w">  </span><span class="n">entry</span><span class="p">(</span><span class="s">&quot;exit&quot;</span><span class="p">);</span>
+<span class="err">……</span>
+</code></pre></div>
+<p>这段脚本中的print的内容实际就是RISC-V指令集的汇编语言。<code>$name</code>就是系统调用的名字，如fork，exit等，当脚本执行时，18行之后entry的内字符串会被填入<code>$name</code>。  </p>
+<p>系统调用步骤包括以下几步：</p>
+<ul>
+<li><code>li a7, SYS_${name}\n</code>：将系统调用号 <code>SYS_${name}</code>（来自<code>kernel/syscall.h</code>）传给RISC-V CPU上的<code>a7</code>寄存器，这样内核就可以通过<code>a7</code>寄存器知道现在要处理的是什么系统调用。 </li>
+<li><code>ecall</code>：特殊指令，用来转入操作系统内核（ <strong>关键</strong> 指令）。  </li>
+<li><code>ret</code>：操作系统内核执行完后会返回到这里，执行ret就结束了用户看到的系统调用，返回至用户程序。 <br />
+  你可以在编译后阅读<code>user/usys.S</code>，将其与上述脚本对应以便更好地理解。</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">拓展</p>
+<p>在RISC-V指令集架构中，处理器通常分为M (<code>Machine</code>)、S (<code>Supervisor</code>)、U (<code>User</code>) 三种工作模式。一般情况下，用户程序运行在U模式，而操作系统内核运行在S模式。上文中的<code>ecall (Environment Call)</code>命令就是不同特权级之间的桥梁，例如用户程序执行<code>ecall</code>后，CPU会从U模式切换至S模式，同时将PC的值置为一个由内核预设的地址，进而切换至内核的执行流。<code>ecall</code>实际上是陷入(<code>trap</code>)的一种，想要了解更多细节可以自行阅读<a href="https://gitee.com/hitsz-cslab/os-labs/tree/master/references/RISC-V手册.pdf">RISC-V手册</a>。</p>
+</div>
+<h3 id="13">1.3 系统调用的参数：寄存器传参<a class="headerlink" href="#13" title="Permanent link">&para;</a></h3>
+<p>这里我们还忽略了一点，那就是系统调用还需要传递参数。实际上，从汇编的角度来看，当我们调用一个函数的时候，传入的参数一般会按照位置依次放在<code>a0</code>, <code>a1</code>, <code>a2</code>等以此类推的寄存器中。想要了解更多关于函数参数的细节可以自行阅读<a href="https://gitee.com/hitsz-cslab/os-labs/tree/master/references/RISC-V手册.pdf">RISC-V手册</a>。</p>
+<p><img alt="image-20220920161553412" src="../part2.assets/image-20220920161553412.png" /></p>
+<p>也就是说，调用<code>user/user.h</code>中的函数接口后，参数已经存储于寄存器了，这个时候我们就原封不动地继续调用<code>ecall</code>，操作系统就可以通过a0, a1, a2等寄存器来获取参数了。此外，函数的返回值一般存储于a0寄存器。</p>
+<div class="admonition note">
+<p class="admonition-title">提示</p>
+<p>根据RISC-V标准规定，函数调用通过寄存器传递参数。在内核中可以通过argint、argaddr等函数获取系统调用的参数，分别对应整数和指针，它们都调用argraw来读取已保存的寄存器。比如，<code>kernel/sycall.c</code>中 <code>argraw</code>函数所描述的就是取出参数的过程。</p>
+<div class="highlight"><pre><span></span><code><span class="k">static</span><span class="w"> </span><span class="n">uint64</span><span class="w"> </span><span class="nf">argraw</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">proc</span><span class="w"> </span><span class="o">*</span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">myproc</span><span class="p">();</span>
+<span class="w">  </span><span class="k">switch</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">case</span><span class="w"> </span><span class="mi">0</span><span class="p">:</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">p</span><span class="o">-&gt;</span><span class="n">trapframe</span><span class="o">-&gt;</span><span class="n">a0</span><span class="p">;</span>
+<span class="w">  </span><span class="k">case</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">p</span><span class="o">-&gt;</span><span class="n">trapframe</span><span class="o">-&gt;</span><span class="n">a1</span><span class="p">;</span>
+<span class="w">   </span><span class="c1">// ……  </span>
+</code></pre></div>
+<p>其中 <strong>trapframe就是用户进程的寄存器状态</strong> （上下文，详见<a href="#31-trapframe">3.1 trapframe</a>）。</p>
+</div>
+<h3 id="14">1.4 系统调用的分发和实现：解耦合<a class="headerlink" href="#14" title="Permanent link">&para;</a></h3>
+<p>按照之前所述，定义一个系统调用实际上很简单：将系统调用号的宏定义<code>SYS_${name}</code>添加在<code>kernel/syscall.h</code>，每次系统调用时根据<code>a7</code>寄存器传入的值判定具体的系统调用类型即可。
+那么接下来我们面临的第一个问题是：内核怎么通过系统调用号（存在<code>a7</code>）来执行不同的系统调用函数。</p>
+<div class="admonition info">
+<p class="admonition-title">提示</p>
+<p>我们需要关注<code>kernel/syscall.c</code>中定义了一大段看起来就和系统调用有关的部分。这里可以分为两个部分，一个是 <code>extern</code> 进行标识的函数接口，另一个是以<code>syscall</code>为名的数组。</p>
+<div class="highlight"><pre><span></span><code><span class="k">extern</span><span class="w"> </span><span class="n">uint64</span><span class="w"> </span><span class="nf">sys_chdir</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+<span class="k">extern</span><span class="w"> </span><span class="n">uint64</span><span class="w"> </span><span class="nf">sys_close</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+<span class="k">extern</span><span class="w"> </span><span class="n">uint64</span><span class="w"> </span><span class="nf">sys_dup</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+<span class="k">extern</span><span class="w"> </span><span class="n">uint64</span><span class="w"> </span><span class="nf">sys_exec</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+<span class="k">extern</span><span class="w"> </span><span class="n">uint64</span><span class="w"> </span><span class="nf">sys_exit</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+
+<span class="c1">// ……</span>
+
+<span class="k">static</span><span class="w"> </span><span class="n">uint64</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">syscalls</span><span class="p">[])(</span><span class="kt">void</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="p">[</span><span class="n">SYS_fork</span><span class="p">]</span><span class="w"> </span><span class="n">sys_fork</span><span class="p">,</span><span class="w">   </span><span class="p">[</span><span class="n">SYS_exit</span><span class="p">]</span><span class="w"> </span><span class="n">sys_exit</span><span class="p">,</span><span class="w">     </span><span class="p">[</span><span class="n">SYS_wait</span><span class="p">]</span><span class="w"> </span><span class="n">sys_wait</span><span class="p">,</span><span class="w">     </span><span class="p">[</span><span class="n">SYS_pipe</span><span class="p">]</span><span class="w"> </span><span class="n">sys_pipe</span><span class="p">,</span>
+<span class="w">    </span><span class="p">[</span><span class="n">SYS_read</span><span class="p">]</span><span class="w"> </span><span class="n">sys_read</span><span class="p">,</span><span class="w">   </span><span class="p">[</span><span class="n">SYS_kill</span><span class="p">]</span><span class="w"> </span><span class="n">sys_kill</span><span class="p">,</span><span class="w">     </span><span class="p">[</span><span class="n">SYS_exec</span><span class="p">]</span><span class="w"> </span><span class="n">sys_exec</span><span class="p">,</span><span class="w">     </span><span class="p">[</span><span class="n">SYS_fstat</span><span class="p">]</span><span class="w"> </span><span class="n">sys_fstat</span><span class="p">,</span>
+<span class="w">    </span><span class="p">[</span><span class="n">SYS_chdir</span><span class="p">]</span><span class="w"> </span><span class="n">sys_chdir</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="n">SYS_dup</span><span class="p">]</span><span class="w"> </span><span class="n">sys_dup</span><span class="p">,</span><span class="w">       </span><span class="p">[</span><span class="n">SYS_getpid</span><span class="p">]</span><span class="w"> </span><span class="n">sys_getpid</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="n">SYS_sbrk</span><span class="p">]</span><span class="w"> </span><span class="n">sys_sbrk</span><span class="p">,</span>
+<span class="w">    </span><span class="p">[</span><span class="n">SYS_sleep</span><span class="p">]</span><span class="w"> </span><span class="n">sys_sleep</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="n">SYS_uptime</span><span class="p">]</span><span class="w"> </span><span class="n">sys_uptime</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="n">SYS_open</span><span class="p">]</span><span class="w"> </span><span class="n">sys_open</span><span class="p">,</span><span class="w">     </span><span class="p">[</span><span class="n">SYS_write</span><span class="p">]</span><span class="w"> </span><span class="n">sys_write</span><span class="p">,</span>
+<span class="w">    </span><span class="p">[</span><span class="n">SYS_mknod</span><span class="p">]</span><span class="w"> </span><span class="n">sys_mknod</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="n">SYS_unlink</span><span class="p">]</span><span class="w"> </span><span class="n">sys_unlink</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="n">SYS_link</span><span class="p">]</span><span class="w"> </span><span class="n">sys_link</span><span class="p">,</span><span class="w">     </span><span class="p">[</span><span class="n">SYS_mkdir</span><span class="p">]</span><span class="w"> </span><span class="n">sys_mkdir</span><span class="p">,</span>
+<span class="w">    </span><span class="p">[</span><span class="n">SYS_close</span><span class="p">]</span><span class="w"> </span><span class="n">sys_close</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="n">SYS_rename</span><span class="p">]</span><span class="w"> </span><span class="n">sys_rename</span><span class="p">,</span>
+<span class="p">};</span>
+</code></pre></div>
+<ul>
+<li>
+<p>前者实际上声明了这些函数，这些函数的实现不必在这个文件中，而是分布在各个相关的代码文件中（一般放在<code>sys</code>开头的文件中，包括<code>sysproc.c</code>与<code>sysfile.c</code>），我们在这些代码文件中实现好对应的函数，最后就可以编译出对应名字的汇编代码函数， <code>extern</code> 就会找到对应的函数实现了。</p>
+</li>
+<li>
+<p>后者则是将这些函数的指针都放在统一的数组里，并且数组下标就是系统调用号，这样我们在分辨不同系统调用的时候就可以很方便地用数组来进行操作了。<code>kernel/syscall.c</code>中的 <code>syscall()</code> 函数就根据这一方法实现了系统调用的分发（通过不同系统调用号调用不同系统调用函数），请仔细阅读并尝试理解。</p>
+</li>
+<li>
+<p>将两者合起来使用，可以使得系统调用的 <strong>实现</strong> 和系统调用的 <strong>分发</strong> 彼此 <strong>分离</strong> ，这对函数编写者非常友好，但是会让初学者有些迷惑，这是需要注意的。</p>
+</li>
+</ul>
+</div>
+<h2 id="2">2. 举例：系统调用的实现<a class="headerlink" href="#2" title="Permanent link">&para;</a></h2>
+<p>现在我们以一个具体的例子，来看看xv6是怎么实现系统调用的。我们准备挑选看起来朴实无华的系统调用<code>sleep</code>，因为它实际上暗藏凶险。</p>
+<p>先来看张总图把握一下整体流程：</p>
+<p><img alt="syscall" src="../part2.assets/syscall.png" /></p>
+<p>以下只对系统调用过程某几个关键点进行分析，其他相关代码/流程需要大家自行查阅代码：</p>
+<h3 id="21">2.1 用户程序调用<a class="headerlink" href="#21" title="Permanent link">&para;</a></h3>
+<p>xv6关于sleep系统调用接口的声明在user/user.h。</p>
+<div class="highlight"><pre><span></span><code><span class="cm">/* user/user.h */</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">sleep</span><span class="p">(</span><span class="kt">int</span><span class="p">);</span>
+</code></pre></div>
+<h3 id="22-usyss">2.2 usys.S汇编<a class="headerlink" href="#22-usyss" title="Permanent link">&para;</a></h3>
+<p>然而，user/user.h只是对函数原型进行了声明。具体做了什么事呢？这个定义是在usys.S中，详见<a href="#12">1.2小节</a>。</p>
+<p>需要注意的是，usys.S汇编是由usys.pl（perl脚本）自动生成的。也就是，当你要增加新的系统调用时，不要修改usys.S，而是参考其他系统调用接口来修改usys.pl。</p>
+<h3 id="23-uservec">2.3 uservec汇编<a class="headerlink" href="#23-uservec" title="Permanent link">&para;</a></h3>
+<p>当执行ecall指令后，内核会切换到supervisor mode。接着，内核执行的第一个指令是来自trampoline.S文件的uservec汇编函数。</p>
+<h3 id="24-usertrap">2.4 usertrap<a class="headerlink" href="#24-usertrap" title="Permanent link">&para;</a></h3>
+<p>之后，代码跳转到了由C语言实现的usertrap函数中（trap.c），判断如果是来自用户的系统调用则执行syscall函数。</p>
+<div class="admonition info">
+<p class="admonition-title">提示</p>
+<p>一般进入usertrap函数有三种情况：<br />
+1. syscall系统调用，是由用户进程主动调用ecall指令来实现的。 <br />
+2. device interrupt设备中断，比如：磁盘设备完成了读写请求操作。 <br />
+3. exception异常，是用户进程或内核程序的illegal instruction导致的，比如：除0错误，或引用无效的虚拟地址。  </p>
+<div class="highlight"><pre><span></span><code><span class="kt">void</span><span class="w"> </span><span class="nf">usertrap</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">r_scause</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">8</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// system call</span>
+
+<span class="w">    </span><span class="c1">// ……      </span>
+<span class="w">  </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">((</span><span class="n">which_dev</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">devintr</span><span class="p">())</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// ok</span>
+<span class="w">  </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;usertrap(): unexpected scause %p pid=%d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">r_scause</span><span class="p">(),</span><span class="w"> </span><span class="n">p</span><span class="o">-&gt;</span><span class="n">pid</span><span class="p">);</span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;            sepc=%p stval=%p</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">r_sepc</span><span class="p">(),</span><span class="w"> </span><span class="n">r_stval</span><span class="p">());</span>
+<span class="w">    </span><span class="n">p</span><span class="o">-&gt;</span><span class="n">killed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="w">   </span><span class="c1">// ……  </span>
+</code></pre></div>
+</div>
+<h3 id="25-syscall">2.5 syscall<a class="headerlink" href="#25-syscall" title="Permanent link">&para;</a></h3>
+<p>syscall函数里有一个表单，根据传入的代表系统调用的数字进行查找，并执行具体实现系统调用功能的函数。对于这个例子来说，这个函数就是sys_sleep。</p>
+<h3 id="26-sys_sleep">2.6 sys_sleep<a class="headerlink" href="#26-sys_sleep" title="Permanent link">&para;</a></h3>
+<p>其代码可见 <code>kernel/sysproc.c</code> line55-74：</p>
+<div class="highlight"><pre><span></span><code><span class="mi">55</span><span class="w">  </span><span class="n">uint64</span>
+<span class="mi">56</span><span class="w">  </span><span class="n">sys_sleep</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="mi">57</span><span class="w">  </span><span class="p">{</span>
+<span class="mi">58</span><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="p">;</span>
+<span class="mi">59</span><span class="w">    </span><span class="n">uint</span><span class="w"> </span><span class="n">ticks0</span><span class="p">;</span>
+<span class="mi">60</span>
+<span class="mi">61</span><span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="n">argint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="mi">62</span><span class="w">      </span><span class="k">return</span><span class="w"> </span><span class="mi">-1</span><span class="p">;</span>
+<span class="mi">63</span><span class="w">    </span><span class="n">acquire</span><span class="p">(</span><span class="o">&amp;</span><span class="n">tickslock</span><span class="p">);</span>
+<span class="mi">64</span><span class="w">    </span><span class="n">ticks0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ticks</span><span class="p">;</span>
+<span class="mi">65</span><span class="w">    </span><span class="k">while</span><span class="p">(</span><span class="n">ticks</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">ticks0</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">n</span><span class="p">){</span>
+<span class="mi">66</span><span class="w">      </span><span class="k">if</span><span class="p">(</span><span class="n">myproc</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">killed</span><span class="p">){</span>
+<span class="mi">67</span><span class="w">        </span><span class="n">release</span><span class="p">(</span><span class="o">&amp;</span><span class="n">tickslock</span><span class="p">);</span>
+<span class="mi">68</span><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">-1</span><span class="p">;</span>
+<span class="mi">69</span><span class="w">      </span><span class="p">}</span>
+<span class="mi">70</span><span class="w">      </span><span class="n">sleep</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ticks</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">tickslock</span><span class="p">);</span>
+<span class="mi">71</span><span class="w">    </span><span class="p">}</span>
+<span class="mi">72</span><span class="w">    </span><span class="n">release</span><span class="p">(</span><span class="o">&amp;</span><span class="n">tickslock</span><span class="p">);</span>
+<span class="mi">73</span><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="mi">74</span><span class="w">  </span><span class="p">}</span>
+</code></pre></div>
+<ul>
+<li>
+<p>参数：系统调用<code>sleep</code>有一个参数，用来告知操作系统<code>sleep</code>的持续时间。但是这里怎么是<code>void</code>？</p>
+<ul>
+<li>这是因为xv6又进行了一次解耦合，通过一个额外的函数获取参数，他们以<code>arg</code>开头，具体见<code>kernel/syscall.c</code>。</li>
+</ul>
+</li>
+<li>
+<p>获得进程的状态：执行系统调用的时候，参数不会告诉xv6自己到底是什么程序。因此，xv6需要额外的调用来弄清楚，现在到底是什么程序正在运行？</p>
+<ul>
+<li>关键的函数是 <code>myproc()</code> ，这个函数将返回指向当前进程的PCB（也就是进程控制块，详见<a href="#3-pcb">3. 进程控制块</a>）的指针（<code>struct proc *</code>），里面有程序的各种信息。</li>
+</ul>
+</li>
+<li>
+<p><code>sleep</code>的实现逻辑：这里，主要就是根据各个不同的系统调用，实现自身应的逻辑即可。现在简要介绍<code>sleep</code>逻辑。</p>
+<ul>
+<li>line 61：获取参数</li>
+<li>line 63：给时钟加锁，获取当前的时间</li>
+<li>line 65：比较是否到了<code>sleep</code>结束的时间</li>
+<li>line 66-69：进程结束了就退出，什么也不做</li>
+<li>line 70：否则继续睡眠</li>
+<li>line 72-73：到时间了则释放时间的锁，返回程序，<code>sleep</code>结束。</li>
+</ul>
+</li>
+</ul>
+<h3 id="27">2.7 执行完后返回用户空间<a class="headerlink" href="#27" title="Permanent link">&para;</a></h3>
+<p>当sleep完成之后，返回至syscall函数。在syscall函数中调用usertrapret，用于完成部分方便在C代码实现的返回用户空间的工作。还有一些工作只能在汇编语言完成，即trampoline.s中的userret函数。最后，这个函数执行sret指令，切回用户空间，执行用户空间ecall的下一条指令ret。当ret执行完后，返回调用函数的位置，执行用户程序的下一条语句。</p>
+<p>以上，即是系统调用过程中大致的代码执行流程。</p>
+<h2 id="3-pcb">3. 进程控制块（PCB）<a class="headerlink" href="#3-pcb" title="Permanent link">&para;</a></h2>
+<p>相信同学们在理论课上已经学习过了进程的概念，并且应该也知道进程控制块是 <strong>保存进程各种信息</strong> 的地方。</p>
+<p>在xv6当中，我们可以在<code>proc.h: struct proc</code>也就是proc结构体当中看到xv6对于进程的PCB的定义：
+<div class="highlight"><pre><span></span><code><span class="k">struct</span><span class="w"> </span><span class="nc">proc</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">spinlock</span><span class="w"> </span><span class="n">lock</span><span class="p">;</span>
+
+<span class="w">  </span><span class="c1">// p-&gt;lock must be held when using these:</span>
+<span class="w">  </span><span class="k">enum</span><span class="w"> </span><span class="n">procstate</span><span class="w"> </span><span class="n">state</span><span class="p">;</span><span class="w">        </span><span class="c1">// Process state</span>
+<span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">proc</span><span class="w"> </span><span class="o">*</span><span class="n">parent</span><span class="p">;</span><span class="w">         </span><span class="c1">// Parent process</span>
+<span class="w">  </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">chan</span><span class="p">;</span><span class="w">                  </span><span class="c1">// If non-zero, sleeping on chan</span>
+<span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">killed</span><span class="p">;</span><span class="w">                  </span><span class="c1">// If non-zero, have been killed</span>
+<span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">xstate</span><span class="p">;</span><span class="w">                  </span><span class="c1">// Exit status to be returned to parent&#39;s wait</span>
+<span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">pid</span><span class="p">;</span><span class="w">                     </span><span class="c1">// Process ID</span>
+
+<span class="w">  </span><span class="c1">// these are private to the process, so p-&gt;lock need not be held.</span>
+<span class="w">  </span><span class="n">uint64</span><span class="w"> </span><span class="n">kstack</span><span class="p">;</span><span class="w">               </span><span class="c1">// Virtual address of kernel stack</span>
+<span class="w">  </span><span class="n">uint64</span><span class="w"> </span><span class="n">sz</span><span class="p">;</span><span class="w">                   </span><span class="c1">// Size of process memory (bytes)</span>
+<span class="w">  </span><span class="n">pagetable_t</span><span class="w"> </span><span class="n">pagetable</span><span class="p">;</span><span class="w">       </span><span class="c1">// User page table</span>
+<span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">trapframe</span><span class="w"> </span><span class="o">*</span><span class="n">trapframe</span><span class="p">;</span><span class="w"> </span><span class="c1">// data page for trampoline.S</span>
+<span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">context</span><span class="w"> </span><span class="n">context</span><span class="p">;</span><span class="w">      </span><span class="c1">// swtch() here to run process</span>
+<span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">file</span><span class="w"> </span><span class="o">*</span><span class="n">ofile</span><span class="p">[</span><span class="n">NOFILE</span><span class="p">];</span><span class="w">  </span><span class="c1">// Open files</span>
+<span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">inode</span><span class="w"> </span><span class="o">*</span><span class="n">cwd</span><span class="p">;</span><span class="w">           </span><span class="c1">// Current directory</span>
+<span class="w">  </span><span class="kt">char</span><span class="w"> </span><span class="n">name</span><span class="p">[</span><span class="mi">16</span><span class="p">];</span><span class="w">               </span><span class="c1">// Process name (debugging)</span>
+<span class="p">};</span>
+</code></pre></div></p>
+<p>在这里我们提几个与实验相关的成员：state、parent、xstate、trapframe、context。</p>
+<ul>
+<li><code>state</code>：用以表征当前进程的状态信息，在<code>proc.h: enum procstate</code>当中选取；</li>
+<li><code>parent</code>：指向当前进程的父进程的指针，用来 <strong>唤醒父进程</strong> 或 <strong>查找子进程</strong> ；</li>
+<li><code>xstate</code>：当前进程的退出状态，用于返回给父进程的wait函数中的status参数；</li>
+<li><code>trapframe</code>：进程在陷入内核时初始化的信息，包含内核栈、用户态传参等信息，详细内容我们接下来介绍；</li>
+<li><code>context</code>：进程的上下文信息，包含ra和sp以及callee-saved的寄存器；</li>
+</ul>
+<h3 id="31-trapframe">3.1 trapframe<a class="headerlink" href="#31-trapframe" title="Permanent link">&para;</a></h3>
+<p>在这里我们对trapframe这一概念进行详细介绍。</p>
+<p>我们知道，当进程从用户态陷入内核时，由于内核态也需要用到寄存器，因此需要将用户态的上下文（寄存器信息）保存起来，以便于后面返回用户态时重新恢复这些上下文（寄存器）。</p>
+<p><div class="highlight"><pre><span></span><code><span class="k">struct</span><span class="w"> </span><span class="nc">trapframe</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="cm">/*   0 */</span><span class="w"> </span><span class="n">uint64</span><span class="w"> </span><span class="n">kernel_satp</span><span class="p">;</span><span class="w">   </span><span class="c1">// kernel page table</span>
+<span class="w">  </span><span class="cm">/*   8 */</span><span class="w"> </span><span class="n">uint64</span><span class="w"> </span><span class="n">kernel_sp</span><span class="p">;</span><span class="w">     </span><span class="c1">// top of process&#39;s kernel stack</span>
+<span class="w">  </span><span class="cm">/*  16 */</span><span class="w"> </span><span class="n">uint64</span><span class="w"> </span><span class="n">kernel_trap</span><span class="p">;</span><span class="w">   </span><span class="c1">// usertrap()</span>
+<span class="w">  </span><span class="cm">/*  24 */</span><span class="w"> </span><span class="n">uint64</span><span class="w"> </span><span class="n">epc</span><span class="p">;</span><span class="w">           </span><span class="c1">// saved user program counter</span>
+<span class="w">  </span><span class="cm">/*  32 */</span><span class="w"> </span><span class="n">uint64</span><span class="w"> </span><span class="n">kernel_hartid</span><span class="p">;</span><span class="w"> </span><span class="c1">// saved kernel tp</span>
+<span class="w">  </span><span class="cm">/*  40 */</span><span class="w"> </span><span class="n">uint64</span><span class="w"> </span><span class="n">ra</span><span class="p">;</span>
+<span class="w">  </span><span class="cm">/*  48 */</span><span class="w"> </span><span class="n">uint64</span><span class="w"> </span><span class="n">sp</span><span class="p">;</span>
+<span class="w">  </span><span class="cm">/*  56 */</span><span class="w"> </span><span class="n">uint64</span><span class="w"> </span><span class="n">gp</span><span class="p">;</span>
+<span class="w">  </span><span class="cm">/*  64 */</span><span class="w"> </span><span class="n">uint64</span><span class="w"> </span><span class="n">tp</span><span class="p">;</span>
+<span class="w">  </span><span class="cm">/*  72 */</span><span class="w"> </span><span class="n">uint64</span><span class="w"> </span><span class="n">t0</span><span class="p">;</span>
+<span class="w">  </span><span class="cm">/*  80 */</span><span class="w"> </span><span class="n">uint64</span><span class="w"> </span><span class="n">t1</span><span class="p">;</span>
+<span class="w">  </span><span class="cm">/*  88 */</span><span class="w"> </span><span class="n">uint64</span><span class="w"> </span><span class="n">t2</span><span class="p">;</span>
+<span class="w">  </span><span class="cm">/*  96 */</span><span class="w"> </span><span class="n">uint64</span><span class="w"> </span><span class="n">s0</span><span class="p">;</span>
+<span class="w">  </span><span class="cm">/* 104 */</span><span class="w"> </span><span class="n">uint64</span><span class="w"> </span><span class="n">s1</span><span class="p">;</span>
+<span class="w">  </span><span class="cm">/* 112 */</span><span class="w"> </span><span class="n">uint64</span><span class="w"> </span><span class="n">a0</span><span class="p">;</span>
+<span class="w">  </span><span class="cm">/* 120 */</span><span class="w"> </span><span class="n">uint64</span><span class="w"> </span><span class="n">a1</span><span class="p">;</span>
+<span class="w">  </span><span class="cm">/* 128 */</span><span class="w"> </span><span class="n">uint64</span><span class="w"> </span><span class="n">a2</span><span class="p">;</span>
+<span class="w">  </span><span class="cm">/* 136 */</span><span class="w"> </span><span class="n">uint64</span><span class="w"> </span><span class="n">a3</span><span class="p">;</span>
+<span class="w">  </span><span class="cm">/* 144 */</span><span class="w"> </span><span class="n">uint64</span><span class="w"> </span><span class="n">a4</span><span class="p">;</span>
+<span class="w">  </span><span class="cm">/* 152 */</span><span class="w"> </span><span class="n">uint64</span><span class="w"> </span><span class="n">a5</span><span class="p">;</span>
+<span class="w">  </span><span class="cm">/* 160 */</span><span class="w"> </span><span class="n">uint64</span><span class="w"> </span><span class="n">a6</span><span class="p">;</span>
+<span class="w">  </span><span class="cm">/* 168 */</span><span class="w"> </span><span class="n">uint64</span><span class="w"> </span><span class="n">a7</span><span class="p">;</span>
+<span class="w">  </span><span class="cm">/* 176 */</span><span class="w"> </span><span class="n">uint64</span><span class="w"> </span><span class="n">s2</span><span class="p">;</span>
+<span class="w">  </span><span class="cm">/* 184 */</span><span class="w"> </span><span class="n">uint64</span><span class="w"> </span><span class="n">s3</span><span class="p">;</span>
+<span class="w">  </span><span class="cm">/* 192 */</span><span class="w"> </span><span class="n">uint64</span><span class="w"> </span><span class="n">s4</span><span class="p">;</span>
+<span class="w">  </span><span class="cm">/* 200 */</span><span class="w"> </span><span class="n">uint64</span><span class="w"> </span><span class="n">s5</span><span class="p">;</span>
+<span class="w">  </span><span class="cm">/* 208 */</span><span class="w"> </span><span class="n">uint64</span><span class="w"> </span><span class="n">s6</span><span class="p">;</span>
+<span class="w">  </span><span class="cm">/* 216 */</span><span class="w"> </span><span class="n">uint64</span><span class="w"> </span><span class="n">s7</span><span class="p">;</span>
+<span class="w">  </span><span class="cm">/* 224 */</span><span class="w"> </span><span class="n">uint64</span><span class="w"> </span><span class="n">s8</span><span class="p">;</span>
+<span class="w">  </span><span class="cm">/* 232 */</span><span class="w"> </span><span class="n">uint64</span><span class="w"> </span><span class="n">s9</span><span class="p">;</span>
+<span class="w">  </span><span class="cm">/* 240 */</span><span class="w"> </span><span class="n">uint64</span><span class="w"> </span><span class="n">s10</span><span class="p">;</span>
+<span class="w">  </span><span class="cm">/* 248 */</span><span class="w"> </span><span class="n">uint64</span><span class="w"> </span><span class="n">s11</span><span class="p">;</span>
+<span class="w">  </span><span class="cm">/* 256 */</span><span class="w"> </span><span class="n">uint64</span><span class="w"> </span><span class="n">t3</span><span class="p">;</span>
+<span class="w">  </span><span class="cm">/* 264 */</span><span class="w"> </span><span class="n">uint64</span><span class="w"> </span><span class="n">t4</span><span class="p">;</span>
+<span class="w">  </span><span class="cm">/* 272 */</span><span class="w"> </span><span class="n">uint64</span><span class="w"> </span><span class="n">t5</span><span class="p">;</span>
+<span class="w">  </span><span class="cm">/* 280 */</span><span class="w"> </span><span class="n">uint64</span><span class="w"> </span><span class="n">t6</span><span class="p">;</span>
+<span class="p">};</span>
+</code></pre></div>
+上面是xv6对trapframe结构体的定义，我们可以看见，trapframe当中包含内核的栈指针（<code>kernel_sp</code>）、内核页表指针（<code>kernel_satp</code>）等内核态相关的信息。</p>
+<p>同时，trapframe也保存了全套的用户态寄存器信息，以及 <strong>用户态陷入内核时对应的PC值（<code>epc</code>）</strong> 。</p>
+<h2 id="4-exit">4. exit系统调用工作流程<a class="headerlink" href="#4-exit" title="Permanent link">&para;</a></h2>
+<p>在上面关于系统调用的通用执行流程的基础上，为了便于同学们更好的完成实验，我们在此为同学们详细介绍exit系统调用的工作流程。</p>
+<p>首先我们先来看一张图：</p>
+<p><img alt="exit" src="../part2.assets/exit.png" /></p>
+<p>exit系统调用与其他的系统调用一样，在陷入内核之前都需要进行相应的ecall、usertrap等操作，这一部分可以参考上面的<a href="#2">举例：系统调用的实现</a>。我们在这里不再进行详细介绍，我们着重介绍exit在内核态的主体函数（<code>proc.c: exit(int)</code>）的工作流程。</p>
+<h3 id="41">4.1 进程资源回收<a class="headerlink" href="#41" title="Permanent link">&para;</a></h3>
+<p>exit系统调用的主要功能实际上就是退出当前进程，那么退出当前进程就必须 <strong>先要将当前进程的资源进行回收</strong> ，否则会导致内存泄漏等一系列奇怪的问题。</p>
+<p>我们接下来从xv6的源码来分析进程主要需要哪些方面的资源回收。</p>
+<h4 id="411">4.1.1 打开文件回收<a class="headerlink" href="#411" title="Permanent link">&para;</a></h4>
+<p>首先回收当前进程打开的所有文件：
+<div class="highlight"><pre><span></span><code><span class="c1">// Close all open files.</span>
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">fd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">fd</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">NOFILE</span><span class="p">;</span><span class="w"> </span><span class="n">fd</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">ofile</span><span class="p">[</span><span class="n">fd</span><span class="p">])</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">file</span><span class="w"> </span><span class="o">*</span><span class="n">f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p</span><span class="o">-&gt;</span><span class="n">ofile</span><span class="p">[</span><span class="n">fd</span><span class="p">];</span>
+<span class="w">    </span><span class="n">fileclose</span><span class="p">(</span><span class="n">f</span><span class="p">);</span>
+<span class="w">    </span><span class="n">p</span><span class="o">-&gt;</span><span class="n">ofile</span><span class="p">[</span><span class="n">fd</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+xv6使用上述代码进行打开文件的回收。通过for循环遍历所有可能的文件描述符（fd），依次判断该文件描述符是否存在于当前进程的PCB中的ofile（open file）数组当中，如果存在，意味着当前fd对应的文件处于打开状态，需要关闭回收。</p>
+<h4 id="412">4.1.2 子进程回收<a class="headerlink" href="#412" title="Permanent link">&para;</a></h4>
+<p>子进程回收需要多步进行：</p>
+<ol>
+<li>唤醒初始进程（initproc），为切换当前进程的子进程的父进程做准备<br />
+<div class="highlight"><pre><span></span><code><span class="n">acquire</span><span class="p">(</span><span class="o">&amp;</span><span class="n">initproc</span><span class="o">-&gt;</span><span class="n">lock</span><span class="p">);</span>
+<span class="n">wakeup1</span><span class="p">(</span><span class="n">initproc</span><span class="p">);</span>
+<span class="n">release</span><span class="p">(</span><span class="o">&amp;</span><span class="n">initproc</span><span class="o">-&gt;</span><span class="n">lock</span><span class="p">);</span>
+</code></pre></div></li>
+<li>保存当前进程的父进程指针，为后续唤醒做准备<br />
+<div class="highlight"><pre><span></span><code><span class="n">acquire</span><span class="p">(</span><span class="o">&amp;</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">lock</span><span class="p">);</span>
+<span class="k">struct</span><span class="w"> </span><span class="nc">proc</span><span class="w"> </span><span class="o">*</span><span class="n">original_parent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p</span><span class="o">-&gt;</span><span class="n">parent</span><span class="p">;</span>
+<span class="n">release</span><span class="p">(</span><span class="o">&amp;</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">lock</span><span class="p">);</span>
+</code></pre></div></li>
+<li>将当前进程的 <strong>子进程</strong> 的父进程指针更改成initproc，即理论课上提到： <strong>所有孤儿进程会被initproc管理</strong><br />
+<div class="highlight"><pre><span></span><code><span class="n">acquire</span><span class="p">(</span><span class="o">&amp;</span><span class="n">original_parent</span><span class="o">-&gt;</span><span class="n">lock</span><span class="p">);</span>
+
+<span class="n">acquire</span><span class="p">(</span><span class="o">&amp;</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">lock</span><span class="p">);</span>
+
+<span class="c1">// Give any children to init.</span>
+<span class="n">reparent</span><span class="p">(</span><span class="n">p</span><span class="p">);</span>
+</code></pre></div>
+希望同学们能够自己查看<code>proc.c: reparent(struct proc *p)</code>函数，并理解里面查找当前进程的子进程的逻辑，这会对你解决<a href="../part1/#32">任务一</a>有帮助 (=  </li>
+<li>唤醒当前进程的父进程
+<div class="highlight"><pre><span></span><code><span class="n">wakeup1</span><span class="p">(</span><span class="n">original_parent</span><span class="p">);</span>
+</code></pre></div>
+关于为什么唤醒父进程：因为父进程此时可能处在wait()当中，而xv6的wait的实现是让当前进程睡眠，等待被唤醒，如果子进程退出时不唤醒父进程，那么父进程将会一直睡下去...<br />
+我们的<a href="../part1/#33">任务二</a>就是在更改wait的这一实现。</li>
+</ol>
+<h3 id="42">4.2 更改当前进程状态<a class="headerlink" href="#42" title="Permanent link">&para;</a></h3>
+<p><div class="highlight"><pre><span></span><code><span class="n">p</span><span class="o">-&gt;</span><span class="n">xstate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">status</span><span class="p">;</span>
+<span class="n">p</span><span class="o">-&gt;</span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ZOMBIE</span><span class="p">;</span>
+</code></pre></div>
+其中xstate表示退出时返回给父进程的状态，state表示当前进程的状态，这两个状态都存储在进程的PCB（<code>proc.h: struct proc</code>）当中。</p>
+<h3 id="43">4.3 进入调度器等待被回收<a class="headerlink" href="#43" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1">// Jump into the scheduler, never to return.</span>
+<span class="n">sched</span><span class="p">();</span>
+<span class="n">panic</span><span class="p">(</span><span class="s">&quot;zombie exit&quot;</span><span class="p">);</span>
+</code></pre></div>
+<!-- ## 4. 内核空间和用户空间交换数据
+
+一些系统调用传递的参数是指针，内核需要使用这些指针来读写用户空间。但由于内核页表的映射和用户页表的映射不一样，内核不能使用普通的指令访问用户空间，这样就涉及到内核空间和用户空间的地址转换问题。在xv6中，我们可以使用`copyout`/`copyin`这两个函数分别完成内核空间到用户空间、用户空间到内核空间的数据拷贝。具体可以查看copyout/copyin的实现细节（kernel/vm.c）。
+
+例如，当shell执行ls命令时，调用`fstat`系统调用（user/ls.c）获取当前目录下的信息。
+
+![image-20220920181414750](part2.assets/image-20220920181414750.png)
+
+fstat系统调用陷入内核调用`sys_fstat`，最终执行`filestat`函数，其中`st`是从用户空间传进来的入参（指针）。
+
+![image-20220920181501174](part2.assets/image-20220920181501174.png)
+
+在filestat函数中，通过`stati`函数获取到inode节点信息，再调用`copyout`将获取到的信息拷贝给起始地址为filestat函数的入参addr，大小为sizeof(st)的用户空间。
+
+![image-20220920181634893](part2.assets/image-20220920181634893.png)
+
+之后，返回`sys_fstat`，即可将内核空间的数据传递至用户空间。 -->
+
+<h2 id="5-wait">5. wait系统调用（阻塞与非阻塞）的工作流程<a class="headerlink" href="#5-wait" title="Permanent link">&para;</a></h2>
+<p>同样的，我们先来看张图：</p>
+<p><img alt="wait" src="../part2.assets/wait.png" /></p>
+<h3 id="51-wait">5.1 阻塞方式的wait<a class="headerlink" href="#51-wait" title="Permanent link">&para;</a></h3>
+<p>就像刚刚图片当中看见的，阻塞方式实现的wait会在经历系统调用的通用调用流程之后来到内核中的wait主体函数：<code>proc.c: wait(int)</code>。</p>
+<p>在wait函数当中，我们希望学有余力的同学可以自行阅读代码，理解其查找僵尸子进程的逻辑。当然不理解也是可以完成我们的任务二的 (=。</p>
+<p>首先，xv6原本的实现当中，在<code>proc.c: wait(int)</code>函数的最后几行：
+<div class="highlight"><pre><span></span><code><span class="k">for</span><span class="w"> </span><span class="p">(;;)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// 一大堆代码，作用就是用来查找是否存在僵尸子进程，有就返回对应的僵尸子进程的pid</span>
+<span class="w">  </span><span class="c1">// Wait for a child to exit.</span>
+<span class="w">  </span><span class="n">sleep</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">lock</span><span class="p">);</span><span class="w">  </span><span class="c1">// DOC: wait-sleep</span>
+<span class="p">}</span>
+</code></pre></div>
+实际上，这里的sleep就是让当前进程进行睡觉的地方，当你查看<code>proc.c: sleep(void *chan, struct spinlock *lk)</code>函数的时候：
+<div class="highlight"><pre><span></span><code><span class="c1">// Go to sleep.</span>
+<span class="n">p</span><span class="o">-&gt;</span><span class="n">chan</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">chan</span><span class="p">;</span>
+<span class="n">p</span><span class="o">-&gt;</span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SLEEPING</span><span class="p">;</span>
+</code></pre></div>
+在这2行代码完成了当前进程的状态更改，此后调度器就会发现该进程在睡觉，不会调度到它，那么就会有我们图中展现的 <strong>在内核态睡觉，等待子进程唤醒</strong> 的现象，这时，父进程就是被阻塞了。</p>
+<h3 id="52-wait">5.2 非阻塞方式的wait<a class="headerlink" href="#52-wait" title="Permanent link">&para;</a></h3>
+<p>我们在了解了阻塞方式的wait之后，相比同学们已经猜到了该如何实现非阻塞的wait了：没错，就是跳过sleep！</p>
+<p>但是，阻塞实现和非阻塞实现的wait在实际操作系统实现当中都有大用处，比如：<br />
+可以通过使用非阻塞的wait来判断子进程是否准备好需要的资源，如果没有，父进程可以先并行执行其他任务，等待需要子进程提供的资源时，使用阻塞wait来保证程序的语义正确，这是一种可行的并行优化手段。<br />
+所以我们必须 <strong>新增一个标志参数flags</strong> 来表示是否进行非阻塞wait，而不是直接将原有的阻塞wait改成非阻塞。</p>
+<p>我们假设这个<code>flags=1</code>时表示进行非阻塞wait，那么我们的测试用例流程就可以用上图的右半边来展现。</p>
+<p>这里需要大家实现<code>flags=1</code>时，不进行sleep，而是直接返回-1。为此，你可能需要知道：<br />
+1. 如何<a href="#13">获取用户态传入的参数</a><br />
+2. 在<code>proc.c: wait(int)</code>当中为了保证进程PCB的操作的互斥性，需要上锁<code>acquire(&amp;p-&gt;lock)</code>，所以 <strong>记得在返回之前解锁</strong> ：<code>release(&amp;p-&gt;lock)</code></p>
+<h2 id="6-yield">6. yield进程挂起的语义介绍<a class="headerlink" href="#6-yield" title="Permanent link">&para;</a></h2>
+<p>我们知道，每个进程的运行过程其实就是CPU在该进程的指令段逐条取指执行，那么当CPU跳转到另外一个进程的指令段进行取指执行时，便发生了进程的切换。</p>
+<p>我们在操作系统理论课上已经学习过进程调度是怎么一回事了，那么yield（进程挂起）是什么意思呢？我们知道进程运行时需要占用CPU，如上所述，那么进程挂起就是让该进程让出CPU，从而使CPU可以调度到别的进程，如下图所示：</p>
+<p><img alt="yield" src="../part2.assets/yield.png" /></p>
+<h2 id="7">7. 参考资料<a class="headerlink" href="#7" title="Permanent link">&para;</a></h2>
+<p>[1] xv6 book, Sections 4.3 and 4.4 of Chapter 4<br />
+[2] Related source files:  </p>
+<ul>
+<li>The user-space code for systems calls is in <code>user/user.h</code> and <code>user/usys.pl</code>.  </li>
+<li>The kernel-space code is <code>kernel/syscall.h</code>, <code>kernel/syscall.c</code>.  </li>
+<li>The process-related code is <code>kernel/proc.h</code> and <code>kernel/proc.c</code>.  </li>
+</ul>
+<p>​    </p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2023 - 2024 哈尔滨工业大学（深圳）
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+    <a href="mailto:<xiawen@hit.edu.cn>" target="_blank" rel="noopener" title="xiawen@hit.edu.cn" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M498.1 5.6c10.1 7 15.4 19.1 13.5 31.2l-64 416c-1.5 9.7-7.4 18.2-16 23s-18.9 5.4-28 1.6L284 427.7l-68.5 74.1c-8.9 9.7-22.9 12.9-35.2 8.1S160 493.2 160 480v-83.6c0-4 1.5-7.8 4.2-10.7l167.6-182.9c5.8-6.3 5.6-16-.4-22s-15.7-6.4-22-.7L106 360.8l-88.3-44.2C7.1 311.3.3 300.7 0 288.9s5.9-22.8 16.1-28.7l448-256c10.7-6.1 23.9-5.5 34 1.4z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.top", "navigation.tabs.sticky", "navigation.tracking"], "search": "../../assets/javascripts/workers/search.a264c092.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.6eac0284.min.js"></script>
+      
+        <script src="../../js/baidu-tongji.js"></script>
+      
+    
+  </body>
+</html>

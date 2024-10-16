@@ -1,0 +1,2202 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../../lab5/part6/">
+      
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.3">
+    
+    
+      
+        <title>2024年“全国大学生计算机系统能力大赛操作系统设计赛”火热报名中！ - 操作系统2023秋 | 哈工大（深圳）</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.79e020e9.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#2024" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="操作系统2023秋 | 哈工大（深圳）" class="md-header__button md-logo" aria-label="操作系统2023秋 | 哈工大（深圳）" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M220.8 123.3c1 .5 1.8 1.7 3 1.7 1.1 0 2.8-.4 2.9-1.5.2-1.4-1.9-2.3-3.2-2.9-1.7-.7-3.9-1-5.5-.1-.4.2-.8.7-.6 1.1.3 1.3 2.3 1.1 3.4 1.7zm-21.9 1.7c1.2 0 2-1.2 3-1.7 1.1-.6 3.1-.4 3.5-1.6.2-.4-.2-.9-.6-1.1-1.6-.9-3.8-.6-5.5.1-1.3.6-3.4 1.5-3.2 2.9.1 1 1.8 1.5 2.8 1.4zM420 403.8c-3.6-4-5.3-11.6-7.2-19.7-1.8-8.1-3.9-16.8-10.5-22.4-1.3-1.1-2.6-2.1-4-2.9-1.3-.8-2.7-1.5-4.1-2 9.2-27.3 5.6-54.5-3.7-79.1-11.4-30.1-31.3-56.4-46.5-74.4-17.1-21.5-33.7-41.9-33.4-72C311.1 85.4 315.7.1 234.8 0 132.4-.2 158 103.4 156.9 135.2c-1.7 23.4-6.4 41.8-22.5 64.7-18.9 22.5-45.5 58.8-58.1 96.7-6 17.9-8.8 36.1-6.2 53.3-6.5 5.8-11.4 14.7-16.6 20.2-4.2 4.3-10.3 5.9-17 8.3s-14 6-18.5 14.5c-2.1 3.9-2.8 8.1-2.8 12.4 0 3.9.6 7.9 1.2 11.8 1.2 8.1 2.5 15.7.8 20.8-5.2 14.4-5.9 24.4-2.2 31.7 3.8 7.3 11.4 10.5 20.1 12.3 17.3 3.6 40.8 2.7 59.3 12.5 19.8 10.4 39.9 14.1 55.9 10.4 11.6-2.6 21.1-9.6 25.9-20.2 12.5-.1 26.3-5.4 48.3-6.6 14.9-1.2 33.6 5.3 55.1 4.1.6 2.3 1.4 4.6 2.5 6.7v.1c8.3 16.7 23.8 24.3 40.3 23 16.6-1.3 34.1-11 48.3-27.9 13.6-16.4 36-23.2 50.9-32.2 7.4-4.5 13.4-10.1 13.9-18.3.4-8.2-4.4-17.3-15.5-29.7zM223.7 87.3c9.8-22.2 34.2-21.8 44-.4 6.5 14.2 3.6 30.9-4.3 40.4-1.6-.8-5.9-2.6-12.6-4.9 1.1-1.2 3.1-2.7 3.9-4.6 4.8-11.8-.2-27-9.1-27.3-7.3-.5-13.9 10.8-11.8 23-4.1-2-9.4-3.5-13-4.4-1-6.9-.3-14.6 2.9-21.8zM183 75.8c10.1 0 20.8 14.2 19.1 33.5-3.5 1-7.1 2.5-10.2 4.6 1.2-8.9-3.3-20.1-9.6-19.6-8.4.7-9.8 21.2-1.8 28.1 1 .8 1.9-.2-5.9 5.5-15.6-14.6-10.5-52.1 8.4-52.1zm-13.6 60.7c6.2-4.6 13.6-10 14.1-10.5 4.7-4.4 13.5-14.2 27.9-14.2 7.1 0 15.6 2.3 25.9 8.9 6.3 4.1 11.3 4.4 22.6 9.3 8.4 3.5 13.7 9.7 10.5 18.2-2.6 7.1-11 14.4-22.7 18.1-11.1 3.6-19.8 16-38.2 14.9-3.9-.2-7-1-9.6-2.1-8-3.5-12.2-10.4-20-15-8.6-4.8-13.2-10.4-14.7-15.3-1.4-4.9 0-9 4.2-12.3zm3.3 334c-2.7 35.1-43.9 34.4-75.3 18-29.9-15.8-68.6-6.5-76.5-21.9-2.4-4.7-2.4-12.7 2.6-26.4v-.2c2.4-7.6.6-16-.6-23.9-1.2-7.8-1.8-15 .9-20 3.5-6.7 8.5-9.1 14.8-11.3 10.3-3.7 11.8-3.4 19.6-9.9 5.5-5.7 9.5-12.9 14.3-18 5.1-5.5 10-8.1 17.7-6.9 8.1 1.2 15.1 6.8 21.9 16l19.6 35.6c9.5 19.9 43.1 48.4 41 68.9zm-1.4-25.9c-4.1-6.6-9.6-13.6-14.4-19.6 7.1 0 14.2-2.2 16.7-8.9 2.3-6.2 0-14.9-7.4-24.9-13.5-18.2-38.3-32.5-38.3-32.5-13.5-8.4-21.1-18.7-24.6-29.9s-3-23.3-.3-35.2c5.2-22.9 18.6-45.2 27.2-59.2 2.3-1.7.8 3.2-8.7 20.8-8.5 16.1-24.4 53.3-2.6 82.4.6-20.7 5.5-41.8 13.8-61.5 12-27.4 37.3-74.9 39.3-112.7 1.1.8 4.6 3.2 6.2 4.1 4.6 2.7 8.1 6.7 12.6 10.3 12.4 10 28.5 9.2 42.4 1.2 6.2-3.5 11.2-7.5 15.9-9 9.9-3.1 17.8-8.6 22.3-15 7.7 30.4 25.7 74.3 37.2 95.7 6.1 11.4 18.3 35.5 23.6 64.6 3.3-.1 7 .4 10.9 1.4 13.8-35.7-11.7-74.2-23.3-84.9-4.7-4.6-4.9-6.6-2.6-6.5 12.6 11.2 29.2 33.7 35.2 59 2.8 11.6 3.3 23.7.4 35.7 16.4 6.8 35.9 17.9 30.7 34.8-2.2-.1-3.2 0-4.2 0 3.2-10.1-3.9-17.6-22.8-26.1-19.6-8.6-36-8.6-38.3 12.5-12.1 4.2-18.3 14.7-21.4 27.3-2.8 11.2-3.6 24.7-4.4 39.9-.5 7.7-3.6 18-6.8 29-32.1 22.9-76.7 32.9-114.3 7.2zm257.4-11.5c-.9 16.8-41.2 19.9-63.2 46.5-13.2 15.7-29.4 24.4-43.6 25.5s-26.5-4.8-33.7-19.3c-4.7-11.1-2.4-23.1 1.1-36.3 3.7-14.2 9.2-28.8 9.9-40.6.8-15.2 1.7-28.5 4.2-38.7 2.6-10.3 6.6-17.2 13.7-21.1.3-.2.7-.3 1-.5.8 13.2 7.3 26.6 18.8 29.5 12.6 3.3 30.7-7.5 38.4-16.3 9-.3 15.7-.9 22.6 5.1 9.9 8.5 7.1 30.3 17.1 41.6 10.6 11.6 14 19.5 13.7 24.6zM173.3 148.7c2 1.9 4.7 4.5 8 7.1 6.6 5.2 15.8 10.6 27.3 10.6 11.6 0 22.5-5.9 31.8-10.8 4.9-2.6 10.9-7 14.8-10.4s5.9-6.3 3.1-6.6-2.6 2.6-6 5.1c-4.4 3.2-9.7 7.4-13.9 9.8-7.4 4.2-19.5 10.2-29.9 10.2s-18.7-4.8-24.9-9.7c-3.1-2.5-5.7-5-7.7-6.9-1.5-1.4-1.9-4.6-4.3-4.9-1.4-.1-1.8 3.7 1.7 6.5z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            操作系统2023秋 | 哈工大（深圳）
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              2024年“全国大学生计算机系统能力大赛操作系统设计赛”火热报名中！
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../.." class="md-tabs__link">
+          
+  
+  实验概述
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../faq/faq-env/" class="md-tabs__link">
+          
+  
+  常见问题
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../lab1/part1/" class="md-tabs__link">
+          
+  
+  Lab1：XV6与Unix实用程序
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../lab2/part1/" class="md-tabs__link">
+          
+  
+  Lab2：进程与系统调用
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../lab3/part1/" class="md-tabs__link">
+          
+  
+  Lab3：锁机制的应用
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../lab4/part1/" class="md-tabs__link">
+          
+  
+  Lab4：页表
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../lab5/part1/" class="md-tabs__link">
+          
+  
+  Lab5：基于FUSE的青春版EXT2文件系统
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="./" class="md-tabs__link">
+          
+  
+  OS竞赛招新
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="操作系统2023秋 | 哈工大（深圳）" class="md-nav__button md-logo" aria-label="操作系统2023秋 | 哈工大（深圳）" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M220.8 123.3c1 .5 1.8 1.7 3 1.7 1.1 0 2.8-.4 2.9-1.5.2-1.4-1.9-2.3-3.2-2.9-1.7-.7-3.9-1-5.5-.1-.4.2-.8.7-.6 1.1.3 1.3 2.3 1.1 3.4 1.7zm-21.9 1.7c1.2 0 2-1.2 3-1.7 1.1-.6 3.1-.4 3.5-1.6.2-.4-.2-.9-.6-1.1-1.6-.9-3.8-.6-5.5.1-1.3.6-3.4 1.5-3.2 2.9.1 1 1.8 1.5 2.8 1.4zM420 403.8c-3.6-4-5.3-11.6-7.2-19.7-1.8-8.1-3.9-16.8-10.5-22.4-1.3-1.1-2.6-2.1-4-2.9-1.3-.8-2.7-1.5-4.1-2 9.2-27.3 5.6-54.5-3.7-79.1-11.4-30.1-31.3-56.4-46.5-74.4-17.1-21.5-33.7-41.9-33.4-72C311.1 85.4 315.7.1 234.8 0 132.4-.2 158 103.4 156.9 135.2c-1.7 23.4-6.4 41.8-22.5 64.7-18.9 22.5-45.5 58.8-58.1 96.7-6 17.9-8.8 36.1-6.2 53.3-6.5 5.8-11.4 14.7-16.6 20.2-4.2 4.3-10.3 5.9-17 8.3s-14 6-18.5 14.5c-2.1 3.9-2.8 8.1-2.8 12.4 0 3.9.6 7.9 1.2 11.8 1.2 8.1 2.5 15.7.8 20.8-5.2 14.4-5.9 24.4-2.2 31.7 3.8 7.3 11.4 10.5 20.1 12.3 17.3 3.6 40.8 2.7 59.3 12.5 19.8 10.4 39.9 14.1 55.9 10.4 11.6-2.6 21.1-9.6 25.9-20.2 12.5-.1 26.3-5.4 48.3-6.6 14.9-1.2 33.6 5.3 55.1 4.1.6 2.3 1.4 4.6 2.5 6.7v.1c8.3 16.7 23.8 24.3 40.3 23 16.6-1.3 34.1-11 48.3-27.9 13.6-16.4 36-23.2 50.9-32.2 7.4-4.5 13.4-10.1 13.9-18.3.4-8.2-4.4-17.3-15.5-29.7zM223.7 87.3c9.8-22.2 34.2-21.8 44-.4 6.5 14.2 3.6 30.9-4.3 40.4-1.6-.8-5.9-2.6-12.6-4.9 1.1-1.2 3.1-2.7 3.9-4.6 4.8-11.8-.2-27-9.1-27.3-7.3-.5-13.9 10.8-11.8 23-4.1-2-9.4-3.5-13-4.4-1-6.9-.3-14.6 2.9-21.8zM183 75.8c10.1 0 20.8 14.2 19.1 33.5-3.5 1-7.1 2.5-10.2 4.6 1.2-8.9-3.3-20.1-9.6-19.6-8.4.7-9.8 21.2-1.8 28.1 1 .8 1.9-.2-5.9 5.5-15.6-14.6-10.5-52.1 8.4-52.1zm-13.6 60.7c6.2-4.6 13.6-10 14.1-10.5 4.7-4.4 13.5-14.2 27.9-14.2 7.1 0 15.6 2.3 25.9 8.9 6.3 4.1 11.3 4.4 22.6 9.3 8.4 3.5 13.7 9.7 10.5 18.2-2.6 7.1-11 14.4-22.7 18.1-11.1 3.6-19.8 16-38.2 14.9-3.9-.2-7-1-9.6-2.1-8-3.5-12.2-10.4-20-15-8.6-4.8-13.2-10.4-14.7-15.3-1.4-4.9 0-9 4.2-12.3zm3.3 334c-2.7 35.1-43.9 34.4-75.3 18-29.9-15.8-68.6-6.5-76.5-21.9-2.4-4.7-2.4-12.7 2.6-26.4v-.2c2.4-7.6.6-16-.6-23.9-1.2-7.8-1.8-15 .9-20 3.5-6.7 8.5-9.1 14.8-11.3 10.3-3.7 11.8-3.4 19.6-9.9 5.5-5.7 9.5-12.9 14.3-18 5.1-5.5 10-8.1 17.7-6.9 8.1 1.2 15.1 6.8 21.9 16l19.6 35.6c9.5 19.9 43.1 48.4 41 68.9zm-1.4-25.9c-4.1-6.6-9.6-13.6-14.4-19.6 7.1 0 14.2-2.2 16.7-8.9 2.3-6.2 0-14.9-7.4-24.9-13.5-18.2-38.3-32.5-38.3-32.5-13.5-8.4-21.1-18.7-24.6-29.9s-3-23.3-.3-35.2c5.2-22.9 18.6-45.2 27.2-59.2 2.3-1.7.8 3.2-8.7 20.8-8.5 16.1-24.4 53.3-2.6 82.4.6-20.7 5.5-41.8 13.8-61.5 12-27.4 37.3-74.9 39.3-112.7 1.1.8 4.6 3.2 6.2 4.1 4.6 2.7 8.1 6.7 12.6 10.3 12.4 10 28.5 9.2 42.4 1.2 6.2-3.5 11.2-7.5 15.9-9 9.9-3.1 17.8-8.6 22.3-15 7.7 30.4 25.7 74.3 37.2 95.7 6.1 11.4 18.3 35.5 23.6 64.6 3.3-.1 7 .4 10.9 1.4 13.8-35.7-11.7-74.2-23.3-84.9-4.7-4.6-4.9-6.6-2.6-6.5 12.6 11.2 29.2 33.7 35.2 59 2.8 11.6 3.3 23.7.4 35.7 16.4 6.8 35.9 17.9 30.7 34.8-2.2-.1-3.2 0-4.2 0 3.2-10.1-3.9-17.6-22.8-26.1-19.6-8.6-36-8.6-38.3 12.5-12.1 4.2-18.3 14.7-21.4 27.3-2.8 11.2-3.6 24.7-4.4 39.9-.5 7.7-3.6 18-6.8 29-32.1 22.9-76.7 32.9-114.3 7.2zm257.4-11.5c-.9 16.8-41.2 19.9-63.2 46.5-13.2 15.7-29.4 24.4-43.6 25.5s-26.5-4.8-33.7-19.3c-4.7-11.1-2.4-23.1 1.1-36.3 3.7-14.2 9.2-28.8 9.9-40.6.8-15.2 1.7-28.5 4.2-38.7 2.6-10.3 6.6-17.2 13.7-21.1.3-.2.7-.3 1-.5.8 13.2 7.3 26.6 18.8 29.5 12.6 3.3 30.7-7.5 38.4-16.3 9-.3 15.7-.9 22.6 5.1 9.9 8.5 7.1 30.3 17.1 41.6 10.6 11.6 14 19.5 13.7 24.6zM173.3 148.7c2 1.9 4.7 4.5 8 7.1 6.6 5.2 15.8 10.6 27.3 10.6 11.6 0 22.5-5.9 31.8-10.8 4.9-2.6 10.9-7 14.8-10.4s5.9-6.3 3.1-6.6-2.6 2.6-6 5.1c-4.4 3.2-9.7 7.4-13.9 9.8-7.4 4.2-19.5 10.2-29.9 10.2s-18.7-4.8-24.9-9.7c-3.1-2.5-5.7-5-7.7-6.9-1.5-1.4-1.9-4.6-4.3-4.9-1.4-.1-1.8 3.7 1.7 6.5z"/></svg>
+
+    </a>
+    操作系统2023秋 | 哈工大（深圳）
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    实验概述
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            实验概述
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验须知
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../env/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验平台以及环境配置
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tools/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验实用工具
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Linux/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Linux开发环境基础知识
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../remote_env/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    远程实验平台使用指南
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../remote_env_gdb/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    VSCode图形化调试指南(一)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../remote_env_gdb2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    VSCode图形化调试指南(二)——系统调用
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    常见问题
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            常见问题
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    2022/2023
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            2022/2023
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../faq/faq-env/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验环境问题
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../faq/lab1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab1问题
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../faq/lab2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab2问题
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../faq/lab3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab3问题
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../faq/lab4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab4问题
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Lab1：XV6与Unix实用程序
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Lab1：XV6与Unix实用程序
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab1/part1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验概述
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab1/part2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验原理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab1/part3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验步骤
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab1/part4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    提交文档
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Lab2：进程与系统调用
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Lab2：进程与系统调用
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab2/part1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验概述
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab2/part2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验原理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab2/part3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验实现
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab2/part4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    提交文档
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Lab3：锁机制的应用
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Lab3：锁机制的应用
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab3/part1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验概述
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab3/part2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验原理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab3/part3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验实现
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab3/part4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    xv-6中Lock的实现（选读）
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab3/part5/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    提交文档
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Lab4：页表
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Lab4：页表
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab4/part1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验概述
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab4/part2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验原理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab4/part3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验实现
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab4/part4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    提交文档
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Lab5：基于FUSE的青春版EXT2文件系统
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            Lab5：基于FUSE的青春版EXT2文件系统
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab5/part1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验概述
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab5/part2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验原理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab5/part3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验实现
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab5/part4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    提交文档
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab5/part5/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    常见问题（补充）
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab5/part6/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    选择阅读（补充）
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+    
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    OS竞赛招新
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            OS竞赛招新
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    2024年“全国大学生计算机系统能力大赛操作系统设计赛”火热报名中！
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    2024年“全国大学生计算机系统能力大赛操作系统设计赛”火热报名中！
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    1. 操作系统设计赛简介
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    2. 参赛要求
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    3. 参赛收获
+  </a>
+  
+    <nav class="md-nav" aria-label="3. 参赛收获">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31" class="md-nav__link">
+    3.1 校内收获
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32" class="md-nav__link">
+    3.2 校外收获
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    4. 比赛准备
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    5. 往届战绩
+  </a>
+  
+    <nav class="md-nav" aria-label="5. 往届战绩">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-ultraos" class="md-nav__link">
+    5.1 获奖队伍介绍：UltraOS
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-hoitfs" class="md-nav__link">
+    5.2 获奖队伍介绍: HoitFS
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-ftl-os" class="md-nav__link">
+    5.3 获奖队伍介绍: FTL OS
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#54-oops" class="md-nav__link">
+    5.4 获奖队伍介绍: OopS
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#55-lmy" class="md-nav__link">
+    5.5 获奖队伍介绍: LMY
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#56-titanix" class="md-nav__link">
+    5.6 获奖队伍介绍: Titanix
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#57-boesfs" class="md-nav__link">
+    5.7 获奖队伍介绍: BoesFS
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#58-cos" class="md-nav__link">
+    5.8 获奖队伍介绍: COS
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#59-bugmaker" class="md-nav__link">
+    5.9 获奖队伍介绍: BugMaker
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6" class="md-nav__link">
+    6. 报名方式
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    1. 操作系统设计赛简介
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    2. 参赛要求
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    3. 参赛收获
+  </a>
+  
+    <nav class="md-nav" aria-label="3. 参赛收获">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31" class="md-nav__link">
+    3.1 校内收获
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32" class="md-nav__link">
+    3.2 校外收获
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    4. 比赛准备
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    5. 往届战绩
+  </a>
+  
+    <nav class="md-nav" aria-label="5. 往届战绩">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-ultraos" class="md-nav__link">
+    5.1 获奖队伍介绍：UltraOS
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-hoitfs" class="md-nav__link">
+    5.2 获奖队伍介绍: HoitFS
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-ftl-os" class="md-nav__link">
+    5.3 获奖队伍介绍: FTL OS
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#54-oops" class="md-nav__link">
+    5.4 获奖队伍介绍: OopS
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#55-lmy" class="md-nav__link">
+    5.5 获奖队伍介绍: LMY
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#56-titanix" class="md-nav__link">
+    5.6 获奖队伍介绍: Titanix
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#57-boesfs" class="md-nav__link">
+    5.7 获奖队伍介绍: BoesFS
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#58-cos" class="md-nav__link">
+    5.8 获奖队伍介绍: COS
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#59-bugmaker" class="md-nav__link">
+    5.9 获奖队伍介绍: BugMaker
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6" class="md-nav__link">
+    6. 报名方式
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="2024">2024年“全国大学生计算机系统能力大赛操作系统设计赛”火热报名中！<a class="headerlink" href="#2024" title="Permanent link">&para;</a></h1>
+<h2 id="1">1. 操作系统设计赛简介<a class="headerlink" href="#1" title="Permanent link">&para;</a></h2>
+<div class="admonition tip">
+<p class="admonition-title">📢 什么是操作系统设计赛?</p>
+<ul>
+<li>
+<p><font color=red> <strong>全称</strong> </font>： <strong>全国大学生计算机系统能力大赛操作系统设计大赛</strong> </p>
+<ul>
+<li>
+<p>由教育部高等学校计算机类专业教学指导委员会和系统能力培养研究专家组共同发起，目前已经举办3届。</p>
+</li>
+<li>
+<p>第一届于2021年举办，<strong>近200支队伍</strong> 参赛。第二届/第三届的参赛队伍增加到了 <strong>300余支</strong> 。</p>
+</li>
+<li>
+<p>比赛分为两个赛道：<strong>内核赛道</strong> 和 <strong>功能赛道</strong></p>
+</li>
+<li>大赛官网：<a href="https://os.educg.net">https://os.educg.net</a></li>
+</ul>
+</li>
+<li>
+<p><font color=red> <strong>内核赛道</strong> </font>：</p>
+<ul>
+<li>制作一个 <strong>完整的内核</strong> ，通过赛方提供的用户测试，有余力的队伍还可以去支持python，rust，redis......</li>
+<li><strong>功能</strong> 与 <strong>性能</strong> 的比拼</li>
+</ul>
+</li>
+<li>
+<p><font color=red> <strong>功能赛道</strong> </font>：</p>
+<ul>
+<li>实现系统中的 <strong>某项</strong> 前沿功能</li>
+<li><strong>多种课题</strong> 任选，涉及调度、通信、存储、安全、应用等不同领域</li>
+</ul>
+</li>
+<li>
+<p><font color=red> <strong>关于比赛组队</strong> </font>：</p>
+<ul>
+<li>不限制学校的参赛队伍数，一支队伍最多三人</li>
+</ul>
+</li>
+<li>
+<p><font color=red> <strong>第三届（2023年）比赛重要时间点</strong>   </font>：</p>
+</li>
+</ul>
+<p><img alt="img" src="../oscomp.assets/%E6%97%B6%E9%97%B4%E8%BD%B4-2023.png" /></p>
+<ul>
+<li>
+<p><font color=red> <strong>比赛奖项设置</strong> </font>： </p>
+<ul>
+<li>特等奖，1队，颁发团队奖金及获奖证书。（该奖项可空缺）</li>
+<li>一等奖，不少于2队，颁发团队奖金及获奖证书。     </li>
+<li>二等奖，不少于4队，颁发团队奖金及获奖证书。 </li>
+<li>三等奖，不少于8队，颁发团队奖金及获奖证书。 </li>
+</ul>
+</li>
+<li>
+<p>注：入围决赛即获得优胜奖，<strong>几乎所有队伍都能拿到</strong> ~   ​​    </p>
+</li>
+</ul>
+<p></font></p>
+</div>
+<h2 id="2">2. 参赛要求<a class="headerlink" href="#2" title="Permanent link">&para;</a></h2>
+<div class="admonition tip">
+<p class="admonition-title">📢 哪些同学适合参赛?</p>
+<ul>
+<li><del class="critic"><mark><strong>写个操作系统</strong> 而已，有手就行</mark></del>；  </li>
+<li>对操作系统的 <strong>完整体系</strong> 充满兴趣；</li>
+<li>
+<p>对内核 <strong>优化</strong> 充满想法</p>
+<ul>
+<li><font color=red> <strong>内核赛道欢迎你！</strong> </font></li>
+</ul>
+<p><img alt="xv6bgrc" src="../oscomp.assets/xv6bgrc.jpg" /></p>
+</li>
+<li>
+<p>希望尝试 <strong>科研</strong> or 提前接触 <strong>工业界</strong> </p>
+</li>
+<li>
+<p>希望对 <strong>前沿、未知</strong> 的技术进行探索</p>
+<ul>
+<li><font color=red> <strong>功能赛道欢迎你！</strong> </font></li>
+</ul>
+</li>
+</ul>
+</div>
+<h2 id="3">3. 参赛收获<a class="headerlink" href="#3" title="Permanent link">&para;</a></h2>
+<h3 id="31">3.1 校内收获<a class="headerlink" href="#31" title="Permanent link">&para;</a></h3>
+<div class="admonition info">
+<p class="admonition-title">📢 在学校内，你能收获什么?</p>
+<ul>
+<li>
+<p>接触并亲自尝试 <strong>前沿</strong> 的技术</p>
+</li>
+<li>
+<p><strong>结识</strong> 很多行业大佬、同龄大佬</p>
+</li>
+</ul>
+<p><img alt="code" src="../oscomp.assets/code.png" /></p>
+<ul>
+<li>获得对操作系统整个体系或某个领域的深刻 <strong>理解</strong></li>
+<li>快速提升动手能力和创新能力，丰富自己的软硬件 <strong>技术栈</strong></li>
+<li>难得的机会：把大胆的 <strong>想法变为现实</strong></li>
+<li>获得 <strong>综测加分</strong> 机会，奖学金++</li>
+<li>对未来的 <strong>升学</strong> 有非常大的帮助</li>
+<li>( 一笔非常可观的奖金：参加比赛，顺便挣个W，妈妈再也不用担心我生活过得不好了</li>
+</ul>
+</div>
+<h3 id="32">3.2 校外收获<a class="headerlink" href="#32" title="Permanent link">&para;</a></h3>
+<div class="admonition info">
+<p class="admonition-title">📢 在学校外，你又能收获什么?</p>
+<ul>
+<li>实习Offer率++：暑期华为实习Offer率直升 <strong>十几个</strong> 百分点（华为急缺系统性人才）</li>
+<li>顶级Offer率++：某几个队长一不小心就收割了华为的<mark class="critic"><strong>研究生才能拿到的顶级Offer</strong></mark></li>
+</ul>
+</div>
+<h2 id="4">4. 比赛准备<a class="headerlink" href="#4" title="Permanent link">&para;</a></h2>
+<div class="admonition warning">
+<p class="admonition-title">📢 这个比赛难吗?</p>
+<p><strong>难</strong> ，难得很</p>
+<ul>
+<li>想要取得好成绩，面对的一切都是 <strong>新</strong> 的<ul>
+<li>新的知识，新的语言，新的测评，新的工具，新的要求 ...</li>
+</ul>
+</li>
+<li>
+<p>系统的 <strong>调试</strong> 常常涉及硬件架构，难度大大提升</p>
+</li>
+<li>
+<p><strong>赛程很长</strong> ，最重要的是 <strong>兴趣和坚持</strong> ，很多队伍到后面会放弃，肝到胜利</p>
+<ul>
+<li>事实上，大部分队伍从 <strong>年初</strong> 就开始备赛， <strong>一些队伍甚至前一年就有所准备，还有参加了两届的队员</strong></li>
+</ul>
+</li>
+</ul>
+<p><img alt="panic2" src="../oscomp.assets/panic2.png" /></p>
+<p>最关键的是，<strong>系统的设计没有上限</strong> ，想要做好就必须有所付出</p>
+</div>
+<h2 id="5">5. 往届战绩<a class="headerlink" href="#5" title="Permanent link">&para;</a></h2>
+<div class="admonition danger">
+<p class="admonition-title">📢 我们的战绩</p>
+<p>第一届（2021）：</p>
+<ul>
+<li>“ UltraOS ”队获得<font color=red> <strong>内核实现赛道一等奖（赛道排名第一）</strong> </font>;</li>
+<li>“ HoitFS ”队获得<font color=red> <strong>功能设计赛道一等奖（赛道排名第一）</strong> </font>;</li>
+<li>“ 压缩鸭 ”队获得<font color=red> <strong>功能设计赛道二等奖</strong> </font>;</li>
+<li>“ 啊普鲁派哒哒哒;DROP DATABASE teams;”队获得<font color=red> <strong>内核实现赛道三等奖</strong> </font>。</li>
+</ul>
+<p>第二届（2022）：</p>
+<ul>
+<li>“ FTL OS ”队获得<font color=red> <strong>内核实现赛道一等奖</strong> </font>;</li>
+<li>“ OopS ”队获得<font color=red> <strong>内核实现赛道一等奖</strong> </font>;</li>
+<li>“ LMY ”队获得<font color=red> <strong>功能设计赛道一等奖</strong> </font>;</li>
+<li>“ 健康向上好青年 ”队获得<font color=red> <strong>内核实现赛道二等奖</strong> </font>;</li>
+<li>“ 编译通过求求了 ”队获得<font color=red> <strong>功能设计赛道二等奖</strong> </font>;</li>
+<li>“ F-Tutorials ”队获得<font color=red> <strong>功能设计赛道二等奖</strong> </font>；</li>
+<li>“ 随便取名不队 ”获得<font color=red> <strong>内核实现赛道优胜奖</strong> </font>;</li>
+<li>“ 追光者队”获得<font color=red> <strong>功能设计赛道初赛优胜奖</strong> </font>。</li>
+</ul>
+<p>第三届（2023）：</p>
+<ul>
+<li>“ Titanix ”队获得<font color=red> <strong>内核实现赛道一等奖</strong> </font>;</li>
+<li>“ BoesFS ”队获得<font color=red> <strong>功能设计赛道一等奖</strong> </font>;</li>
+<li>“ COS ”队获得<font color=red> <strong>功能设计赛道一等奖</strong> </font>;</li>
+<li>“ BugMaker ”队获得<font color=red> <strong>功能设计赛道一等奖</strong> </font>;</li>
+<li>“ MankorOS ”队获得<font color=red> <strong>内核实现赛道二等奖</strong> </font>;</li>
+<li>“ 刘航志强 ”队获得<font color=red> <strong>功能设计赛道二等奖</strong> </font>；</li>
+<li>“ MoOS ”获得<font color=red> <strong>内核实现赛道三等奖</strong> </font>;</li>
+<li>“ 嘉然今天吃OS ”获得<font color=red> <strong>功能设计赛道三等奖</strong> </font>；</li>
+<li>“ RethinkFS ”获得<font color=red> <strong>功能设计赛道三等奖</strong> </font>。</li>
+</ul>
+<p>大赛获奖团队将获得丰厚奖金，其中一等奖团队获得30000元奖金，二等奖团队获10000元奖金，三等奖团队获得3000元奖金:)</p>
+<ul>
+<li>内核实现赛道决赛作品开源：<a href="https://os.educg.net/#/index?name=2022%E5%85%A8%E5%9B%BD%E5%A4%A7%E5%AD%A6%E7%94%9F%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E8%83%BD%E5%8A%9B%E5%A4%A7%E8%B5%9B%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E8%B5%9B-%E5%86%85%E6%A0%B8%E5%AE%9E%E7%8E%B0%E8%B5%9B&amp;index=1&amp;img=2">点这里</a></li>
+<li>功能设计赛道决赛作品开源：<a href="https://os.educg.net/#/index?name=2022%E5%85%A8%E5%9B%BD%E5%A4%A7%E5%AD%A6%E7%94%9F%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E8%83%BD%E5%8A%9B%E5%A4%A7%E8%B5%9B%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E8%B5%9B-%E5%8A%9F%E8%83%BD%E6%8C%91%E6%88%98%E8%B5%9B&amp;index=1&amp;img=0">点这里</a>    </li>
+</ul>
+<p>获奖新闻报道：</p>
+<ul>
+<li>第一届：<a href="https://www.hitsz.edu.cn/article/view/id-123535.html">获奖总数全国第一！哈工大（深圳）学子在全国大学生计算机系统能力大赛中收获四项大奖</a></li>
+<li>第二届：<a href="https://www.hitsz.edu.cn/article/view/id-135468.html">获奖数量全国居首！哈工大（深圳）学子在全国大学生操作系统设计总赛中表现优异</a></li>
+<li>第三届：<a href="https://www.hitsz.edu.cn/article/view/id-142937.html">一等奖+4！深圳校区学子在全国大学生操作系统设计赛中创历史最佳战绩</a></li>
+</ul>
+<p></font></p>
+</div>
+<h3 id="51-ultraos">5.1 获奖队伍介绍：UltraOS<a class="headerlink" href="#51-ultraos" title="Permanent link">&para;</a></h3>
+<div class="admonition danger">
+<p class="admonition-title">📢 第一届内核赛道一等奖：UltraOS</p>
+<p>团队成员：李程浩，18级本科；宫浩辰，18级本科；任翔宇，18级本科</p>
+<p>“项目历时216天，在此期间编写代码149天，UltraOS团队最终产出了约一万行Rust语言代码（不包括迭代代码）。UltraOS成长是迅速的，从支持13条非标准系统调用到59条系统调用，从只支持一个简易的文件系统到FAT32-VFS和可拓展设备接口等具有可拓展的抽象，从单核到多核，从缓慢迈向高性能。每一件事都是挑战，但每一件事都是成长。”</p>
+<p>作品开源：<a href="https://gitlab.eduxiji.net/ultrateam/ultraos">点这里</a></p>
+<p><img alt="img" src="../oscomp.assets/30E64877881B93916ECF7357393_059C77BA_1CBB0.jpg" />
+</font></p>
+</div>
+<h3 id="52-hoitfs">5.2 获奖队伍介绍: HoitFS<a class="headerlink" href="#52-hoitfs" title="Permanent link">&para;</a></h3>
+<div class="admonition danger">
+<p class="admonition-title">📢 第一届功能赛道一等奖：HoitFS</p>
+<p>团队成员：潘延麒，18级本科；胡智胜，18级本科；张楠，18级本科</p>
+<p>“我们的项目以JFFS2文件系统为原型，对其SylixOS上进行二次开发，并针对JFFS2存在的一些问题进行针对性优化(优化策略比较简单)，形成了HoitFS，最后通过与SPIFFS文件系统做对比，发现我们HoitFS的性能相对SPIFFS来说有明显的优势。本项目历时近一年，期间一度感到力不从心，但在老师的指导下，团队成员的互相鼓励下，最后都咬牙坚持到了决赛。”</p>
+<p>作品开源：<a href="https://gitlab.eduxiji.net/Deadpool/project325618-47064">点这里</a></p>
+<p><img alt="img" src="../oscomp.assets/D052DE40F53E4A5E2BB62E9208D_56BCF9D8_177A7.jpg" />
+</font></p>
+</div>
+<h3 id="53-ftl-os">5.3 获奖队伍介绍: FTL OS<a class="headerlink" href="#53-ftl-os" title="Permanent link">&para;</a></h3>
+<div class="admonition danger">
+<p class="admonition-title">📢 第二届内核赛道一等奖：FTL OS</p>
+<p>团队成员：叶自立，19级本科；樊博，20级本科；李羿廷，19级本科</p>
+<p>“非常荣幸能够获得大赛一等奖，这次比赛中我们一路披荆斩棘，通过了全部的功能测试，并在决赛第二阶段全程保持性能分第一。</p>
+<p>我们充满梦想，FTL意为Faster Than Light，它蕴含了操作系统对性能的渴望。为了实现这一目标，我们用了与众不同的开发方式：我们从零开始，先编写文档，从起步就进行大量优化。我们乐观地认为只要应用了一切可能的优化，FTLOS就能达到极致的、后无来者的性能。从结果来看，此方案大体成功，我们全程性能分第一，但因为调研不足的原因，文件系统的错误设计影响了重构，FTLOS无法在全部的测试点上获得第一，也让我们没有太多时间去移植真实应用程序。</p>
+<p>这是我们第一次参加系统能力大赛，它让我们接触到了大量无法从课本上学到的知识，使我们了解了现代操作系统的运行方式，对操作系统有了更深层次的理解，还显著提升了工程实践能力。感谢全部队员、伙伴队伍的努力，感谢夏文、仇洁婷老师的倾力帮助，也感谢所有在比赛中实时开源代码、展示文档的参赛队伍。愿比赛在未来更加完善，越来越好。”</p>
+<p>作品开源：<a href="https://gitlab.eduxiji.net/DarkAngelEX/oskernel2022-ftlos">点这里</a></p>
+<p><center>
+<img alt="img" src="../oscomp.assets/FTL.png" />
+</center>
+</font></p>
+</div>
+<h3 id="54-oops">5.4 获奖队伍介绍: OopS<a class="headerlink" href="#54-oops" title="Permanent link">&para;</a></h3>
+<div class="admonition danger">
+<p class="admonition-title">📢 第二届内核赛道一等奖：OopS</p>
+<p>团队成员：张艺枫，19级本科；李诺舟，19级本科；刘嘉琛，19级本科</p>
+<p>“OopS是一个用Rust编写的RISC-V64多核操作系统，项目总历时约7个月。我们团队从今年的寒假期间就开始学习rust及操作系统相关知识，为该比赛做准备。</p>
+<p>在开发前，我们考虑到从0开始设计一个内核会带来大量的bug和时间开销，所以我们决定参考rCore-Tutorial快速开发出一个基本的内核。之后，我们比较顺利地通过了初赛的测试，这给了我们信心，于是我们对原本的基础架构做了大量修改。通过不断地踩坑和重构，并结合其他内核的设计和我们的思考，最终打造出了现在的OopS内核。</p>
+<p>通过这次比赛，加深了我们对操作系统的理解，提升了我们的工程能力。此外，本次比赛让我们更加理解了开源的精神，我们的心态也从相互竞争转变为了相互学习。我们发现，与第一届参赛作品相比，本届参赛作品在功能和性能方面都有了不小的提升。这要感谢组委会和主办方为选手提供了一个平台，让我们有机会吸取往届参赛作品的经验，踩在巨人的肩膀上并更进一步。以后的参赛作品无疑也会比我们这届的作品要更加优秀。</p>
+<p>在这里，还要感谢同校的参赛队伍和指导老师的帮助和指导，特别是第一届参赛选手黎庚祉学长给我们传授了大量的经验和灵感。”</p>
+<p>作品开源：<a href="https://gitlab.eduxiji.net/ZYF_2001/oskernel2022-oops">点这里</a></p>
+<p><center>
+<img alt="img" src="../oscomp.assets/OopS.png" />
+</center>
+</font></p>
+</div>
+<h3 id="55-lmy">5.5 获奖队伍介绍: LMY<a class="headerlink" href="#55-lmy" title="Permanent link">&para;</a></h3>
+<div class="admonition danger">
+<p class="admonition-title">📢 第二届功能赛道一等奖：LMY</p>
+<p>团队成员：于伯淳，20级本科；满洋，20级本科；李怡凯，19级本科</p>
+<p>“很荣幸能够在本次操作系统设计赛功能赛道中获得一等奖，在大赛结束之际，回想参赛以来的点点滴滴，我们感概颇多。</p>
+<p>最初决定参赛，是偶然在学校的Linux交流群看到老师对操作系统功能赛的宣传。那时我和满洋没有完整学习过操作系统，但凭着对OS的兴趣，我们决定试着参赛。</p>
+<p>选定赛题时，经验不足的我们本想选取一个较为简单的题目；但两位指导老师鼓励我们选择更为复杂的题目proj120——智能化的操作系统异常检测，同时李怡凯学长的加入也为我们带来更多信心，我们最终接受了挑战。</p>
+<p>初期，我们凭借老师悉心的指导，与华为专家的沟通，努力寻找赛题的切入点，之后便是按部就班地实现。由于项目经验不足，后期时间安排得很紧张，但也跌跌撞撞进入了决赛。决赛阶段，我们实现了老师建议的创新点，并把20多页的文档完善至近80页。为了准备答辩，PPT也在老师的指导下更新了一版又一版。</p>
+<p>最终的结果出乎我们的意料，但回顾一路以来付出的心血和老师的耳提面授，却又显得理所应当。在大赛中，我们的专业素养得到了锻炼，文档编写和交流合作的能力也得到了提高。虽然辛苦，但也为今后的专业道路倾注了更深厚的力量。”</p>
+<p>作品开源：<a href="https://gitlab.eduxiji.net/CH3CHOHCH3/project788067-124730">点这里</a></p>
+<p><center>
+<img alt="img" src="../oscomp.assets/LMY.png" />
+</center>
+</font></p>
+</div>
+<h3 id="56-titanix">5.6 获奖队伍介绍: Titanix<a class="headerlink" href="#56-titanix" title="Permanent link">&para;</a></h3>
+<div class="admonition danger">
+<p class="admonition-title">📢 第三届内核赛道一等奖：Titanix</p>
+<p>团队成员：曾培鑫，20级本科；陈佳豪，20级本科；任秦江，20级本科</p>
+<p>“非常荣幸获得了内核赛道的一等奖，在参赛的六个月里，我们对内核不断地重构与扩展，通过了所有的测试用例，在决赛的现场赛榜单上取得了第一名的成绩。</p>
+<p>Titanix（Titanic-nix），意味着我们希望编写出一个如泰坦般健壮、尽可能支持更多的功能、同时符合POSIX规范的类Unix操作系统。我们以无栈协程为调度基础，结合Rust的异步机制实现了一个高效的分时多任务异步内核；在此基础上实现了许多模块，如内存、文件系统、网络、驱动等；另外，我们的内核立足现实，能够运行gcc、redis、vi、http服务器等现实应用；我们的内核具有丰富的功能与较高的可扩展性。</p>
+<p>这次比赛给了我们团队成员一次编写较为大型的项目（约两万四千行代码）的机会。我们在开发中合理分工、规范不同分支的提交合并；我们查阅了大量资料，学习业界黄金标准linux，在课内基础上不断拓宽，大大加深了对操作系统的理解；我们深度使用了许多开发调试工具（gdb、objdump、strace等），结合规范的分级日志，提高了工程能力与编程能力。</p>
+<p>最后，感谢几位指导老师的倾力帮助、往届学长的经验传授以及同校参赛队伍的交流分享。”</p>
+<p>作品开源：<a href="https://gitlab.eduxiji.net/202318123101314/oskernel2023-Titanix">点这里</a></p>
+<p><img alt="img" src="../oscomp.assets/%E5%86%85%E6%A0%B8%E8%B5%9B-2023-1.jpg" />
+</font></p>
+</div>
+<h3 id="57-boesfs">5.7 获奖队伍介绍: BoesFS<a class="headerlink" href="#57-boesfs" title="Permanent link">&para;</a></h3>
+<div class="admonition danger">
+<p class="admonition-title">📢 第三届功能赛道一等奖：BoesFS</p>
+<p>团队成员：杨大荣，20级本科；林颀聪，20级本科；孙赫辰，20级本科</p>
+<p>“很荣幸能够获得本次操作系统设计赛功能挑战赛道的一等奖，这离不开五个月来老师们的耐心指导以及队友之间的相互支持。</p>
+<p>BoesFS, Based on eBPF Sandboxing Filesystem。BoesFS项目围绕eBPF、可堆叠文件系统、FaaS应用几个领域展开探索。我们团队经过五个月的项目开发，贡献了近2w行代码，12w字维护文档，推出了一个轻量级的文件安全沙盒层，并尝试应用到FaaS等业务场景中，取得了很好的效果。</p>
+<p>考虑到eBPF近年来的大火，并能和传统的文件系统结合，两者结合或许能有不一样的花火，这个创新的角度一下就吸引了我们。经过和老师研究实现难度后，我们决定选择这个赛题。我们和校内老师和项目老师经过深入讨论，确定了整个项目的大致方向后，开始学习各个模块所需的知识，例如完整阅读了有关eBPF、VFS层、可堆叠文件系统、FaaS开源项目等大量源码等等。然后按部就班的进行设计和开发，从顶层设计整个项目架构，并逐渐从开发简单的demo验证想法，最终到完整完善整个项目。</p>
+<p>通过本次大赛，极大丰富了我们对操作系统一些前沿技术的了解，并针对新的场景能设计出自己的解决方案，促进了我们对这些领域的兴趣，想继续在相关领域做更多的有关探索和研究。最后感谢校内老师夏老师、李老师、仇老师以及校外老师施老师和郑老师的耐心指导和帮助，祝愿大赛能越办越好。”</p>
+<p>作品开源：<a href="https://gitlab.eduxiji.net/202318123111316/project1466467-176078">点这里</a></p>
+<p><img alt="img" src="../oscomp.assets/%E5%8A%9F%E8%83%BD%E8%B5%9B-2023-1.jpg" />
+</font></p>
+</div>
+<h3 id="58-cos">5.8 获奖队伍介绍: COS<a class="headerlink" href="#58-cos" title="Permanent link">&para;</a></h3>
+<div class="admonition danger">
+<p class="admonition-title">📢 第三届功能赛道一等奖：COS</p>
+<p>团队成员：段子豪，20级本科；谢岸峰，20级本科；黄雯萱，21级本科</p>
+<p>“非常荣幸能够获得一等奖，比赛中我们一起克服挫折，团队成员各自发挥长处，这是团队的胜利。</p>
+<p>赛题对顶会与代码阅读，编程能力提出了极高的要求。我们先后阅读了顶会ghost（sosp），几万行的ghost与ext源代码。完成后我们开始在方向上迷茫：从零开始修改linux调度难度太大，千万行的庞大系统；基于他人成果没有创新。最后我们两方面都抓：一部分队员基于他人成果优化，队长修改linux的调度机制。在团队成员的一起努力下成功地完成了预期目标。最后的开发难度与亮眼的优化效果折服了评委。</p>
+<p>参加操作系统大赛让我们接触到业界最新操作系统的研究方向，并且极大地提升了我们的代码能力（魔改linux，修改顶会论文代码）。让我们印象深刻的是指导老师的负责，感谢三位老师！最后也希望大赛越办越好！”</p>
+<p>作品开源：<a href="https://gitlab.eduxiji.net/202318123111334/proj134-cfs-based-userspace-scheduler">点这里</a></p>
+<p><img alt="img" src="../oscomp.assets/%E5%8A%9F%E8%83%BD%E8%B5%9B-2023.jpg" />
+</font></p>
+</div>
+<h3 id="59-bugmaker">5.9 获奖队伍介绍: BugMaker<a class="headerlink" href="#59-bugmaker" title="Permanent link">&para;</a></h3>
+<div class="admonition danger">
+<p class="admonition-title">📢 第三届功能赛道一等奖：BugMaker</p>
+<p>团队成员：孙铎，20级本科；俞文博，20级本科；赖嘉欣，20级本科</p>
+<p>“很荣幸取得操作系统功能赛道一等奖，感谢老师们的耐心指导，感谢队员们的不懈努力。</p>
+<p>我们的项目是基于SPDK用户态存储驱动构建多路径软件，设计实现了路径聚合、路径选择、故障处理和负载均衡等功能，可以用于虚拟化与存储区域网络结合的应用场景。</p>
+<p>我们之前并不熟悉操作系统存储开发相关的技术，基于用户态驱动的开发又不同于我们比较熟悉的Linux内核态驱动，这需要我们去阅读大量的SPDK源码，才摸索清楚了SPDK进行I/O操作的大致流程，找到了多路径模块的切入点，接下来才开始核心的开发工作。在开发多路径方案时，为了适配SPDK用户态驱动，我们需要使用gdb进行多轮的调试工作，一行代码要修改很多次才能保证模块的正常运行。最后，我们还要细心搭建合理的测试场景，才能发挥出多路径软件的作用。</p>
+<p>这次操作系统功能赛让我们收获了很多，除了学习到用户态存储相关知识以外，还提升了我们面对陌生领域时的探索能力，这是一次很宝贵的参赛经历。祝愿全国大学生计算机系统能力大赛越办越好！”</p>
+<p>作品开源：<a href="https://gitlab.eduxiji.net/202318123111333/project1466467-176092">点这里</a></p>
+<p><img alt="img" src="../oscomp.assets/%E5%8A%9F%E8%83%BD%E8%B5%9B-2023-4.jpg" /></p>
+<p></font></p>
+</div>
+<h2 id="6">6. 报名方式<a class="headerlink" href="#6" title="Permanent link">&para;</a></h2>
+<div class="admonition tip">
+<p class="admonition-title">📢 如何报名？</p>
+<p>我校OS比赛将预计在元旦节前后（具体时间待确定）开放报名。现在参加操作系统大赛，将获得退休选手的宝贵参赛经验，机会难得！感兴趣的同学欢迎入群：</p>
+<p><center>
+<img alt="image-20221109163745962" src="../oscomp.assets/OS%E6%AF%94%E8%B5%9B-2024%E6%8B%9B%E6%96%B0%E7%BE%A4%E4%BA%8C%E7%BB%B4%E7%A0%81.png" />
+</center></p>
+<p></font></p>
+</div>
+<hr />
+<p>操作系统是计算机领域的一大核心，<br />
+深入理解操作系统，不管以后参与到哪个方向的工作中，都会从中获益。<br />
+欢迎参加操作系统设计赛，体验系统设计的独特魅力。</p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2023 - 2024 哈尔滨工业大学（深圳）
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+    <a href="mailto:<xiawen@hit.edu.cn>" target="_blank" rel="noopener" title="xiawen@hit.edu.cn" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M498.1 5.6c10.1 7 15.4 19.1 13.5 31.2l-64 416c-1.5 9.7-7.4 18.2-16 23s-18.9 5.4-28 1.6L284 427.7l-68.5 74.1c-8.9 9.7-22.9 12.9-35.2 8.1S160 493.2 160 480v-83.6c0-4 1.5-7.8 4.2-10.7l167.6-182.9c5.8-6.3 5.6-16-.4-22s-15.7-6.4-22-.7L106 360.8l-88.3-44.2C7.1 311.3.3 300.7 0 288.9s5.9-22.8 16.1-28.7l448-256c10.7-6.1 23.9-5.5 34 1.4z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.top", "navigation.tabs.sticky", "navigation.tracking"], "search": "../../assets/javascripts/workers/search.a264c092.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.6eac0284.min.js"></script>
+      
+        <script src="../../js/baidu-tongji.js"></script>
+      
+    
+  </body>
+</html>

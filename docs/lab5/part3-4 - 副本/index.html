@@ -1,0 +1,2025 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.3">
+    
+    
+      
+        <title>选做任务 - 操作系统2023秋 | 哈工大（深圳）</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.79e020e9.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="操作系统2023秋 | 哈工大（深圳）" class="md-header__button md-logo" aria-label="操作系统2023秋 | 哈工大（深圳）" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M220.8 123.3c1 .5 1.8 1.7 3 1.7 1.1 0 2.8-.4 2.9-1.5.2-1.4-1.9-2.3-3.2-2.9-1.7-.7-3.9-1-5.5-.1-.4.2-.8.7-.6 1.1.3 1.3 2.3 1.1 3.4 1.7zm-21.9 1.7c1.2 0 2-1.2 3-1.7 1.1-.6 3.1-.4 3.5-1.6.2-.4-.2-.9-.6-1.1-1.6-.9-3.8-.6-5.5.1-1.3.6-3.4 1.5-3.2 2.9.1 1 1.8 1.5 2.8 1.4zM420 403.8c-3.6-4-5.3-11.6-7.2-19.7-1.8-8.1-3.9-16.8-10.5-22.4-1.3-1.1-2.6-2.1-4-2.9-1.3-.8-2.7-1.5-4.1-2 9.2-27.3 5.6-54.5-3.7-79.1-11.4-30.1-31.3-56.4-46.5-74.4-17.1-21.5-33.7-41.9-33.4-72C311.1 85.4 315.7.1 234.8 0 132.4-.2 158 103.4 156.9 135.2c-1.7 23.4-6.4 41.8-22.5 64.7-18.9 22.5-45.5 58.8-58.1 96.7-6 17.9-8.8 36.1-6.2 53.3-6.5 5.8-11.4 14.7-16.6 20.2-4.2 4.3-10.3 5.9-17 8.3s-14 6-18.5 14.5c-2.1 3.9-2.8 8.1-2.8 12.4 0 3.9.6 7.9 1.2 11.8 1.2 8.1 2.5 15.7.8 20.8-5.2 14.4-5.9 24.4-2.2 31.7 3.8 7.3 11.4 10.5 20.1 12.3 17.3 3.6 40.8 2.7 59.3 12.5 19.8 10.4 39.9 14.1 55.9 10.4 11.6-2.6 21.1-9.6 25.9-20.2 12.5-.1 26.3-5.4 48.3-6.6 14.9-1.2 33.6 5.3 55.1 4.1.6 2.3 1.4 4.6 2.5 6.7v.1c8.3 16.7 23.8 24.3 40.3 23 16.6-1.3 34.1-11 48.3-27.9 13.6-16.4 36-23.2 50.9-32.2 7.4-4.5 13.4-10.1 13.9-18.3.4-8.2-4.4-17.3-15.5-29.7zM223.7 87.3c9.8-22.2 34.2-21.8 44-.4 6.5 14.2 3.6 30.9-4.3 40.4-1.6-.8-5.9-2.6-12.6-4.9 1.1-1.2 3.1-2.7 3.9-4.6 4.8-11.8-.2-27-9.1-27.3-7.3-.5-13.9 10.8-11.8 23-4.1-2-9.4-3.5-13-4.4-1-6.9-.3-14.6 2.9-21.8zM183 75.8c10.1 0 20.8 14.2 19.1 33.5-3.5 1-7.1 2.5-10.2 4.6 1.2-8.9-3.3-20.1-9.6-19.6-8.4.7-9.8 21.2-1.8 28.1 1 .8 1.9-.2-5.9 5.5-15.6-14.6-10.5-52.1 8.4-52.1zm-13.6 60.7c6.2-4.6 13.6-10 14.1-10.5 4.7-4.4 13.5-14.2 27.9-14.2 7.1 0 15.6 2.3 25.9 8.9 6.3 4.1 11.3 4.4 22.6 9.3 8.4 3.5 13.7 9.7 10.5 18.2-2.6 7.1-11 14.4-22.7 18.1-11.1 3.6-19.8 16-38.2 14.9-3.9-.2-7-1-9.6-2.1-8-3.5-12.2-10.4-20-15-8.6-4.8-13.2-10.4-14.7-15.3-1.4-4.9 0-9 4.2-12.3zm3.3 334c-2.7 35.1-43.9 34.4-75.3 18-29.9-15.8-68.6-6.5-76.5-21.9-2.4-4.7-2.4-12.7 2.6-26.4v-.2c2.4-7.6.6-16-.6-23.9-1.2-7.8-1.8-15 .9-20 3.5-6.7 8.5-9.1 14.8-11.3 10.3-3.7 11.8-3.4 19.6-9.9 5.5-5.7 9.5-12.9 14.3-18 5.1-5.5 10-8.1 17.7-6.9 8.1 1.2 15.1 6.8 21.9 16l19.6 35.6c9.5 19.9 43.1 48.4 41 68.9zm-1.4-25.9c-4.1-6.6-9.6-13.6-14.4-19.6 7.1 0 14.2-2.2 16.7-8.9 2.3-6.2 0-14.9-7.4-24.9-13.5-18.2-38.3-32.5-38.3-32.5-13.5-8.4-21.1-18.7-24.6-29.9s-3-23.3-.3-35.2c5.2-22.9 18.6-45.2 27.2-59.2 2.3-1.7.8 3.2-8.7 20.8-8.5 16.1-24.4 53.3-2.6 82.4.6-20.7 5.5-41.8 13.8-61.5 12-27.4 37.3-74.9 39.3-112.7 1.1.8 4.6 3.2 6.2 4.1 4.6 2.7 8.1 6.7 12.6 10.3 12.4 10 28.5 9.2 42.4 1.2 6.2-3.5 11.2-7.5 15.9-9 9.9-3.1 17.8-8.6 22.3-15 7.7 30.4 25.7 74.3 37.2 95.7 6.1 11.4 18.3 35.5 23.6 64.6 3.3-.1 7 .4 10.9 1.4 13.8-35.7-11.7-74.2-23.3-84.9-4.7-4.6-4.9-6.6-2.6-6.5 12.6 11.2 29.2 33.7 35.2 59 2.8 11.6 3.3 23.7.4 35.7 16.4 6.8 35.9 17.9 30.7 34.8-2.2-.1-3.2 0-4.2 0 3.2-10.1-3.9-17.6-22.8-26.1-19.6-8.6-36-8.6-38.3 12.5-12.1 4.2-18.3 14.7-21.4 27.3-2.8 11.2-3.6 24.7-4.4 39.9-.5 7.7-3.6 18-6.8 29-32.1 22.9-76.7 32.9-114.3 7.2zm257.4-11.5c-.9 16.8-41.2 19.9-63.2 46.5-13.2 15.7-29.4 24.4-43.6 25.5s-26.5-4.8-33.7-19.3c-4.7-11.1-2.4-23.1 1.1-36.3 3.7-14.2 9.2-28.8 9.9-40.6.8-15.2 1.7-28.5 4.2-38.7 2.6-10.3 6.6-17.2 13.7-21.1.3-.2.7-.3 1-.5.8 13.2 7.3 26.6 18.8 29.5 12.6 3.3 30.7-7.5 38.4-16.3 9-.3 15.7-.9 22.6 5.1 9.9 8.5 7.1 30.3 17.1 41.6 10.6 11.6 14 19.5 13.7 24.6zM173.3 148.7c2 1.9 4.7 4.5 8 7.1 6.6 5.2 15.8 10.6 27.3 10.6 11.6 0 22.5-5.9 31.8-10.8 4.9-2.6 10.9-7 14.8-10.4s5.9-6.3 3.1-6.6-2.6 2.6-6 5.1c-4.4 3.2-9.7 7.4-13.9 9.8-7.4 4.2-19.5 10.2-29.9 10.2s-18.7-4.8-24.9-9.7c-3.1-2.5-5.7-5-7.7-6.9-1.5-1.4-1.9-4.6-4.3-4.9-1.4-.1-1.8 3.7 1.7 6.5z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            操作系统2023秋 | 哈工大（深圳）
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              选做任务
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../.." class="md-tabs__link">
+          
+  
+  实验概述
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../faq/faq-env/" class="md-tabs__link">
+          
+  
+  常见问题
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../lab1/part1/" class="md-tabs__link">
+          
+  
+  Lab1：XV6与Unix实用程序
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../lab2/part1/" class="md-tabs__link">
+          
+  
+  Lab2：进程与系统调用
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../lab3/part1/" class="md-tabs__link">
+          
+  
+  Lab3：锁机制的应用
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../lab4/part1/" class="md-tabs__link">
+          
+  
+  Lab4：页表
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../part1/" class="md-tabs__link">
+          
+  
+  Lab5：基于FUSE的青春版EXT2文件系统
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../oscomp/oscomp/" class="md-tabs__link">
+          
+  
+  OS竞赛招新
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="操作系统2023秋 | 哈工大（深圳）" class="md-nav__button md-logo" aria-label="操作系统2023秋 | 哈工大（深圳）" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M220.8 123.3c1 .5 1.8 1.7 3 1.7 1.1 0 2.8-.4 2.9-1.5.2-1.4-1.9-2.3-3.2-2.9-1.7-.7-3.9-1-5.5-.1-.4.2-.8.7-.6 1.1.3 1.3 2.3 1.1 3.4 1.7zm-21.9 1.7c1.2 0 2-1.2 3-1.7 1.1-.6 3.1-.4 3.5-1.6.2-.4-.2-.9-.6-1.1-1.6-.9-3.8-.6-5.5.1-1.3.6-3.4 1.5-3.2 2.9.1 1 1.8 1.5 2.8 1.4zM420 403.8c-3.6-4-5.3-11.6-7.2-19.7-1.8-8.1-3.9-16.8-10.5-22.4-1.3-1.1-2.6-2.1-4-2.9-1.3-.8-2.7-1.5-4.1-2 9.2-27.3 5.6-54.5-3.7-79.1-11.4-30.1-31.3-56.4-46.5-74.4-17.1-21.5-33.7-41.9-33.4-72C311.1 85.4 315.7.1 234.8 0 132.4-.2 158 103.4 156.9 135.2c-1.7 23.4-6.4 41.8-22.5 64.7-18.9 22.5-45.5 58.8-58.1 96.7-6 17.9-8.8 36.1-6.2 53.3-6.5 5.8-11.4 14.7-16.6 20.2-4.2 4.3-10.3 5.9-17 8.3s-14 6-18.5 14.5c-2.1 3.9-2.8 8.1-2.8 12.4 0 3.9.6 7.9 1.2 11.8 1.2 8.1 2.5 15.7.8 20.8-5.2 14.4-5.9 24.4-2.2 31.7 3.8 7.3 11.4 10.5 20.1 12.3 17.3 3.6 40.8 2.7 59.3 12.5 19.8 10.4 39.9 14.1 55.9 10.4 11.6-2.6 21.1-9.6 25.9-20.2 12.5-.1 26.3-5.4 48.3-6.6 14.9-1.2 33.6 5.3 55.1 4.1.6 2.3 1.4 4.6 2.5 6.7v.1c8.3 16.7 23.8 24.3 40.3 23 16.6-1.3 34.1-11 48.3-27.9 13.6-16.4 36-23.2 50.9-32.2 7.4-4.5 13.4-10.1 13.9-18.3.4-8.2-4.4-17.3-15.5-29.7zM223.7 87.3c9.8-22.2 34.2-21.8 44-.4 6.5 14.2 3.6 30.9-4.3 40.4-1.6-.8-5.9-2.6-12.6-4.9 1.1-1.2 3.1-2.7 3.9-4.6 4.8-11.8-.2-27-9.1-27.3-7.3-.5-13.9 10.8-11.8 23-4.1-2-9.4-3.5-13-4.4-1-6.9-.3-14.6 2.9-21.8zM183 75.8c10.1 0 20.8 14.2 19.1 33.5-3.5 1-7.1 2.5-10.2 4.6 1.2-8.9-3.3-20.1-9.6-19.6-8.4.7-9.8 21.2-1.8 28.1 1 .8 1.9-.2-5.9 5.5-15.6-14.6-10.5-52.1 8.4-52.1zm-13.6 60.7c6.2-4.6 13.6-10 14.1-10.5 4.7-4.4 13.5-14.2 27.9-14.2 7.1 0 15.6 2.3 25.9 8.9 6.3 4.1 11.3 4.4 22.6 9.3 8.4 3.5 13.7 9.7 10.5 18.2-2.6 7.1-11 14.4-22.7 18.1-11.1 3.6-19.8 16-38.2 14.9-3.9-.2-7-1-9.6-2.1-8-3.5-12.2-10.4-20-15-8.6-4.8-13.2-10.4-14.7-15.3-1.4-4.9 0-9 4.2-12.3zm3.3 334c-2.7 35.1-43.9 34.4-75.3 18-29.9-15.8-68.6-6.5-76.5-21.9-2.4-4.7-2.4-12.7 2.6-26.4v-.2c2.4-7.6.6-16-.6-23.9-1.2-7.8-1.8-15 .9-20 3.5-6.7 8.5-9.1 14.8-11.3 10.3-3.7 11.8-3.4 19.6-9.9 5.5-5.7 9.5-12.9 14.3-18 5.1-5.5 10-8.1 17.7-6.9 8.1 1.2 15.1 6.8 21.9 16l19.6 35.6c9.5 19.9 43.1 48.4 41 68.9zm-1.4-25.9c-4.1-6.6-9.6-13.6-14.4-19.6 7.1 0 14.2-2.2 16.7-8.9 2.3-6.2 0-14.9-7.4-24.9-13.5-18.2-38.3-32.5-38.3-32.5-13.5-8.4-21.1-18.7-24.6-29.9s-3-23.3-.3-35.2c5.2-22.9 18.6-45.2 27.2-59.2 2.3-1.7.8 3.2-8.7 20.8-8.5 16.1-24.4 53.3-2.6 82.4.6-20.7 5.5-41.8 13.8-61.5 12-27.4 37.3-74.9 39.3-112.7 1.1.8 4.6 3.2 6.2 4.1 4.6 2.7 8.1 6.7 12.6 10.3 12.4 10 28.5 9.2 42.4 1.2 6.2-3.5 11.2-7.5 15.9-9 9.9-3.1 17.8-8.6 22.3-15 7.7 30.4 25.7 74.3 37.2 95.7 6.1 11.4 18.3 35.5 23.6 64.6 3.3-.1 7 .4 10.9 1.4 13.8-35.7-11.7-74.2-23.3-84.9-4.7-4.6-4.9-6.6-2.6-6.5 12.6 11.2 29.2 33.7 35.2 59 2.8 11.6 3.3 23.7.4 35.7 16.4 6.8 35.9 17.9 30.7 34.8-2.2-.1-3.2 0-4.2 0 3.2-10.1-3.9-17.6-22.8-26.1-19.6-8.6-36-8.6-38.3 12.5-12.1 4.2-18.3 14.7-21.4 27.3-2.8 11.2-3.6 24.7-4.4 39.9-.5 7.7-3.6 18-6.8 29-32.1 22.9-76.7 32.9-114.3 7.2zm257.4-11.5c-.9 16.8-41.2 19.9-63.2 46.5-13.2 15.7-29.4 24.4-43.6 25.5s-26.5-4.8-33.7-19.3c-4.7-11.1-2.4-23.1 1.1-36.3 3.7-14.2 9.2-28.8 9.9-40.6.8-15.2 1.7-28.5 4.2-38.7 2.6-10.3 6.6-17.2 13.7-21.1.3-.2.7-.3 1-.5.8 13.2 7.3 26.6 18.8 29.5 12.6 3.3 30.7-7.5 38.4-16.3 9-.3 15.7-.9 22.6 5.1 9.9 8.5 7.1 30.3 17.1 41.6 10.6 11.6 14 19.5 13.7 24.6zM173.3 148.7c2 1.9 4.7 4.5 8 7.1 6.6 5.2 15.8 10.6 27.3 10.6 11.6 0 22.5-5.9 31.8-10.8 4.9-2.6 10.9-7 14.8-10.4s5.9-6.3 3.1-6.6-2.6 2.6-6 5.1c-4.4 3.2-9.7 7.4-13.9 9.8-7.4 4.2-19.5 10.2-29.9 10.2s-18.7-4.8-24.9-9.7c-3.1-2.5-5.7-5-7.7-6.9-1.5-1.4-1.9-4.6-4.3-4.9-1.4-.1-1.8 3.7 1.7 6.5z"/></svg>
+
+    </a>
+    操作系统2023秋 | 哈工大（深圳）
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    实验概述
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            实验概述
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验须知
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../env/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验平台以及环境配置
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tools/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验实用工具
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Linux/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Linux开发环境基础知识
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../remote_env/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    远程实验平台使用指南
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../remote_env_gdb/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    VSCode图形化调试指南(一)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../remote_env_gdb2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    VSCode图形化调试指南(二)——系统调用
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    常见问题
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            常见问题
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    2022/2023
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            2022/2023
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../faq/faq-env/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验环境问题
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../faq/lab1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab1问题
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../faq/lab2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab2问题
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../faq/lab3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab3问题
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../faq/lab4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab4问题
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Lab1：XV6与Unix实用程序
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Lab1：XV6与Unix实用程序
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab1/part1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验概述
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab1/part2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验原理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab1/part3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验步骤
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab1/part4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    提交文档
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Lab2：进程与系统调用
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Lab2：进程与系统调用
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab2/part1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验概述
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab2/part2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验原理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab2/part3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验实现
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab2/part4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    提交文档
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Lab3：锁机制的应用
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Lab3：锁机制的应用
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab3/part1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验概述
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab3/part2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验原理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab3/part3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验实现
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab3/part4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    xv-6中Lock的实现（选读）
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab3/part5/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    提交文档
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Lab4：页表
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Lab4：页表
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab4/part1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验概述
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab4/part2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验原理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab4/part3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验实现
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab4/part4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    提交文档
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Lab5：基于FUSE的青春版EXT2文件系统
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            Lab5：基于FUSE的青春版EXT2文件系统
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../part1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验概述
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../part2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验原理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../part3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验实现
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../part4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    提交文档
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../part5/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    常见问题（补充）
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../part6/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    选择阅读（补充）
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    OS竞赛招新
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            OS竞赛招新
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../oscomp/oscomp/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2024年“全国大学生计算机系统能力大赛操作系统设计赛”火热报名中！
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    1.  磁盘缓存（选做任务）
+  </a>
+  
+    <nav class="md-nav" aria-label="1. 磁盘缓存（选做任务）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11" class="md-nav__link">
+    1.1 磁盘缓存简介
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12" class="md-nav__link">
+    1.2 实现指南
+  </a>
+  
+    <nav class="md-nav" aria-label="1.2 实现指南">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#121-sfs" class="md-nav__link">
+    1.2.1 SFS缓存实现
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#122" class="md-nav__link">
+    1.2.2 数据结构
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#123" class="md-nav__link">
+    1.2.3 关键方法
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-sfs" class="md-nav__link">
+    1.3 SFS缓存测试
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14" class="md-nav__link">
+    1.4 实验要求
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    2.  日志文件系统简介（选做任务）
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="_1">选做任务<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<h2 id="1">1.  磁盘缓存（选做任务）<a class="headerlink" href="#1" title="Permanent link">&para;</a></h2>
+<h3 id="11">1.1 磁盘缓存简介<a class="headerlink" href="#11" title="Permanent link">&para;</a></h3>
+<p><strong>磁盘的访问速度远小于内存的访问速度</strong> ，而现实中磁盘的容量也远大于内存，所以为了提速 <strong>把整个磁盘内容读到内存中是不现实的</strong> 。但是，我们还是有一些手段提高对磁盘的访问速度。 <strong>根据局部性原理</strong> ，最近被访问过的空间接下来也很可能被访问到，所以我们可以做 <strong>一些缓存块</strong> ，把 <strong>最近最常被访问的数据放入缓存块中</strong> 。如何管理缓存块，采取怎样的 <strong>替换策略</strong> ，以及在什么时机下 <strong>写回</strong> ，如何保证 <strong>一致性</strong> ，这些都是磁盘缓存需要考虑的问题。</p>
+<h3 id="12">1.2 实现指南<a class="headerlink" href="#12" title="Permanent link">&para;</a></h3>
+<p>SFS提供了一种简单的缓存方案。</p>
+<ul>
+<li><strong>缓存块分配</strong>：利用内存结构查找缓存中第一个空闲缓存块，若无空闲缓存块，则采用后述替换策略释放缓存块。</li>
+<li><strong>缓存块替换</strong>：被替换缓存块的挑选采用一种较为简单的 <strong>近似先入先出</strong> 方法。假设缓存块总共有<code>n</code>块，我们总是记录上一次被替换的缓存块<code>i</code>，则本次将要被替换的缓存块<code>j = (i + 1) mod n</code>。</li>
+<li><strong>缓存块命中</strong>：我们为每个缓存块都会维护一个元数据，元数据记录了该缓存块对应介质上的物理地址，我们通过检查物理地址是否重合来判断缓存块是否命中。</li>
+<li><strong>缓存块索引</strong>：SFS使用位图对缓存块的分配情况进行管理。但是位图面临的搜索时间为O(N)。SFS将位图划分为多个子位图，每个子位图由一个元数据节点管理，统计该子位图的分配情况。我们在后面进行更为详细的介绍。</li>
+<li><strong>缓存块回写方式</strong>：Write-Back模式</li>
+</ul>
+<p>SFS可以很容易地实现对文件数据的缓存，其伪代码可表示如下：</p>
+<ul>
+<li><strong>读数据</strong>：</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="k">if</span><span class="w"> </span><span class="n">not</span><span class="w"> </span><span class="n">hit_cache</span><span class="p">(</span><span class="n">offset</span><span class="p">)</span><span class="o">:</span>
+<span class="w">  </span><span class="n">read_into_cache</span><span class="p">(</span><span class="n">offset</span><span class="p">)</span>
+<span class="n">read_from_cache</span><span class="p">(</span><span class="n">offset</span><span class="p">)</span>
+</code></pre></div>
+<ul>
+<li><strong>写数据</strong>：</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="k">if</span><span class="w"> </span><span class="n">not</span><span class="w"> </span><span class="n">hit_cache</span><span class="p">(</span><span class="n">offset</span><span class="p">)</span><span class="o">:</span>
+<span class="w">  </span><span class="n">read_into_cache</span><span class="p">(</span><span class="n">offset</span><span class="p">)</span>
+<span class="n">write_to_cache</span><span class="p">(</span><span class="n">offset</span><span class="p">)</span>
+</code></pre></div>
+<h4 id="121-sfs">1.2.1 SFS缓存实现<a class="headerlink" href="#121-sfs" title="Permanent link">&para;</a></h4>
+<p>首先切换到<code>buf</code>分支以完成实验：</p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>checkout<span class="w"> </span>buf
+</code></pre></div>
+<p><strong>值得说明的是</strong>，为了更好地模拟磁盘延时，我们向<code>user_ddriver</code>中人为插入了延迟函数，相关代码可阅读<code>buf</code>分支下的<code>ddriver.c</code>。</p>
+<h4 id="122">1.2.2 数据结构<a class="headerlink" href="#122" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="k">struct</span><span class="w"> </span><span class="nc">sfs_bm_node</span><span class="w"> </span><span class="p">{</span><span class="w"> </span>
+<span class="w">    </span><span class="kt">int</span><span class="w">       </span><span class="n">avai</span><span class="p">;</span><span class="w">                                   </span><span class="cm">/* 该位图剩余的记录数 */</span><span class="w">                 </span>
+<span class="w">    </span><span class="kt">uint8_t</span><span class="w">   </span><span class="n">bm_indicators</span><span class="p">[</span><span class="n">SFS_CACHE_BMID_N</span><span class="p">];</span><span class="w">        </span><span class="cm">/* 元数据位图 */</span><span class="w">           </span>
+<span class="w">    </span><span class="kt">uint8_t</span><span class="w">   </span><span class="n">bm</span><span class="p">[</span><span class="n">SFS_CACHE_BMND_N</span><span class="p">];</span><span class="w">                   </span><span class="cm">/* 数据位图 */</span>
+<span class="p">};</span>
+</code></pre></div>
+<p><code>sfs_bm_node</code>位于内存中，用于缓存块管理，可以理解为一个子位图结构，其中<code>bm</code>字段代表数据位图，<code>bm_indicators</code>进而记录<code>bm</code>中每8位的分配情况：如果为0，代表该8位中无有效（被分配）位；为1代表该8位中有有效位。<strong>值得说明的是，如果仅记录每8位一组，完全可以通过&amp;0xFF操作实现，事实上，这个方法可以推广到记录每128位甚至更高的情况</strong>。最后，<code>avai</code>字段记录改为图剩余的记录数，非0代表还有空闲块，0代表无空闲块。因此单个<code>sfs_bm_node</code>节点可以画图表示为：</p>
+<p><img alt="image-20220727173918180" src="../part3-4.assets/image-20220727173918180.png" /></p>
+<div class="highlight"><pre><span></span><code><span class="k">struct</span><span class="w"> </span><span class="nc">__attribute__</span><span class="p">((</span><span class="n">packed</span><span class="p">))</span><span class="w"> </span><span class="n">sfs_cnode_hdr</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w">                </span><span class="n">phys_ofs</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">int</span><span class="w">                </span><span class="n">flags</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="k">struct</span><span class="w"> </span><span class="nc">__attribute__</span><span class="p">((</span><span class="n">packed</span><span class="p">))</span><span class="w"> </span><span class="n">sfs_cnode</span>
+<span class="p">{</span><span class="w"> </span>
+<span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">sfs_cnode_hdr</span><span class="w"> </span><span class="n">hdr</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">char</span><span class="w">        </span><span class="n">data</span><span class="p">[];</span>
+<span class="p">};</span>
+</code></pre></div>
+<p><code>sfs_cnode</code>代表一个缓存块节点，其包含一个元数据头不<code>hdr</code>与缓存的数据<code>data</code>，<code>hdr</code>中记录了缓存块对应的物理地址<code>phys_ofs</code>与一些标志位<code>flags</code>（是否写脏）。<strong>注意，在SFS中，缓存块大小默认与IO块大小对齐，因此不记录块大小</strong>。当然，你可以更粗粒度地去管理一个缓存块，例如2个IO块大小等。<code>sfs_cnode</code>的集合构成了SFS缓存Buffer，如下图所示：</p>
+<p><img alt="image-20220727164918401" src="../part3-4.assets/image-20220727164918401.png" /></p>
+<div class="highlight"><pre><span></span><code><span class="k">struct</span><span class="w"> </span><span class="nc">sfs_cache</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w">                     </span><span class="n">sz_blk</span><span class="p">;</span><span class="w">                   </span><span class="cm">/* 每个缓存数据块大小 = io_sz */</span>
+<span class="w">    </span><span class="kt">int</span><span class="w">                     </span><span class="n">num_blk</span><span class="p">;</span><span class="w">                  </span><span class="cm">/* 缓存的数据块数 */</span><span class="w">  </span>
+<span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">sfs_bm_node</span><span class="w">      </span><span class="o">*</span><span class="n">bms</span><span class="p">;</span><span class="w">                     </span><span class="cm">/* Cache分配位图 */</span>
+<span class="w">    </span><span class="kt">int</span><span class="w">                     </span><span class="n">num_bms</span><span class="p">;</span><span class="w">                  </span><span class="cm">/* 分配位图的个数 */</span>
+<span class="w">    </span><span class="kt">int</span><span class="w">                     </span><span class="n">last_evicted</span><span class="p">;</span><span class="w">             </span><span class="cm">/* 上一次驱逐块 */</span>
+<span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">char</span><span class="w">           </span><span class="o">*</span><span class="n">buf</span><span class="p">;</span><span class="w">                     </span><span class="cm">/* Cnode存放区 */</span>
+
+<span class="w">    </span><span class="kt">int</span><span class="w">                     </span><span class="n">cache_hit</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">int</span><span class="w">                     </span><span class="n">cache_miss</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">int</span><span class="w">                     </span><span class="n">cache_wb</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">int</span><span class="w">                     </span><span class="n">cache_ld</span><span class="p">;</span>
+<span class="p">};</span>
+</code></pre></div>
+<p><code>sfs_cache</code>代表整个缓存结构，相关变量定义不再赘述。其中，<code>cache_</code>开头的字段代表缓存的命中、回写、加载信息。进而，我们用下图来描述缓存的整体结构：</p>
+<p><img alt="image-20220727174134879" src="../part3-4.assets/image-20220727174134879.png" /></p>
+<p><strong>值得说明的是，SFS中的缓存结构完全被部署在内存中，并非硬件Cache。</strong></p>
+<h4 id="123">1.2.3 关键方法<a class="headerlink" href="#123" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>命中或申请分配缓存块</strong>：</li>
+</ul>
+<p><strong>函数介绍</strong>：</p>
+<p>该方法做两个事情：</p>
+<ol>
+<li>根据传入参数<code>phys_ofs</code>判断是否命中Cache，若未命中Cache，则执行步骤二</li>
+<li>分配一个空闲的缓存块，若没有缓存块，则按前述替换算法进行缓存块替换释放</li>
+</ol>
+<p><strong>返回值</strong>：该方法返回 <strong>phys_ofs对应的缓存块块号</strong></p>
+<p>函数实现如下：</p>
+<div class="highlight"><pre><span></span><code><span class="kt">int</span><span class="w"> </span><span class="nf">sfs_cache_hit_or_alloc_blk</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">sfs_cache</span><span class="w"> </span><span class="o">*</span><span class="n">cache</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">phys_ofs</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">blk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">-1</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">bm_id</span><span class="p">,</span><span class="w"> </span><span class="n">line</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">num_bms</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cache</span><span class="o">-&gt;</span><span class="n">num_bms</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">bm_lines</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SFS_CACHE_BMND_N</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">free_blk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">-1</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">evict_blk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">-1</span><span class="p">;</span>
+<span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">sfs_bm_node</span><span class="w"> </span><span class="o">*</span><span class="n">bm_node</span><span class="p">;</span>
+<span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">sfs_cnode</span><span class="w">   </span><span class="o">*</span><span class="n">cnode</span><span class="p">;</span>
+
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">bm_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">bm_id</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">num_bms</span><span class="p">;</span><span class="w"> </span><span class="n">bm_id</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">        </span><span class="cm">/* 遍历所有为位图，查看Cache命中和空闲块 */</span><span class="w">   </span>
+<span class="w">        </span><span class="n">bm_node</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">cache</span><span class="o">-&gt;</span><span class="n">bms</span><span class="p">[</span><span class="n">bm_id</span><span class="p">];</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">bm_node</span><span class="o">-&gt;</span><span class="n">avai</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">SFS_CACHE_BMND_N</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">UINT8_BITS</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">line</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">line</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">bm_lines</span><span class="p">;</span><span class="w"> </span><span class="n">line</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">bm_test</span><span class="p">(</span><span class="n">bm_node</span><span class="o">-&gt;</span><span class="n">bm_indicators</span><span class="p">,</span><span class="w"> </span><span class="n">line</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="n">blk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">bm_id</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">SFS_CACHE_BMND_N</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">UINT8_BITS</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">line</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">UINT8_BITS</span><span class="p">;</span>
+<span class="w">                    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">UINT8_BITS</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">bm_test</span><span class="p">(</span><span class="n">bm_node</span><span class="o">-&gt;</span><span class="n">bm</span><span class="p">,</span><span class="w"> </span><span class="n">blk</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">i</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                            </span><span class="n">cnode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GET_CNODE</span><span class="p">(</span><span class="n">cache</span><span class="p">,</span><span class="w"> </span><span class="n">blk</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">i</span><span class="p">);</span>
+<span class="w">                            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">cnode</span><span class="o">-&gt;</span><span class="n">hdr</span><span class="p">.</span><span class="n">phys_ofs</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">phys_ofs</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                                </span><span class="n">cache</span><span class="o">-&gt;</span><span class="n">cache_hit</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">                                </span><span class="k">return</span><span class="w"> </span><span class="n">blk</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">i</span><span class="p">;</span>
+<span class="w">                            </span><span class="p">}</span>
+<span class="w">                        </span><span class="p">}</span>
+<span class="w">                        </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">free_blk</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">-1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                                </span><span class="n">free_blk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">blk</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">i</span><span class="p">;</span>
+<span class="w">                            </span><span class="p">}</span><span class="w">        </span>
+<span class="w">                        </span><span class="p">}</span>
+<span class="w">                    </span><span class="p">}</span>
+<span class="w">                </span><span class="p">}</span>
+<span class="w">                </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">free_blk</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">-1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                        </span><span class="n">blk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">bm_id</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">SFS_CACHE_BMND_N</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">UINT8_BITS</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">line</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">UINT8_BITS</span><span class="p">;</span>
+<span class="w">                        </span><span class="n">free_blk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">blk</span><span class="p">;</span>
+<span class="w">                    </span><span class="p">}</span>
+<span class="w">                </span><span class="p">}</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">blk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">bm_id</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">SFS_CACHE_BMND_N</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">UINT8_BITS</span><span class="p">;</span>
+<span class="w">            </span><span class="n">free_blk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">blk</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="n">cache</span><span class="o">-&gt;</span><span class="n">cache_miss</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">free_blk</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">-1</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">free_blk</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">cache</span><span class="o">-&gt;</span><span class="n">num_blk</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span>
+<span class="w">                                                      </span><span class="cm">/* 驱逐缓存行 */</span>
+<span class="w">        </span><span class="n">evict_blk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">cache</span><span class="o">-&gt;</span><span class="n">last_evicted</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="n">cache</span><span class="o">-&gt;</span><span class="n">num_blk</span><span class="p">;</span>
+<span class="w">        </span><span class="n">sfs_cache_rls_blk</span><span class="p">(</span><span class="n">cache</span><span class="p">,</span><span class="w"> </span><span class="n">evict_blk</span><span class="p">);</span>
+<span class="w">        </span><span class="n">cache</span><span class="o">-&gt;</span><span class="n">last_evicted</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">evict_blk</span><span class="p">;</span>
+<span class="w">        </span><span class="n">free_blk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">evict_blk</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="n">blk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">free_blk</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">sfs_cache_alloc_blk</span><span class="p">(</span><span class="n">cache</span><span class="p">,</span><span class="w"> </span><span class="n">blk</span><span class="p">,</span><span class="w"> </span><span class="n">phys_ofs</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">blk</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>其中，下述代码主要完成位图的遍历，对于每一个<code>sfs_bm_node</code>，严格按照顺序检查：<code>avai</code>→<code>bm_indicators</code>→<code>bm</code>。在遍历过程中，记录下第一个空闲块<code>free_blk</code>，便于缓存未命中时返回。</p>
+<div class="highlight"><pre><span></span><code><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">bm_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">bm_id</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">num_bms</span><span class="p">;</span><span class="w"> </span><span class="n">bm_id</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">        </span><span class="cm">/* 遍历所有为位图，查看Cache命中和空闲块 */</span><span class="w">   </span>
+<span class="w">    </span><span class="n">bm_node</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">cache</span><span class="o">-&gt;</span><span class="n">bms</span><span class="p">[</span><span class="n">bm_id</span><span class="p">];</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">bm_node</span><span class="o">-&gt;</span><span class="n">avai</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">SFS_CACHE_BMND_N</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">UINT8_BITS</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">line</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">line</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">bm_lines</span><span class="p">;</span><span class="w"> </span><span class="n">line</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">bm_test</span><span class="p">(</span><span class="n">bm_node</span><span class="o">-&gt;</span><span class="n">bm_indicators</span><span class="p">,</span><span class="w"> </span><span class="n">line</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">blk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">bm_id</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">SFS_CACHE_BMND_N</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">UINT8_BITS</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">line</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">UINT8_BITS</span><span class="p">;</span>
+<span class="w">                </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">UINT8_BITS</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">bm_test</span><span class="p">(</span><span class="n">bm_node</span><span class="o">-&gt;</span><span class="n">bm</span><span class="p">,</span><span class="w"> </span><span class="n">blk</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">i</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                        </span><span class="p">...</span>
+<span class="w">                    </span><span class="p">}</span>
+<span class="w">                    </span><span class="p">...</span>
+<span class="w">                </span><span class="p">}</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">            </span><span class="p">...</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="p">...</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>以下代码用于检测是否命中。首先获取目标缓存块<code>sfs_cnode</code>，再比对<code>phys_ofs</code>即可。</p>
+<div class="highlight"><pre><span></span><code><span class="n">cnode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GET_CNODE</span><span class="p">(</span><span class="n">cache</span><span class="p">,</span><span class="w"> </span><span class="n">blk</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">i</span><span class="p">);</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">cnode</span><span class="o">-&gt;</span><span class="n">hdr</span><span class="p">.</span><span class="n">phys_ofs</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">phys_ofs</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">cache</span><span class="o">-&gt;</span><span class="n">cache_hit</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">blk</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">i</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>如果发现既未命中缓存块，又没有<code>free_blk</code>，则触发缓存替换，被替换的块作为新的空闲块被分配。其中，需要说明两个函数：</p>
+<ul>
+<li><code>sfs_cache_rls_blk</code>：该函数用于将缓存块的内容调用 <strong>驱动写</strong> 回写到介质上，并更新相应的位图索引结构</li>
+<li><code>sfs_cache_alloc_blk</code>：该函数用于将对应phys_ofs的内容调用 <strong>驱动读</strong> 读取到相应的缓存块中，并更新缓存块元数据<code>hdr</code>，更新相应的位图索引结构</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="kt">int</span><span class="w"> </span><span class="nf">sfs_cache_hit_or_alloc_blk</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">sfs_cache</span><span class="w"> </span><span class="o">*</span><span class="n">cache</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">phys_ofs</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="p">...</span>
+
+<span class="w">    </span><span class="n">cache</span><span class="o">-&gt;</span><span class="n">cache_miss</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">free_blk</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">-1</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">free_blk</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">cache</span><span class="o">-&gt;</span><span class="n">num_blk</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span>
+<span class="w">                                                      </span><span class="cm">/* 驱逐缓存行 */</span>
+<span class="w">        </span><span class="n">evict_blk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">cache</span><span class="o">-&gt;</span><span class="n">last_evicted</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="n">cache</span><span class="o">-&gt;</span><span class="n">num_blk</span><span class="p">;</span>
+<span class="w">        </span><span class="n">sfs_cache_rls_blk</span><span class="p">(</span><span class="n">cache</span><span class="p">,</span><span class="w"> </span><span class="n">evict_blk</span><span class="p">);</span>
+<span class="w">        </span><span class="n">cache</span><span class="o">-&gt;</span><span class="n">last_evicted</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">evict_blk</span><span class="p">;</span>
+<span class="w">        </span><span class="n">free_blk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">evict_blk</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="n">blk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">free_blk</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">sfs_cache_alloc_blk</span><span class="p">(</span><span class="n">cache</span><span class="p">,</span><span class="w"> </span><span class="n">blk</span><span class="p">,</span><span class="w"> </span><span class="n">phys_ofs</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">blk</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<ul>
+<li><strong>读写方法</strong></li>
+</ul>
+<p>读方法为<code>sfs_try_cache_read</code>，写方法为<code>sfs_try_cache_write</code>。主要思路几乎一致，首先通过调用<code>sfs_cache_hit_or_alloc_blk</code>获取<code>offset</code>对应的缓存块，然后对缓存块进行读取或写入即可。</p>
+<div class="highlight"><pre><span></span><code><span class="kt">int</span><span class="w"> </span><span class="nf">sfs_try_cache_read</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">sfs_cache</span><span class="w"> </span><span class="o">*</span><span class="n">cache</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">offset</span><span class="p">,</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="o">*</span><span class="n">out_content</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">size</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="p">...</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">IS_CACHE_ENABLE</span><span class="p">(</span><span class="n">cache</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">blk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sfs_cache_hit_or_alloc_blk</span><span class="p">(</span><span class="n">cache</span><span class="p">,</span><span class="w"> </span><span class="n">offset</span><span class="p">);</span>
+<span class="w">        </span><span class="n">cnode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GET_CNODE</span><span class="p">(</span><span class="n">cache</span><span class="p">,</span><span class="w"> </span><span class="n">blk</span><span class="p">);</span>
+
+<span class="w">        </span><span class="n">memcpy</span><span class="p">(</span><span class="n">out_content</span><span class="p">,</span><span class="w"> </span><span class="n">cnode</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">);</span>
+<span class="w">        </span><span class="p">...</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="p">...</span>
+<span class="p">}</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">sfs_try_cache_write</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">sfs_cache</span><span class="w"> </span><span class="o">*</span><span class="n">cache</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">offset</span><span class="p">,</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="o">*</span><span class="n">in_content</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">size</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="p">...</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">IS_CACHE_ENABLE</span><span class="p">(</span><span class="n">cache</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">blk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sfs_cache_hit_or_alloc_blk</span><span class="p">(</span><span class="n">cache</span><span class="p">,</span><span class="w"> </span><span class="n">offset</span><span class="p">);</span>
+<span class="w">        </span><span class="n">cnode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GET_CNODE</span><span class="p">(</span><span class="n">cache</span><span class="p">,</span><span class="w"> </span><span class="n">blk</span><span class="p">);</span>
+
+<span class="w">        </span><span class="n">memcpy</span><span class="p">(</span><span class="n">cnode</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="n">in_content</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">);</span>
+<span class="w">      </span><span class="p">...</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="p">...</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>接下来，修改SFS封装的<code>sfs_driver_read</code>和<code>sfs_driver_write</code>即可，这两个函数原本的目的是为了适配任意<code>offset</code>与<code>size</code>，让修改符合IO块大小。修改方式很简单，只需要将原来的<code>ddriver_seek</code> + <code>ddriver_read</code>或<code>ddriver_write</code>更换为<code>sfs_try_cache_read</code>或<code>sfs_try_cache_write</code>即可，相关代码如下所示：</p>
+<div class="highlight"><pre><span></span><code><span class="cm">/* sfs_utils.c */</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">sfs_driver_read</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">offset</span><span class="p">,</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="o">*</span><span class="n">out_content</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">size</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="p">...</span>
+<span class="w">    </span><span class="c1">// lseek(SFS_DRIVER(), offset_aligned, SEEK_SET);</span>
+<span class="w">    </span><span class="c1">// ddriver_seek(SFS_DRIVER(), offset_aligned, SEEK_SET);</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">size_aligned</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// read(SFS_DRIVER(), cur, SFS_IO_SZ());</span>
+<span class="w">        </span><span class="c1">// ddriver_read(SFS_DRIVER(), cur, SFS_IO_SZ());</span>
+<span class="w">        </span><span class="n">sfs_try_cache_read</span><span class="p">(</span><span class="n">SFS_CACHE</span><span class="p">(),</span><span class="w"> </span><span class="n">offset_aligned</span><span class="p">,</span><span class="w"> </span><span class="n">cur</span><span class="p">,</span><span class="w"> </span><span class="n">SFS_IO_SZ</span><span class="p">());</span>
+<span class="w">        </span><span class="n">cur</span><span class="w">          </span><span class="o">+=</span><span class="w"> </span><span class="n">SFS_IO_SZ</span><span class="p">();</span>
+<span class="w">        </span><span class="n">size_aligned</span><span class="w"> </span><span class="o">-=</span><span class="w"> </span><span class="n">SFS_IO_SZ</span><span class="p">();</span><span class="w">   </span>
+<span class="w">        </span><span class="n">offset_aligned</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">SFS_IO_SZ</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="n">memcpy</span><span class="p">(</span><span class="n">out_content</span><span class="p">,</span><span class="w"> </span><span class="n">temp_content</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">bias</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">);</span>
+<span class="w">    </span><span class="p">...</span>
+<span class="p">}</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">sfs_driver_write</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">offset</span><span class="p">,</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="o">*</span><span class="n">in_content</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">size</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="p">...</span>
+<span class="w">    </span><span class="c1">// lseek(SFS_DRIVER(), offset_aligned, SEEK_SET);</span>
+<span class="w">    </span><span class="c1">// ddriver_seek(SFS_DRIVER(), offset_aligned, SEEK_SET);</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">size_aligned</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// write(SFS_DRIVER(), cur, SFS_IO_SZ());</span>
+<span class="w">        </span><span class="n">sfs_try_cache_write</span><span class="p">(</span><span class="n">SFS_CACHE</span><span class="p">(),</span><span class="w"> </span><span class="n">offset_aligned</span><span class="p">,</span><span class="w"> </span><span class="n">cur</span><span class="p">,</span><span class="w"> </span><span class="n">SFS_IO_SZ</span><span class="p">());</span>
+<span class="w">        </span><span class="n">cur</span><span class="w">          </span><span class="o">+=</span><span class="w"> </span><span class="n">SFS_IO_SZ</span><span class="p">();</span>
+<span class="w">        </span><span class="n">size_aligned</span><span class="w"> </span><span class="o">-=</span><span class="w"> </span><span class="n">SFS_IO_SZ</span><span class="p">();</span><span class="w">   </span>
+<span class="w">        </span><span class="n">offset_aligned</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">SFS_IO_SZ</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="p">...</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>此外，在原来的SFS设计中，我们实现的<code>sfs_write</code>和<code>sfs_read</code>直接在内存中进行，这样一来并不能体现缓存的作用，于是更换了读写数据函数如下（将<code>memcpy</code>更换为<code>sfs_driver_read</code>与<code>sfs_driver_write</code>）：</p>
+<div class="highlight"><pre><span></span><code><span class="kt">int</span><span class="w"> </span><span class="nf">sfs_write</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">path</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">buf</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">size</span><span class="p">,</span><span class="w"> </span><span class="kt">off_t</span><span class="w"> </span><span class="n">offset</span><span class="p">,</span>
+<span class="w">              </span><span class="k">struct</span><span class="w"> </span><span class="nc">fuse_file_info</span><span class="o">*</span><span class="w"> </span><span class="n">fi</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="p">...</span>
+<span class="w">  </span><span class="c1">// memcpy(inode-&gt;data + offset, buf, size);</span>
+<span class="w">  </span><span class="n">sfs_driver_write</span><span class="p">(</span><span class="n">SFS_DATA_OFS</span><span class="p">((</span><span class="n">inode</span><span class="o">-&gt;</span><span class="n">ino</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">offset</span><span class="p">,</span><span class="w"> </span><span class="n">buf</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">);</span>
+<span class="w">  </span><span class="p">...</span>
+<span class="p">}</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">sfs_read</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">path</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">buf</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">size</span><span class="p">,</span><span class="w"> </span><span class="kt">off_t</span><span class="w"> </span><span class="n">offset</span><span class="p">,</span>
+<span class="w">             </span><span class="k">struct</span><span class="w"> </span><span class="nc">fuse_file_info</span><span class="o">*</span><span class="w"> </span><span class="n">fi</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="p">...</span>
+<span class="w">  </span><span class="c1">// memcpy(buf, inode-&gt;data + offset, size);</span>
+<span class="w">  </span><span class="n">sfs_driver_read</span><span class="p">(</span><span class="n">SFS_DATA_OFS</span><span class="p">((</span><span class="n">inode</span><span class="o">-&gt;</span><span class="n">ino</span><span class="p">))</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">offset</span><span class="p">,</span><span class="w"> </span><span class="n">buf</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">);</span>
+<span class="w">  </span><span class="p">...</span><span class="w">            </span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="13-sfs">1.3 SFS缓存测试<a class="headerlink" href="#13-sfs" title="Permanent link">&para;</a></h3>
+<p>为了验证SFS缓存有效性，编写如下脚本测试：</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="n">loop</span><span class="p">,</span> <span class="n">cblks</span><span class="p">):</span>
+    <span class="o">...</span>
+    <span class="n">work_set_sz</span> <span class="o">=</span> <span class="mi">16</span> <span class="o">*</span> <span class="mi">512</span>                                <span class="c1"># 8KB</span>
+    <span class="n">iter_sz</span> <span class="o">=</span> <span class="mi">512</span>                                         <span class="c1"># 512B</span>
+    <span class="n">num_iters</span> <span class="o">=</span> <span class="n">work_set_sz</span> <span class="o">//</span> <span class="n">iter_sz</span>
+    <span class="o">...</span>
+    <span class="n">tot_sz</span> <span class="o">=</span> <span class="n">loop</span> <span class="o">*</span> <span class="n">work_set_sz</span>     <span class="c1"># B</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">f_path</span><span class="p">,</span> <span class="s1">&#39;w+&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">content</span> <span class="o">=</span> <span class="s1">&#39;a&#39;</span> <span class="o">*</span> <span class="n">work_set_sz</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">loop</span><span class="p">):</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_iters</span><span class="p">):</span>
+                <span class="c1"># print(&quot;Iter: &quot; + str(j))</span>
+                <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">content</span><span class="p">[</span><span class="n">j</span> <span class="o">*</span> <span class="n">iter_sz</span> <span class="p">:</span> <span class="p">(</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">iter_sz</span><span class="p">])</span>
+
+        <span class="n">f</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">work_set_sz</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">data</span> <span class="o">!=</span> <span class="n">content</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;buf: read data is not equal to written data&#39;</span><span class="p">)</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;umount </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mnt_point</span><span class="p">))</span>
+    <span class="n">end</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Time: </span><span class="si">{}</span><span class="s1">ms BW: </span><span class="si">{}</span><span class="s1">MB/s&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">1000</span> <span class="o">*</span> <span class="p">(</span><span class="n">end</span> <span class="o">-</span> <span class="n">start</span><span class="p">),</span> <span class="n">tot_sz</span> <span class="o">/</span> <span class="mi">1024</span> <span class="o">/</span> <span class="mi">1024</span> <span class="o">/</span> <span class="p">(</span><span class="n">end</span> <span class="o">-</span> <span class="n">start</span><span class="p">)))</span>
+
+<span class="n">loop</span> <span class="o">=</span> <span class="mi">1000000</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Cache Blks: 512&quot;</span><span class="p">)</span>
+<span class="n">process</span><span class="p">(</span><span class="n">loop</span><span class="p">,</span> <span class="mi">512</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Cache Blks: 0&quot;</span><span class="p">)</span>
+<span class="n">process</span><span class="p">(</span><span class="n">loop</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> 
+</code></pre></div>
+<p>该脚本以512B为单位写满SFS文件（大小为512B * 16）1000000次，然后计算写入带宽。测试对象是 <strong>无缓存块</strong> 与有 <strong>512个缓存块</strong> 两类，测试结果如下表所示：</p>
+<table>
+<thead>
+<tr>
+<th>无缓存块</th>
+<th>512个缓存块</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><em>84.38797875936444MB/s</em></td>
+<td><em>101.79038122398883MB/s</em></td>
+</tr>
+</tbody>
+</table>
+<p>由于在虚拟机上测试，结果难免不准，<strong>但有缓存块的时间开销一般来说比无缓存块小，本实验要求学生通过自己设计实验，最终结果能够体现出加入缓存的优势即可</strong></p>
+<h3 id="14">1.4 实验要求<a class="headerlink" href="#14" title="Permanent link">&para;</a></h3>
+<p>由于本实验仅要求在虚拟机上实现，因此本实验仅要求学生通过自己设计实验，最终结果能够体现出加入缓存的优势即可。学生可以通过修改<code>driver/user_ddriver/ddriver.c</code>中的下述结构体中的对应字段来进一步调整延迟：</p>
+<div class="highlight"><pre><span></span><code><span class="k">struct</span><span class="w"> </span><span class="nc">ddriver</span><span class="w"> </span><span class="n">disk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="p">...</span>
+<span class="w">    </span><span class="p">.</span><span class="n">read_lat</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">       </span><span class="cm">/* 2ms */</span><span class="w">       </span>
+<span class="w">    </span><span class="p">.</span><span class="n">write_lat</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">       </span><span class="cm">/* 1ms */</span>
+<span class="w">    </span><span class="p">.</span><span class="n">seek_lat</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w">       </span><span class="cm">/* 4.17ms per 360 degree */</span>
+<span class="w">    </span><span class="p">...</span>
+<span class="p">};</span>
+</code></pre></div>
+<p>其中，<code>read_lat</code>代表为<code>ddriver_read</code>插入延迟，<code>write_lat</code>代表为<code>ddriver_write</code>插入延迟，<code>seek_lat</code>用于模拟磁盘旋转，一般来说指旋转360°耗时，单位都是<code>ms</code>。</p>
+<p>修改<code>user_ddriver</code>后，需要使用<code>make</code>编译，从而使修改生效：</p>
+<div class="highlight"><pre><span></span><code><span class="o">[</span>root@localhost<span class="w"> </span>user_ddriver<span class="o">]</span><span class="c1"># pwd</span>
+/user-land-filesystem/driver/user_ddriver
+<span class="o">[</span>root@localhost<span class="w"> </span>user_ddriver<span class="o">]</span><span class="c1"># make</span>
+gcc<span class="w">  </span>-Wall<span class="w"> </span>-O<span class="w"> </span>-g<span class="w">  </span>-c<span class="w"> </span>ddriver.c
+</code></pre></div>
+<h2 id="2">2.  日志文件系统简介（选做任务）<a class="headerlink" href="#2" title="Permanent link">&para;</a></h2>
+<p>日志机制是提高文件系统鲁棒性的一个重要机制。我们知道， <strong>文件系统的很多操作往往不止一个步骤</strong> ，以创建文件为例，它要经过： <strong>写文件inode</strong> 、 <strong>写目录项</strong> 、 <strong>更新位图</strong> 三个步骤。</p>
+<p>如果在写完目录项但没开始写超级块时发生了 <strong>系统崩溃或者停电等因素导致宕机</strong> ，那么第一步被分配出去的inode就无法被记录为已分配，重启系统后文件系统有可能把这一inode分配给其他文件。</p>
+<p>为了保证整个过程的 <strong>原子性</strong> ，我们可以加入日志机制。在磁盘中划出一块区域记为日志区。一开始不把更新后的数据写入数据区，而是把日志区状态记为记录中，并把更改写入日志区。写入完成后，把日志区状态改为写入中，并把日志区的更改更新到数据区。全部更新完成后，把日志区状态记为空闲。</p>
+<p>如果在记录时系统崩溃，在重启后会发现日志区状态为记录中。此时只需简单地丢弃日志内容，改状态为空闲，即可。这种情况下文件创建就好像从未发生过一样。</p>
+<p>如果在写入时系统崩溃，在重启后会发现日志区状态为写入中。此时日志区的更新信息是完整的，只是不知道崩溃前写到了哪一步。此时只要把日志区的信息全部重新写入到数据区，再把状态记为空闲，即可恢复被打断的操作。</p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2023 - 2024 哈尔滨工业大学（深圳）
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+    <a href="mailto:<xiawen@hit.edu.cn>" target="_blank" rel="noopener" title="xiawen@hit.edu.cn" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M498.1 5.6c10.1 7 15.4 19.1 13.5 31.2l-64 416c-1.5 9.7-7.4 18.2-16 23s-18.9 5.4-28 1.6L284 427.7l-68.5 74.1c-8.9 9.7-22.9 12.9-35.2 8.1S160 493.2 160 480v-83.6c0-4 1.5-7.8 4.2-10.7l167.6-182.9c5.8-6.3 5.6-16-.4-22s-15.7-6.4-22-.7L106 360.8l-88.3-44.2C7.1 311.3.3 300.7 0 288.9s5.9-22.8 16.1-28.7l448-256c10.7-6.1 23.9-5.5 34 1.4z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.top", "navigation.tabs.sticky", "navigation.tracking"], "search": "../../assets/javascripts/workers/search.a264c092.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.6eac0284.min.js"></script>
+      
+        <script src="../../js/baidu-tongji.js"></script>
+      
+    
+  </body>
+</html>

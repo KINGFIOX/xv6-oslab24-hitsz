@@ -1,0 +1,2133 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.3">
+    
+    
+      
+        <title>实验原理 - 操作系统2023秋 | 哈工大（深圳）</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.79e020e9.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="操作系统2023秋 | 哈工大（深圳）" class="md-header__button md-logo" aria-label="操作系统2023秋 | 哈工大（深圳）" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M220.8 123.3c1 .5 1.8 1.7 3 1.7 1.1 0 2.8-.4 2.9-1.5.2-1.4-1.9-2.3-3.2-2.9-1.7-.7-3.9-1-5.5-.1-.4.2-.8.7-.6 1.1.3 1.3 2.3 1.1 3.4 1.7zm-21.9 1.7c1.2 0 2-1.2 3-1.7 1.1-.6 3.1-.4 3.5-1.6.2-.4-.2-.9-.6-1.1-1.6-.9-3.8-.6-5.5.1-1.3.6-3.4 1.5-3.2 2.9.1 1 1.8 1.5 2.8 1.4zM420 403.8c-3.6-4-5.3-11.6-7.2-19.7-1.8-8.1-3.9-16.8-10.5-22.4-1.3-1.1-2.6-2.1-4-2.9-1.3-.8-2.7-1.5-4.1-2 9.2-27.3 5.6-54.5-3.7-79.1-11.4-30.1-31.3-56.4-46.5-74.4-17.1-21.5-33.7-41.9-33.4-72C311.1 85.4 315.7.1 234.8 0 132.4-.2 158 103.4 156.9 135.2c-1.7 23.4-6.4 41.8-22.5 64.7-18.9 22.5-45.5 58.8-58.1 96.7-6 17.9-8.8 36.1-6.2 53.3-6.5 5.8-11.4 14.7-16.6 20.2-4.2 4.3-10.3 5.9-17 8.3s-14 6-18.5 14.5c-2.1 3.9-2.8 8.1-2.8 12.4 0 3.9.6 7.9 1.2 11.8 1.2 8.1 2.5 15.7.8 20.8-5.2 14.4-5.9 24.4-2.2 31.7 3.8 7.3 11.4 10.5 20.1 12.3 17.3 3.6 40.8 2.7 59.3 12.5 19.8 10.4 39.9 14.1 55.9 10.4 11.6-2.6 21.1-9.6 25.9-20.2 12.5-.1 26.3-5.4 48.3-6.6 14.9-1.2 33.6 5.3 55.1 4.1.6 2.3 1.4 4.6 2.5 6.7v.1c8.3 16.7 23.8 24.3 40.3 23 16.6-1.3 34.1-11 48.3-27.9 13.6-16.4 36-23.2 50.9-32.2 7.4-4.5 13.4-10.1 13.9-18.3.4-8.2-4.4-17.3-15.5-29.7zM223.7 87.3c9.8-22.2 34.2-21.8 44-.4 6.5 14.2 3.6 30.9-4.3 40.4-1.6-.8-5.9-2.6-12.6-4.9 1.1-1.2 3.1-2.7 3.9-4.6 4.8-11.8-.2-27-9.1-27.3-7.3-.5-13.9 10.8-11.8 23-4.1-2-9.4-3.5-13-4.4-1-6.9-.3-14.6 2.9-21.8zM183 75.8c10.1 0 20.8 14.2 19.1 33.5-3.5 1-7.1 2.5-10.2 4.6 1.2-8.9-3.3-20.1-9.6-19.6-8.4.7-9.8 21.2-1.8 28.1 1 .8 1.9-.2-5.9 5.5-15.6-14.6-10.5-52.1 8.4-52.1zm-13.6 60.7c6.2-4.6 13.6-10 14.1-10.5 4.7-4.4 13.5-14.2 27.9-14.2 7.1 0 15.6 2.3 25.9 8.9 6.3 4.1 11.3 4.4 22.6 9.3 8.4 3.5 13.7 9.7 10.5 18.2-2.6 7.1-11 14.4-22.7 18.1-11.1 3.6-19.8 16-38.2 14.9-3.9-.2-7-1-9.6-2.1-8-3.5-12.2-10.4-20-15-8.6-4.8-13.2-10.4-14.7-15.3-1.4-4.9 0-9 4.2-12.3zm3.3 334c-2.7 35.1-43.9 34.4-75.3 18-29.9-15.8-68.6-6.5-76.5-21.9-2.4-4.7-2.4-12.7 2.6-26.4v-.2c2.4-7.6.6-16-.6-23.9-1.2-7.8-1.8-15 .9-20 3.5-6.7 8.5-9.1 14.8-11.3 10.3-3.7 11.8-3.4 19.6-9.9 5.5-5.7 9.5-12.9 14.3-18 5.1-5.5 10-8.1 17.7-6.9 8.1 1.2 15.1 6.8 21.9 16l19.6 35.6c9.5 19.9 43.1 48.4 41 68.9zm-1.4-25.9c-4.1-6.6-9.6-13.6-14.4-19.6 7.1 0 14.2-2.2 16.7-8.9 2.3-6.2 0-14.9-7.4-24.9-13.5-18.2-38.3-32.5-38.3-32.5-13.5-8.4-21.1-18.7-24.6-29.9s-3-23.3-.3-35.2c5.2-22.9 18.6-45.2 27.2-59.2 2.3-1.7.8 3.2-8.7 20.8-8.5 16.1-24.4 53.3-2.6 82.4.6-20.7 5.5-41.8 13.8-61.5 12-27.4 37.3-74.9 39.3-112.7 1.1.8 4.6 3.2 6.2 4.1 4.6 2.7 8.1 6.7 12.6 10.3 12.4 10 28.5 9.2 42.4 1.2 6.2-3.5 11.2-7.5 15.9-9 9.9-3.1 17.8-8.6 22.3-15 7.7 30.4 25.7 74.3 37.2 95.7 6.1 11.4 18.3 35.5 23.6 64.6 3.3-.1 7 .4 10.9 1.4 13.8-35.7-11.7-74.2-23.3-84.9-4.7-4.6-4.9-6.6-2.6-6.5 12.6 11.2 29.2 33.7 35.2 59 2.8 11.6 3.3 23.7.4 35.7 16.4 6.8 35.9 17.9 30.7 34.8-2.2-.1-3.2 0-4.2 0 3.2-10.1-3.9-17.6-22.8-26.1-19.6-8.6-36-8.6-38.3 12.5-12.1 4.2-18.3 14.7-21.4 27.3-2.8 11.2-3.6 24.7-4.4 39.9-.5 7.7-3.6 18-6.8 29-32.1 22.9-76.7 32.9-114.3 7.2zm257.4-11.5c-.9 16.8-41.2 19.9-63.2 46.5-13.2 15.7-29.4 24.4-43.6 25.5s-26.5-4.8-33.7-19.3c-4.7-11.1-2.4-23.1 1.1-36.3 3.7-14.2 9.2-28.8 9.9-40.6.8-15.2 1.7-28.5 4.2-38.7 2.6-10.3 6.6-17.2 13.7-21.1.3-.2.7-.3 1-.5.8 13.2 7.3 26.6 18.8 29.5 12.6 3.3 30.7-7.5 38.4-16.3 9-.3 15.7-.9 22.6 5.1 9.9 8.5 7.1 30.3 17.1 41.6 10.6 11.6 14 19.5 13.7 24.6zM173.3 148.7c2 1.9 4.7 4.5 8 7.1 6.6 5.2 15.8 10.6 27.3 10.6 11.6 0 22.5-5.9 31.8-10.8 4.9-2.6 10.9-7 14.8-10.4s5.9-6.3 3.1-6.6-2.6 2.6-6 5.1c-4.4 3.2-9.7 7.4-13.9 9.8-7.4 4.2-19.5 10.2-29.9 10.2s-18.7-4.8-24.9-9.7c-3.1-2.5-5.7-5-7.7-6.9-1.5-1.4-1.9-4.6-4.3-4.9-1.4-.1-1.8 3.7 1.7 6.5z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            操作系统2023秋 | 哈工大（深圳）
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              实验原理
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../.." class="md-tabs__link">
+          
+  
+  实验概述
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../faq/faq-env/" class="md-tabs__link">
+          
+  
+  常见问题
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../lab1/part1/" class="md-tabs__link">
+          
+  
+  Lab1：XV6与Unix实用程序
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../lab2/part1/" class="md-tabs__link">
+          
+  
+  Lab2：进程与系统调用
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../lab3/part1/" class="md-tabs__link">
+          
+  
+  Lab3：锁机制的应用
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../lab4/part1/" class="md-tabs__link">
+          
+  
+  Lab4：页表
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../part1/" class="md-tabs__link">
+          
+  
+  Lab5：基于FUSE的青春版EXT2文件系统
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../oscomp/oscomp/" class="md-tabs__link">
+          
+  
+  OS竞赛招新
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="操作系统2023秋 | 哈工大（深圳）" class="md-nav__button md-logo" aria-label="操作系统2023秋 | 哈工大（深圳）" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M220.8 123.3c1 .5 1.8 1.7 3 1.7 1.1 0 2.8-.4 2.9-1.5.2-1.4-1.9-2.3-3.2-2.9-1.7-.7-3.9-1-5.5-.1-.4.2-.8.7-.6 1.1.3 1.3 2.3 1.1 3.4 1.7zm-21.9 1.7c1.2 0 2-1.2 3-1.7 1.1-.6 3.1-.4 3.5-1.6.2-.4-.2-.9-.6-1.1-1.6-.9-3.8-.6-5.5.1-1.3.6-3.4 1.5-3.2 2.9.1 1 1.8 1.5 2.8 1.4zM420 403.8c-3.6-4-5.3-11.6-7.2-19.7-1.8-8.1-3.9-16.8-10.5-22.4-1.3-1.1-2.6-2.1-4-2.9-1.3-.8-2.7-1.5-4.1-2 9.2-27.3 5.6-54.5-3.7-79.1-11.4-30.1-31.3-56.4-46.5-74.4-17.1-21.5-33.7-41.9-33.4-72C311.1 85.4 315.7.1 234.8 0 132.4-.2 158 103.4 156.9 135.2c-1.7 23.4-6.4 41.8-22.5 64.7-18.9 22.5-45.5 58.8-58.1 96.7-6 17.9-8.8 36.1-6.2 53.3-6.5 5.8-11.4 14.7-16.6 20.2-4.2 4.3-10.3 5.9-17 8.3s-14 6-18.5 14.5c-2.1 3.9-2.8 8.1-2.8 12.4 0 3.9.6 7.9 1.2 11.8 1.2 8.1 2.5 15.7.8 20.8-5.2 14.4-5.9 24.4-2.2 31.7 3.8 7.3 11.4 10.5 20.1 12.3 17.3 3.6 40.8 2.7 59.3 12.5 19.8 10.4 39.9 14.1 55.9 10.4 11.6-2.6 21.1-9.6 25.9-20.2 12.5-.1 26.3-5.4 48.3-6.6 14.9-1.2 33.6 5.3 55.1 4.1.6 2.3 1.4 4.6 2.5 6.7v.1c8.3 16.7 23.8 24.3 40.3 23 16.6-1.3 34.1-11 48.3-27.9 13.6-16.4 36-23.2 50.9-32.2 7.4-4.5 13.4-10.1 13.9-18.3.4-8.2-4.4-17.3-15.5-29.7zM223.7 87.3c9.8-22.2 34.2-21.8 44-.4 6.5 14.2 3.6 30.9-4.3 40.4-1.6-.8-5.9-2.6-12.6-4.9 1.1-1.2 3.1-2.7 3.9-4.6 4.8-11.8-.2-27-9.1-27.3-7.3-.5-13.9 10.8-11.8 23-4.1-2-9.4-3.5-13-4.4-1-6.9-.3-14.6 2.9-21.8zM183 75.8c10.1 0 20.8 14.2 19.1 33.5-3.5 1-7.1 2.5-10.2 4.6 1.2-8.9-3.3-20.1-9.6-19.6-8.4.7-9.8 21.2-1.8 28.1 1 .8 1.9-.2-5.9 5.5-15.6-14.6-10.5-52.1 8.4-52.1zm-13.6 60.7c6.2-4.6 13.6-10 14.1-10.5 4.7-4.4 13.5-14.2 27.9-14.2 7.1 0 15.6 2.3 25.9 8.9 6.3 4.1 11.3 4.4 22.6 9.3 8.4 3.5 13.7 9.7 10.5 18.2-2.6 7.1-11 14.4-22.7 18.1-11.1 3.6-19.8 16-38.2 14.9-3.9-.2-7-1-9.6-2.1-8-3.5-12.2-10.4-20-15-8.6-4.8-13.2-10.4-14.7-15.3-1.4-4.9 0-9 4.2-12.3zm3.3 334c-2.7 35.1-43.9 34.4-75.3 18-29.9-15.8-68.6-6.5-76.5-21.9-2.4-4.7-2.4-12.7 2.6-26.4v-.2c2.4-7.6.6-16-.6-23.9-1.2-7.8-1.8-15 .9-20 3.5-6.7 8.5-9.1 14.8-11.3 10.3-3.7 11.8-3.4 19.6-9.9 5.5-5.7 9.5-12.9 14.3-18 5.1-5.5 10-8.1 17.7-6.9 8.1 1.2 15.1 6.8 21.9 16l19.6 35.6c9.5 19.9 43.1 48.4 41 68.9zm-1.4-25.9c-4.1-6.6-9.6-13.6-14.4-19.6 7.1 0 14.2-2.2 16.7-8.9 2.3-6.2 0-14.9-7.4-24.9-13.5-18.2-38.3-32.5-38.3-32.5-13.5-8.4-21.1-18.7-24.6-29.9s-3-23.3-.3-35.2c5.2-22.9 18.6-45.2 27.2-59.2 2.3-1.7.8 3.2-8.7 20.8-8.5 16.1-24.4 53.3-2.6 82.4.6-20.7 5.5-41.8 13.8-61.5 12-27.4 37.3-74.9 39.3-112.7 1.1.8 4.6 3.2 6.2 4.1 4.6 2.7 8.1 6.7 12.6 10.3 12.4 10 28.5 9.2 42.4 1.2 6.2-3.5 11.2-7.5 15.9-9 9.9-3.1 17.8-8.6 22.3-15 7.7 30.4 25.7 74.3 37.2 95.7 6.1 11.4 18.3 35.5 23.6 64.6 3.3-.1 7 .4 10.9 1.4 13.8-35.7-11.7-74.2-23.3-84.9-4.7-4.6-4.9-6.6-2.6-6.5 12.6 11.2 29.2 33.7 35.2 59 2.8 11.6 3.3 23.7.4 35.7 16.4 6.8 35.9 17.9 30.7 34.8-2.2-.1-3.2 0-4.2 0 3.2-10.1-3.9-17.6-22.8-26.1-19.6-8.6-36-8.6-38.3 12.5-12.1 4.2-18.3 14.7-21.4 27.3-2.8 11.2-3.6 24.7-4.4 39.9-.5 7.7-3.6 18-6.8 29-32.1 22.9-76.7 32.9-114.3 7.2zm257.4-11.5c-.9 16.8-41.2 19.9-63.2 46.5-13.2 15.7-29.4 24.4-43.6 25.5s-26.5-4.8-33.7-19.3c-4.7-11.1-2.4-23.1 1.1-36.3 3.7-14.2 9.2-28.8 9.9-40.6.8-15.2 1.7-28.5 4.2-38.7 2.6-10.3 6.6-17.2 13.7-21.1.3-.2.7-.3 1-.5.8 13.2 7.3 26.6 18.8 29.5 12.6 3.3 30.7-7.5 38.4-16.3 9-.3 15.7-.9 22.6 5.1 9.9 8.5 7.1 30.3 17.1 41.6 10.6 11.6 14 19.5 13.7 24.6zM173.3 148.7c2 1.9 4.7 4.5 8 7.1 6.6 5.2 15.8 10.6 27.3 10.6 11.6 0 22.5-5.9 31.8-10.8 4.9-2.6 10.9-7 14.8-10.4s5.9-6.3 3.1-6.6-2.6 2.6-6 5.1c-4.4 3.2-9.7 7.4-13.9 9.8-7.4 4.2-19.5 10.2-29.9 10.2s-18.7-4.8-24.9-9.7c-3.1-2.5-5.7-5-7.7-6.9-1.5-1.4-1.9-4.6-4.3-4.9-1.4-.1-1.8 3.7 1.7 6.5z"/></svg>
+
+    </a>
+    操作系统2023秋 | 哈工大（深圳）
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    实验概述
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            实验概述
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验须知
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../env/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验平台以及环境配置
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tools/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验实用工具
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Linux/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Linux开发环境基础知识
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../remote_env/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    远程实验平台使用指南
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../remote_env_gdb/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    VSCode图形化调试指南(一)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../remote_env_gdb2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    VSCode图形化调试指南(二)——系统调用
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    常见问题
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            常见问题
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    2022/2023
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            2022/2023
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../faq/faq-env/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验环境问题
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../faq/lab1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab1问题
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../faq/lab2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab2问题
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../faq/lab3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab3问题
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../faq/lab4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab4问题
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Lab1：XV6与Unix实用程序
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Lab1：XV6与Unix实用程序
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab1/part1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验概述
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab1/part2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验原理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab1/part3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验步骤
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab1/part4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    提交文档
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Lab2：进程与系统调用
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Lab2：进程与系统调用
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab2/part1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验概述
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab2/part2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验原理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab2/part3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验实现
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab2/part4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    提交文档
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Lab3：锁机制的应用
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Lab3：锁机制的应用
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab3/part1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验概述
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab3/part2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验原理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab3/part3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验实现
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab3/part4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    xv-6中Lock的实现（选读）
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab3/part5/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    提交文档
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Lab4：页表
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Lab4：页表
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab4/part1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验概述
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab4/part2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验原理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab4/part3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验实现
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab4/part4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    提交文档
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Lab5：基于FUSE的青春版EXT2文件系统
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            Lab5：基于FUSE的青春版EXT2文件系统
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../part1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验概述
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../part2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验原理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../part3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验实现
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../part4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    提交文档
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../part5/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    常见问题（补充）
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../part6/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    选择阅读（补充）
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    OS竞赛招新
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            OS竞赛招新
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../oscomp/oscomp/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2024年“全国大学生计算机系统能力大赛操作系统设计赛”火热报名中！
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-ext2" class="md-nav__link">
+    1.  EXT2文件系统原理简介
+  </a>
+  
+    <nav class="md-nav" aria-label="1. EXT2文件系统原理简介">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11" class="md-nav__link">
+    1.1  文件系统是什么
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12" class="md-nav__link">
+    1.2  文件系统的基本操作
+  </a>
+  
+    <nav class="md-nav" aria-label="1.2 文件系统的基本操作">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#121" class="md-nav__link">
+    1.2.1  挂载
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#122" class="md-nav__link">
+    1.2.2  卸载
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#123" class="md-nav__link">
+    1.2.3  更多操作
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-ext2" class="md-nav__link">
+    1.3  EXT2文件系统的构成
+  </a>
+  
+    <nav class="md-nav" aria-label="1.3 EXT2文件系统的构成">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#131" class="md-nav__link">
+    1.3.1  整体布局
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#132" class="md-nav__link">
+    1.3.2  超级块
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#133" class="md-nav__link">
+    1.3.3  文件的表示
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#134" class="md-nav__link">
+    1.3.4  文件夹（目录）的表示
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#135" class="md-nav__link">
+    1.3.5  内容结构的表示
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-fusefilesystem-in-user-space" class="md-nav__link">
+    2.  FUSE（Filesystem in User SpacE）架构
+  </a>
+  
+    <nav class="md-nav" aria-label="2. FUSE（Filesystem in User SpacE）架构">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-fuse" class="md-nav__link">
+    2.1  FUSE基本原理
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22" class="md-nav__link">
+    2.2  示例及说明
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-ddriver" class="md-nav__link">
+    3.  DDRIVER虚拟磁盘驱动
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="_1">实验原理<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<h2 id="1-ext2">1.  EXT2文件系统原理简介<a class="headerlink" href="#1-ext2" title="Permanent link">&para;</a></h2>
+<h3 id="11">1.1  文件系统是什么<a class="headerlink" href="#11" title="Permanent link">&para;</a></h3>
+<p>文件系统是操作系统用于明确 <strong>存储设备</strong>（磁盘）或 <strong>分区</strong> 上的 <strong>文件（包括文件、目录、快捷方式等）</strong> 的方法和数据结构，即 <strong>在特定存储设备上组织文件的方法</strong> 。 <strong>简单地说</strong> ，文件系统就是在 <strong>特定存储设备上组织文件</strong> 的方法。</p>
+<p>文件系统 <strong>主要作用</strong> ：</p>
+<ol>
+<li>管理和调度 <strong>设备的存储空间</strong> ，提供文件的逻辑结构、物理结构和存储方法;</li>
+<li>实现文件 <strong>从标识到实际地址的映射</strong> ，实现文件的控制操作和存取操作，提高 <strong>从设备上查找数据</strong> 的效率；</li>
+<li>实现文件信息的共享并提供可靠的 <strong>文件保密和保护措施</strong> ，提供文件的 <strong>安全措施</strong> 。</li>
+<li>优化设备空间利用率；</li>
+</ol>
+<p>目前在各种操作系统中存在着各种各样的文件系统，在Windows平台主流有： <strong>FAT、FAT16、FAT32、NTFS</strong> 等；在Unix平台主流的有： <strong>EXT2、EXT3、EXT4</strong> 等。这些文件系统在 <strong>管理磁盘设备</strong> 时都有各自的一套策略和方法，随之也带来不同的优缺点。 <strong>EXT2</strong> 是GNU/Linux系统中标准的文件系统，其特点是 <strong>存取文件的性能较好</strong> ，对于中小型的文件更显示其优势。本实验以 <strong>EXT2</strong> 为模板，实现一个青春版文件系统。</p>
+<h3 id="12">1.2  文件系统的基本操作<a class="headerlink" href="#12" title="Permanent link">&para;</a></h3>
+<h4 id="121">1.2.1  挂载<a class="headerlink" href="#121" title="Permanent link">&para;</a></h4>
+<p><a href="https://www.cnblogs.com/cangqinglang/p/12170828.html">这里</a>有更多讲解挂载的资料</p>
+<p>通常来讲，使用一个文件系统的第一步是 <strong>挂载（mount）</strong> ，那么，为什么我们在使用Linux的过程中没有这个步骤呢？这是由于操作系统为了简化用户操作， <strong>自动帮助</strong> 我们进行了这个步骤。相关文件可以在 <code>/etc/fstab</code>中查看：</p>
+<div class="highlight"><pre><span></span><code><span class="gp">[root@localhost tests]# </span>cat<span class="w"> </span>/etc/fstab<span class="w"> </span>
+<span class="gp">#</span>
+<span class="gp"># </span>/etc/fstab
+<span class="gp"># </span>Created<span class="w"> </span>by<span class="w"> </span>anaconda<span class="w"> </span>on<span class="w"> </span>Sun<span class="w"> </span>Oct<span class="w">  </span><span class="m">3</span><span class="w"> </span><span class="m">03</span>:53:55<span class="w"> </span><span class="m">2021</span>
+<span class="gp">#</span>
+<span class="gp"># </span>Accessible<span class="w"> </span>filesystems,<span class="w"> </span>by<span class="w"> </span>reference,<span class="w"> </span>are<span class="w"> </span>maintained<span class="w"> </span>under<span class="w"> </span><span class="s1">&#39;/dev/disk/&#39;</span>.
+<span class="gp"># </span>See<span class="w"> </span>man<span class="w"> </span>pages<span class="w"> </span>fstab<span class="o">(</span><span class="m">5</span><span class="o">)</span>,<span class="w"> </span>findfs<span class="o">(</span><span class="m">8</span><span class="o">)</span>,<span class="w"> </span>mount<span class="o">(</span><span class="m">8</span><span class="o">)</span><span class="w"> </span>and/or<span class="w"> </span>blkid<span class="o">(</span><span class="m">8</span><span class="o">)</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>more<span class="w"> </span>info.
+<span class="gp">#</span>
+<span class="gp"># </span>After<span class="w"> </span>editing<span class="w"> </span>this<span class="w"> </span>file,<span class="w"> </span>run<span class="w"> </span><span class="s1">&#39;systemctl daemon-reload&#39;</span><span class="w"> </span>to<span class="w"> </span>update<span class="w"> </span>systemd
+<span class="gp"># </span>units<span class="w"> </span>generated<span class="w"> </span>from<span class="w"> </span>this<span class="w"> </span>file.
+<span class="gp">#</span>
+<span class="go">/dev/mapper/openeuler-root /                       ext4    defaults        1 1</span>
+<span class="go">UUID=ee2c1ea8-62de-4241-8742-7cba36a7eaf9 /boot    ext4    defaults        1 2</span>
+<span class="go">/dev/mapper/openeuler-swap none                    swap    defaults        0 0</span>
+</code></pre></div>
+<p>这里以第一行为例，操作系统将设备 <code>/dev/mapper/openeuler-root</code>以 <strong>EXT4</strong> 文件系统形式，挂载到根目录 <code>/</code>下，从而让我们有了访问 <code>/dev/mapper/openeuler-root</code>存储设备的能力。</p>
+<p><strong>等等</strong> ，什么叫 <strong>将设备xxx</strong> 以 <strong>xxx文件系统</strong> 形式， <strong>挂载</strong> 到 <strong>xxx目录</strong> 下？挂载到底是什么？我们来举个例子侃一侃。</p>
+<ul>
+<li>Step1：假设我们现在手里有一个金士顿U盘</li>
+</ul>
+<p><center>
+<img alt="OIP-C" src="../part2.assets/kingston.jpg" />
+</center></p>
+<ul>
+<li>Step2：现在，我们在主机上插入这个U盘</li>
+</ul>
+<p>在 <strong>Windows</strong> 系统上，可以看到下面的显示：</p>
+<p><img alt="image-20211023213227117" src="../part2.assets/image-20211023213227117.png" /></p>
+<p><strong>平时可能没有注意</strong> ，但这时，你可能注意到了金士顿U盘的 <strong>属性</strong> 中，有一栏告诉了我们这个U盘是 <strong>FAT32文件系统</strong> 。</p>
+<p><strong>事实上</strong> ，当我们插入U盘后，Windows <strong>自动识别</strong> 出该U盘上文件存储的格式是FAT32，因此 <strong>它自动将金士顿U盘以FAT32文件系统格式挂载到了Windows目录结构</strong> 中。</p>
+<p>而在 <strong>Linux</strong> 系统上，我们可能并没有这么好的用户体验，当插入金士顿U盘后，我们只发现在 <code>/dev</code>目录下多出了一个异类：</p>
+<p><img alt="image-20211023215038949" src="../part2.assets/image-20211023215038949.png" /></p>
+<p>一般来说，设备 <code>sdb1</code>装文件的设备。那么，我们 <strong>是否可以向Windows那样，直接对它访问呢</strong> ？来试试：</p>
+<div class="highlight"><pre><span></span><code><span class="gp">[root@localhost dev]# </span><span class="nb">cd</span><span class="w"> </span>sdb1
+<span class="go">bash: cd: sdb1: Not a directory</span>
+<span class="gp">[root@localhost dev]# </span>ls<span class="w"> </span>sdb1/
+<span class="go">ls: cannot access &#39;sdb1/&#39;: Not a directory</span>
+</code></pre></div>
+<p>很遗憾，并不行。这是因为 <strong>U盘sdb1</strong> 还没有被 <strong>挂载</strong> 到Linux目录下，此时Linux不知道这个U盘里面的文件是什么，只能知道这里这个有个U盘设备。</p>
+<p>我们知道这个U盘里装的是 <strong>FAT32</strong> 文件系统，在Linux中， <strong>FAT32</strong> 又名 <strong>VFAT</strong> ，因此，我们可以尝试 <strong>将设备sdb1</strong> 以 <strong>VFAT文件系统</strong> 形式， <strong>挂载</strong> 到 <strong>/mnt目录</strong> 下，通过访问 <strong>/mnt</strong> 目录来 <strong>查看U盘中的文件</strong> ：</p>
+<div class="highlight"><pre><span></span><code><span class="gp">[root@localhost dev]# </span>mount<span class="w"> </span>-t<span class="w"> </span>vfat<span class="w"> </span>sdb1<span class="w"> </span>/mnt/
+<span class="gp">[root@localhost dev]# </span>ls<span class="w"> </span>/mnt/
+<span class="go">&#39;???&#39;                         &#39;????PPT.pptx&#39;</span>
+<span class="go">&#39;?????&#39;                       &#39;???????.pptx&#39;</span>
+<span class="go">&#39;??????&#39;                      &#39;???_???_??_??_????.pptx&#39;</span>
+<span class="go">&#39;???????&#39;                      pynq_z2_v2.6.0.zip</span>
+<span class="go">&#39;????????&#39;                     Deadpool</span>
+</code></pre></div>
+<p><strong>还真成了！</strong></p>
+<ul>
+<li>Step3：现在，我们来缕一缕挂载的逻辑</li>
+</ul>
+<p>首先，我们可以将U盘抽象看作一段连续的存储空间：</p>
+<p><img alt="image-20211023220037443" src="../part2.assets/image-20211023220037443.png" /></p>
+<p>这个物理存储空间上用 <strong>FAT32类型</strong> 的文件系统保存着许多文件（可能FAT32文件布局不长下面这样， <strong>不过差不多理解就行了</strong> ）</p>
+<p><img alt="image-20211023220318053" src="../part2.assets/image-20211023220318053.png" /></p>
+<p>接着，我们使用 <code>mount</code>命令告诉Linux，这个U盘用的是FAT32文件系统， <strong>你用FAT32文件系统代码规则来访问它就行了</strong> 。接着，我们同样要说明我们想 <strong>将哪个目录作为访问U盘的入口</strong> ，就在 <strong>/mnt</strong> 目录下吧！于是，我们便可以在 <strong>/mnt</strong> 目录下，以 <strong>FAT32</strong> 文件系统来访问U盘上的文件了。</p>
+<p>在我们用户来看，挂载了U盘后，Linux的目录树就变成下面这个样子了：</p>
+<p><img alt="image-20211023221226330" src="../part2.assets/image-20211023221226330.png" /></p>
+<h4 id="122">1.2.2  卸载<a class="headerlink" href="#122" title="Permanent link">&para;</a></h4>
+<p><strong>卸载操作</strong> 与 <strong>挂载操作</strong> 相对应，在Windows上来说，就类似于 <strong>”右键U盘，安全弹出“</strong> 一样。事实上，每个文件系统在开发的时候都要设计对应的 <strong>挂载与卸载</strong> 方法，它们需要 <strong>在卸载时</strong> 保存设备的必要状态（比如 <strong>当前设备的空闲大小</strong> 等）。 <strong>不正常的卸载会导致鲁棒性差的文件系统直接崩溃，也就是说下一次的挂载很可能直接失败</strong></p>
+<p>在Linux中，卸载文件系统的方式如下，我们还是以刚才挂载的金士顿U盘为例：</p>
+<div class="highlight"><pre><span></span><code><span class="gp">[root@localhost dev]# </span>umount<span class="w"> </span>/mnt/
+<span class="gp">[root@localhost dev]# </span>ls<span class="w"> </span>/mnt/
+<span class="gp">[root@localhost dev]#</span>
+</code></pre></div>
+<p>此时，U盘对应的所有文件从Linux目录树中移除，我们便可以 <strong>正常拔除U盘</strong> 了。</p>
+<h4 id="123">1.2.3  更多操作<a class="headerlink" href="#123" title="Permanent link">&para;</a></h4>
+<p>其他更多相关文件系统的操作都比较常见，这里将一些常用指令再简单提一下：</p>
+<ul>
+<li><code>ls</code></li>
+</ul>
+<p><code>ls</code>指令是 <code>list</code>的缩写，其功能就是 <strong>列出指定目录下的所有文件/目录</strong> ，大家在学习 <strong>xv6</strong> 的过程中也有所接触，这里不在介绍；</p>
+<ul>
+<li><code>mv</code></li>
+</ul>
+<p><code>mv</code>指令是 <code>move</code>的缩写，其功能是 <strong>剪切</strong> 某个文件。事实上，<code>mv</code>指令还常常被用于 <strong>文件的重命名</strong> 操作，例如：</p>
+<div class="highlight"><pre><span></span><code><span class="gp">[root@localhost mnt]# </span>touch<span class="w"> </span>her
+<span class="gp">[root@localhost mnt]# </span>ls
+<span class="go">her</span>
+<span class="gp">[root@localhost mnt]# </span>mv<span class="w"> </span>her<span class="w"> </span>me
+<span class="gp">[root@localhost mnt]# </span>ls
+<span class="go">me</span>
+<span class="gp">[root@localhost mnt]#</span>
+</code></pre></div>
+<ul>
+<li><code>cp</code></li>
+</ul>
+<p><code>cp</code>指令是 <code>copy</code>的缩写，其功能是 <strong>复制</strong> 某个文件，<code>cp -r</code>可以复制目录；</p>
+<ul>
+<li><code>rm</code></li>
+</ul>
+<p><code>rm</code>指令是 <code>remove</code>的缩写，其功能是 <strong>删除</strong> 某个文件，同样 <code>rm -r</code>可以删除目录。当然，有一个业界梗： <code>rm -rf</code> <strong>删库跑路</strong> ，这里 <code>f</code>代表 <code>force</code>，也就是强制删除。如果你一不小心使用了 <code>rm -rf /</code>，那么你的Linux回天乏术了；</p>
+<ul>
+<li><code>cd</code></li>
+</ul>
+<p><code>cd</code>指令是 <code>change directory</code>的缩写，我们经常使用 <code>cd</code>指令来进行路径的切换；</p>
+<ul>
+<li><code>--help</code></li>
+</ul>
+<p>上面说了一大堆，但远远还没把所有命令都介绍得完整、清楚，事实上，每个命令都有个 <code>--help</code>参数可选，查看 <code>--help</code>可以很快让你知道各个命令的用法、参数的意义，例如：</p>
+<div class="highlight"><pre><span></span><code><span class="gp">[root@localhost mnt]# </span>ln<span class="w"> </span>--help
+<span class="go">Usage: ln [OPTION]... [-T] TARGET LINK_NAME</span>
+<span class="go">  or:  ln [OPTION]... TARGET</span>
+<span class="go">  or:  ln [OPTION]... TARGET... DIRECTORY</span>
+<span class="go">  or:  ln [OPTION]... -t DIRECTORY TARGET..</span>
+<span class="go">...</span>
+</code></pre></div>
+<ul>
+<li><code>ln</code></li>
+</ul>
+<p>ln是link的缩写，使用此命令用来为文件创件链接，连接类型分为硬链接和软链接两种，默认的连接类型是硬链接。硬链接说白了是一个指针，指向文件索引节点，系统并不为它重新分配inode；软链接又叫符号链接，这个文件包含了另一个文件的路径名。可以是任意文件或目录，可以链接不同文件系统的文件，和win下的快捷方式差不多。</p>
+<h3 id="13-ext2">1.3  EXT2文件系统的构成<a class="headerlink" href="#13-ext2" title="Permanent link">&para;</a></h3>
+<p>介绍完了文件系统以及文件系统的基本操作，我们来正式看看EXT2文件系统。</p>
+<p>EXT2文件系统常常被用于 <strong>磁盘设备</strong> 的访问。一个物理磁盘可以划分为多个磁盘分区，每个磁盘分区可以从逻辑上看成是从0开始编号的大量扇区，各自可以格式化程不同类型的文件系统（如EXT2、NTFS等）。如果 <strong>格式化</strong> 成EXT2文件系统，则其内部按照EXT2的规范，将磁盘盘块组织成 <strong>超级块</strong> 、 <strong>组描述符</strong> 和 <strong>位图</strong> 、 <strong>索引节点</strong> 、 <strong>目录</strong> 等管理数据，放在分区前端称为 <strong>元数据区</strong> ，剩余空间用于 <strong>保存文件数据</strong> 。</p>
+<p>这一段介绍中出现了两个新概念： <strong>磁盘分区</strong> 与 <strong>格式化</strong> ，我们来简单理解一下：</p>
+<ul>
+<li><strong>磁盘分区</strong></li>
+</ul>
+<p>我们的笔记本通常只有一块SATA磁盘，为了方便用户进行数据管理，比如：我想划分磁盘的100个G作为游戏存放盘，400个G作为 <strong>学习资料</strong> 。我想让游戏盘用 <strong>EXT2</strong> 管理，学习资料用 <strong>EXT3</strong> 管理，那么便有了磁盘分区的概念：</p>
+<p><img alt="image-20211023224724044" src="../part2.assets/image-20211023224724044.png" /></p>
+<ul>
+<li><strong>格式化</strong></li>
+</ul>
+<p>我们还是以金士顿U盘为例，U盘一生产出来就有文件系统吗？可能有：），但是很多时候刚出厂的U盘都是 <strong>干干净净</strong> 的，这个时候，我们需要对其进行 <strong>格式化</strong> ，使之带有特定文件系统的特征。例如，我们想用 <strong>EXT2</strong> 文件系统来访问这个U盘，在Linux中，就可以使用：</p>
+<div class="highlight"><pre><span></span><code><span class="gp">[root@localhost mnt]# </span>mkfs.EXT2<span class="w"> </span>sdb1
+<span class="gp">[root@localhost mnt]#</span>
+</code></pre></div>
+<p>这样做就把整个设备给格式化了，接着就可以用下面的命令来挂载U盘：</p>
+<div class="highlight"><pre><span></span><code><span class="gp">[root@localhost mnt]# </span>mount<span class="w"> </span>-t<span class="w"> </span>EXT2<span class="w"> </span>sdb1<span class="w"> </span>/mnt/
+<span class="gp">[root@localhost mnt]#</span>
+</code></pre></div>
+<h4 id="131">1.3.1  整体布局<a class="headerlink" href="#131" title="Permanent link">&para;</a></h4>
+<p>EXT2文件系统将盘块分成两大类：保存元数据（管理数据）的 <strong>元数据盘块</strong>，以及存放文件内容数据的 <strong>数据盘块</strong> 。本实验中，为了降低实验难度，简化了元数据区的结构（由超级块和inode数组构成）。简化后的EXT2文件系统的基本布局如下所示：</p>
+<p><img alt="image-20211023231540262" src="../part2.assets/image-20211023231540262.png" /></p>
+<p>系统主要包含以下五个部分：</p>
+<ol>
+<li><strong>superblock</strong> ：超级块，包含整个系统的总体信息;</li>
+<li><strong>索引节点位图</strong> ：记录着 <strong>索引节点</strong> 表的使用情况， <strong>用1个比特</strong> 记录某一个索引节点是否被使用；</li>
+<li><strong>数据块位图</strong> ：记录着 <strong>数据块</strong> 的使用情况， <strong>用1个比特</strong> 记录某一个数据块是否被占用；</li>
+<li><strong>索引节点</strong> （inode） ：记录着文件的元数据，每个文件都与一个inode对应，但一个inode可能对应多个文件（硬链接）。在 <strong>本实验中可以认为一个inode对应一个文件</strong> 。</li>
+<li><strong>数据块</strong> ：记录文件内容.</li>
+</ol>
+<h4 id="132">1.3.2  超级块<a class="headerlink" href="#132" title="Permanent link">&para;</a></h4>
+<p>超级块是文件系统的 <strong>起点结构</strong> ，记录了文件系统全局性的一些信息。下面给出一个参考的超级块结构体示例：</p>
+<div class="highlight"><pre><span></span><code><span class="k">struct</span><span class="w"> </span><span class="nc">super_block_d</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="kt">uint32_t</span><span class="w">           </span><span class="n">magic_num</span><span class="p">;</span><span class="w">                   </span><span class="c1">// 幻数</span>
+
+<span class="w">    </span><span class="kt">int</span><span class="w">                </span><span class="n">max_ino</span><span class="p">;</span><span class="w">                     </span><span class="c1">// 最多支持的文件数</span>
+
+<span class="w">    </span><span class="kt">int</span><span class="w">                </span><span class="n">map_inode_blks</span><span class="p">;</span><span class="w">              </span><span class="c1">// inode位图占用的块数</span>
+<span class="w">    </span><span class="kt">int</span><span class="w">                </span><span class="n">map_inode_offset</span><span class="p">;</span><span class="w">            </span><span class="c1">// inode位图在磁盘上的偏移</span>
+
+<span class="w">    </span><span class="kt">int</span><span class="w">                </span><span class="n">map_data_blks</span><span class="p">;</span><span class="w">               </span><span class="c1">// data位图占用的块数</span>
+<span class="w">    </span><span class="kt">int</span><span class="w">                </span><span class="n">map_data_offset</span><span class="p">;</span><span class="w">             </span><span class="c1">// data位图在磁盘上的偏移</span>
+<span class="p">};</span>
+</code></pre></div>
+<ul>
+<li><code>magic_num</code>：幻数。用于识别文件系统。比如说，如果实现的文件系统幻数为 <strong>0x52415453</strong> ，那么如果读到的幻数不等于 <strong>0x52415453</strong> ，则表示当前磁盘中无系统，系统损坏，或者是其他不识别的文件系统；</li>
+<li><code>max_ino</code>：最多支持的文件数。为简单起见，我们允许该文件系统具有文件数上限；</li>
+<li><code>map_inode_blks</code>：inode位图占用的块数。每个 <strong>块的大小等于磁盘设备的IO大小（利用ddriver的ioctl获取）</strong> ；</li>
+<li><code>map_inode_offset</code>：inode位图在磁盘上的偏移。通过 <code>map_inode_offset</code>和 <code>map_inode_blks</code>字段，便可读出整个inode位图；</li>
+<li><code>map_data_blks</code>：与 <code>map_inode_blks</code>相同，不再赘述；</li>
+<li><code>map_data_offset</code>：与 <code>map_inode_offset</code>相同，不再赘述；</li>
+</ul>
+<p><strong>如何决定位图大小呢</strong>？这里给出几个方案：</p>
+<ul>
+<li>假设估算。 <strong>假定每个文件具有固定大小</strong> ，从而估算整个文件系统可以 <strong>管理多少文件</strong> ，从而计算位图大小；</li>
+<li>规定大小。为了简单起见，我们可以自行 <strong>规定位图</strong> 的大小，只要 <strong>保证指令运行成功</strong> 即可；</li>
+</ul>
+<h4 id="133">1.3.3  文件的表示<a class="headerlink" href="#133" title="Permanent link">&para;</a></h4>
+<p>对于每个文件，都会有一个inode结构体包含其元数据（文件类型，文件大小）等。以下是一个简化的inode示例。</p>
+<div class="highlight"><pre><span></span><code><span class="k">struct</span><span class="w"> </span><span class="nc">inode_d</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w">                </span><span class="n">ino</span><span class="p">;</span><span class="w">                </span><span class="c1">// 在inode位图中的下标</span>
+<span class="w">    </span><span class="kt">int</span><span class="w">                </span><span class="n">size</span><span class="p">;</span><span class="w">               </span><span class="c1">// 文件已占用空间</span>
+<span class="w">    </span><span class="kt">int</span><span class="w">                </span><span class="n">link</span><span class="p">;</span><span class="w">               </span><span class="c1">// 链接数</span>
+<span class="w">    </span><span class="n">FILE_TYPE</span><span class="w">          </span><span class="n">ftype</span><span class="p">;</span><span class="w">              </span><span class="c1">// 文件类型（目录类型、普通文件类型）</span>
+<span class="w">    </span><span class="kt">int</span><span class="w">                </span><span class="n">dir_cnt</span><span class="p">;</span><span class="w">            </span><span class="c1">// 如果是目录类型文件，下面有几个目录项</span>
+<span class="w">    </span><span class="kt">int</span><span class="w">                </span><span class="n">block_pointer</span><span class="p">[</span><span class="mi">6</span><span class="p">];</span><span class="w">   </span><span class="c1">// 数据块指针（可固定分配）</span>
+<span class="p">};</span><span class="w">  </span>
+</code></pre></div>
+<p>文件的内容并 <strong>不会保存</strong> 在inode里，而是 <strong>保存</strong> 在另外的 <strong>数据块</strong> 中。inode里 <strong>保存了相应数据块的索引值</strong> 。读写文件时则通过索引值找到相应的数据块来读写。原理如下图所示：</p>
+<p><img alt="image-20211024102812913" src="../part2.assets/image-20211024102812913.png" /></p>
+<p>每个索引节点内包含 <code>block_point</code>数组用于记录文件的数据块所在位置（编号）。 <strong>EXT2</strong> 文件系统中的 <strong>每个数据块大小为两个512B的物理磁盘块</strong> （即1KiB），那么采用直接索引方式，一个文件不能超过 6个（数据块） * 1KB（数据块大小）= 6KB大小；当文件超过6KB时，需要用一级间接索引，如果文件继续增大，就需要二级或二级以上间接索引。（ <strong>注：间接索引属于选做功能</strong> ）</p>
+<ul>
+<li><code>link</code>：文件链接数（ <strong>注：文件软链接与硬链接属于选做功能</strong> ）</li>
+<li><code>ftype</code>：文件类型。可自定义枚举类型，方便编码，例如：</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="k">typedef</span><span class="w"> </span><span class="k">enum</span><span class="w"> </span><span class="n">file_type</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">FILE</span><span class="p">,</span><span class="w">           </span><span class="c1">// 普通文件</span>
+<span class="w">    </span><span class="kt">DIR</span><span class="w">             </span><span class="c1">// 目录文件</span>
+<span class="p">}</span><span class="w"> </span><span class="n">FILE_TYPE</span><span class="p">;</span>
+</code></pre></div>
+<h4 id="134">1.3.4  文件夹（目录）的表示<a class="headerlink" href="#134" title="Permanent link">&para;</a></h4>
+<p>文件夹（目录）用于将整个文件系统的文件结构 <strong>按路径名访问的树形组织结构排列</strong> 。Ext2文件系统并没有单独形成用于目录数据的数据块，而是 <strong>将目录与普通文件一样存放在数据块中</strong> 。也就是说， <strong>文件夹（目录）在Ext2中的存储方式与文件一致</strong> 。不同之处在于目录在数据块中的内容由文件系统直接管理，用户并不能像写普通文件一样直接使用编辑器写目录数据块中的内容。</p>
+<p>目录在存储管理上和普通文件相同——也是 <strong>通过索引节点来管理目录项数据的</strong> ，只不过目录数据块内容含有多条目录项数据结构，即目录数据块中的内容是目录项的数组，通过上一级目录项将其类型标识为“目录”以区分普通文件。</p>
+<p><strong>根目录有固定的起点</strong> （例如Ext2文件系统根目录的索引号为2），因此根目录文件就不需要上级目录来定位了。</p>
+<p>下面是简化的 <strong>目录项</strong> 结构体示例：</p>
+<div class="highlight"><pre><span></span><code><span class="k">struct</span><span class="w"> </span><span class="nc">dentry_d</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="kt">char</span><span class="w">               </span><span class="n">fname</span><span class="p">[</span><span class="n">MAX_FILE_NAME</span><span class="p">];</span><span class="w">          </span><span class="c1">// 指向的ino文件名</span>
+<span class="w">    </span><span class="n">FILE_TYPE</span><span class="w">          </span><span class="n">ftype</span><span class="p">;</span><span class="w">                         </span><span class="c1">// 指向的ino文件类型</span>
+<span class="w">    </span><span class="kt">int</span><span class="w">                </span><span class="n">ino</span><span class="p">;</span><span class="w">                           </span><span class="c1">// 指向的ino号</span>
+<span class="w">    </span><span class="kt">int</span><span class="w">                </span><span class="n">valid</span><span class="p">;</span><span class="w">                         </span><span class="c1">// 该目录项是否有效</span>
+<span class="p">};</span><span class="w">  </span>
+</code></pre></div>
+<p>对于目录中的每一个目录项都对应了当前目录下的一个文件/目录。具体表示方式见下图：</p>
+<p><img alt="image-20211024105315962" src="../part2.assets/image-20211024105315962.png" /></p>
+<p>图中 <code>/</code>目录下第二个名为 <code>JINX</code>的目录项的 <code>valid</code>字段被标记为0， <strong>表示这一文件已被删除</strong> 。当然也可以使用其他的删除方式，比如 <strong>用后面的目录项覆盖被删除的目录项</strong> 。</p>
+<p>图中 <code>/demo/</code>目录指向的数据块没有画出，其原理与根目录一致。</p>
+<h4 id="135">1.3.5  内容结构的表示<a class="headerlink" href="#135" title="Permanent link">&para;</a></h4>
+<p>大家可能注意到我们 <strong>前面展示的数据结构</strong> 后面都带有一个 <code>_d</code>，事实上，这代表这些数据结构是存在于真实设备之上的，它们共同构建了文件系统的布局。但文件系统 <strong>结构布局</strong> 与 <strong>文件系统</strong> 两者还是有一定的偏差。这是因为文件系统不光要设计布局，还需要 <strong>针对布局</strong> 设计相应的 <strong>内存数据结构</strong> 来方便管理。</p>
+<p>我们举两个简单的例子来说明这个问题。</p>
+<ul>
+<li><strong>super_block</strong> 的内存表示</li>
+</ul>
+<p>在设备上，超级块中仅仅保存了文件系统的位图位置，我们需要 <strong>将位图读到内存中以便我们进行访问</strong> ；此外，为了方便查找根目录，我们也完全可以将根目录维护在超级块的内存表示中，以便我们全局访问。因此，可以简单设计超级块的内存表示如下：</p>
+<div class="highlight"><pre><span></span><code><span class="k">struct</span><span class="w"> </span><span class="nc">super_block</span>
+<span class="p">{</span><span class="w">   </span>
+<span class="w">    </span><span class="kt">int</span><span class="w">                </span><span class="n">max_ino</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kt">uint8_t</span><span class="o">*</span><span class="w">           </span><span class="n">map_inode</span><span class="p">;</span><span class="w">       </span><span class="c1">// inode位图</span>
+<span class="w">    </span><span class="kt">uint8_t</span><span class="o">*</span><span class="w">           </span><span class="n">map_data</span><span class="p">;</span><span class="w">        </span><span class="c1">// data位图</span>
+
+<span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">dentry</span><span class="o">*</span><span class="w">     </span><span class="n">root_dentry</span><span class="p">;</span><span class="w">     </span><span class="c1">// 根目录dentry</span>
+<span class="p">};</span>
+</code></pre></div>
+<p>这样，我们就能方便地对 <strong>inode</strong> <strong>位图</strong> 和 <strong>data</strong> <strong>位图</strong> 进行管理，并能够通过 <code>root_dentry</code>轻松访问根目录，从而达到 <strong>快速解析路径</strong> 的目的。</p>
+<ul>
+<li><strong>inode</strong> 的内存表示</li>
+</ul>
+<p>在磁盘布局中，我们的 <code>inode</code>定义如下：</p>
+<div class="highlight"><pre><span></span><code><span class="k">struct</span><span class="w"> </span><span class="nc">inode_d</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w">                 </span><span class="n">ino</span><span class="p">;</span><span class="w">                 </span><span class="c1">// 在inode位图中的下标</span>
+<span class="w">    </span><span class="kt">int</span><span class="w">                 </span><span class="n">size</span><span class="p">;</span><span class="w">                </span><span class="c1">// 文件已占用空间</span>
+<span class="w">    </span><span class="kt">int</span><span class="w">                 </span><span class="n">link</span><span class="p">;</span><span class="w">                </span><span class="c1">// 链接数</span>
+<span class="w">    </span><span class="n">FILE_TYPE</span><span class="w">           </span><span class="n">ftype</span><span class="p">;</span><span class="w">               </span><span class="c1">// 文件类型（目录类型、普通文件类型）</span>
+<span class="w">    </span><span class="kt">int</span><span class="w">                 </span><span class="n">dir_cnt</span><span class="p">;</span><span class="w">             </span><span class="c1">// 如果是目录类型文件，下面有几个目录项</span>
+<span class="w">    </span><span class="kt">int</span><span class="w">                 </span><span class="n">block_pointer</span><span class="p">[</span><span class="mi">6</span><span class="p">];</span><span class="w">    </span><span class="c1">// 数据块指针（可固定分配）</span>
+<span class="p">};</span><span class="w">  </span>
+</code></pre></div>
+<p>这个结构难以对指向 <code>inode</code>的 <code>dentry</code>进行访问，也就难以获得该文件的文件名。此外，对于 <strong>目录文件</strong> 而言，它缺少一种 <strong>快捷遍历每个目录项</strong> 的方法，因此，可以简单设置 <code>inode</code>的内存结构如下：</p>
+<div class="highlight"><pre><span></span><code><span class="k">struct</span><span class="w"> </span><span class="nc">inode</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w">                 </span><span class="n">ino</span><span class="p">;</span><span class="w">                  </span><span class="c1">// 在inode位图中的下标</span>
+<span class="w">    </span><span class="kt">int</span><span class="w">                 </span><span class="n">size</span><span class="p">;</span><span class="w">                 </span><span class="c1">// 文件已占用空间</span>
+<span class="w">    </span><span class="kt">int</span><span class="w">                 </span><span class="n">dir_cnt</span><span class="p">;</span><span class="w">              </span><span class="c1">// 目录项数量</span>
+<span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">dentry</span><span class="o">*</span><span class="w">      </span><span class="n">dentry</span><span class="p">;</span><span class="w">               </span><span class="c1">// 指向该inode的dentry</span>
+<span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">dentry</span><span class="o">*</span><span class="w">      </span><span class="n">dentrys</span><span class="p">;</span><span class="w">              </span><span class="c1">// 所有目录项  </span>
+<span class="w">    </span><span class="kt">int</span><span class="w">                 </span><span class="n">block_pointer</span><span class="p">[</span><span class="mi">6</span><span class="p">];</span><span class="w">     </span><span class="c1">// 数据块指针</span>
+<span class="p">};</span><span class="w">  </span>
+</code></pre></div>
+<p>这样一来，我们通过维护 <code>dentry</code>和 <code>dentrys</code>就能够很轻松地解决上述问题。</p>
+<p>这里给出的例子仅起一个抛砖引玉的作用，你 <strong>甚至可以不设计这种内存结构</strong> ，例如：直接声明 <strong>位图</strong> 、 <strong>根目录dentry</strong> 为全局变量等。</p>
+<h2 id="2-fusefilesystem-in-user-space">2.  FUSE（Filesystem in User SpacE）架构<a class="headerlink" href="#2-fusefilesystem-in-user-space" title="Permanent link">&para;</a></h2>
+<p>传统的、基于Linux的文件系统开发都是以内核模块（ <strong>Kernel Module</strong> ）的方式进行，这使得开发调试变得异常繁琐。此外，内核的开发与传统C程序开发不同，你需要使用内核的API，像 <code>malloc</code>之类的用户态函数在内核开发中已不再适用。如果有同学希望了解更多内核模块开发相关知识，可以自行google或百度。</p>
+<p>由于内核文件系统开发的困难，FUSE架构由此登上了台面。FUSE全称Filesystem in User SpacE，它将 <strong>文件系统的实现从内核态搬到了用户态</strong> ，也就是我们可以 <strong>在用户态实现一个文件系统</strong> 。</p>
+<p>本次实验我们便是基于FUSE架构， <strong>在用户态</strong> 实现我们的青春版EXT2文件系统，从而完美接入Linux。</p>
+<p>接下来，我们简单介绍一下FUSE，当然，如果对FUSE不感兴趣的同学可以略过这一章节。在“任务二” 一节中，我们会详细介绍如何接入FUSE。</p>
+<p>以下内容参考自<a href="https://zhuanlan.zhihu.com/p/59354174">用户态文件系统框架FUSE的介绍及示例 - 知乎 (zhihu.com)</a></p>
+<h3 id="21-fuse">2.1  FUSE基本原理<a class="headerlink" href="#21-fuse" title="Permanent link">&para;</a></h3>
+<p>简单的理解， <strong>FUSE实现了一个对文件系统访问的回调</strong> 。FUSE分为 <strong>内核态的模块和用户态的库</strong> 两部分。其中 <strong>用户态的库</strong> 为 <strong>用户态程序开发</strong> 提供接口，我们通过这些接口 <strong>将请求处理功能注册到FUSE中</strong> 。 <strong>内核态模块</strong> 是具体的数据流程的功能实现，它 <strong>截获文件的访问请求，然后调用用户态注册的函数进行处理</strong> 。</p>
+<p><img alt="image-20211024114457361" src="../part2.assets/image-20211024114457361.png" /></p>
+<p>如上图所示，其中 <strong>hello</strong> 是用户态的文件系统程序， <strong>该程序启动的时候会将自己开发的接口注册到FUSE中</strong> ， <strong>比如读写文件的接口，遍历目录的接口</strong> 等等。同时， <strong>通过该程序在系统某个路径挂载FUSE文件系统</strong> ，比如 <code>/tmp/fuse</code>。此时 <strong>如果在该目录中有相关操作</strong> 时，请求会经过 <strong>Linux虚拟文件系统</strong> （<a href="https://blog.csdn.net/weixin_36145588/article/details/73607463">VFS</a>）层 <strong>到FUSE的内核模块</strong> （如调用 <code>ls</code>命令，如上图中的步骤①）， <strong>FUSE内核模块根据请求类型</strong> ，调用 <strong>用户态应用注册</strong> 的函数（上图中步骤②），然后 <strong>将处理结果通过VFS返回给系统调用</strong> （步骤③）。</p>
+<h3 id="22">2.2  示例及说明<a class="headerlink" href="#22" title="Permanent link">&para;</a></h3>
+<p>获取实验包参考<a href="../part3-1/index.html#1">环境搭建与上手</a>。</p>
+<p>在我们提供的实验包中，已经有两个完全搭建好的FUSE文件系统：<code>simplefs</code>（<code>fs/simplefs</code>文件夹下）和 <code>myfs</code>（<code>fs/samples</code>文件夹下），其中 <code>simplefs</code>是一个类EXT2的文件系统，但 <strong>没有给予数据位图</strong> 的实现；<code>myfs</code>是 <code>github</code>上的一个开源项目，也是一个FUSE文件系统实例。</p>
+<p>此外，这里我们给一个极简的Demo。该Demo非常简单，它并不是一个真正的文件系统， <strong>也不会访问设备</strong> ，而是在 <strong>该文件系统</strong> 的根目录中 <strong>显示一个固定的文件</strong> ，也就是 <code>Hello-FUSE</code>文件。</p>
+<div class="highlight"><pre><span></span><code><span class="cm">/* main.c源码 */</span>
+
+<span class="cp">#define FUSE_USE_VERSION 26</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;fuse.h&gt;</span>
+
+<span class="cm">/* 这里实现了一个遍历目录的功能，当用户在目录执行ls时，会回调到该函数，我们这里只是返回一个固定的文件Hello-FUSE。 */</span>
+<span class="k">static</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">test_readdir</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">path</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="o">*</span><span class="w"> </span><span class="n">buf</span><span class="p">,</span><span class="w"> </span><span class="n">fuse_fill_dir_t</span><span class="w"> </span><span class="n">filler</span><span class="p">,</span><span class="w"> </span><span class="kt">off_t</span><span class="w"> </span><span class="n">offset</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">fuse_file_info</span><span class="o">*</span><span class="w"> </span><span class="n">fi</span><span class="p">)</span>
+<span class="p">{</span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">filler</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Hello-FUSE&quot;</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="cm">/* 显示文件属性 */</span>
+<span class="k">static</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">test_getattr</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">path</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">stat</span><span class="w"> </span><span class="o">*</span><span class="n">stbuf</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="n">strcmp</span><span class="p">(</span><span class="n">path</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;/&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="w">        </span><span class="n">stbuf</span><span class="o">-&gt;</span><span class="n">st_mode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mo">0755</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">S_IFDIR</span><span class="p">;</span><span class="w">            </span><span class="c1">// 说明该文件是目录文件</span>
+<span class="w">    </span><span class="k">else</span>
+<span class="w">        </span><span class="n">stbuf</span><span class="o">-&gt;</span><span class="n">st_mode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mo">0644</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">S_IFREG</span><span class="p">;</span><span class="w">            </span><span class="c1">// 说明该文件是普通文件</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/*这里是回调函数集合，这里实现的很简单*/</span>
+<span class="k">static</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">fuse_operations</span><span class="w"> </span><span class="n">ops</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="p">.</span><span class="n">readdir</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">test_readdir</span><span class="p">,</span>
+<span class="w">  </span><span class="p">.</span><span class="n">getattr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">test_getattr</span><span class="p">,</span>
+<span class="p">};</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">argv</span><span class="p">[])</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">ret</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="n">ret</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fuse_main</span><span class="p">(</span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="n">argv</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">ops</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">ret</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>接下来，编译运行 <code>main.c</code>文件</p>
+<div class="highlight"><pre><span></span><code>gcc<span class="w"> </span>-o<span class="w"> </span>hello<span class="w"> </span>main.c<span class="w"> </span>-D_FILE_OFFSET_BITS<span class="o">=</span><span class="m">64</span><span class="w"> </span>-lfuse
+</code></pre></div>
+<p>假设在 <code>/tmp</code>目录下面有一个 <code>fuse</code>目录，如果没有可以手动创建一个。然后执行如下命令可以在该目录挂载新的文件系统。</p>
+<div class="highlight"><pre><span></span><code><span class="o">[</span>root@localhost<span class="w"> </span>test<span class="o">]</span><span class="c1"># ./hello /tmp/fuse</span>
+</code></pre></div>
+<p><strong>注意</strong> ， <strong>FUSE文件系统的挂载与传统文件系统</strong> 的挂载略有不同，它 <strong>不用mount选项</strong> ，直接运行二进制文件就可完成挂载。上面命令的意思是将文件系统 <code>hello</code>挂载到 <code>/tmp/fuse</code>。</p>
+<p>此时运行 <code>ls</code>命令看看效果：</p>
+<div class="highlight"><pre><span></span><code><span class="o">[</span>root@localhost<span class="w"> </span>tmp<span class="o">]</span><span class="c1"># ls /fuse</span>
+Hello-FUSE
+<span class="o">[</span>root@localhost<span class="w"> </span>tmp<span class="o">]</span><span class="c1"># </span>
+</code></pre></div>
+<p>可以看出正式我们期望的内容，也就是只有一个名为 <code>Hello-FUSE</code>的文件。</p>
+<p>至于如何 <strong>利用FUSE文件系统挂载设备</strong> 、 <strong>如何创建文件</strong> ，我们将在<a href="../part3-3/index.html#1">任务二</a>中进行详细描述。</p>
+<h2 id="3-ddriver">3.  DDRIVER虚拟磁盘驱动<a class="headerlink" href="#3-ddriver" title="Permanent link">&para;</a></h2>
+<p>本次实验提供了虚拟磁盘接口，头文件 <code>ddriver.h</code>中提供了完备的注释。该接口底层实现简单，且基本符合POSIX规范（即与标准 <code>write</code>、<code>read</code>、<code>lseek</code>、<code>ioctl</code>等接口保持一致）。 <strong>唯一需要注意的是我们对单次读取、写入的IO大小做出了限制，保证其与磁盘块大小对齐</strong> 。其中，IO大小为512B，你也可以通过 <code>ddriver_ioctl</code>来请求IO大小，具体我们在<a href="../part3-2/index.html#1">任务二</a>中介绍。</p>
+<p><strong>DDRIVER驱动</strong> 模拟了 <strong>对一个容量为4MiB的磁盘</strong> 的操作，同样，4MiB可以通过 <code>ddriver_ioctl</code>函数访问得到。其中需要注意的是它 <strong>保留了磁盘的访问特性</strong> ，即 <strong>按块访问</strong> ，每次读写都需要 <strong>读写完整的512B</strong> 的磁盘块。这将引起一些很麻烦的情况，比如说要更新某个磁盘块中的某个inode时，需要先把整个磁盘块读出来，更新相应inode，再写回去，而不是直接往磁盘里写（除非一个inode比一个磁盘块大）。</p>
+<p>以下是DDRIVER驱动提供的头文件 <code>ddriver.h</code></p>
+<div class="highlight"><pre><span></span><code><span class="cp">#ifndef _DDRIVER_H_</span>
+<span class="cp">#define _DDRIVER_H_</span>
+
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;ddriver_ctl_user.h&quot;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;stdio.h&quot;</span>
+
+<span class="cm">/**</span>
+<span class="cm">* @brief 打开ddriver设备</span>
+<span class="cm">* </span>
+<span class="cm">* @param path ddriver设备路径</span>
+<span class="cm">* @return int 0成功，否则失败</span>
+<span class="cm">*/</span>
+<span class="kt">int</span><span class="w"> </span><span class="nf">ddriver_open</span><span class="p">(</span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">path</span><span class="p">);</span>
+
+<span class="cm">/**</span>
+<span class="cm">* @brief 移动ddriver磁盘头</span>
+<span class="cm">* </span>
+<span class="cm">* @param fd ddriver设备handler</span>
+<span class="cm">* @param offset 移动到的位置，注意要和设备IO单位对齐</span>
+<span class="cm">* @param whence SEEK_SET即可</span>
+<span class="cm">* @return int 0成功，否则失败</span>
+<span class="cm">*/</span>
+<span class="kt">int</span><span class="w"> </span><span class="nf">ddriver_seek</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">fd</span><span class="p">,</span><span class="w"> </span><span class="kt">off_t</span><span class="w"> </span><span class="n">offset</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">whence</span><span class="p">);</span>
+
+<span class="cm">/**</span>
+<span class="cm">* @brief 写入数据</span>
+<span class="cm">* </span>
+<span class="cm">* @param fd ddriver设备handler</span>
+<span class="cm">* @param buf 要写入的数据Buf</span>
+<span class="cm">* @param size 要写入的数据大小，注意一定要等于单次设备IO单位</span>
+<span class="cm">* @return int 0成功，否则失败</span>
+<span class="cm">*/</span>
+<span class="kt">int</span><span class="w"> </span><span class="nf">ddriver_write</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">fd</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">buf</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">size</span><span class="p">);</span>
+
+<span class="cm">/**</span>
+<span class="cm">* @brief 读出数据</span>
+<span class="cm">* </span>
+<span class="cm">* @param fd ddriver设备handler</span>
+<span class="cm">* @param buf 要读出的数据Buf</span>
+<span class="cm">* @param size 要读出的数据大小，注意一定要等于单次设备IO单位</span>
+<span class="cm">* @return int </span>
+<span class="cm">*/</span>
+<span class="kt">int</span><span class="w"> </span><span class="nf">ddriver_read</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">fd</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">buf</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">size</span><span class="p">);</span>
+
+<span class="cm">/**</span>
+<span class="cm">* @brief ddriver IO控制</span>
+<span class="cm">* </span>
+<span class="cm">* @param fd ddriver设备handler</span>
+<span class="cm">* @param cmd 命令号，查看ddriver_ctl_user，IOC_开头</span>
+<span class="cm">* @param ret 返回值</span>
+<span class="cm">* @return int 0成功，否则失败</span>
+<span class="cm">*/</span>
+<span class="kt">int</span><span class="w"> </span><span class="nf">ddriver_ioctl</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">fd</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">cmd</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">ret</span><span class="p">);</span>
+
+<span class="cm">/**</span>
+<span class="cm">* @brief 关闭ddriver设备</span>
+<span class="cm">* </span>
+<span class="cm">* @param fd ddriver设备handler</span>
+<span class="cm">* @return int 0成功，否则失败</span>
+<span class="cm">*/</span>
+<span class="kt">int</span><span class="w"> </span><span class="nf">ddriver_close</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">fd</span><span class="p">);</span>
+
+<span class="cp">#endif /* _DDRIVER_H_ *</span>
+</code></pre></div>
+<p><strong>值得一提的是</strong> ， <strong>DDRIVER</strong> 的实现有两个版本： <strong>内核版本</strong> 和 <strong>用户版本</strong> 。其中， <strong>内核版本</strong> 的编写是采用 <strong>内核模块</strong> 的方式，代码位于 <code>user-land-filesystem/driver/kernel_ddriver</code>下，由于本次实验环境所致，内核版本暂停使用，如果大家有兴趣也可以去参考一下一个内核模块的编程方法； <strong>用户版本</strong> 位于 <code>user-land-filesystem/driver/user_ddriver</code>下，用户版本的编译方式是静态链接库，因此你无法直接通过Debug调试进入到上述接口实现的代码中， <strong>这也是为了模拟真实驱动所做的考虑</strong> 。</p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2023 - 2024 哈尔滨工业大学（深圳）
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+    <a href="mailto:<xiawen@hit.edu.cn>" target="_blank" rel="noopener" title="xiawen@hit.edu.cn" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M498.1 5.6c10.1 7 15.4 19.1 13.5 31.2l-64 416c-1.5 9.7-7.4 18.2-16 23s-18.9 5.4-28 1.6L284 427.7l-68.5 74.1c-8.9 9.7-22.9 12.9-35.2 8.1S160 493.2 160 480v-83.6c0-4 1.5-7.8 4.2-10.7l167.6-182.9c5.8-6.3 5.6-16-.4-22s-15.7-6.4-22-.7L106 360.8l-88.3-44.2C7.1 311.3.3 300.7 0 288.9s5.9-22.8 16.1-28.7l448-256c10.7-6.1 23.9-5.5 34 1.4z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.top", "navigation.tabs.sticky", "navigation.tracking"], "search": "../../assets/javascripts/workers/search.a264c092.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.6eac0284.min.js"></script>
+      
+        <script src="../../js/baidu-tongji.js"></script>
+      
+    
+  </body>
+</html>

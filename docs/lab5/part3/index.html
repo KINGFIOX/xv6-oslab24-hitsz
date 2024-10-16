@@ -1,0 +1,2673 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../part2/">
+      
+      
+        <link rel="next" href="../part4/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.3">
+    
+    
+      
+        <title>实验实现 - 操作系统2023秋 | 哈工大（深圳）</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.79e020e9.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="操作系统2023秋 | 哈工大（深圳）" class="md-header__button md-logo" aria-label="操作系统2023秋 | 哈工大（深圳）" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M220.8 123.3c1 .5 1.8 1.7 3 1.7 1.1 0 2.8-.4 2.9-1.5.2-1.4-1.9-2.3-3.2-2.9-1.7-.7-3.9-1-5.5-.1-.4.2-.8.7-.6 1.1.3 1.3 2.3 1.1 3.4 1.7zm-21.9 1.7c1.2 0 2-1.2 3-1.7 1.1-.6 3.1-.4 3.5-1.6.2-.4-.2-.9-.6-1.1-1.6-.9-3.8-.6-5.5.1-1.3.6-3.4 1.5-3.2 2.9.1 1 1.8 1.5 2.8 1.4zM420 403.8c-3.6-4-5.3-11.6-7.2-19.7-1.8-8.1-3.9-16.8-10.5-22.4-1.3-1.1-2.6-2.1-4-2.9-1.3-.8-2.7-1.5-4.1-2 9.2-27.3 5.6-54.5-3.7-79.1-11.4-30.1-31.3-56.4-46.5-74.4-17.1-21.5-33.7-41.9-33.4-72C311.1 85.4 315.7.1 234.8 0 132.4-.2 158 103.4 156.9 135.2c-1.7 23.4-6.4 41.8-22.5 64.7-18.9 22.5-45.5 58.8-58.1 96.7-6 17.9-8.8 36.1-6.2 53.3-6.5 5.8-11.4 14.7-16.6 20.2-4.2 4.3-10.3 5.9-17 8.3s-14 6-18.5 14.5c-2.1 3.9-2.8 8.1-2.8 12.4 0 3.9.6 7.9 1.2 11.8 1.2 8.1 2.5 15.7.8 20.8-5.2 14.4-5.9 24.4-2.2 31.7 3.8 7.3 11.4 10.5 20.1 12.3 17.3 3.6 40.8 2.7 59.3 12.5 19.8 10.4 39.9 14.1 55.9 10.4 11.6-2.6 21.1-9.6 25.9-20.2 12.5-.1 26.3-5.4 48.3-6.6 14.9-1.2 33.6 5.3 55.1 4.1.6 2.3 1.4 4.6 2.5 6.7v.1c8.3 16.7 23.8 24.3 40.3 23 16.6-1.3 34.1-11 48.3-27.9 13.6-16.4 36-23.2 50.9-32.2 7.4-4.5 13.4-10.1 13.9-18.3.4-8.2-4.4-17.3-15.5-29.7zM223.7 87.3c9.8-22.2 34.2-21.8 44-.4 6.5 14.2 3.6 30.9-4.3 40.4-1.6-.8-5.9-2.6-12.6-4.9 1.1-1.2 3.1-2.7 3.9-4.6 4.8-11.8-.2-27-9.1-27.3-7.3-.5-13.9 10.8-11.8 23-4.1-2-9.4-3.5-13-4.4-1-6.9-.3-14.6 2.9-21.8zM183 75.8c10.1 0 20.8 14.2 19.1 33.5-3.5 1-7.1 2.5-10.2 4.6 1.2-8.9-3.3-20.1-9.6-19.6-8.4.7-9.8 21.2-1.8 28.1 1 .8 1.9-.2-5.9 5.5-15.6-14.6-10.5-52.1 8.4-52.1zm-13.6 60.7c6.2-4.6 13.6-10 14.1-10.5 4.7-4.4 13.5-14.2 27.9-14.2 7.1 0 15.6 2.3 25.9 8.9 6.3 4.1 11.3 4.4 22.6 9.3 8.4 3.5 13.7 9.7 10.5 18.2-2.6 7.1-11 14.4-22.7 18.1-11.1 3.6-19.8 16-38.2 14.9-3.9-.2-7-1-9.6-2.1-8-3.5-12.2-10.4-20-15-8.6-4.8-13.2-10.4-14.7-15.3-1.4-4.9 0-9 4.2-12.3zm3.3 334c-2.7 35.1-43.9 34.4-75.3 18-29.9-15.8-68.6-6.5-76.5-21.9-2.4-4.7-2.4-12.7 2.6-26.4v-.2c2.4-7.6.6-16-.6-23.9-1.2-7.8-1.8-15 .9-20 3.5-6.7 8.5-9.1 14.8-11.3 10.3-3.7 11.8-3.4 19.6-9.9 5.5-5.7 9.5-12.9 14.3-18 5.1-5.5 10-8.1 17.7-6.9 8.1 1.2 15.1 6.8 21.9 16l19.6 35.6c9.5 19.9 43.1 48.4 41 68.9zm-1.4-25.9c-4.1-6.6-9.6-13.6-14.4-19.6 7.1 0 14.2-2.2 16.7-8.9 2.3-6.2 0-14.9-7.4-24.9-13.5-18.2-38.3-32.5-38.3-32.5-13.5-8.4-21.1-18.7-24.6-29.9s-3-23.3-.3-35.2c5.2-22.9 18.6-45.2 27.2-59.2 2.3-1.7.8 3.2-8.7 20.8-8.5 16.1-24.4 53.3-2.6 82.4.6-20.7 5.5-41.8 13.8-61.5 12-27.4 37.3-74.9 39.3-112.7 1.1.8 4.6 3.2 6.2 4.1 4.6 2.7 8.1 6.7 12.6 10.3 12.4 10 28.5 9.2 42.4 1.2 6.2-3.5 11.2-7.5 15.9-9 9.9-3.1 17.8-8.6 22.3-15 7.7 30.4 25.7 74.3 37.2 95.7 6.1 11.4 18.3 35.5 23.6 64.6 3.3-.1 7 .4 10.9 1.4 13.8-35.7-11.7-74.2-23.3-84.9-4.7-4.6-4.9-6.6-2.6-6.5 12.6 11.2 29.2 33.7 35.2 59 2.8 11.6 3.3 23.7.4 35.7 16.4 6.8 35.9 17.9 30.7 34.8-2.2-.1-3.2 0-4.2 0 3.2-10.1-3.9-17.6-22.8-26.1-19.6-8.6-36-8.6-38.3 12.5-12.1 4.2-18.3 14.7-21.4 27.3-2.8 11.2-3.6 24.7-4.4 39.9-.5 7.7-3.6 18-6.8 29-32.1 22.9-76.7 32.9-114.3 7.2zm257.4-11.5c-.9 16.8-41.2 19.9-63.2 46.5-13.2 15.7-29.4 24.4-43.6 25.5s-26.5-4.8-33.7-19.3c-4.7-11.1-2.4-23.1 1.1-36.3 3.7-14.2 9.2-28.8 9.9-40.6.8-15.2 1.7-28.5 4.2-38.7 2.6-10.3 6.6-17.2 13.7-21.1.3-.2.7-.3 1-.5.8 13.2 7.3 26.6 18.8 29.5 12.6 3.3 30.7-7.5 38.4-16.3 9-.3 15.7-.9 22.6 5.1 9.9 8.5 7.1 30.3 17.1 41.6 10.6 11.6 14 19.5 13.7 24.6zM173.3 148.7c2 1.9 4.7 4.5 8 7.1 6.6 5.2 15.8 10.6 27.3 10.6 11.6 0 22.5-5.9 31.8-10.8 4.9-2.6 10.9-7 14.8-10.4s5.9-6.3 3.1-6.6-2.6 2.6-6 5.1c-4.4 3.2-9.7 7.4-13.9 9.8-7.4 4.2-19.5 10.2-29.9 10.2s-18.7-4.8-24.9-9.7c-3.1-2.5-5.7-5-7.7-6.9-1.5-1.4-1.9-4.6-4.3-4.9-1.4-.1-1.8 3.7 1.7 6.5z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            操作系统2023秋 | 哈工大（深圳）
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              实验实现
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../.." class="md-tabs__link">
+          
+  
+  实验概述
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../faq/faq-env/" class="md-tabs__link">
+          
+  
+  常见问题
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../lab1/part1/" class="md-tabs__link">
+          
+  
+  Lab1：XV6与Unix实用程序
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../lab2/part1/" class="md-tabs__link">
+          
+  
+  Lab2：进程与系统调用
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../lab3/part1/" class="md-tabs__link">
+          
+  
+  Lab3：锁机制的应用
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../lab4/part1/" class="md-tabs__link">
+          
+  
+  Lab4：页表
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../part1/" class="md-tabs__link">
+          
+  
+  Lab5：基于FUSE的青春版EXT2文件系统
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../oscomp/oscomp/" class="md-tabs__link">
+          
+  
+  OS竞赛招新
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="操作系统2023秋 | 哈工大（深圳）" class="md-nav__button md-logo" aria-label="操作系统2023秋 | 哈工大（深圳）" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M220.8 123.3c1 .5 1.8 1.7 3 1.7 1.1 0 2.8-.4 2.9-1.5.2-1.4-1.9-2.3-3.2-2.9-1.7-.7-3.9-1-5.5-.1-.4.2-.8.7-.6 1.1.3 1.3 2.3 1.1 3.4 1.7zm-21.9 1.7c1.2 0 2-1.2 3-1.7 1.1-.6 3.1-.4 3.5-1.6.2-.4-.2-.9-.6-1.1-1.6-.9-3.8-.6-5.5.1-1.3.6-3.4 1.5-3.2 2.9.1 1 1.8 1.5 2.8 1.4zM420 403.8c-3.6-4-5.3-11.6-7.2-19.7-1.8-8.1-3.9-16.8-10.5-22.4-1.3-1.1-2.6-2.1-4-2.9-1.3-.8-2.7-1.5-4.1-2 9.2-27.3 5.6-54.5-3.7-79.1-11.4-30.1-31.3-56.4-46.5-74.4-17.1-21.5-33.7-41.9-33.4-72C311.1 85.4 315.7.1 234.8 0 132.4-.2 158 103.4 156.9 135.2c-1.7 23.4-6.4 41.8-22.5 64.7-18.9 22.5-45.5 58.8-58.1 96.7-6 17.9-8.8 36.1-6.2 53.3-6.5 5.8-11.4 14.7-16.6 20.2-4.2 4.3-10.3 5.9-17 8.3s-14 6-18.5 14.5c-2.1 3.9-2.8 8.1-2.8 12.4 0 3.9.6 7.9 1.2 11.8 1.2 8.1 2.5 15.7.8 20.8-5.2 14.4-5.9 24.4-2.2 31.7 3.8 7.3 11.4 10.5 20.1 12.3 17.3 3.6 40.8 2.7 59.3 12.5 19.8 10.4 39.9 14.1 55.9 10.4 11.6-2.6 21.1-9.6 25.9-20.2 12.5-.1 26.3-5.4 48.3-6.6 14.9-1.2 33.6 5.3 55.1 4.1.6 2.3 1.4 4.6 2.5 6.7v.1c8.3 16.7 23.8 24.3 40.3 23 16.6-1.3 34.1-11 48.3-27.9 13.6-16.4 36-23.2 50.9-32.2 7.4-4.5 13.4-10.1 13.9-18.3.4-8.2-4.4-17.3-15.5-29.7zM223.7 87.3c9.8-22.2 34.2-21.8 44-.4 6.5 14.2 3.6 30.9-4.3 40.4-1.6-.8-5.9-2.6-12.6-4.9 1.1-1.2 3.1-2.7 3.9-4.6 4.8-11.8-.2-27-9.1-27.3-7.3-.5-13.9 10.8-11.8 23-4.1-2-9.4-3.5-13-4.4-1-6.9-.3-14.6 2.9-21.8zM183 75.8c10.1 0 20.8 14.2 19.1 33.5-3.5 1-7.1 2.5-10.2 4.6 1.2-8.9-3.3-20.1-9.6-19.6-8.4.7-9.8 21.2-1.8 28.1 1 .8 1.9-.2-5.9 5.5-15.6-14.6-10.5-52.1 8.4-52.1zm-13.6 60.7c6.2-4.6 13.6-10 14.1-10.5 4.7-4.4 13.5-14.2 27.9-14.2 7.1 0 15.6 2.3 25.9 8.9 6.3 4.1 11.3 4.4 22.6 9.3 8.4 3.5 13.7 9.7 10.5 18.2-2.6 7.1-11 14.4-22.7 18.1-11.1 3.6-19.8 16-38.2 14.9-3.9-.2-7-1-9.6-2.1-8-3.5-12.2-10.4-20-15-8.6-4.8-13.2-10.4-14.7-15.3-1.4-4.9 0-9 4.2-12.3zm3.3 334c-2.7 35.1-43.9 34.4-75.3 18-29.9-15.8-68.6-6.5-76.5-21.9-2.4-4.7-2.4-12.7 2.6-26.4v-.2c2.4-7.6.6-16-.6-23.9-1.2-7.8-1.8-15 .9-20 3.5-6.7 8.5-9.1 14.8-11.3 10.3-3.7 11.8-3.4 19.6-9.9 5.5-5.7 9.5-12.9 14.3-18 5.1-5.5 10-8.1 17.7-6.9 8.1 1.2 15.1 6.8 21.9 16l19.6 35.6c9.5 19.9 43.1 48.4 41 68.9zm-1.4-25.9c-4.1-6.6-9.6-13.6-14.4-19.6 7.1 0 14.2-2.2 16.7-8.9 2.3-6.2 0-14.9-7.4-24.9-13.5-18.2-38.3-32.5-38.3-32.5-13.5-8.4-21.1-18.7-24.6-29.9s-3-23.3-.3-35.2c5.2-22.9 18.6-45.2 27.2-59.2 2.3-1.7.8 3.2-8.7 20.8-8.5 16.1-24.4 53.3-2.6 82.4.6-20.7 5.5-41.8 13.8-61.5 12-27.4 37.3-74.9 39.3-112.7 1.1.8 4.6 3.2 6.2 4.1 4.6 2.7 8.1 6.7 12.6 10.3 12.4 10 28.5 9.2 42.4 1.2 6.2-3.5 11.2-7.5 15.9-9 9.9-3.1 17.8-8.6 22.3-15 7.7 30.4 25.7 74.3 37.2 95.7 6.1 11.4 18.3 35.5 23.6 64.6 3.3-.1 7 .4 10.9 1.4 13.8-35.7-11.7-74.2-23.3-84.9-4.7-4.6-4.9-6.6-2.6-6.5 12.6 11.2 29.2 33.7 35.2 59 2.8 11.6 3.3 23.7.4 35.7 16.4 6.8 35.9 17.9 30.7 34.8-2.2-.1-3.2 0-4.2 0 3.2-10.1-3.9-17.6-22.8-26.1-19.6-8.6-36-8.6-38.3 12.5-12.1 4.2-18.3 14.7-21.4 27.3-2.8 11.2-3.6 24.7-4.4 39.9-.5 7.7-3.6 18-6.8 29-32.1 22.9-76.7 32.9-114.3 7.2zm257.4-11.5c-.9 16.8-41.2 19.9-63.2 46.5-13.2 15.7-29.4 24.4-43.6 25.5s-26.5-4.8-33.7-19.3c-4.7-11.1-2.4-23.1 1.1-36.3 3.7-14.2 9.2-28.8 9.9-40.6.8-15.2 1.7-28.5 4.2-38.7 2.6-10.3 6.6-17.2 13.7-21.1.3-.2.7-.3 1-.5.8 13.2 7.3 26.6 18.8 29.5 12.6 3.3 30.7-7.5 38.4-16.3 9-.3 15.7-.9 22.6 5.1 9.9 8.5 7.1 30.3 17.1 41.6 10.6 11.6 14 19.5 13.7 24.6zM173.3 148.7c2 1.9 4.7 4.5 8 7.1 6.6 5.2 15.8 10.6 27.3 10.6 11.6 0 22.5-5.9 31.8-10.8 4.9-2.6 10.9-7 14.8-10.4s5.9-6.3 3.1-6.6-2.6 2.6-6 5.1c-4.4 3.2-9.7 7.4-13.9 9.8-7.4 4.2-19.5 10.2-29.9 10.2s-18.7-4.8-24.9-9.7c-3.1-2.5-5.7-5-7.7-6.9-1.5-1.4-1.9-4.6-4.3-4.9-1.4-.1-1.8 3.7 1.7 6.5z"/></svg>
+
+    </a>
+    操作系统2023秋 | 哈工大（深圳）
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    实验概述
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            实验概述
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验须知
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../env/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验平台以及环境配置
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tools/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验实用工具
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Linux/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Linux开发环境基础知识
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../remote_env/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    远程实验平台使用指南
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../remote_env_gdb/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    VSCode图形化调试指南(一)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../remote_env_gdb2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    VSCode图形化调试指南(二)——系统调用
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    常见问题
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            常见问题
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    2022/2023
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            2022/2023
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../faq/faq-env/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验环境问题
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../faq/lab1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab1问题
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../faq/lab2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab2问题
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../faq/lab3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab3问题
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../faq/lab4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab4问题
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Lab1：XV6与Unix实用程序
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Lab1：XV6与Unix实用程序
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab1/part1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验概述
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab1/part2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验原理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab1/part3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验步骤
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab1/part4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    提交文档
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Lab2：进程与系统调用
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Lab2：进程与系统调用
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab2/part1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验概述
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab2/part2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验原理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab2/part3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验实现
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab2/part4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    提交文档
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Lab3：锁机制的应用
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Lab3：锁机制的应用
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab3/part1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验概述
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab3/part2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验原理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab3/part3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验实现
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab3/part4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    xv-6中Lock的实现（选读）
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab3/part5/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    提交文档
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Lab4：页表
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Lab4：页表
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab4/part1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验概述
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab4/part2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验原理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab4/part3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验实现
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab4/part4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    提交文档
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+    
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Lab5：基于FUSE的青春版EXT2文件系统
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            Lab5：基于FUSE的青春版EXT2文件系统
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../part1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验概述
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../part2/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实验原理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    实验实现
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    实验实现
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    1.任务零：环境搭建
+  </a>
+  
+    <nav class="md-nav" aria-label="1.任务零：环境搭建">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11" class="md-nav__link">
+    1.1 实验包结构介绍
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12" class="md-nav__link">
+    1.2 配置开发环境
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13" class="md-nav__link">
+    1.3 项目编译
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-demo" class="md-nav__link">
+    2. 任务一： 简单的文件系统demo
+  </a>
+  
+    <nav class="md-nav" aria-label="2. 任务一： 简单的文件系统demo">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21" class="md-nav__link">
+    2.1 实现内容
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22" class="md-nav__link">
+    2.2 实现步骤
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23" class="md-nav__link">
+    2.3 测试
+  </a>
+  
+    <nav class="md-nav" aria-label="2.3 测试">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#231" class="md-nav__link">
+    2.3.1 手动测试
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#232" class="md-nav__link">
+    2.3.2 测评程序
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-ext2" class="md-nav__link">
+    3. 任务二：实现青春版EXT2文件系统
+  </a>
+  
+    <nav class="md-nav" aria-label="3. 任务二：实现青春版EXT2文件系统">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31" class="md-nav__link">
+    3.1 实现内容
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32" class="md-nav__link">
+    3.2 实现步骤
+  </a>
+  
+    <nav class="md-nav" aria-label="3.2 实现步骤">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#321" class="md-nav__link">
+    3.2.1 磁盘布局设计
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#322" class="md-nav__link">
+    3.2.2 磁盘交互的封装
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#323" class="md-nav__link">
+    3.2.3 文件系统接口的实现
+  </a>
+  
+    <nav class="md-nav" aria-label="3.2.3 文件系统接口的实现">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#3231" class="md-nav__link">
+    3.2.3.1 挂载与卸载
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3232" class="md-nav__link">
+    3.2.3.2 创建文件和目录
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3233" class="md-nav__link">
+    3.2.3.3 显示文件和目录
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33" class="md-nav__link">
+    3.3 测试
+  </a>
+  
+    <nav class="md-nav" aria-label="3.3 测试">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#331" class="md-nav__link">
+    3.3.1 手动测试
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#332" class="md-nav__link">
+    3.3.2 测评程序
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../part4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    提交文档
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../part5/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    常见问题（补充）
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../part6/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    选择阅读（补充）
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    OS竞赛招新
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            OS竞赛招新
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../oscomp/oscomp/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2024年“全国大学生计算机系统能力大赛操作系统设计赛”火热报名中！
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    1.任务零：环境搭建
+  </a>
+  
+    <nav class="md-nav" aria-label="1.任务零：环境搭建">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11" class="md-nav__link">
+    1.1 实验包结构介绍
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12" class="md-nav__link">
+    1.2 配置开发环境
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13" class="md-nav__link">
+    1.3 项目编译
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-demo" class="md-nav__link">
+    2. 任务一： 简单的文件系统demo
+  </a>
+  
+    <nav class="md-nav" aria-label="2. 任务一： 简单的文件系统demo">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21" class="md-nav__link">
+    2.1 实现内容
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22" class="md-nav__link">
+    2.2 实现步骤
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23" class="md-nav__link">
+    2.3 测试
+  </a>
+  
+    <nav class="md-nav" aria-label="2.3 测试">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#231" class="md-nav__link">
+    2.3.1 手动测试
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#232" class="md-nav__link">
+    2.3.2 测评程序
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-ext2" class="md-nav__link">
+    3. 任务二：实现青春版EXT2文件系统
+  </a>
+  
+    <nav class="md-nav" aria-label="3. 任务二：实现青春版EXT2文件系统">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31" class="md-nav__link">
+    3.1 实现内容
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32" class="md-nav__link">
+    3.2 实现步骤
+  </a>
+  
+    <nav class="md-nav" aria-label="3.2 实现步骤">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#321" class="md-nav__link">
+    3.2.1 磁盘布局设计
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#322" class="md-nav__link">
+    3.2.2 磁盘交互的封装
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#323" class="md-nav__link">
+    3.2.3 文件系统接口的实现
+  </a>
+  
+    <nav class="md-nav" aria-label="3.2.3 文件系统接口的实现">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#3231" class="md-nav__link">
+    3.2.3.1 挂载与卸载
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3232" class="md-nav__link">
+    3.2.3.2 创建文件和目录
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3233" class="md-nav__link">
+    3.2.3.3 显示文件和目录
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33" class="md-nav__link">
+    3.3 测试
+  </a>
+  
+    <nav class="md-nav" aria-label="3.3 测试">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#331" class="md-nav__link">
+    3.3.1 手动测试
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#332" class="md-nav__link">
+    3.3.2 测评程序
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="_1">实验实现<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<div class="admonition tip">
+<p class="admonition-title">代码量相关<ol>
+<li>任务一：非常简单的demo。总代码量：100+行。实际编码：约10行。</li>
+<li>任务二：较完善的文件系统。总代码量：1k+行。实际编码：若多参考SFS，要改的并不多，预估200+行。也可自己重新完整实现。</li>
+</ol>
+</p>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">实验遇到问题</p>
+<ol>
+<li>首先阅读实验指导书的<a href="../part5">常见问题</a>看有无命中，并自己尝试<a href="../part5#10-debug">一些debug手段</a>。</li>
+<li>还是无法解决请及时在答疑平台提问，或积极向老师和助教寻求帮助。</li>
+</ol>
+</div>
+<h2 id="1">1.任务零：环境搭建<a class="headerlink" href="#1" title="Permanent link">&para;</a></h2>
+<p>为了给同学们演示如何下载、编译、运行simplefs文件系统，我们录制了两个演示视频：“HITSZ FUSE文件系统实验（本地版）”和“HITSZ FUSE文件系统（远程计算节点版）”。</p>
+<p>大家根据自己的实验环境选择对应的演示视频。</p>
+<p>FUSE文件系统实验（本地版）：<a href="https://www.bilibili.com/video/BV1Af4y1K7FX/">https://www.bilibili.com/video/BV1Af4y1K7FX/</a></p>
+<p>HITSZ FUSE文件系统（远程计算节点版）：<a href="https://www.bilibili.com/video/BV1TR4y1b7M3/">https://www.bilibili.com/video/BV1TR4y1b7M3/</a></p>
+<h3 id="11">1.1 实验包结构介绍<a class="headerlink" href="#11" title="Permanent link">&para;</a></h3>
+<p>本次实验充分考虑到 <strong>上手成本</strong> ，因此我们编写了简单的环境配置脚本，帮助大家一键配置开发环境。实验包代码获取途径：</p>
+<div class="highlight"><pre><span></span><code><span class="gp"># </span>git<span class="w"> </span>clone<span class="w"> </span>https://gitee.com/ftutorials/user-land-filesystem.git
+</code></pre></div>
+<p>实验包的结构如下：</p>
+<div class="highlight"><pre><span></span><code>user-land-filesystem/
+├── driver
+│   ├── ddriver.sh
+│   ├── kernel_ddriver
+│   └── user_ddriver
+├── fs
+│   ├── demo
+│   ├── simplefs
+│   └── template
+├── LICENSE
+├── README.md
+└── setenv.sh
+</code></pre></div>
+<ul>
+<li><code>driver</code></li>
+</ul>
+<p>存放驱动代码。</p>
+<ul>
+<li><code>fs</code></li>
+</ul>
+<p>存放 <strong>实现的FUSE文件系统</strong> 。其中<code>demo</code>为任务一要完成的文件系统demo，<code>simplefs</code>为类<code>EXT2</code>文件系统（缺少数据位图），供同学们参考使用，<code>template</code>用于生成文件系统的代码结构，可忽略。</p>
+<ul>
+<li><code>setenv.sh</code></li>
+</ul>
+<p>用于配置FUSE文件系统开发环境。</p>
+<h3 id="12">1.2 配置开发环境<a class="headerlink" href="#12" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Step 1</strong>，运行<code>./setenv.sh</code></li>
+</ul>
+<p>自动部署任务一和任务二的 <strong>实验环境</strong> ，并生成 <strong>任务二的项目</strong> ：</p>
+<div class="highlight"><pre><span></span><code><span class="gp">teststu_8@OSLabExecNode0:~/user-land-filesystem$ </span>./setenv.sh<span class="w"> </span>
+<span class="go">请输入工作目录名称 ([工作]目录将被至于./fs目录下): newfs</span>
+<span class="go">...</span>
+<span class="go">生成工作路径:  /home/guests/teststu_8/user-land-filesystem/fs/newfs</span>
+<span class="go">请输入项目名称: newfs</span>
+<span class="go">...</span>
+</code></pre></div>
+<p>其中，工作目录名称即 <strong>任务二</strong> 的文件系统的 <strong>文件夹名称</strong> 。可以看到，它在<code>fs</code>目录下新建了一个<code>newfs</code>目录作为工作目录。</p>
+<p>接着，项目名称即 <strong>任务二</strong> 的 <strong>文件系统名称</strong>，可以是文件系统的简写，例如：nfs（代表newfs），这里要注意项目名不能有 <strong>特殊符号、空格</strong> 等。</p>
+<p>项目建立完成之后的结构<code>newfs</code>如下所示：</p>
+<div class="highlight"><pre><span></span><code>./fs/newfs/
+├──<span class="w"> </span>.vscode
+├──<span class="w"> </span>CMake<span class="w"> </span>
+│<span class="w">   </span>└──<span class="w"> </span>FindFUSE.cmake
+├──<span class="w"> </span>CMakeLists.txt
+├──<span class="w"> </span>include<span class="w"> </span><span class="c1"># 有关头文件</span>
+│<span class="w">    </span>├──<span class="w"> </span>ddriver_ctl_user.h
+│<span class="w">    </span>├──<span class="w"> </span>ddriver.h
+│<span class="w">    </span>├──<span class="w"> </span>fs.layout
+│<span class="w">    </span>├──<span class="w"> </span>newfs.h
+│<span class="w">    </span>└──<span class="w"> </span>types.h
+├──<span class="w"> </span>README.md
+├──<span class="w"> </span>SPEC.txt<span class="w"> </span>
+├──<span class="w"> </span>src<span class="w"> </span><span class="c1"># 主要代码</span>
+│<span class="w">   </span>└──<span class="w"> </span>newfs.c
+└──<span class="w"> </span>tests<span class="w"> </span><span class="c1"># 测试代码</span>
+<span class="w">    </span>├──<span class="w"> </span>checkbm
+<span class="w">    </span>│<span class="w">   </span>├──<span class="w"> </span>checkbm.py
+<span class="w">    </span>│<span class="w">   </span>├──<span class="w"> </span>golden-sfs.json
+<span class="w">    </span>│<span class="w">   </span>└──<span class="w"> </span>golden.json
+<span class="w">    </span>├──<span class="w"> </span>mnt<span class="w"> </span><span class="c1"># 测试用的挂载点</span>
+<span class="w">    </span>├──<span class="w"> </span>stages
+<span class="w">    </span>│<span class="w">   </span>├──<span class="w"> </span>cp.sh
+<span class="w">    </span>│<span class="w">   </span>├──<span class="w"> </span>ls.sh
+<span class="w">    </span>│<span class="w">   </span>├──<span class="w"> </span>mkdir.sh
+<span class="w">    </span>│<span class="w">   </span>├──<span class="w"> </span>mount.sh
+<span class="w">    </span>│<span class="w">   </span>├──<span class="w"> </span>remount.sh
+<span class="w">    </span>│<span class="w">   </span>├──<span class="w"> </span>rw.sh
+<span class="w">    </span>│<span class="w">   </span>└──<span class="w"> </span>touch.sh<span class="w"> </span>
+<span class="w">    </span>├──<span class="w"> </span>fs_test.sh
+<span class="w">    </span>├──<span class="w"> </span>main.sh
+<span class="w">    </span>└──<span class="w"> </span>test.sh
+</code></pre></div>
+<ul>
+<li><strong>Step 2</strong>，任意路径下，运行<code>source ~/.bashrc</code></li>
+</ul>
+<p>该步是为了使得环境配置在 <strong>当前的命令行</strong> 生效。</p>
+<p>如果在命令行，输入<code>ddriver</code>，显示如下界面，则表示环境配置成功。</p>
+<p><img alt="" src="../part3.assets/ddriver.png" /></p>
+<h3 id="13">1.3 项目编译<a class="headerlink" href="#13" title="Permanent link">&para;</a></h3>
+<p>本次实验任务一和任务二，均需要按照下面步骤 <strong>分别</strong> 完成项目编译。如需编译任务一，<strong>请在<code>./fs/demo</code>文件夹下打开VSCode软件</strong>。如需编译任务二，<strong>请在<code>./fs/newfs</code>文件夹下打开VSCode软件</strong>。</p>
+<p>项目编译的过程：</p>
+<ul>
+<li><strong>Step 1</strong> . 以 <strong>任务二</strong> 为例，SSH打开<code>./fs/newfs</code>。打开VSCode软件，点击左上角 "文件" → "打开文件夹"，<strong>选择实验包目录下的fs/newfs文件夹</strong> 。</li>
+</ul>
+<p><img alt="image-20211024145359896" src="../part3.assets/image-20211024145359896.png" /></p>
+<ul>
+<li><strong>Step 2</strong> . 在远程实验平台上安装CMake、CMake Tools、C/C++三个插件。</li>
+</ul>
+<p><img alt="image-20221108102247328" src="../part3-1.assets/image-20221108102247328.png" /></p>
+<p><img alt="image-20221108102514630" src="../part3-1.assets/image-20221108102514630.png" /></p>
+<p><img alt="image-20221118212435901" src="../part3-1.assets/image-20221118212435901.png" /></p>
+<ul>
+<li><strong>Step 3</strong> . 打开CMakeLists.txt文件</li>
+<li><strong>Step 4</strong> . ctrl + shift + p呼出命令菜单</li>
+<li><strong>Step 5</strong> . 输入CMake: Configure</li>
+<li><strong>Step 6</strong> . 选择 <strong>X86_64版本</strong> 的GCC（不要选错为别的，如riscv64的）：</li>
+</ul>
+<p><img alt="image-20221108103122575" src="../part3-1.assets/image-20221108103122575.png" /></p>
+<ul>
+<li><strong>Step 7</strong> . 点击VSCode左下角“管理”按钮，选择“设置”，然后在弹出的窗口中输入<code>@ext:ms-vscode.cmake-tools generator</code>，再点击“远程[SSH:10.249.12.98]”选项栏，在Cmake: Generator选项框中填入<code>Unix Makefiles</code>。</li>
+</ul>
+<p><img alt="image-20221108111316672" src="../part3-1.assets/image-20221108111316672.png" /></p>
+<ul>
+<li><strong>Step 8</strong> . 再次用ctrl + shift + p呼出命令菜单，输入CMake: Configure，查看输出窗口是否有“Generator” (已用!!!!!标记)</li>
+</ul>
+<p><img alt="image-20211024145654250" src="../part3.assets/image-20211024145654250.png" /></p>
+<ul>
+<li><strong>Step 9</strong> . 到<code>newfs/src/newfs.c</code>目录，打断点（可选，如果需要调试可打）。</li>
+<li><strong>Step 10</strong> . 按下<code>F5</code>(或<code>Fn+F5</code>)进行运行和挂载文件系统。</li>
+</ul>
+<p><code>F5</code>(或<code>Fn+F5</code>)是方便同学们直接在VSCode挂载文件系统，同学们也可以自行使用命令行的方式输入命令来挂载文件系统，参考实验原理的<a href="../part2#32-fuse">FUSE文件系统的挂载与卸载</a>的<code>F5</code>(或<code>Fn+F5</code>)命令展开。</p>
+<p>打下断点，调试运行如下图：</p>
+<p><img alt="image-20211024151032944" src="../part3.assets/image-20211024151032944.png" /></p>
+<p>没有打断点，直接运行和挂载文件系统，文件系统挂载成功如下图所示：</p>
+<p><img alt="f5运行成功" src="../part3.assets/f5%E8%BF%90%E8%A1%8C%E6%88%90%E5%8A%9F.png" /></p>
+<p>文件系统的卸载（参考实验原理的<a href="../part2#32-fuse">FUSE文件系统的挂载与卸载</a>），需要同学们在命令行手动输入命令来实现：</p>
+<div class="highlight"><pre><span></span><code><span class="gp">teststu_8@OSLabExecNode0:~/user-land-filesystem/fs/newfs$ </span>fusermount<span class="w"> </span>-u<span class="w"> </span>./tests/mnt
+<span class="gp">teststu_8@OSLabExecNode0:~/user-land-filesystem/fs/newfs$ </span>
+</code></pre></div>
+<h2 id="2-demo">2. 任务一： 简单的文件系统demo<a class="headerlink" href="#2-demo" title="Permanent link">&para;</a></h2>
+<p>为了便于同学们过渡到任务二，我们在任务一要求同学们实现一个简单的文件系统小demo。通过这个简单的小demo，帮助大家理解和熟悉：</p>
+<ul>
+<li>简单的磁盘布局。磁盘逻辑块划分的概念以及本次实验逻辑块大小。</li>
+<li>简单的磁盘交互。利用本次实验提供的磁盘操作（驱动）接口读取一个磁盘块。</li>
+<li>简单的文件系统接口实现。什么是文件系统接口等。</li>
+<li>项目的编译和运行。通过一个简单的demo熟悉项目的编译，文件系统的挂载和卸载等操作。</li>
+</ul>
+<h3 id="21">2.1 实现内容<a class="headerlink" href="#21" title="Permanent link">&para;</a></h3>
+<p>这个文件系统小demo的实现要求如下：</p>
+<ul>
+<li>只需要实现<code>ls</code>命令，并且<code>ls</code>时只会在根目录显示某个的预设的普通文件名<code>&lt;filename&gt;</code>即可。</li>
+<li>文件系统demo的 <strong>一个逻辑块是两个IO块大小</strong> （和任务二一致），假设逻辑块500为根目录的数据块，这个数据块只有一个<code>dentry</code>，也就是名为<code>&lt;filename&gt;</code>的dentry。</li>
+<li>出于简单示例，除了上述的块，磁盘其他块都是空的，无需做其他复杂考虑。</li>
+</ul>
+<p>如下图所示：</p>
+<p><img alt="task1" src="../part3.assets/task1.png" /></p>
+<p>假设<code>&lt;filename&gt;</code>为<code>pass_task1.txt</code>，挂载文件系统后，<code>ls</code>效果将会如下：</p>
+<p><img alt="" src="../part3.assets/task1%E6%95%88%E6%9E%9C.png" /></p>
+<h3 id="22">2.2 实现步骤<a class="headerlink" href="#22" title="Permanent link">&para;</a></h3>
+<p>任务一的实现非常简单，只需要同学们根据<code>demo</code>代码中的<code>/* TODO */</code>指引填写几行代码。在完成任务一过程，同学们请参考实验原理部分的<a href="../part2/#21">驱动接口查阅</a>和<a href="../part2/#31-fuse">FUSE简单示例</a>。</p>
+<ul>
+<li>
+<p><strong>step 0</strong>，熟悉demo代码（不到一百行）定义的简单数据结构<code>demo_super</code>和<code>demo_dentry</code>，以及四个钩子函数<code>demo_mount</code>，<code>demo_umount</code>，<code>demo_getattr</code>和<code>demo_readdir</code></p>
+</li>
+<li>
+<p><strong>step 1</strong>，完成一个简单的全局超级块填充，维护一些后续计算需要的信息。同学们可以通过<code>ddriver_ioctl</code>来获取磁盘容量和IO块大小等信息，从而得出逻辑块大小，需要在<code>demo_mount</code>函数中实现。</p>
+</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="cm">/* 挂载文件系统 */</span>
+<span class="k">static</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">demo_mount</span><span class="p">(){</span>
+<span class="w">    </span><span class="p">...</span>
+<span class="w">    </span><span class="cm">/* 填充super信息 */</span>
+<span class="w">    </span><span class="n">super</span><span class="p">.</span><span class="n">sz_io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="cm">/* TODO */</span><span class="p">;</span>
+<span class="w">    </span><span class="n">super</span><span class="p">.</span><span class="n">sz_disk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="cm">/* TODO */</span><span class="p">;</span>
+<span class="w">    </span><span class="n">super</span><span class="p">.</span><span class="n">sz_blks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="cm">/* TODO */</span><span class="p">;</span>
+<span class="w">    </span><span class="p">...</span>
+<span class="w">    </span><span class="p">}</span>
+</code></pre></div>
+<ul>
+<li><strong>step 2</strong>，完成遍历目录逻辑，从第500个逻辑块读取一个<code>demo_dentry</code>，将<code>demo_dentry</code>的文件名填充到filename。下面给出一个参考的<code>/* TODO */</code>指引，同学们也无需严格按照这个指引。</li>
+</ul>
+<div class="admonition tip">
+<p class="admonition-title">注意</p>
+<p>此处任务一同学 <strong>暂时不用关注</strong> <code>demo_readdir</code>传入的<code>path</code>，<code>buf</code>，<code>filler</code>，<code>offset</code>等参数，也先 <strong>不要使用</strong> 到这些参数。</p>
+</div>
+<div class="highlight"><pre><span></span><code><span class="cm">/* 遍历目录 */</span>
+<span class="k">static</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">demo_readdir</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">path</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="o">*</span><span class="w"> </span><span class="n">buf</span><span class="p">,</span><span class="w"> </span><span class="n">fuse_fill_dir_t</span><span class="w"> </span><span class="n">filler</span><span class="p">,</span><span class="w"> </span><span class="kt">off_t</span><span class="w"> </span><span class="n">offset</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">fuse_file_info</span><span class="o">*</span><span class="w"> </span><span class="n">fi</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="c1">// 此处任务一同学无需关注demo_readdir的传入参数，也不要使用到上述参数</span>
+
+<span class="w">    </span><span class="kt">char</span><span class="w"> </span><span class="n">filename</span><span class="p">[</span><span class="mi">128</span><span class="p">];</span><span class="w"> </span><span class="c1">// 待填充的</span>
+
+<span class="w">    </span><span class="cm">/* 根据超级块的信息，从第500逻辑块读取一个dentry，ls将只固定显示这个文件名 */</span>
+
+<span class="w">    </span><span class="cm">/* TODO: 计算磁盘偏移off，并根据磁盘偏移off调用ddriver_seek移动磁盘头到磁盘偏移off处 */</span>
+
+<span class="w">    </span><span class="cm">/* TODO: 调用ddriver_read读出一个磁盘块到内存，512B */</span>
+
+<span class="w">    </span><span class="cm">/* TODO: 使用memcpy拷贝上述512B的前sizeof(demo_dentry)字节构建一个demo_dentry结构 */</span>
+
+<span class="w">    </span><span class="cm">/* TODO: 根据demo_dentry的文件名填充filename */</span>
+
+<span class="w">    </span><span class="c1">// 此处大家先不关注filler，已经帮同学们写好，同学们填充好filename即可</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">filler</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span><span class="w"> </span><span class="n">filename</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+<ul>
+<li><strong>step 3</strong>，完成显示文件属性函数，将这个文件显示为普通文件。</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="cm">/* 显示文件属性 */</span>
+<span class="k">static</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">demo_getattr</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">path</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">stat</span><span class="w"> </span><span class="o">*</span><span class="n">stbuf</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="p">...</span>
+<span class="w">        </span><span class="n">stbuf</span><span class="o">-&gt;</span><span class="n">st_mode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="cm">/* TODO: 显示为普通文件 */</span><span class="p">;</span><span class="w">            </span><span class="c1">// 该文件显示为普通文件</span>
+<span class="w">    </span><span class="p">...</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="23">2.3 测试<a class="headerlink" href="#23" title="Permanent link">&para;</a></h3>
+<p>测试有手动测试和测评程序两种。</p>
+<p>手动测试每次要运行start.sh，会给你一个固定的文件名，帮助你自己手动<code>F5</code>（或<code>Fn + F5</code>）挂载文件系统，检查和调试自己的代码。</p>
+<p>测评程序会随机生成文件名来做测试，以防有“投机取巧”的方式。测评程序位于<code>./demo/tests/test.sh</code>。</p>
+<h4 id="231">2.3.1 手动测试<a class="headerlink" href="#231" title="Permanent link">&para;</a></h4>
+<p>我们给同学们提供了一个手动测试和调试用的固定文件名<code>pass_task1.txt</code>，同学们按照如下方式可以验证自己实现逻辑是否正确。</p>
+<p>先运行在<code>tests</code>目录下运行：</p>
+<div class="highlight"><pre><span></span><code>chmod<span class="w"> </span>+x<span class="w"> </span>start.sh<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>./start.sh
+</code></pre></div>
+<p>然后挂载文件系统，VSCode按<code>F5</code>（或<code>Fn+F5</code>）（前提是已经按照<a href="./#13">环境搭建-项目编译</a>配置好任务一的编译环境）：</p>
+<p><img alt="f5运行成功" src="../part3.assets/f5%E8%BF%90%E8%A1%8C%E6%88%90%E5%8A%9F2.png" /></p>
+<p>通过<code>ctrl + shift + ~</code>打开上述页面，然后在 <strong>开启一个命令行</strong> ，输入<code>ls</code>命令查看<code>tests</code>目录下的<code>mnt</code>文件夹，查看结果是否为<code>pass_task1.txt</code>，如果是，则 <strong>手动测试通过</strong> 。如下图：</p>
+<p><img alt="" src="../part3.assets/task1%E6%95%88%E6%9E%9C.png" /></p>
+<p>最后一定要 <strong>记得输入<code>fusermount</code>命令来卸载文件系统</strong> （参考实验原理的<a href="../part2#32-fuse">FUSE文件系统的挂载与卸载</a>），<strong>不要</strong> 直接在VSCode终止或者按<code>ctrl + c</code>：</p>
+<div class="highlight"><pre><span></span><code>fusermount -u &lt;挂载点&gt;
+</code></pre></div>
+<p><img alt="" src="../part3.assets/%E5%8D%B8%E8%BD%BD%E7%A4%BA%E4%BE%8B.png" /></p>
+<h4 id="232">2.3.2 测评程序<a class="headerlink" href="#232" title="Permanent link">&para;</a></h4>
+<p>任务一提供了测评程序，同学们完成实验后，进入<code>./demo/tests</code>目录（ <strong>请在此目录<code>tests</code>下运行测评程序！</strong> ），输入如下命令通过本节任务的测评：</p>
+<div class="highlight"><pre><span></span><code>chmod<span class="w"> </span>+x<span class="w"> </span>test.sh<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>./test.sh
+</code></pre></div>
+<p>测评通过的示意图如下：</p>
+<p><img alt="" src="../part3.assets/test-pass.png" /></p>
+<p>测评未通过，请根据提示修改：</p>
+<p><img alt="" src="../part3.assets/test-fail.png" /></p>
+<h2 id="3-ext2">3. 任务二：实现青春版EXT2文件系统<a class="headerlink" href="#3-ext2" title="Permanent link">&para;</a></h2>
+<p>在实验原理部分，我们已经宏观上知道文件系统所需要做的三件事：</p>
+<ol>
+<li>设计好磁盘的布局分布（layout）</li>
+<li>向下，调用驱动提供接口和磁盘进行交互</li>
+<li>向上，维护相关数据结构，实现为上层封装的各种接口</li>
+</ol>
+<p>通过任务一的同学们已经对本次实验的相关内容有了初步的认识和了解。</p>
+<p>实验的总体结构同学们可以参考实验原理部分的<a href="../part2#4">实验总体结构</a>小节。</p>
+<h3 id="31">3.1 实现内容<a class="headerlink" href="#31" title="Permanent link">&para;</a></h3>
+<p>在任务二，需要同学们在我们提供的实验框架下实现一个完整的EXT2文件系统，这个文件系统需要满足以下一些条件：</p>
+<p>（1）支持 <strong>挂载与卸载</strong>、 <strong>查看目录和文件</strong>、<strong>创建文件和目录</strong> 。能完成挂载和卸载，并支持<code>ls</code>，<code>touch</code>、<code>mkdir</code>命令。</p>
+<p>（2）该文件系统的 <strong>逻辑块大小</strong> 应该为1024B，也就是两个磁盘的IO单位（512B）。</p>
+<p>（3）该文件系统的磁盘布局应该按顺序依次包括（如下图）：超级块、索引节点位图、数据块位图、索引节点区、数据块区。五个区域 <strong>缺一不可</strong>。但具体的每个区域占多少个逻辑块，同学可以自行设计。</p>
+<p><img alt="" src="../part3.assets/%E4%BB%BB%E5%8A%A12%E5%B8%83%E5%B1%80.png" /></p>
+<p>（4）实现 <strong>按需分配</strong> 文件数据块，利用好数据块位图，当文件需要新的数据块来写内容的时候才分配，而不是采用预先分配。</p>
+<p>（提示：参考<a href="../part2#123">文件的表示</a>中数据的存放。本次实验的必做部分不要求实现普通文件的写，也就是普通文件不需要额外分配数据块。只需要为目录文件在合适的时候，如<code>mknod</code>、<code>mkdir</code>时候为父目录分配数据块即可）</p>
+<p>（5）出于测评脚本考虑，本次实验 <strong>统一规定</strong> <strong>不实现"."和".."两个特殊目录</strong>。此外，本次实验一个inode只对应到一个文件，无需考虑软链接和硬链接的实现（也可选做）；只用实现直接索引，无需考虑间接索引（也可选做）。</p>
+<h3 id="32">3.2 实现步骤<a class="headerlink" href="#32" title="Permanent link">&para;</a></h3>
+<p>为了降低同学们的上手成本，我们为提供同学们提供了一个实现了完整功能的文件系统样例，<code>simplefs</code>，供同学们参考学习其部分实现。<strong>值得注意的是</strong>，本次任务二要实现的文件系统从磁盘布局上就和simplefs不一样，因此在有关文件系统接口的实现上也会不同。评测脚本会检查同学们的磁盘布局分布，<code>simplefs</code>无法通过所有测评， <strong>若布局监测未通过，则扣除一半分数</strong> 。</p>
+<h4 id="321">3.2.1 磁盘布局设计<a class="headerlink" href="#321" title="Permanent link">&para;</a></h4>
+<p>首先，在 <strong>逻辑块大小</strong> 上，本次实验逻辑块大小为1024B，后续的布局设计和接口实现均要使用到此大小。阅读学习<code>simplefs</code>代码的同学，需要注意到<code>simplefs</code>直接将一个磁盘IO块（512B）作为了一个逻辑块，也就是其逻辑块为512B，而本次实验要实现的青春版EXT2文件系统将两个IO块作为一个逻辑块（1024B）。<strong>后续布局检查会基于1024B逻辑块进行检查，因此同学们需要注意</strong>。</p>
+<p>前面提到，本次实验 <strong>磁盘布局</strong> 应该包括：超级块、索引节点位图、数据块位图、索引节点区、数据块区五个区域。阅读和学习<code>simplefs</code>代码的同学，也需要注意到<code>simplefs</code>的磁盘布局上和本次实验的差别，如下图：</p>
+<p><img alt="fs-diff" src="../part3.assets/fs-diff.svg" /></p>
+<div class="admonition note">
+<p class="admonition-title">补充</p>
+<p><strong>simplefs</strong> 采用固定分配的方式来维护文件，因此无需数据块位图，一个文件固定分配1个逻辑块当索引节点，16个逻辑块当数据块，索引节点和数据块一起放置，简单便于索引，但利用率不高。<strong>本次实验</strong> 将一个文件的索引节点和数据进行了分离，形成索引节点区和数据块区，灵活为每个文件按需分配数据块，但也需要数据块位图来记录数据块分配情况。</p>
+</div>
+<p><strong>本次实验的磁盘布局设计</strong> 要求同学们根据自己对文件系统的设计，确定上述每个区域分别需要多少个逻辑块。主要是通过假设估算和自己确定大小的方式来进行设计，最终只需要让文件系统根据磁盘布局正常工作即可。</p>
+<div class="admonition note">
+<p class="admonition-title">一个设计的简单例子</p>
+<p>磁盘容量为4MB，逻辑块大小为1024B，那么逻辑块数应该是4MB / 1024B = 4096。我们采用直接索引，假设每个文件最多直接索引6个逻辑块来填写文件数据，也就是每个文件数据上限是6 * 1024B = 6KB。假设一个文件的索引节点，采用一个逻辑块存储（见下面说明）。那么维护一个文件所需要的存储容量是6KB + 1KB = 7KB。那么4MB磁盘，最多可以存放的文件数是4MB / 7KB = 585。</p>
+<ul>
+<li>超级块，1个逻辑块。超级块区需要保存刷回磁盘的<code>struct super_block_d</code>，一般这个结构体的大小会小于1024B，我们用一个逻辑块作为超级块存储<code>struct super_block_d</code>即可。</li>
+<li>索引节点位图，1个逻辑块。上述文件系统最多支持585个文件维护，一个逻辑块（1024B）的位图可以管理1024 * 8 = 8192个索引节点，完全足够。</li>
+<li>数据块位图，1个逻辑块。上述文件系统总共逻辑块数才4096，一个逻辑块（1024B）的位图可以管理8192个逻辑块，足够。</li>
+<li>索引节点区，585个逻辑块。上述文件系统假设一个逻辑块放一个索引节点<code>struct inode_d</code>，585个文件需要有585索引节点，也就是585个逻辑块。</li>
+<li>数据块区，3508个逻辑块。剩下的都作为数据块，还剩4096 - 1 - 1 - 1 - 585 = 3508个逻辑块。</li>
+</ul>
+<p>注：<code>struct inode_d</code>的大小一般是比1024B小很多的，一个逻辑块放一个<code>struct inode_d</code>会显得有点奢侈，这里是简单起见，同学们可以确定<code>struct inode_d</code>的大小后，自行决定一个逻辑块放多少个索引节点<code>struct inode_d</code>。</p>
+</div>
+<p>设计好有关布局后，<strong>如何在文件系统中体现和实现呢</strong> ？仔细阅读实验原理的同学会记得，是超级块。这些布局信息会被维护在超级块<code>struct super_block_d</code>（to-Disk型）和<code>struct super_block</code>（in-Mem型）中，在文件系统 <strong>第一次挂载</strong> 在磁盘上的时候，文件系统会按照上述的思路计算出布局信息的各个字段，将它填写到超级块结构中进行维护。大致代码的思路如下所示：</p>
+<div class="highlight"><pre><span></span><code><span class="kt">int</span><span class="w"> </span><span class="nf">your_mount</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">options</span><span class="w"> </span><span class="n">opt</span><span class="p">){</span>
+<span class="w">    </span><span class="p">...</span>
+<span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="w"> </span><span class="cm">/* 第一次挂载 */</span><span class="w"> </span><span class="p">){</span>
+
+<span class="w">        </span><span class="cm">/* 将上述估算思路用代码实现 */</span>
+
+<span class="w">        </span><span class="cm">/* 填充超级块的磁盘布局信息字段 */</span>
+<span class="w">        </span><span class="n">super_block_d</span><span class="p">.</span><span class="n">sb_offset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="cm">/* 估算结果 */</span><span class="p">;</span><span class="w">           </span><span class="c1">// 超级块于磁盘中的偏移，默认为0</span>
+<span class="w">        </span><span class="n">super_block_d</span><span class="p">.</span><span class="n">sb_blks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="cm">/* 估算结果 */</span><span class="p">;</span><span class="w">             </span><span class="c1">// 超级块于磁盘中的逻辑块数</span>
+
+<span class="w">        </span><span class="n">super_block_d</span><span class="p">.</span><span class="n">ino_map_offset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="cm">/* 估算结果 */</span><span class="p">;</span><span class="w">      </span><span class="c1">// 索引节点位图于磁盘中的偏移</span>
+<span class="w">        </span><span class="n">super_block_d</span><span class="p">.</span><span class="n">ino_map_blks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="cm">/* 估算结果 */</span><span class="p">;</span><span class="w">        </span><span class="c1">// 索引节点位图于磁盘中的块数</span>
+
+<span class="w">        </span><span class="p">...</span><span class="w"> </span><span class="c1">// 其他区域同理</span>
+
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="p">...</span>
+<span class="p">}</span>
+</code></pre></div>
+<h4 id="322">3.2.2 磁盘交互的封装<a class="headerlink" href="#322" title="Permanent link">&para;</a></h4>
+<p>本次实验的驱动接口（见<a href="./part2#21">实验原理-驱动接口查阅</a>）为我们提供了读写模拟磁盘的方法，<code>ddriver_read</code>和<code>ddriver_write</code>，利用这两个接口能够实现往模拟磁盘读取或写入一个IO块大小的数据。同时提供了<code>ddriver_seek</code>来移动要读取或写入的起始位置，也就是磁盘头。</p>
+<p>但上述接口每次读写的数据量固定为一个磁盘IO块的大小（512B），并且移动磁盘头的位置必须和512B保持对齐。为了能够更加灵活往磁盘任何一个位置<code>offset</code>读写任意大小<code>size</code>的数据，例如从磁盘开始位置处读出或写入<code>struct super_block_d</code>超级块结构体。同学们可以利用提供原始驱动接口<code>ddriver_read</code>和<code>ddriver_write</code>，完成一层封装，大概思路是先把数据所在的磁盘块都读出来，然后再从这一部分读出的数据中读写相应的数据，若是写，则要把读入修改的部分再写回磁盘。下面简要介绍实现<code>your_read</code>方法。</p>
+<div class="highlight"><pre><span></span><code><span class="kt">int</span><span class="w"> </span><span class="nf">your_read</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">offset</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">out_content</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">size</span><span class="p">);</span>
+</code></pre></div>
+<p><img alt="read-offset" src="../part3.assets/read-offset.svg" /></p>
+<p><code>your_read</code>根据传入的offset和size，确定要读取的数据段和512B对齐的下界down和上界up。利用<code>ddriver_seek</code>移动把磁盘头到down位置，然后用<code>ddriver_read</code>读取一个磁盘块，再移动磁盘头读取下一个磁盘块，最后将从down到up的磁盘块都读取到内存中。然后拷贝所需要的部分，从bias处开始，大小为size，进行返回。</p>
+<p><code>your_write</code>的封装实现类似，区别在于写需要经过 <strong>读-修改-写</strong> 三个阶段。先读出需要的磁盘块到内存，然后在内存覆盖指定内容，然后将读出的磁盘块再依次写回到内存。</p>
+<p><code>SimepleFS</code>提供了一个较完善的磁盘交互的封装，大家可以参考<code>simplefs</code>的进行代码实现。</p>
+<h4 id="323">3.2.3 文件系统接口的实现<a class="headerlink" href="#323" title="Permanent link">&para;</a></h4>
+<p>在实验原理部分，我们为同学们介绍了ext2文件系统中常用的几种数据结构，超级块<code>super_block</code>，索引节点<code>inode</code>，目录项<code>dentry</code>以及它们的两种类型（in-Mem类型和to-Disk类型）。同学们在实现下述文件系统接口的时候，根据自己的需求来添加相关字段，或者如有需要设计新的数据结构。</p>
+<p>下面给出本次实验需要完成的接口的实现参考，同学们可以对照着来帮助理解<code>simplefs</code>的代码，以及参考着完成自己的文件系统实现。</p>
+<h5 id="3231">3.2.3.1 挂载与卸载<a class="headerlink" href="#3231" title="Permanent link">&para;</a></h5>
+<p>在实验原理，我们已经知道超级块常包括幻数，磁盘布局信息，根目录索引等字段。</p>
+<p><strong>（1）挂载函数</strong></p>
+<p>文件系统的 <strong>挂载函数</strong>，其核心是为文件系统构建和填充一个超级块<code>struct super_block</code>（in-Mem类型）数据结构来供文件系统后续的使用。如果是 <strong>第一次挂载</strong>，超级块的构建需要完全重新进行。如果之前已经挂载过，这 <strong>非第一次挂载</strong>，超级块的构建只需要从磁盘中读取之前存储的<code>struct super_block_d</code>（to-Disk类型），然后用来填充和构建<code>struct super_block</code>（in-Mem类型）即可。</p>
+<p>如何判断是否为第一次挂载？判断第一次挂载与否是通过尝试从磁盘预设的位置读取超级块，并判断是否存在约定的幻数<code>magic_number</code>来实现的。</p>
+<p>挂载时构建的超级块需要维护哪些字段？在挂载构建的超级块<code>struct super_block</code>（in-Mem类型）是全局的结构，通常要包括最基本的 <strong>磁盘布局信息</strong> 来供全局使用，还可以 <strong>预先读取两种位图</strong> 到内存中来供全局使用，并需要 <strong>维护根目录</strong> 的作为整个文件系统入口来供全局使用。</p>
+<p>挂载函数实现的大致示意如下图所示：</p>
+<p><img alt="mount" src="../part3.assets/mount.svg" /></p>
+<p>在FUSE中，挂载函数对应的钩子是<code>.init</code>，同学们实现好挂载函数后，需要将自己的挂载函数添加到<code>.init</code>钩子上。</p>
+<p><code>.init</code>的钩子函数原型如下：</p>
+<div class="highlight"><pre><span></span><code><span class="kt">void</span><span class="o">*</span><span class="w"> </span><span class="nf">init</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">fuse_conn_info</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">conn_info</span><span class="p">);</span>
+</code></pre></div>
+<p>同学们创建的挂载函数需要和上述函数声明保持一致，本次实验同学们无需关注挂载函数的传入参数，照着声明即可。</p>
+<div class="admonition note">
+<p class="admonition-title">补充</p>
+<p>实验原理提到父目录的数据块存放所有子文件的<code>struct dentry_d</code>结构。做路径解析时，解析到父目录时，会将这些<code>struct dentry_d</code>全部从父目录的数据块中读出从而得到子文件dentry结构。由于根目录不存在父目录，因此根目录的dentry比较特殊，不会保存在磁盘中，不会从父目录的数据块读出，而是每次在挂载文件系统时，为根目录新创建一个dentry，然后再和根目录的inode关联起来。</p>
+</div>
+<p><strong>（2）卸载函数</strong></p>
+<p>本次实验要求同学们实现重新挂载的功能，这意味着在卸载文件系统的时候，要实现将相关数据结构刷回磁盘的操作。</p>
+<p>文件系统的 <strong>卸载函数</strong>，主要是根据磁盘布局设计，将文件系统有关的 <strong>数据结构写回</strong> 到磁盘指定的位置，以供文件系统下次挂载时能够再次读取和使用。本次实验，在文件系统卸载时，要考虑将几类结构写回磁盘：（1）超级块<code>struct super_block_d</code>结构；（2）两种位图，索引节点位图和数据块位图；（3）所有的文件数据及其管理结构，包括文件数据data，文件的目录项<code>struct dentry_d</code>结构和文件的索引节点<code>struct inode_d</code>结构。最后，在本次实验中，卸载函数还需要关闭在挂载时打开的磁盘。</p>
+<p>卸载原理示意如下：</p>
+<p><img alt="umount" src="../part3.assets/umount.svg" /></p>
+<div class="admonition note">
+<p class="admonition-title">注意</p>
+<p>这里的文件既包括目录文件（dir），又包括普通文件（file）。之前提到，父目录的数据块会保存所有子文件的<code>struct dentry_d</code>结构。刷回目录文件（dir）的数据内容也就是指把所有子文件的<code>struct dentry_d</code>结构刷回到目录文件的指定数据块中。</p>
+</div>
+<p>如何刷回所有的文件？超级块和两个位图的刷回比较直接，将结构体写回到磁盘中预定的位置即可。以 <strong>层次关系</strong> 组织起来的文件，并且包括 <strong>索引节点</strong> <code>struct inode_d</code>、<strong>目录项</strong><code>struct dentry_d</code>、<strong>文件数据</strong> data三种内容的写回，相对复杂一点。下面提供了一种 <strong>递归写回</strong> 的思路，这和同学们在实验一（xv6 utils）的<code>find</code>实现上有异曲同工之妙。</p>
+<p>这个递归函数的 <strong>核心</strong> 是：先写传入文件的 <strong>索引节点</strong> <code>struct inode_d</code>，然后再写这个文件的 <strong>文件数据</strong> data（特别的，写目录文件的文件数据data就是在写回所有子文件的 <strong>目录项</strong> <code>struct dentry_d</code>），对于目录文件还会额外 <strong>递归进入每个子文件</strong>，从而完成全部文件的写回。</p>
+<p>其主要流程如下图所示（参考<code>sfs_sync_inode</code>）：</p>
+<p><img alt="" src="../part3.assets/flush.svg" /></p>
+<p>在FUSE中，挂载函数对应的钩子是<code>.destroy</code>，同学们实现好卸载函数后，需要将自己的卸载函数添加到<code>.destroy</code>钩子上。</p>
+<p><code>.destroy</code>的钩子函数原型如下：</p>
+<div class="highlight"><pre><span></span><code><span class="kt">void</span><span class="o">*</span><span class="w"> </span><span class="nf">destroy</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="w"> </span><span class="n">p</span><span class="p">);</span>
+</code></pre></div>
+<p>同学们创建的卸载函数需要和上述函数声明保持一致，本次实验同学们无需关注卸载函数的传入参数，照着声明即可。</p>
+<h5 id="3232">3.2.3.2 创建文件和目录<a class="headerlink" href="#3232" title="Permanent link">&para;</a></h5>
+<p>在实验原理和前面的讨论，我们知道，在文件系统中，一个文件应该包括 <strong>索引节点</strong> <code>inode</code>，<strong>目录项</strong> <code>dentry</code>（位于父目录的数据块中），以及 <strong>文件的数据</strong> data。创建一个文件应该要实现前两个部分的创建和维护，而文件数据为空。<strong>目录项</strong> <code>dentry</code>体现层级关系，索引节点<code>inode</code>用于文件自身索引。</p>
+<p>本次实验要求同学们实现创建普通文件和创建目录文件，依次对应<code>mknod</code>和<code>mkdir</code>两个钩子函数，都会根据传入的一个路径来创建对应的文件。</p>
+<p>普通文件和目录文件都属于文件，两者创建的实现大体上是一致的，其核心主要都包括：（1）<strong>路径解析</strong>（lookup），得到父目录的<code>dentry</code>；（2）创建新的 <strong>目录项结构</strong> <code>dentry</code>结构维护到上述得到的父目录中；（3）分配新的 <strong>索引节点</strong> <code>inode</code>。不同之处在于两者创建的文件类型是不一样的。</p>
+<p>创建普通文件和创建目录文件的主要流程如下图所示：</p>
+<p><img alt="mkdir-mknod" src="../part3.assets/mkdir-mknod.svg" /></p>
+<p><strong>（1）路径解析，得到父目录的dentry</strong></p>
+<p>首先介绍路径 <strong>解析的逻辑</strong> 。在<code>simplefs</code>中路径解析对应着<code>sfs_lookup</code>函数。以<code>/hunt/bin.o</code>为例，并假设路径存在。如下图所示，所有的路径解析都会从 <strong>根目录</strong> 开始，由超级块维护的根目录<code>dentry</code>，读取根目录的<code>inode</code>（在读取<code>inode</code>的时候会把数据块的内容读取进来，即所有子文件的<code>dentry_d</code>），然后依次遍历所有子文件的<code>dentry</code>，找到文件名为<code>hunt</code>的<code>dentry</code>，然后再读取<code>hunt</code>的<code>inode</code>。然后根据<code>hunt</code>的<code>inode</code>，再依次遍历所有子文件的<code>dentry</code>，找到文件名为<code>bin.o</code>的<code>dentry</code>。路径解析找到该文件，返回其<code>dentry</code>。</p>
+<p>上述介绍的是找到文件的情况，这种情况通常会用于<a href="./#3233">查找文件和目录</a>的实现。
+<img alt="lookup" src="../part3.assets/lookup.svg" /></p>
+<p>但在创建文件和目时，<strong>文件还不存在</strong>，传入的路径名是无法解析到其对应的<code>dentry</code>的。相反，假设解析到存在对应的<code>dentry</code>了，则说明文件重名了，应该做异常处理。以<code>/hunt/YBYB</code>为例，并假设路径还不存在。如上图所示，只需要按照刚刚所述的路径解析逻辑，最终未找到直接返回其父目录的<code>dentry</code>即可，供实现两个钩子函数下一步使用。</p>
+<p>然后，介绍 <strong>如何从<code>dentry</code>到<code>inode</code></strong> 。刚刚提到由<code>dentry</code>可以读取到对应的<code>inode</code>，因为<code>dentry</code>维护有该文件对应的<code>inode</code>编号，有了编号，就可以按照磁盘布局设计，从磁盘指定的位置读取出对应的<code>inode_d</code>，如下图所示。在读取<code>inode</code>的时候可以预先读取对应文件的内容到内存中，方便文件系统的使用。特别的，对于目录文件，读取完其内容后，还应该动态的在文件系统维护好所有子文件的<code>dentry</code>。</p>
+<p>下面为同学们提供一种用链表的方式，让文件系统在内存中来维护一个目录所有子文件的<code>dentry</code>的方式。父目录的<code>inode</code>（in-Mem型）添加一个指针，指向第一个子文件的dentry。然后子文件的<code>dentry</code>（in-Mem型）添加一个指针，指向相邻的兄弟子文件的<code>dentry</code>。如下面的结构体定义。</p>
+<div class="highlight"><pre><span></span><code><span class="k">struct</span><span class="w"> </span><span class="nc">inode</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// ... 其他字段</span>
+<span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">dentry</span><span class="o">*</span><span class="w"> </span><span class="n">first_child</span><span class="p">;</span><span class="w"> </span>
+<span class="p">}</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="k">struct</span><span class="w"> </span><span class="nc">dentry</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// ... 其他字段</span>
+<span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">dentry</span><span class="o">*</span><span class="w"> </span><span class="n">brother</span><span class="p">;</span><span class="w"> </span>
+<span class="p">}</span>
+</code></pre></div>
+<p>这样就可以通过链表串起父目录的所有的子文件了，其中<code>inode-&gt;first_child</code>指向链表头节点，<code>dentry-&gt;brother</code>指向链表下一个节点。如下图所示的链表型（<code>simplefs</code>实现所示），本次实验同学们可以参考<code>simplefs</code>使用链表型。</p>
+<p><img alt="dentry-index" src="../part3.assets/dentry-index.svg" /></p>
+<div class="admonition note">
+<p class="admonition-title">目录项索引</p>
+<p>除了构建为链表外，现代文件系统一般通过维护哈希表、红黑树等结构索引内存中的目录项，有兴趣的同学可以阅读相关Linux代码实现。</p>
+</div>
+<p><strong>（2）创建新的dentry结构，添加到父目录</strong></p>
+<p>这部分的逻辑在<code>simplefs</code>中对应<code>sfs_alloc_dentry</code>函数（参见上述mknod/mkdir主要流程示意图）</p>
+<p>在路径解析，我们返回了父目录的<code>dentry</code>。并且前面我们已经介绍了一种在内存中，父目录<code>inode</code>通过链表维护所有子文件<code>dentry</code>的实现。</p>
+<p>当需要新增加一个<code>dentry</code>到父目录时，采用头插法。只需要修改父目录<code>inode</code>中的指针指向新增的<code>dentry</code>结构，新增的<code>dentry</code>的兄弟指针指向原来第一个子文件<code>dentry</code>即可。</p>
+<div class="admonition note">
+<p class="admonition-title">注意</p>
+<p>将子文件<code>dentry</code>指针添加到父目录<code>inode</code>字段中，只是在文件系统运行时，一种方便管理的位于内存的组织方式。当文件系统卸载，刷回磁盘，会按照上述方式遍历所有的父目录的所有子文件<code>dentry</code>结构，将其写回到父目录数据块的指定位置。</p>
+</div>
+<p>我们可能还需要为新增的<code>dentry</code>预先申请一个新的父目录的数据块来供对应的<code>dentry_d</code>写回磁盘时使用（如果父目录原来申请的数据块已经放满了）。本次实验中，暂不涉及文件的读写，也就是普通文件均不用申请数据块，文件大小也都是0。但对于目录文件，则需要申请数据块，来存放子文件的<code>dentry_d</code>。</p>
+<p>申请一个数据块的流程示意图如下，通过逐个位查找数据块位图，找到第一个空闲数据块下表并返回。</p>
+<p><img alt="bitmap" src="../part3.assets/bitmap.png" /></p>
+<p><strong>（3）分配新的索引节点inode</strong></p>
+<p>这部分的逻辑在<code>simplefs</code>中对应<code>sfs_alloc_inode</code>函数（参见上述mknod/mkdir主要流程示意图）。</p>
+<p>新创建的文件还需要为其 <strong>分配一个索引节点</strong> <code>inode</code>：通过逐个位遍历索引节点位图（参考上述数据块位图的遍历），找到一个空闲的索引节点编号，然后创建一个新的索引节点<code>inode</code>，绑定该编号，并填写<code>inode</code>一些字段（后续在写回的时候写回到该编号对应的索引节点位置即可）。</p>
+<p>在<a href="../part2#124">实验原理-目录项的表示</a>的介绍中，我们知道<code>dentry</code>能够索引到对应的<code>inode</code>，也就是说<code>dentry</code>会和一个<code>inode</code>进行绑定。我们创建好新的索引节点<code>inode</code>后，要和 <strong>传入的对应目录项</strong>  <code>dentry</code>进行 <strong>绑定</strong> 。参考代码如下：</p>
+<div class="highlight"><pre><span></span><code><span class="k">struct</span><span class="w"> </span><span class="nc">sfs_inode</span><span class="o">*</span><span class="w"> </span><span class="n">sfs_alloc_inode</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">sfs_dentry</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">dentry</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="cm">/* 遍历索引节点位图 分配inode */</span>
+<span class="w">    </span><span class="p">...</span>
+
+<span class="w">    </span><span class="cm">/* dentry绑定该inode */</span>
+<span class="w">    </span><span class="n">dentry</span><span class="o">-&gt;</span><span class="n">inode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">inode</span><span class="p">;</span>
+<span class="w">    </span><span class="n">dentry</span><span class="o">-&gt;</span><span class="n">ino</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">inode</span><span class="o">-&gt;</span><span class="n">ino</span><span class="p">;</span>
+<span class="w">    </span><span class="p">...</span>
+
+<span class="p">}</span>
+</code></pre></div>
+<p>通过以上三大步，同学们就可以完成 <strong>创建文件</strong> 函数的编写，包括 <strong>创建普通文件</strong> 和 <strong>创建目录文件</strong> 。创建普通文件对应的钩子函数是<code>.mknod</code>，创建目录文件对应的钩子函数是<code>.mkdir</code>。同学们实现好创建普通文件和创建目录文件的钩子函数后，需要将自己的两个函数分别添加到<code>.mknod</code>和<code>.mkdir</code>钩子上。</p>
+<p><code>.mknod</code>的函数原型如下，实现的创建普通文件函数要和以下声明保持一致：</p>
+<div class="highlight"><pre><span></span><code><span class="kt">int</span><span class="w"> </span><span class="n">mknod</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">path</span><span class="p">,</span><span class="w"> </span><span class="kt">mode_t</span><span class="w"> </span><span class="n">mode</span><span class="p">,</span><span class="w"> </span><span class="kt">dev_t</span><span class="w"> </span><span class="n">dev</span><span class="p">)</span>
+</code></pre></div>
+<ul>
+<li><code>path</code>是要创建文件相对于文件系统的根目录<code>/</code>的绝对路径。</li>
+<li><code>mode</code>可以用来判断要文件请求发来的要创建文件的类型（目录文件还是普通文件）。</li>
+<li>本次实验，不需要关心<code>dev</code>参数。</li>
+</ul>
+<p><code>.mkdir</code>的函数原型如下，实现的创建目录文件函数要和以下声明保持一致：</p>
+<div class="highlight"><pre><span></span><code><span class="kt">int</span><span class="w"> </span><span class="n">mkdir</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">path</span><span class="p">,</span><span class="w"> </span><span class="kt">mode_t</span><span class="w"> </span><span class="n">mode</span><span class="p">)</span>
+</code></pre></div>
+<ul>
+<li><code>path</code>是要创建文件相对于文件系统的根目录<code>/</code>的绝对路径。</li>
+<li><code>mode</code>可以用来判断要文件请求发来的要创建文件的类型（目录文件还是普通文件）。</li>
+</ul>
+<h5 id="3233">3.2.3.3 显示文件和目录<a class="headerlink" href="#3233" title="Permanent link">&para;</a></h5>
+<p><strong>（1）获取文件属性</strong></p>
+<p>在显示一个文件的时候，需要查看文件的属性，如文件大小、文件类型等信息。文件的属性在Linux中通过一个<code>stat</code>的结构体来维护。</p>
+<p>获取文件属性的函数的核心就是要实现填充好对应的<code>stat</code>结构体，并向上层返回。获取文件属性的函数对应<code>getattr</code>钩子。</p>
+<p>首先进行 <strong>路径解析的逻辑</strong>  （在<a href="./#3232">创建文件</a>一小节已经介绍过）得到传入路径对应的<code>dentry</code>结构，然后就可以根据<code>dentry</code>及其索引的<code>inode</code>结构的字段来 <strong>填充<code>stat</code>结构体</strong> 的字段。一个示例代码如下：</p>
+<div class="highlight"><pre><span></span><code><span class="kt">int</span><span class="w"> </span><span class="nf">sfs_getattr</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">path</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">stat</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">sfs_stat</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="cm">/* 路径解析 */</span>
+<span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">sfs_dentry</span><span class="o">*</span><span class="w"> </span><span class="n">dentry</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sfs_lookup</span><span class="p">(</span><span class="n">path</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">is_find</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">is_root</span><span class="p">);</span>
+
+<span class="w">    </span><span class="cm">/* 结构体填充 */</span>
+<span class="w">    </span><span class="n">sfs_stat</span><span class="o">-&gt;</span><span class="n">st_mode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">...</span>
+<span class="w">    </span><span class="n">sfs_stat</span><span class="o">-&gt;</span><span class="n">st_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">...</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><code>stat</code>结构体通常需要填充如下一些常用字段，同学们需要完成这些字段的填充：</p>
+<table>
+<thead>
+<tr>
+<th>结构体字段</th>
+<th>字段含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>st_size</td>
+<td>文件的大小</td>
+</tr>
+<tr>
+<td>st_mode</td>
+<td>文件的模式，包括文件的权限、文件类型</td>
+</tr>
+<tr>
+<td>st_nlink</td>
+<td>文件的连接数，即多少硬链接</td>
+</tr>
+<tr>
+<td>st_uid</td>
+<td>文件所有者的用户ID</td>
+</tr>
+<tr>
+<td>st_gid</td>
+<td>文件所有者的组ID</td>
+</tr>
+<tr>
+<td>st_blksize</td>
+<td>文件所在文件系统的逻辑块大小</td>
+</tr>
+<tr>
+<td>st_blocks</td>
+<td>文件所占的块数</td>
+</tr>
+<tr>
+<td>st_atime</td>
+<td>文件最近一次访问时间</td>
+</tr>
+<tr>
+<td>st_mtime</td>
+<td>文件最近一次修改时间</td>
+</tr>
+</tbody>
+</table>
+<p>以下有一些实现中的注意事项：</p>
+<ul>
+<li>
+<p>关于<code>st_nlink</code>。本次实验不考虑硬链接，约定链接数均为1。值得注意的是，根目录具有特殊性，为保证文件目录树的完整，一般文件系统会约定其链接数为2。</p>
+</li>
+<li>
+<p>关于<code>st_mode</code>。本次实验可默认文件权限均为（0777）。在Linux中通过<code>S_IFREG</code>来表示普通文件，<code>S_IFDIR</code>表示目录文件。如果想表示一个默认权限为0777的普通文件，其<code>st_mode</code>应该是0777 | <code>S_IFDIR</code>。</p>
+</li>
+<li>
+<p>关于<code>st_uid</code>和<code>st_gid</code>。可以通过<code>getuid()</code>和<code>getgid()</code>获取当前用户的用户ID和组ID。</p>
+</li>
+</ul>
+<p>获取文件属性对应的钩子函数是<code>.getattr</code>，同学们实现好显示文件属性的函数后，需要将该函数添加到<code>.getattr</code>钩子上。</p>
+<p><code>.getattr</code>的函数原型如下，实现的显示文件属性函数要和以下声明保持一致：</p>
+<div class="highlight"><pre><span></span><code><span class="kt">int</span><span class="w"> </span><span class="nf">getattr</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">path</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">stat</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">stat</span><span class="p">);</span>
+</code></pre></div>
+<ul>
+<li><code>path</code>是要读取属性的文件路径。</li>
+<li><code>stat</code>是要填充返回的文件属性结构体。</li>
+</ul>
+<p><strong>（2）读取目录</strong></p>
+<p>想要查看一个目录下有哪些文件的时候，需要用到读取目录的钩子函数。读取目录的函数主要是将 <strong>子文件的文件名</strong> 填充到 <strong>指定的缓冲区</strong> 即可。</p>
+<p>读取目录函数主要负责的是：<strong>解析</strong> 父目录路径，并根据子文件偏移<code>offset</code>获取到对应的 <strong>子文件文件名</strong> 。</p>
+<p>拿到结果（子文件文件名）之后如何返回给上层呢？读取目录函数 <strong>直接调用</strong> 上层传入的装填函数<code>filler</code>即可！上层实现并传入的装填函数<code>filler</code>决定怎么填充这个结果到缓冲区中，和文件系统的读取目录函数无关，<code>readdir</code>只需要知道有这么个装填函数<code>filler</code>，直接调用即可。 一个参考如下：</p>
+<p><div class="highlight"><pre><span></span><code><span class="kt">int</span><span class="w"> </span><span class="nf">sfs_readdir</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">path</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">buf</span><span class="p">,</span><span class="w"> </span><span class="n">fuse_fill_dir_t</span><span class="w"> </span><span class="n">filler</span><span class="p">,</span><span class="w"> </span><span class="kt">off_t</span><span class="w"> </span><span class="n">offset</span><span class="p">,</span>
+<span class="w">                </span><span class="k">struct</span><span class="w"> </span><span class="nc">fuse_file_info</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">fi</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="cm">/* 解析父目录路径 */</span>
+<span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">sfs_dentry</span><span class="o">*</span><span class="w"> </span><span class="n">dentry</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sfs_lookup</span><span class="p">(</span><span class="n">path</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">is_find</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">is_root</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">is_find</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="cm">/* 根据offset获取到对应的子文件名 */</span>
+<span class="w">        </span><span class="n">sub_dentry</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sfs_get_dentry</span><span class="p">(</span><span class="n">dentry</span><span class="o">-&gt;</span><span class="n">inode</span><span class="p">,</span><span class="w"> </span><span class="n">offset</span><span class="p">);</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">sub_dentry</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="cm">/* 直接调用filler来装填结果 */</span>
+<span class="w">            </span><span class="n">filler</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span><span class="w"> </span><span class="n">sub_dentry</span><span class="o">-&gt;</span><span class="n">fname</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="o">++</span><span class="n">offset</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+其中，调用<code>filler</code>的时候需要的<code>filler</code>钩子函数的原型如下：</p>
+<div class="highlight"><pre><span></span><code><span class="kt">int</span><span class="w"> </span><span class="nf">filler</span><span class="p">(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">buf</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">stat</span><span class="w"> </span><span class="o">*</span><span class="n">stbuf</span><span class="p">,</span><span class="w"> </span><span class="kt">off_t</span><span class="w"> </span><span class="n">off</span><span class="p">);</span>
+</code></pre></div>
+<ul>
+<li><code>buf</code>是要装填结果<code>name</code>的缓冲区。</li>
+<li><code>name</code>是获取到的子文件的文件名。</li>
+<li><code>stbuf</code>无需关注，设置为<code>NULL</code>即可。</li>
+<li><code>off</code>是 <strong>下一个子文件</strong> 的偏移（第几个dentry，用于下次调用readdir的<code>offset</code>）。</li>
+</ul>
+<p>读取目录对应的钩子函数是<code>.readdir</code>，同学们实现好读取目录的函数后，需要将该函数添加到<code>.readdir</code>钩子上。</p>
+<p><code>.readdir</code>的函数原型如下，实现的读取目录函数要和以下声明保持一致：</p>
+<div class="highlight"><pre><span></span><code><span class="kt">int</span><span class="w"> </span><span class="nf">readdir</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">path</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">buf</span><span class="p">,</span><span class="w"> </span><span class="n">fuse_fill_dir_t</span><span class="w"> </span><span class="n">filler</span><span class="p">,</span><span class="w"> </span><span class="kt">off_t</span><span class="w"> </span><span class="n">offset</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">fuse_file_info</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">fi</span><span class="p">);</span>
+</code></pre></div>
+<ul>
+<li><code>path</code>是要读取的目录的路径。</li>
+<li><code>buf</code>是传入的装填返回结果的缓冲区。</li>
+<li><code>filler</code>是传入的上层自定义的装填函数。</li>
+<li><code>offset</code>是本次要要开始读取的子文件的偏移，<code>fi</code>无需关注。</li>
+</ul>
+<h3 id="33">3.3 测试<a class="headerlink" href="#33" title="Permanent link">&para;</a></h3>
+<p>和任务一类似，手动测试是自己手动挂载文件系统并调试。测评程序是实现了一组测试序列的脚本。</p>
+<h4 id="331">3.3.1 手动测试<a class="headerlink" href="#331" title="Permanent link">&para;</a></h4>
+<p>同学们完成任务二后，可以自行运行和挂载完成的文件系统来测试实现的功能的正确性。</p>
+<p>可以选择先通过如下命令将磁盘清空：</p>
+<div class="highlight"><pre><span></span><code>ddriver<span class="w"> </span>-r
+</code></pre></div>
+<p>检查<code>tests</code>目录下有无<code>mnt</code>目录，没有需要自己<code>mkdir mnt</code>创建一个，并保证这个目录是 <strong>空</strong> 的，否则<code>F5</code>无法挂载成功。</p>
+<p>挂载文件系统，VSCode按<code>F5</code>（或<code>Fn+F5</code>）（前提是已经按照<a href="./#13">环境搭建-项目编译</a>配置好任务二的编译环境）：</p>
+<p><img alt="" src="../part3.assets/f5%E8%BF%90%E8%A1%8C%E6%88%90%E5%8A%9F%E4%BB%BB%E5%8A%A1%E4%BA%8C.png" /></p>
+<p>挂载好后，在新的一个命令行，对<code>tests</code>目录下的<code>mnt</code>目录进行<code>ls</code>、<code>touch</code>、<code>mkdir</code>操作，均能符合预期功能，如下图所示。卸载文件系统后，重新挂载文件系统，<code>ls</code>也能查看到上次的文件。</p>
+<p><img alt="" src="../part3.assets/%E6%89%8B%E5%8A%A8%E6%B5%8B%E8%AF%95task2.png" /></p>
+<p>同任务一，同学们使用完文件系统后，及时 <strong>通过<code>fusermount</code>命令来卸载文件系统</strong> ，不要直接使用<code>ctrl + c</code>和VSCode终止的方式，避免影响下一次挂载。</p>
+<h4 id="332">3.3.2 测评程序<a class="headerlink" href="#332" title="Permanent link">&para;</a></h4>
+<p>我们为同学们提供了任务二的测评程序，位于<code>tests</code>目录下<code>test.sh</code>。</p>
+<p>在开始运行测评程序之前，需要同学们先 <strong>填写好<code>include</code>目录下的<code>fs.layout</code>文件</strong> ，供测评程序使用。<code>fs.layout</code>文件用于描述你的磁盘布局情况，其中()内的数值代表占多少个块，<code>BSIZE</code>代表逻辑块的大小：</p>
+<div class="highlight"><pre><span></span><code>| BSIZE = 1024 B |
+| Super(1) | Inode Map(1) | DATA Map(1) | INODE(1) | DATA(*) |
+</code></pre></div>
+<p>然后在<code>test</code>目录下（ <strong>请在此目录<code>tests</code>下运行测评程序！</strong> ），使用如下命令来运行测评程序：</p>
+<div class="highlight"><pre><span></span><code>chmod<span class="w"> </span>+x<span class="w"> </span>test.sh<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>./test.sh
+</code></pre></div>
+<p>测试方式：输入<code>N</code>，选择基础功能测试。</p>
+<p>下图为通过所有的测试用例：</p>
+<p><img alt="" src="../part3.assets/task2-pass.png" /></p>
+<p>测评脚本等价于运行了如下的序列的测试命令，同学们可以参考如下序列检查自己的问题。</p>
+<p>正确的序列如下（<strong>基础分30分</strong>）：</p>
+<ul>
+<li>
+<p><strong><code>F5</code>（或<code>Fn+F5</code>）挂载文件系统（1分）</strong></p>
+</li>
+<li>
+<p><strong>mkdir测试（4分）</strong></p>
+</li>
+</ul>
+<div class="highlight"><pre><span></span><code>mkdir<span class="w"> </span>./tests/mnt/dir0
+mkdir<span class="w"> </span>./tests/mnt/dir0/dir0
+mkdir<span class="w"> </span>./tests/mnt/dir0/dir0/dir0
+mkdir<span class="w"> </span>./tests/mnt/dir1
+</code></pre></div>
+<ul>
+<li><strong>touch测试（5分）</strong></li>
+</ul>
+<div class="highlight"><pre><span></span><code>touch<span class="w"> </span>./tests/mnt/file0
+touch<span class="w"> </span>./tests/mnt/dir0/file0
+touch<span class="w"> </span>./tests/mnt/dir0/dir0/file0
+touch<span class="w"> </span>./tests/mnt/dir0/dir0/dir0/file0
+touch<span class="w"> </span>./tests/mnt/dir1/file0
+</code></pre></div>
+<ul>
+<li><strong>ls测试（4分）</strong></li>
+</ul>
+<div class="highlight"><pre><span></span><code>mkdir<span class="w"> </span>./tests/mnt/dir0
+touch<span class="w"> </span>./tests/mnt/file0
+mkdir<span class="w"> </span>./tests/mnt/dir0/dir1
+mkdir<span class="w"> </span>./tests/mnt/dir0/dir1/dir2
+touch<span class="w"> </span>./tests/mnt/dir0/dir1/dir2/file4
+touch<span class="w"> </span>./tests/mnt/dir0/dir1/dir2/file5
+touch<span class="w"> </span>./tests/mnt/dir0/dir1/dir2/file6
+touch<span class="w"> </span>./tests/mnt/dir0/dir1/file3
+touch<span class="w"> </span>./tests/mnt/dir0/file1
+--------------
+ls<span class="w"> </span>./tests/mnt
+ls<span class="w"> </span>./tests/mnt/dir0
+ls<span class="w"> </span>./tests/mnt/dir0/dir1
+ls<span class="w"> </span>./tests/mnt/dir0/dir1/dir2
+</code></pre></div>
+<ul>
+<li><strong>remount测试（16分）</strong></li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="c1"># 卸载文件系统 1分</span>
+fusermount<span class="w"> </span>-u<span class="w"> </span>./tests/mnt
+
+<span class="c1"># remount结果显示正确 3分</span>
+ddriver<span class="w"> </span>-r
+F5<span class="o">(</span>或Fn+F5<span class="o">)</span>挂载文件系统
+mkdir<span class="w"> </span>./tests/mnt/dir0
+mkdir<span class="w"> </span>./tests/mnt/dir0/dir1
+mkdir<span class="w"> </span>./tests/mnt/dir0/dir1/dir2
+touch<span class="w"> </span>./tests/mnt/dir0/dir1/dir2/file4
+touch<span class="w"> </span>./tests/mnt/dir0/dir1/dir2/file5
+touch<span class="w"> </span>./tests/mnt/dir0/dir1/dir2/file6
+fusermount<span class="w"> </span>-u<span class="w"> </span>./tests/mnt
+F5<span class="o">(</span>或Fn+F5<span class="o">)</span>挂载文件系统
+--------------
+ls<span class="w"> </span>./tests/mnt/dir0/dir1/dir2
+
+<span class="c1"># 布局检查通过</span>
+ddriver<span class="w"> </span>-r
+F5<span class="o">(</span>或Fn+F5<span class="o">)</span>挂载文件系统
+touch<span class="w"> </span>./tests/mnt/hello
+ls<span class="w"> </span>./tests/mnt
+fusermount<span class="w"> </span>-u<span class="w"> </span>./tests/mnt
+python3<span class="w"> </span>./tests/checkbm/checkbm.py<span class="w"> </span>-l<span class="w"> </span>./include/fs.layout<span class="w"> </span>-r<span class="w"> </span>./tests/checkbm/golden.json
+</code></pre></div>
+<p>以上命令均测试成功（<strong>ls输出正常</strong>），则测试通过。</p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2023 - 2024 哈尔滨工业大学（深圳）
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+    <a href="mailto:<xiawen@hit.edu.cn>" target="_blank" rel="noopener" title="xiawen@hit.edu.cn" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M498.1 5.6c10.1 7 15.4 19.1 13.5 31.2l-64 416c-1.5 9.7-7.4 18.2-16 23s-18.9 5.4-28 1.6L284 427.7l-68.5 74.1c-8.9 9.7-22.9 12.9-35.2 8.1S160 493.2 160 480v-83.6c0-4 1.5-7.8 4.2-10.7l167.6-182.9c5.8-6.3 5.6-16-.4-22s-15.7-6.4-22-.7L106 360.8l-88.3-44.2C7.1 311.3.3 300.7 0 288.9s5.9-22.8 16.1-28.7l448-256c10.7-6.1 23.9-5.5 34 1.4z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.top", "navigation.tabs.sticky", "navigation.tracking"], "search": "../../assets/javascripts/workers/search.a264c092.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.6eac0284.min.js"></script>
+      
+        <script src="../../js/baidu-tongji.js"></script>
+      
+    
+  </body>
+</html>
