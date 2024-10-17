@@ -5,6 +5,9 @@
 #include "spinlock.h"
 #include "proc.h"
 #include "defs.h"
+#include "fs.h"
+#include "sleeplock.h"
+#include "file.h"
 
 struct cpu cpus[NCPU];
 
@@ -148,6 +151,11 @@ static void freeproc(struct proc *p) {
       if (p->vma[i].valid) {
         uint64 va0 = PGROUNDDOWN(p->vma[i].vma_start);
         uint64 vaend1 = PGROUNDUP(p->vma[i].vma_end);
+        if (!p->vma[i].private) {  // shared mmap
+          struct file *f = p->vma[i].file;
+          f->off = va0 - p->vma[i].vma_origin;
+          filewrite(f, va0, vaend1 - va0);
+        }
         uvmunmap_f(p->pagetable, va0, (vaend1 - va0) / PGSIZE);
       }
     }

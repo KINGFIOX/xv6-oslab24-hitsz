@@ -124,7 +124,7 @@ void mmap_test(void) {
   // file opened read-only.
   if ((fd = open(f, O_RDONLY)) == -1) err("open (2)");
   p = mmap(0, PGSIZE * 3, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
-  if (p != MAP_FAILED) err("mmap (3)");  // FIXME 这里
+  if (p != MAP_FAILED) err("mmap (3)");
   if (close(fd) == -1) err("close (2)");
 
   printf("test mmap read-only: OK\n");
@@ -141,11 +141,15 @@ void mmap_test(void) {
   // check that the mapping still works after close(fd).
   _v1(p);
 
+  // 上面 map_shared 了, 这里想文件写了东西
+
   // write the mapped memory.
   for (i = 0; i < PGSIZE * 2; i++) p[i] = 'Z';
 
   // unmap just the first two of three pages of mapped memory.
   if (munmap(p, PGSIZE * 2) == -1) err("munmap (3)");
+
+  // 我们就当 munmap 的时候 apply 就行了
 
   printf("test mmap read/write: OK\n");
 

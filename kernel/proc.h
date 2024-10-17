@@ -10,6 +10,7 @@ struct file;
 typedef struct VIRTUAL_MEMORY_AREA_STRUCT {
   uint64 vma_start;
   uint64 vma_end;
+  uint64 vma_origin;  // 用于 munmap 后计算 offset 的
   union {
     uint64 _mode_value;
     struct {

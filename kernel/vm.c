@@ -529,6 +529,8 @@ void *mmap(size_t len, int prot, int flags, struct file *f) {
 
   if (!found) return (void *)-1;
 
+  p->vma[i].vma_origin = start_addr;
+
   uint64 last = start_addr;
   while (last < start_addr + len) {
     pte_t *pte = walk(p->pagetable, last, 1);
@@ -550,9 +552,6 @@ void *mmap(size_t len, int prot, int flags, struct file *f) {
     *pte = pte_flags;
     last += PGSIZE;
   }
-
-  printf("---------- mmap ----------\n");
-  vmprint(p->pagetable);
 
   return (void *)start_addr;
 }
@@ -604,20 +603,28 @@ int munmap(void *addr, size_t len) {
       release(&ftable.lock);
       p->vma[i].file = 0;
 
-      //
+      // free pages
       uint64 va0 = PGROUNDDOWN(va);
       uint64 vaend1 = PGROUNDUP(va + len);
+      if (!p->vma[i].private) {  // shared mmap
+        f->off = va0 - p->vma[i].vma_origin;
+        filewrite(f, va0, vaend1 - va0);
+      }
       uvmunmap_f(p->pagetable, va0, (vaend1 - va0) / PGSIZE);
     } else {
       p->vma[i].vma_start = va + len;
+
+      // free pages
       uint64 va1 = PGROUNDUP(va);
       uint64 vaend0 = PGROUNDDOWN(va + len);
+      if (!p->vma[i].private) {  // shared mmap
+        struct file *f = p->vma[i].file;
+        f->off = va1 - p->vma[i].vma_origin;
+        filewrite(f, va1, vaend0 - va1);
+      }
       uvmunmap_f(p->pagetable, va1, (vaend0 - va1) / PGSIZE);
     }
   }
-
-  printf("---------- munmap ----------\n");
-  vmprint(p->pagetable);
 
   return 0;
 }
