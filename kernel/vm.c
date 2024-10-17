@@ -426,6 +426,10 @@ void *mmap(size_t len, int prot, int flags, struct file *f) {
       p->vma[i].vma_start = start_addr;
       p->vma[i].vma_end = start_addr + len;
       p->vma[i].file = f;
+      acquire(&ftable.lock);
+      if (f->ref < 1) panic("%s:%d", __FILE__, __LINE__);
+      f->ref++;
+      release(&ftable.lock);
       found = 1;
       break;
     }
@@ -441,6 +445,10 @@ void *mmap(size_t len, int prot, int flags, struct file *f) {
       p->vma[i].vma_end = 0;
       p->vma[i]._mode_value = 0;
       p->vma[i].file = 0;
+      acquire(&ftable.lock);
+      if (f->ref < 1) panic("%s:%d", __FILE__, __LINE__);
+      f->ref--;
+      release(&ftable.lock);
       printf("%s:%d\n", __FILE__, __LINE__);
       return (void *)-1;
     }
@@ -451,17 +459,64 @@ void *mmap(size_t len, int prot, int flags, struct file *f) {
     last += PGSIZE;
   }
 
-  acquire(&ftable.lock);
-  if (f->ref < 1) panic("filedup");
-  f->ref++;
-  release(&ftable.lock);
-
   return (void *)start_addr;
 }
 
 int munmap(void *addr, size_t len) {
-  // TODO
-  return -1;
+  uint64 va = (uint64)addr;
+  struct proc *p = myproc();
+
+  int i, found = 0;
+  for (i = 0; i < VMA_LENGTH; i++) {
+    if (p->vma[i].vma_start <= va && va < p->vma[i].vma_end && p->vma[i].valid) {
+      found = 1;
+      break;
+    }
+  }
+
+  if (found == 0) {  // not found
+    printf("%s:%d\n", __FILE__, __LINE__);
+    return -1;
+  }
+
+  if (p->vma[i].vma_end < va + len) {  // end out of range
+    printf("%s:%d\n", __FILE__, __LINE__);
+    return -1;
+  }
+
+  if (p->vma[i].vma_end != va + len && p->vma[i].vma_start != va) {  // 出现了中间挖洞的情况
+    printf("%s:%d\n", __FILE__, __LINE__);
+    return -1;
+  }
+
+  if (p->vma[i].vma_start != va) {  // 去尾
+    p->vma[i].vma_end = va;
+  } else {  // 掐头
+    if (p->vma[i].vma_end == va + len) {
+      p->vma[i].vma_start = 0;
+      p->vma[i].vma_end = 0;
+      p->vma[i]._mode_value = 0;
+
+      struct file *f = p->vma[i].file;
+      if (!f) {
+        printf("%s:%d\n", __FILE__, __LINE__);
+        return -1;
+      }
+      acquire(&ftable.lock);
+      if (f->ref < 1) panic("%s:%d", __FILE__, __LINE__);
+      f->ref--;
+      release(&ftable.lock);
+      p->vma[i].file = 0;
+    } else {
+      p->vma[i].vma_start = va + len;
+    }
+  }
+
+  uint64 va1 = PGROUNDUP(va);
+  uint64 vaend0 = PGROUNDDOWN(va + len);
+  uvmunmap(p->pagetable, va1, (vaend0 - va1) / PGSIZE, 1);
+
+  return 0;
 }
 
 uint64 sys_mmap(void) {

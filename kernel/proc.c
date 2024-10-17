@@ -139,6 +139,7 @@ found:
 // p->lock must be held.
 static void freeproc(struct proc *p) {
   if (p->trapframe) kfree((void *)p->trapframe);
+  if (p->vma) kfree(p->vma);
   p->trapframe = 0;
   if (p->pagetable) proc_freepagetable(p->pagetable, p->sz);
   p->pagetable = 0;
@@ -186,6 +187,7 @@ pagetable_t proc_pagetable(struct proc *p) {
 void proc_freepagetable(pagetable_t pagetable, uint64 sz) {
   uvmunmap(pagetable, TRAMPOLINE, 1, 0);
   uvmunmap(pagetable, TRAPFRAME, 1, 0);
+  // TODO vmprint
   uvmfree(pagetable, sz);
 }
 

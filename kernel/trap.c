@@ -89,7 +89,7 @@ void usertrap(void) {
             setkilled(p);
           } else {
             begin_op();
-            if (readi(p->vma->file->ip, 0, pa, va0 - p->vma->vma_start, PGSIZE) < 0) {
+            if (readi(p->vma[i].file->ip, 0, pa, va0 - p->vma[i].vma_start, PGSIZE) < 0) {
               end_op();  // reroll
               printf("usertrap(): readi failed pid=%d name=%s\n", p->pid, p->name);
               setkilled(p);
