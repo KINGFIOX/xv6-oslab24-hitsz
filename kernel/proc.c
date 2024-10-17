@@ -260,6 +260,13 @@ int growproc(int n) {
   return 0;
 }
 
+extern struct {
+  struct spinlock lock;
+  struct file file[NFILE];
+} ftable;
+
+extern void vmprint(pagetable_t pagetable);
+
 // Create a new process, copying the parent.
 // Sets up child kernel stack to return as if from fork() system call.
 int fork(void) {
@@ -304,6 +311,40 @@ int fork(void) {
   acquire(&np->lock);
   np->state = RUNNABLE;
   release(&np->lock);
+
+  // vma
+  if (p->vma) {
+    np->vma = (vm_area_t *)kalloc();
+    if (np->vma == 0) {
+      freeproc(np);
+      return -1;
+    }
+    memmove(np->vma, p->vma, PGSIZE);
+    for (int i = 0; i < VMA_LENGTH; i++) {
+      if (np->vma[i].valid) {
+        acquire(&ftable.lock);
+        if (np->vma[i].file->ref < 1) panic("%s:%d", __FILE__, __LINE__);
+        np->vma[i].file->ref++;
+        release(&ftable.lock);
+
+        // add pte
+        uint64 va0 = PGROUNDDOWN(np->vma[i].vma_start);
+        for (; va0 < np->vma[i].vma_end; va0 += PGSIZE) {
+          pte_t *copy_from = walk(p->pagetable, va0, 0);
+          if (copy_from == 0) panic("%s:%d", __FILE__, __LINE__);
+          pte_t *copy_to = walk(np->pagetable, va0, 1);
+          if (copy_to == 0) panic("%s:%d", __FILE__, __LINE__);
+          *copy_to = *copy_from;
+        }
+      }
+    }
+  }
+
+  // printf("---------- child ----------\n");
+  // vmprint(np->pagetable);
+
+  // printf("---------- father ----------\n");
+  // vmprint(p->pagetable);
 
   return pid;
 }

@@ -233,7 +233,7 @@ void uvmunmap_f(pagetable_t pagetable, uint64 va, uint64 npages) {
   if ((va % PGSIZE) != 0) panic("uvmunmap: not aligned");
 
   for (uint64 a = va; a < va + npages * PGSIZE; a += PGSIZE) {
-    if ((pte = walk(pagetable, a, 0)) == 0) panic("uvmunmap: walk");
+    if ((pte = walk(pagetable, a, 0)) == 0) panic("%s:%d", __FILE__, __LINE__);
     // if ((*pte & PTE_V) == 0) panic("uvmunmap: not mapped");
     if ((PTE_FLAGS(*pte) & PTE_R) == 0 && (PTE_FLAGS(*pte) & PTE_W) == 0 && (PTE_FLAGS(*pte) & PTE_X) == 0) panic("uvmunmap: not a leaf");
     if (*pte & PTE_V) {
