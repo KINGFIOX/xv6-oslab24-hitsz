@@ -185,3 +185,9 @@ void virtio_disk_intr(void);
 
 // number of elements in fixed-size array
 #define NELEM(x) (sizeof(x) / sizeof((x)[0]))
+
+#define ASSERT_FALSE(cond) \
+  if ((cond)) panic("%s:%d: %s", __FILE__, __LINE__, #cond)
+
+#define ASSERT_TRUE(cond) \
+  if (!(cond)) panic("%s:%d: %s", __FILE__, __LINE__, #cond)
