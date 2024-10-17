@@ -28,3 +28,4 @@ barrier
 
 .direnv
 .cache
+.vscode
