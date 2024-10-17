@@ -228,7 +228,7 @@ ph: notxv6/ph.c
 	gcc -o ph -g -O2 $(XCFLAGS) notxv6/ph.c -pthread
 
 barrier: notxv6/barrier.c
-	gcc -o barrier -g -O2 $(XCFLAGS) notxv6/barrier.c -pthread
+	clang -o barrier -g -O2 $(XCFLAGS) notxv6/barrier.c -pthread
 endif
 
 ifeq ($(LAB),pgtbl)

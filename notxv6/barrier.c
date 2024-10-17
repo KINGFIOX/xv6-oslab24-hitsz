@@ -29,9 +29,11 @@ static void barrier() {
   pthread_mutex_lock(&bstate.barrier_mutex);
   if (++bstate.nthread == nthread) {
     bstate.round++;
+    bstate.nthread = 0;
     pthread_cond_broadcast(&bstate.barrier_cond);
   } else {
-    while (bstate.nthread != nthread) {
+    int current_round = bstate.round;
+    if (current_round == bstate.round) {
       pthread_cond_wait(&bstate.barrier_cond, &bstate.barrier_mutex);
     }
   }
