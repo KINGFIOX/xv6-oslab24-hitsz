@@ -86,7 +86,7 @@ int pipewrite(struct pipe *, uint64, int);
 
 // printf.c
 void printf(char *, ...);
-void panic(char *) __attribute__((noreturn));
+void panic(char *, ...) __attribute__((noreturn));
 void printfinit(void);
 
 // proc.c
@@ -201,6 +201,12 @@ void virtio_disk_intr(void);
 
 // number of elements in fixed-size array
 #define NELEM(x) (sizeof(x) / sizeof((x)[0]))
+
+#define ASSERT_FALSE(cond) \
+  if ((cond)) panic("%s:%d: %s", __FILE__, __LINE__, #cond)
+
+#define ASSERT_TRUE(cond) \
+  if (!(cond)) panic("%s:%d: %s", __FILE__, __LINE__, #cond)
 
 #ifdef LAB_PGTBL
 // vmcopyin.c
