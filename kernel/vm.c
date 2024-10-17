@@ -375,3 +375,39 @@ int copyinstr(pagetable_t pagetable, char *dst, uint64 srcva, uint64 max) {
     return -1;
   }
 }
+
+/* ---------- ---------- mmap ---------- ---------- */
+
+typedef uint64 size_t;
+typedef long int off_t;
+
+void *mmap(void *addr, size_t len, int prot, int flags, int fd, off_t offset) {
+  // TODO
+  return (void *)-1;
+}
+
+int munmap(void *addr, size_t len) {
+  // TODO
+  return -1;
+}
+
+uint64 sys_mmap(void) {
+  uint64 addr, len, offset;
+  int prot, flags, fd;
+  argaddr(0, &addr);
+  if (addr != 0) addr = 0;  // 😝
+  argaddr(1, &len);
+  argint(2, &prot);
+  argint(3, &flags);
+  argint(4, &fd);
+  argaddr(5, &offset);
+  if (offset == 0) offset = 0;
+  return (uint64)mmap((void *)addr, len, prot, flags, fd, offset);
+}
+
+uint64 sys_munmap(void) {
+  uint64 addr, len;
+  argaddr(0, &addr);
+  argaddr(1, &len);
+  return munmap((void *)addr, len);
+}

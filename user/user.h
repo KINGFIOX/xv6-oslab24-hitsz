@@ -35,6 +35,9 @@ int pgaccess(void *base, int len, void *mask);
 int ugetpid(void);
 #endif
 
+typedef unsigned long size_t;
+typedef long int off_t;
+
 // ulib.c
 int stat(const char *, struct stat *);
 char *strcpy(char *, const char *);
@@ -51,6 +54,8 @@ void free(void *);
 int atoi(const char *);
 int memcmp(const void *, const void *, uint);
 void *memcpy(void *, const void *, uint);
+void *mmap(void *addr, size_t len, int prot, int flags, int fd, off_t offset);
+int munmap(void *addr, size_t len);
 #ifdef LAB_LOCK
 int statistics(void *, int);
 #endif
