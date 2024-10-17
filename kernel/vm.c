@@ -291,6 +291,7 @@ void uvmclear(pagetable_t pagetable, uint64 va) {
 }
 
 extern uint8 get_ref(void *pa);
+extern struct spinlock cow_lock;
 
 // Copy from kernel to user.
 // Copy len bytes from src to virtual address dstva in a given page table.
@@ -298,13 +299,15 @@ extern uint8 get_ref(void *pa);
 int copyout(pagetable_t pagetable, uint64 dstva, char *src, uint64 len) {
   while (len > 0) {
     uint64 va0 = PGROUNDDOWN(dstva);
+    if (va0 >= MAXVA) return -1;
     pte_t *pte = walk(pagetable, va0, 0);
-    uint64 pa0 = PTE2PA(*pte);
     if (pte == 0) return -1;
+    uint64 pa0 = PTE2PA(*pte);
     if ((*pte & PTE_V) == 0) return -1;
     if ((*pte & PTE_U) == 0) return -1;
     if (*pte & PTE_OW) {  // cow
       uint64 flags = PTE_FLAGS(*pte);
+      acquire(&cow_lock);
       if (get_ref((void *)pa0) == 1) {
         *pte &= ~PTE_OW;
         *pte |= PTE_W;
@@ -318,6 +321,7 @@ int copyout(pagetable_t pagetable, uint64 dstva, char *src, uint64 len) {
         kfree((void *)pa0);
         pa0 = (uint64)mem;
       }
+      release(&cow_lock);
     }
 
     if (pa0 == 0) return -1;

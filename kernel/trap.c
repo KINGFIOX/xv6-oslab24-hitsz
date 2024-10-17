@@ -72,6 +72,7 @@ void usertrap(void) {
     if (*pte & PTE_OW) {
       uint64 flags = PTE_FLAGS(*pte);
       uint64 pa = PTE2PA(*pte);
+      acquire(&cow_lock);
       if (get_ref((void *)pa) == 1) {
         *pte &= ~PTE_OW;
         *pte |= PTE_W;
@@ -88,6 +89,7 @@ void usertrap(void) {
           kfree((void *)pa);  // ref_cnt dec
         }
       }
+      release(&cow_lock);
     } else {
       printf("usertrap(): write page fault pid=%d name=%s\n", p->pid, p->name);
       printf("            sepc=%p stval=%p\n", r_sepc(), r_stval());
