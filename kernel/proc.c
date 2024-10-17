@@ -137,30 +137,12 @@ found:
   return p;
 }
 
-extern void uvmunmap_f(pagetable_t pagetable, uint64 va, uint64 npages);
-
 // free a proc structure and the data hanging from it,
 // including user pages.
 // p->lock must be held.
 static void freeproc(struct proc *p) {
   if (p->trapframe) kfree((void *)p->trapframe);
   p->trapframe = 0;
-
-  if (p->vma != 0) {
-    for (int i = 0; i < VMA_LENGTH; i++) {
-      if (p->vma[i].valid) {
-        uint64 va0 = PGROUNDDOWN(p->vma[i].vma_start);
-        uint64 vaend1 = PGROUNDUP(p->vma[i].vma_end);
-        if (!p->vma[i].private) {  // shared mmap
-          struct file *f = p->vma[i].file;
-          f->off = va0 - p->vma[i].vma_origin;
-          filewrite(f, va0, vaend1 - va0);
-        }
-        uvmunmap_f(p->pagetable, va0, (vaend1 - va0) / PGSIZE);
-      }
-    }
-    kfree(p->vma);
-  }
 
   if (p->pagetable) proc_freepagetable(p->pagetable, p->sz);
   p->pagetable = 0;
@@ -367,16 +349,18 @@ int fork(void) {
           pte_t *copy_to = walk(np->pagetable, va0, 1);
           if (copy_to == 0) panic("%s:%d", __FILE__, __LINE__);
           *copy_to = *copy_from;
+          extern void inc_ref(void *pa);
+          inc_ref((void *)PTE2PA(*copy_to));
         }
       }
     }
   }
 
-  printf("---------- child ----------\n");
-  vmprint(np->pagetable);
+  // printf("---------- child ----------\n");
+  // vmprint(np->pagetable);
 
-  printf("---------- father ----------\n");
-  vmprint(p->pagetable);
+  // printf("---------- father ----------\n");
+  // vmprint(p->pagetable);
 
   return pid;
 }
@@ -394,11 +378,29 @@ void reparent(struct proc *p) {
   }
 }
 
+extern void uvmunmap_f(pagetable_t pagetable, uint64 va, uint64 npages);
+
 // Exit the current process.  Does not return.
 // An exited process remains in the zombie state
 // until its parent calls wait().
 void exit(int status) {
   struct proc *p = myproc();
+
+  if (p->vma != 0) {
+    for (int i = 0; i < VMA_LENGTH; i++) {
+      if (p->vma[i].valid) {
+        uint64 va0 = PGROUNDDOWN(p->vma[i].vma_start);
+        uint64 vaend1 = PGROUNDUP(p->vma[i].vma_end);
+        if (!p->vma[i].private) {  // shared mmap
+          struct file *f = p->vma[i].file;
+          f->off = va0 - p->vma[i].vma_origin;
+          filewrite(f, va0, vaend1 - va0);
+        }
+        uvmunmap_f(p->pagetable, va0, (vaend1 - va0) / PGSIZE);
+      }
+    }
+    kfree(p->vma);
+  }
 
   if (p == initproc) panic("init exiting");
 

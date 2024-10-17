@@ -23,6 +23,17 @@ struct {
   struct run *freelist;
 } kmem;
 
+__attribute__((guarded_by(kmem.lock))) uint8 ref_cnt[(PHYSTOP - KERNBASE) / PGSIZE];
+static inline uint64 pa2idx(void *pa) {
+  ASSERT_TRUE(KERNBASE <= (uint64)pa && (uint64)pa < PHYSTOP);
+  return ((uint64)pa - KERNBASE) / PGSIZE;
+}
+void inc_ref(void *pa) {
+  acquire(&kmem.lock);
+  ref_cnt[pa2idx(pa)]++;
+  release(&kmem.lock);
+}
+
 void kinit() {
   initlock(&kmem.lock, "kmem");
   freerange(end, (void *)PHYSTOP);
@@ -31,7 +42,10 @@ void kinit() {
 void freerange(void *pa_start, void *pa_end) {
   char *p;
   p = (char *)PGROUNDUP((uint64)pa_start);
-  for (; p + PGSIZE <= (char *)pa_end; p += PGSIZE) kfree(p);
+  for (; p + PGSIZE <= (char *)pa_end; p += PGSIZE) {
+    ref_cnt[pa2idx(p)] = 1;
+    kfree(p);
+  }
 }
 
 // Free the page of physical memory pointed at by pa,
@@ -49,8 +63,11 @@ void kfree(void *pa) {
   r = (struct run *)pa;
 
   acquire(&kmem.lock);
-  r->next = kmem.freelist;
-  kmem.freelist = r;
+  ASSERT_TRUE(ref_cnt[pa2idx(pa)] > 0);
+  if (--ref_cnt[pa2idx(pa)] == 0) {
+    r->next = kmem.freelist;
+    kmem.freelist = r;
+  }
   release(&kmem.lock);
 }
 
@@ -62,7 +79,11 @@ void *kalloc(void) {
 
   acquire(&kmem.lock);
   r = kmem.freelist;
-  if (r) kmem.freelist = r->next;
+  if (r) {
+    kmem.freelist = r->next;
+    ASSERT_TRUE(ref_cnt[pa2idx(r)] == 0);
+    ref_cnt[pa2idx(r)] = 1;
+  }
   release(&kmem.lock);
 
   if (r) memset((char *)r, 5, PGSIZE);  // fill with junk

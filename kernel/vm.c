@@ -533,8 +533,8 @@ void *mmap(size_t len, int prot, int flags, struct file *f) {
 
   uint64 last = start_addr;
   while (last < start_addr + len) {
-    pte_t *pte = walk(p->pagetable, last, 1);
-    if (pte == 0) {  // reroll
+    pte_t *pte = walk(p->pagetable, last, 1);  //
+    if (pte == 0) {                            // reroll
       p->vma[i].vma_start = 0;
       p->vma[i].vma_end = 0;
       p->vma[i]._mode_value = 0;
@@ -591,8 +591,15 @@ int munmap(void *addr, size_t len) {
       p->vma[i].vma_end = 0;
       p->vma[i]._mode_value = 0;
 
-      // file
+      // free pages
       struct file *f = p->vma[i].file;
+      uint64 va0 = PGROUNDDOWN(va);
+      uint64 vaend1 = PGROUNDUP(va + len);
+      if (!p->vma[i].private) {  // shared mmap
+        f->off = va0 - p->vma[i].vma_origin;
+        filewrite(f, va0, vaend1 - va0);
+      }
+      // file
       if (!f) {
         printf("%s:%d\n", __FILE__, __LINE__);
         return -1;
@@ -602,14 +609,6 @@ int munmap(void *addr, size_t len) {
       f->ref--;
       release(&ftable.lock);
       p->vma[i].file = 0;
-
-      // free pages
-      uint64 va0 = PGROUNDDOWN(va);
-      uint64 vaend1 = PGROUNDUP(va + len);
-      if (!p->vma[i].private) {  // shared mmap
-        f->off = va0 - p->vma[i].vma_origin;
-        filewrite(f, va0, vaend1 - va0);
-      }
       uvmunmap_f(p->pagetable, va0, (vaend1 - va0) / PGSIZE);
     } else {
       p->vma[i].vma_start = va + len;

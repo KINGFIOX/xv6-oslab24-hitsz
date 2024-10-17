@@ -231,6 +231,8 @@ void fork_test(void) {
   // read just 2nd page.
   if (*(p1 + PGSIZE) != 'A') err("fork mismatch (1)");
 
+  printf("%s:%d\n", __FILE__, __LINE__);
+
   if ((pid = fork()) < 0) err("fork");
   if (pid == 0) {
     _v1(p1);
