@@ -36,6 +36,8 @@ static inline uint64 pa2idx(void *pa) {
 void inc_ref(void *pa) { ref_cnt[pa2idx(pa)]++; }
 uint8 get_ref(void *pa) { return ref_cnt[pa2idx(pa)]; }
 
+struct spinlock cow_lock;
+
 void freerange(void *pa_start, void *pa_end) {
   char *p = (char *)PGROUNDUP((uint64)pa_start);
   for (; p + PGSIZE <= (char *)pa_end; p += PGSIZE) {

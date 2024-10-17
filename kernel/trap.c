@@ -21,6 +21,12 @@ void trapinit(void) { initlock(&tickslock, "time"); }
 // set up to take exceptions and traps while in the kernel.
 void trapinithart(void) { w_stvec((uint64)kernelvec); }
 
+extern pte_t *walk(pagetable_t pagetable, uint64 va, int alloc);
+
+extern uint8 get_ref(void *pa);
+
+extern struct spinlock cow_lock;
+
 //
 // handle an interrupt, exception, or system call from user space.
 // called from trampoline.S
@@ -55,6 +61,38 @@ void usertrap(void) {
     syscall();
   } else if ((which_dev = devintr()) != 0) {
     // ok
+  } else if (r_scause() == 0x0f) {
+    // cow
+    uint64 va = r_stval();
+    ASSERT_TRUE(0 <= va && va < PLIC);
+    uint64 va0 = PGROUNDDOWN(va);
+    pte_t *pte = walk(p->pagetable, va0, 0);
+    ASSERT_TRUE(pte);
+    ASSERT_TRUE((*pte & PTE_V) && "xv6 could not handle page fault");
+    if (*pte & PTE_OW) {
+      uint64 flags = PTE_FLAGS(*pte);
+      uint64 pa = PTE2PA(*pte);
+      if (get_ref((void *)pa) == 1) {
+        *pte &= ~PTE_OW;
+        *pte |= PTE_W;
+      } else {
+        flags &= ~PTE_OW;
+        flags |= PTE_W;
+        void *mem = kalloc();
+        if (mem == 0) {
+          // printf("usertrap(): no more memory\n");
+          p->killed = 1;
+        } else {
+          memmove(mem, (void *)pa, PGSIZE);
+          *pte = PA2PTE(mem) | flags;
+          kfree((void *)pa);  // ref_cnt dec
+        }
+      }
+    } else {
+      printf("usertrap(): write page fault pid=%d name=%s\n", p->pid, p->name);
+      printf("            sepc=%p stval=%p\n", r_sepc(), r_stval());
+      p->killed = 1;
+    }
   } else {
     printf("usertrap(): unexpected scause %p pid=%d\n", r_scause(), p->pid);
     printf("            sepc=%p stval=%p\n", r_sepc(), r_stval());
