@@ -293,36 +293,6 @@ int fork(void) {
   np->state = RUNNABLE;
   release(&np->lock);
 
-  // load content
-  if (p->vma) {
-    printf("%s:%d load content\n", __FILE__, __LINE__);
-    for (int i = 0; i < VMA_LENGTH; i++) {
-      uint64 va0 = PGROUNDDOWN(p->vma[i].vma_start);
-      for (; va0 < p->vma[i].vma_end; va0 += PGSIZE) {
-        pte_t *pte = walk(p->pagetable, va0, 0);
-        if (pte == 0) panic("%s:%d", __FILE__, __LINE__);
-        if (!(*pte & PTE_V)) {
-          uint64 mem = (uint64)kalloc();
-          if (!mem) {
-            panic("%s:%d kalloc failed\n", __FILE__, __LINE__);
-            break;
-          }
-          memset((void *)mem, 0, PGSIZE);
-          begin_op();
-          if (readi(p->vma[i].file->ip, 0, mem, va0 - p->vma[i].vma_origin, PGSIZE) < 0) {
-            end_op();
-            kfree((void *)mem);
-            panic("%s:%d readi failed\n", __FILE__, __LINE__);
-            break;
-          } else {
-            end_op();
-            *pte = PA2PTE(mem) | PTE_FLAGS(*pte) | PTE_V;
-          }
-        }
-      }
-    }
-  }
-
   // vma for child
   if (p->vma) {
     printf("%s:%d vma for child\n", __FILE__, __LINE__);
@@ -334,7 +304,7 @@ int fork(void) {
     memmove(np->vma, p->vma, PGSIZE);
     for (int i = 0; i < VMA_LENGTH; i++) {
       if (np->vma[i].valid) {
-        acquire(&ftable.lock);
+        acquire(&ftable.lock);  // ref ++
         if (np->vma[i].file->ref < 1) panic("%s:%d", __FILE__, __LINE__);
         np->vma[i].file->ref++;
         release(&ftable.lock);
@@ -344,12 +314,30 @@ int fork(void) {
         for (; va0 < np->vma[i].vma_end; va0 += PGSIZE) {
           pte_t *copy_from = walk(p->pagetable, va0, 0);
           if (copy_from == 0) panic("%s:%d", __FILE__, __LINE__);
-          ASSERT_TRUE(*copy_from & PTE_V && "fork: pte should exist");
-          pte_t *copy_to = walk(np->pagetable, va0, 1);
-          if (copy_to == 0) panic("%s:%d", __FILE__, __LINE__);
-          *copy_to = *copy_from;
-          extern void inc_ref(void *pa);
-          inc_ref((void *)PTE2PA(*copy_to));
+          if (!np->vma->private) {  // shared
+            uint64 mem = (uint64)kalloc();
+            if (mem == 0) panic("%s:%d", __FILE__, __LINE__);
+            memset((void *)mem, 0, PGSIZE);
+            begin_op();
+            if (readi(np->vma[i].file->ip, 0, mem, va0 - np->vma[i].vma_origin, PGSIZE) < 0) {
+              end_op();
+              kfree((void *)mem);
+              panic("%s:%d", __FILE__, __LINE__);
+            } else {
+              end_op();
+              pte_t *copy_to = walk(np->pagetable, va0, 1);
+              if (copy_to == 0) panic("%s:%d", __FILE__, __LINE__);
+              *copy_to = PA2PTE(mem) | PTE_FLAGS(*copy_from) | PTE_V;
+              printf("%s:%d fork shared\n", __FILE__, __LINE__);
+            }
+          } else {
+            pte_t *copy_to = walk(np->pagetable, va0, 1);
+            if (copy_to == 0) panic("%s:%d", __FILE__, __LINE__);
+            *copy_to = PTE_FLAGS(*copy_from) & ~PTE_V;
+          }
+          // *copy_to = *copy_from;
+          // extern void inc_ref(void *pa);
+          // inc_ref((void *)PTE2PA(*copy_to));
         }
       }
     }
