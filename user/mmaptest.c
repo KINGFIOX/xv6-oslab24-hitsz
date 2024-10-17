@@ -40,6 +40,7 @@ void _v1(char *p) {
     } else {
       if (p[i] != 0) {
         printf("mismatch at %d, wanted zero, got 0x%x\n", i, p[i]);
+        printf("%s:%d %d\n", __FILE__, __LINE__, i);
         err("v1 mismatch (2)");
       }
     }
@@ -111,7 +112,7 @@ void mmap_test(void) {
   if (p == MAP_FAILED) err("mmap (2)");
   if (close(fd) == -1) err("close (1)");
   _v1(p);
-  printf("%s:%d", __FILE__, __LINE__);
+  printf("%s:%d\n", __FILE__, __LINE__);
   for (i = 0; i < PGSIZE * 2; i++) p[i] = 'Z';
   if (munmap(p, PGSIZE * 2) == -1) err("munmap (2)");
 
@@ -123,7 +124,7 @@ void mmap_test(void) {
   // file opened read-only.
   if ((fd = open(f, O_RDONLY)) == -1) err("open (2)");
   p = mmap(0, PGSIZE * 3, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
-  if (p != MAP_FAILED) err("mmap (3)");
+  if (p != MAP_FAILED) err("mmap (3)");  // FIXME 这里
   if (close(fd) == -1) err("close (2)");
 
   printf("test mmap read-only: OK\n");

@@ -134,6 +134,8 @@ found:
   return p;
 }
 
+extern void uvmunmap_f(pagetable_t pagetable, uint64 va, uint64 npages);
+
 // free a proc structure and the data hanging from it,
 // including user pages.
 // p->lock must be held.
@@ -146,7 +148,7 @@ static void freeproc(struct proc *p) {
       if (p->vma[i].valid) {
         uint64 va0 = PGROUNDDOWN(p->vma[i].vma_start);
         uint64 vaend1 = PGROUNDUP(p->vma[i].vma_end);
-        uvmunmap(p->pagetable, va0, (vaend1 - va0) / PGSIZE, 1);
+        uvmunmap_f(p->pagetable, va0, (vaend1 - va0) / PGSIZE);
       }
     }
     kfree(p->vma);

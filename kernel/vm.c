@@ -226,6 +226,24 @@ void uvmunmap(pagetable_t pagetable, uint64 va, uint64 npages, int do_free) {
   }
 }
 
+/// @brief 这个是允许: 不 valid 的情况的发生, 只能用在: unmap mmap 的情况 uvm unmap force
+void uvmunmap_f(pagetable_t pagetable, uint64 va, uint64 npages) {
+  pte_t *pte;
+
+  if ((va % PGSIZE) != 0) panic("uvmunmap: not aligned");
+
+  for (uint64 a = va; a < va + npages * PGSIZE; a += PGSIZE) {
+    if ((pte = walk(pagetable, a, 0)) == 0) panic("uvmunmap: walk");
+    // if ((*pte & PTE_V) == 0) panic("uvmunmap: not mapped");
+    if ((PTE_FLAGS(*pte) & PTE_R) == 0 && (PTE_FLAGS(*pte) & PTE_W) == 0 && (PTE_FLAGS(*pte) & PTE_X) == 0) panic("uvmunmap: not a leaf");
+    if (*pte & PTE_V) {
+      uint64 pa = PTE2PA(*pte);
+      kfree((void *)pa);
+    }
+    *pte = 0;
+  }
+}
+
 // create an empty user page table.
 // returns 0 if out of memory.
 pagetable_t uvmcreate() {
@@ -454,6 +472,16 @@ extern struct {
 } ftable;
 
 void *mmap(size_t len, int prot, int flags, struct file *f) {
+  if (!f->readable && (prot & PROT_READ) && (flags & MAP_SHARED)) {
+    printf("%s:%d\n", __FILE__, __LINE__);
+    return (void *)-1;
+  }
+
+  if (!f->writable && (prot & PROT_WRITE) && (flags & MAP_SHARED)) {
+    printf("%s:%d\n", __FILE__, __LINE__);
+    return (void *)-1;
+  }
+
   struct proc *p = myproc();
   if (p->vma == 0) {
     p->vma = (vm_area_t *)kalloc();
@@ -579,12 +607,12 @@ int munmap(void *addr, size_t len) {
       //
       uint64 va0 = PGROUNDDOWN(va);
       uint64 vaend1 = PGROUNDUP(va + len);
-      uvmunmap(p->pagetable, va0, (vaend1 - va0) / PGSIZE, 1);
+      uvmunmap_f(p->pagetable, va0, (vaend1 - va0) / PGSIZE);
     } else {
       p->vma[i].vma_start = va + len;
       uint64 va1 = PGROUNDUP(va);
       uint64 vaend0 = PGROUNDDOWN(va + len);
-      uvmunmap(p->pagetable, va1, (vaend0 - va1) / PGSIZE, 1);
+      uvmunmap_f(p->pagetable, va1, (vaend0 - va1) / PGSIZE);
     }
   }
 
