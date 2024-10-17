@@ -312,7 +312,44 @@ int fork(void) {
   np->state = RUNNABLE;
   release(&np->lock);
 
-  // vma
+  // load content
+  if (p->vma) {
+    int i;
+    uint64 j;
+    int failed;
+    for (i = 0; i < VMA_LENGTH; i++) {
+      j = PGROUNDDOWN(p->vma[i].vma_start);
+      for (; j < p->vma[i].vma_end; j += PGSIZE) {
+        pte_t *pte = walk(p->pagetable, j, 0);
+        if (pte == 0) panic("%s:%d", __FILE__, __LINE__);
+        if (!(*pte & PTE_V)) {
+          uint64 mem = (uint64)kalloc();
+          if (!mem) {
+            failed = 1;
+            printf("%s:%d kalloc failed\n", __FILE__, __LINE__);
+            break;
+          }
+          memset((void *)mem, 0, PGSIZE);
+          begin_op();
+          if (readi(p->vma[i].file->ip, 0, mem, j - p->vma[i].vma_origin, PGSIZE) < 0) {
+            end_op();
+            failed = 1;
+            printf("%s:%d readi failed\n", __FILE__, __LINE__);
+            kfree((void *)mem);
+            break;
+          } else {
+            end_op();
+            *pte = PA2PTE(mem) | PTE_FLAGS(*pte) | PTE_V;
+          }
+        }
+      }
+      if (failed) break;
+    }
+    if (failed) {  // TODO roll back
+    }
+  }
+
+  // vma for child
   if (p->vma) {
     np->vma = (vm_area_t *)kalloc();
     if (np->vma == 0) {
@@ -327,7 +364,7 @@ int fork(void) {
         np->vma[i].file->ref++;
         release(&ftable.lock);
 
-        // add pte
+        // copy pte from parent to child
         uint64 va0 = PGROUNDDOWN(np->vma[i].vma_start);
         for (; va0 < np->vma[i].vma_end; va0 += PGSIZE) {
           pte_t *copy_from = walk(p->pagetable, va0, 0);
