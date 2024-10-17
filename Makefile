@@ -217,8 +217,8 @@ ifeq ($(LAB),thread)
 UPROGS += \
 	$U/_uthread
 
-$U/uthread_switch.o : $U/uthread_switch.S
-	$(CC) $(CFLAGS) -c -o $U/uthread_switch.o $U/uthread_switch.S
+$U/uthread_switch.o : $U/uthread_switch.c
+	$(CC) $(CFLAGS) -c -o $U/uthread_switch.o $U/uthread_switch.c
 
 $U/_uthread: $U/uthread.o $U/uthread_switch.o $(ULIB)
 	$(LD) $(LDFLAGS) -N -e main -Ttext 0 -o $U/_uthread $U/uthread.o $U/uthread_switch.o $(ULIB)
