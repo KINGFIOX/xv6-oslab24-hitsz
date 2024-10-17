@@ -296,11 +296,10 @@ int fork(void) {
   // load content
   if (p->vma) {
     printf("%s:%d load content\n", __FILE__, __LINE__);
-    uint64 j;
     for (int i = 0; i < VMA_LENGTH; i++) {
-      j = PGROUNDDOWN(p->vma[i].vma_start);
-      for (; j < p->vma[i].vma_end; j += PGSIZE) {
-        pte_t *pte = walk(p->pagetable, j, 0);
+      uint64 va0 = PGROUNDDOWN(p->vma[i].vma_start);
+      for (; va0 < p->vma[i].vma_end; va0 += PGSIZE) {
+        pte_t *pte = walk(p->pagetable, va0, 0);
         if (pte == 0) panic("%s:%d", __FILE__, __LINE__);
         if (!(*pte & PTE_V)) {
           uint64 mem = (uint64)kalloc();
@@ -310,7 +309,7 @@ int fork(void) {
           }
           memset((void *)mem, 0, PGSIZE);
           begin_op();
-          if (readi(p->vma[i].file->ip, 0, mem, j - p->vma[i].vma_origin, PGSIZE) < 0) {
+          if (readi(p->vma[i].file->ip, 0, mem, va0 - p->vma[i].vma_origin, PGSIZE) < 0) {
             end_op();
             kfree((void *)mem);
             panic("%s:%d readi failed\n", __FILE__, __LINE__);
@@ -389,14 +388,17 @@ void exit(int status) {
   if (p->vma != 0) {
     for (int i = 0; i < VMA_LENGTH; i++) {
       if (p->vma[i].valid) {
+        struct file *f = p->vma[i].file;
         uint64 va0 = PGROUNDDOWN(p->vma[i].vma_start);
         uint64 vaend1 = PGROUNDUP(p->vma[i].vma_end);
         if (!p->vma[i].private) {  // shared mmap
-          struct file *f = p->vma[i].file;
           f->off = va0 - p->vma[i].vma_origin;
           filewrite(f, va0, vaend1 - va0);
         }
         uvmunmap_f(p->pagetable, va0, (vaend1 - va0) / PGSIZE);
+        acquire(&ftable.lock);
+        f->ref--;
+        release(&ftable.lock);
       }
     }
     kfree(p->vma);
