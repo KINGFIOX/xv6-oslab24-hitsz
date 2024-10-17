@@ -5,6 +5,9 @@
 #include "spinlock.h"
 #include "proc.h"
 #include "defs.h"
+#include "sleeplock.h"
+#include "fs.h"
+#include "file.h"
 
 struct spinlock tickslock;
 uint ticks;
@@ -55,7 +58,7 @@ void usertrap(void) {
     syscall();
   } else if ((which_dev = devintr()) != 0) {
     // ok
-  } else if (r_scause() == 0xd || r_scause() == 0xf) {
+  } else if (r_scause() == 0xd) /* load page fault, not access fault */ {
     if (!p->vma) {
       printf("usertrap(): unexpected scause %p pid=%d\n", r_scause(), p->pid);
       printf("            sepc=%p stval=%p\n", r_sepc(), r_stval());
@@ -74,10 +77,29 @@ void usertrap(void) {
         printf("            sepc=%p stval=%p\n", r_sepc(), r_stval());
         setkilled(p);
       } else {
-        // uint64 va0 = PGROUNDDOWN(va);
-        printf("usertrap(): unexpected scause %p pid=%d\n", r_scause(), p->pid);
-        printf("            sepc=%p stval=%p\n", r_sepc(), r_stval());
-        setkilled(p);
+        uint64 va0 = PGROUNDDOWN(va);
+        pte_t *pte = walk(p->pagetable, va0, 0);
+        if (!pte) {
+          printf("usertrap(): walk failed pid=%d name=%s\n", p->pid, p->name);
+          setkilled(p);
+        } else {
+          uint64 pa = (uint64)kalloc();
+          if (!pa) {
+            printf("usertrap(): kalloc failed pid=%d name=%s\n", p->pid, p->name);
+            setkilled(p);
+          } else {
+            begin_op();
+            if (readi(p->vma->file->ip, 0, pa, va0 - p->vma->vma_start, PGSIZE) < 0) {
+              end_op();  // reroll
+              printf("usertrap(): readi failed pid=%d name=%s\n", p->pid, p->name);
+              setkilled(p);
+              kfree((void *)pa);
+            } else {
+              end_op();
+              *pte = PA2PTE(pa) | PTE_FLAGS(*pte) | PTE_V;
+            }
+          }
+        }
       }
     }
   } else {
