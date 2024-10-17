@@ -270,12 +270,11 @@ extern void vmprint(pagetable_t pagetable);
 // Create a new process, copying the parent.
 // Sets up child kernel stack to return as if from fork() system call.
 int fork(void) {
-  int i, pid;
-  struct proc *np;
   struct proc *p = myproc();
 
   // Allocate process.
-  if ((np = allocproc()) == 0) {
+  struct proc *np = allocproc();
+  if (!np) {
     return -1;
   }
 
@@ -294,13 +293,13 @@ int fork(void) {
   np->trapframe->a0 = 0;
 
   // increment reference counts on open file descriptors.
-  for (i = 0; i < NOFILE; i++)
+  for (int i = 0; i < NOFILE; i++)
     if (p->ofile[i]) np->ofile[i] = filedup(p->ofile[i]);
   np->cwd = idup(p->cwd);
 
   safestrcpy(np->name, p->name, sizeof(p->name));
 
-  pid = np->pid;
+  int pid = np->pid;
 
   release(&np->lock);
 
@@ -314,10 +313,9 @@ int fork(void) {
 
   // load content
   if (p->vma) {
-    int i;
+    printf("%s:%d load content\n", __FILE__, __LINE__);
     uint64 j;
-    int failed;
-    for (i = 0; i < VMA_LENGTH; i++) {
+    for (int i = 0; i < VMA_LENGTH; i++) {
       j = PGROUNDDOWN(p->vma[i].vma_start);
       for (; j < p->vma[i].vma_end; j += PGSIZE) {
         pte_t *pte = walk(p->pagetable, j, 0);
@@ -325,17 +323,15 @@ int fork(void) {
         if (!(*pte & PTE_V)) {
           uint64 mem = (uint64)kalloc();
           if (!mem) {
-            failed = 1;
-            printf("%s:%d kalloc failed\n", __FILE__, __LINE__);
+            panic("%s:%d kalloc failed\n", __FILE__, __LINE__);
             break;
           }
           memset((void *)mem, 0, PGSIZE);
           begin_op();
           if (readi(p->vma[i].file->ip, 0, mem, j - p->vma[i].vma_origin, PGSIZE) < 0) {
             end_op();
-            failed = 1;
-            printf("%s:%d readi failed\n", __FILE__, __LINE__);
             kfree((void *)mem);
+            panic("%s:%d readi failed\n", __FILE__, __LINE__);
             break;
           } else {
             end_op();
@@ -343,14 +339,12 @@ int fork(void) {
           }
         }
       }
-      if (failed) break;
-    }
-    if (failed) {  // TODO roll back
     }
   }
 
   // vma for child
   if (p->vma) {
+    printf("%s:%d vma for child\n", __FILE__, __LINE__);
     np->vma = (vm_area_t *)kalloc();
     if (np->vma == 0) {
       freeproc(np);
@@ -369,6 +363,7 @@ int fork(void) {
         for (; va0 < np->vma[i].vma_end; va0 += PGSIZE) {
           pte_t *copy_from = walk(p->pagetable, va0, 0);
           if (copy_from == 0) panic("%s:%d", __FILE__, __LINE__);
+          ASSERT_TRUE(*copy_from & PTE_V && "fork: pte should exist");
           pte_t *copy_to = walk(np->pagetable, va0, 1);
           if (copy_to == 0) panic("%s:%d", __FILE__, __LINE__);
           *copy_to = *copy_from;
@@ -377,11 +372,11 @@ int fork(void) {
     }
   }
 
-  // printf("---------- child ----------\n");
-  // vmprint(np->pagetable);
+  printf("---------- child ----------\n");
+  vmprint(np->pagetable);
 
-  // printf("---------- father ----------\n");
-  // vmprint(p->pagetable);
+  printf("---------- father ----------\n");
+  vmprint(p->pagetable);
 
   return pid;
 }

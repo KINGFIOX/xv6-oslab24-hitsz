@@ -24,6 +24,8 @@ void trapinit(void) { initlock(&tickslock, "time"); }
 // set up to take exceptions and traps while in the kernel.
 void trapinithart(void) { w_stvec((uint64)kernelvec); }
 
+extern void vmprint(pagetable_t pagetable);
+
 //
 // handle an interrupt, exception, or system call from user space.
 // called from trampoline.S
@@ -60,8 +62,9 @@ void usertrap(void) {
     // ok
   } else if (r_scause() == 0xd) /* load page fault, not access fault */ {
     if (!p->vma) {
-      printf("usertrap(): unexpected scause %p pid=%d\n", r_scause(), p->pid);
+      printf("%s:%d: unexpected scause %p pid=%d\n", __FILE__, __LINE__, r_scause(), p->pid);
       printf("            sepc=%p stval=%p\n", r_sepc(), r_stval());
+      // vmprint(p->pagetable);
       setkilled(p);
     } else {  // mmap
       int i, found = 0;
@@ -73,7 +76,8 @@ void usertrap(void) {
         }
       }
       if (!found) {
-        printf("usertrap(): unexpected scause %p pid=%d\n", r_scause(), p->pid);
+        // vmprint(p->pagetable);
+        printf("%s:%d: unexpected scause %p pid=%d\n", __FILE__, __LINE__, r_scause(), p->pid);
         printf("            sepc=%p stval=%p\n", r_sepc(), r_stval());
         setkilled(p);
       } else {
