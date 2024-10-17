@@ -6,6 +6,69 @@
 #include "defs.h"
 #include "fs.h"
 
+/* ---------- ---------- vmprint ---------- ---------- */
+
+static inline char *setflags(pte_t pte) {
+  static char flags[] = "----";
+  flags[0] = (pte & PTE_R) ? 'r' : '-';
+  flags[1] = (pte & PTE_W) ? 'w' : '-';
+  flags[2] = (pte & PTE_X) ? 'x' : '-';
+  flags[3] = (pte & PTE_U) ? 'u' : '-';
+  return flags;
+}
+
+static void _vmprint0(pagetable_t pgtbl, uint64 vpn2, uint64 vpn1) {
+  for (int i = 0; i < 512; i++) {
+    pte_t pte = pgtbl[i];
+    if ((pte & PTE_W) || (pte & PTE_R) || (pte & PTE_V)) {
+      char *flags = setflags(pte);
+      uint64 va = (vpn2 << 30) | (vpn1 << 21) | (i << 12);
+#if 1
+      if ((KERNBASE <= va && va < PHYSTOP) || (PLIC <= va && va < PLIC + 0x400000)) {
+        continue;
+      }
+#endif
+      printf("||   ||   ||idx: %d: va: %p -> pa: %p, flags: %s\n", i, va, PTE2PA(pte), flags);
+    }
+  }
+  return;
+}
+
+static void _vmprint1(pagetable_t pgtbl, uint64 vpn2) {
+  for (int i = 0; i < 512; i++) {
+    pte_t pte = pgtbl[i];
+    if (pte & PTE_V) {
+      uint64 child = PTE2PA(pte);
+      char *flags = setflags(pte);
+#if 1
+      uint64 va = (vpn2 << 30) | (i << 21) | (0 << 12);
+      if ((KERNBASE <= va && va < PHYSTOP) || (PLIC <= va && va < PLIC + 0x400000)) {
+        continue;
+      }
+#endif
+      printf("||   ||idx: %d: pa: %p, flags: %s\n", i, child, flags);
+      _vmprint0((pagetable_t)child, vpn2, i);
+    }
+  }
+  return;
+}
+
+void vmprint(pagetable_t pgtbl) {
+  printf("page table %p\n", pgtbl);
+  for (int i = 0; i < 512; i++) {
+    pte_t pte = pgtbl[i];
+    if (pte & PTE_V) {
+      uint64 child = PTE2PA(pte);
+      char *flags = setflags(pte);
+      printf("||idx: %d: pa: %p, flags: %s\n", i, child, flags);
+      _vmprint1((pagetable_t)child, i);
+    }
+  }
+  return;
+}
+
+/* ---------- ----------  ---------- ---------- */
+
 /*
  * the kernel's page table.
  */
@@ -238,6 +301,7 @@ void freewalk(pagetable_t pagetable) {
       freewalk((pagetable_t)child);
       pagetable[i] = 0;
     } else if (pte & PTE_V) {
+      // vmprint(pagetable);
       panic("freewalk: leaf");
     }
   }
@@ -459,6 +523,9 @@ void *mmap(size_t len, int prot, int flags, struct file *f) {
     last += PGSIZE;
   }
 
+  printf("---------- mmap ----------\n");
+  vmprint(p->pagetable);
+
   return (void *)start_addr;
 }
 
@@ -491,12 +558,13 @@ int munmap(void *addr, size_t len) {
 
   if (p->vma[i].vma_start != va) {  // 去尾
     p->vma[i].vma_end = va;
-  } else {  // 掐头
-    if (p->vma[i].vma_end == va + len) {
+  } else {                                // 掐头
+    if (p->vma[i].vma_end == va + len) {  // delete
       p->vma[i].vma_start = 0;
       p->vma[i].vma_end = 0;
       p->vma[i]._mode_value = 0;
 
+      // file
       struct file *f = p->vma[i].file;
       if (!f) {
         printf("%s:%d\n", __FILE__, __LINE__);
@@ -507,14 +575,21 @@ int munmap(void *addr, size_t len) {
       f->ref--;
       release(&ftable.lock);
       p->vma[i].file = 0;
+
+      //
+      uint64 va0 = PGROUNDDOWN(va);
+      uint64 vaend1 = PGROUNDUP(va + len);
+      uvmunmap(p->pagetable, va0, (vaend1 - va0) / PGSIZE, 1);
     } else {
       p->vma[i].vma_start = va + len;
+      uint64 va1 = PGROUNDUP(va);
+      uint64 vaend0 = PGROUNDDOWN(va + len);
+      uvmunmap(p->pagetable, va1, (vaend0 - va1) / PGSIZE, 1);
     }
   }
 
-  uint64 va1 = PGROUNDUP(va);
-  uint64 vaend0 = PGROUNDDOWN(va + len);
-  uvmunmap(p->pagetable, va1, (vaend0 - va1) / PGSIZE, 1);
+  printf("---------- munmap ----------\n");
+  vmprint(p->pagetable);
 
   return 0;
 }
