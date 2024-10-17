@@ -393,7 +393,10 @@ void *mmap(size_t len, int prot, int flags, struct file *f) {
   struct proc *p = myproc();
   if (p->vma == 0) {
     p->vma = (vm_area_t *)kalloc();
-    if (p->vma == 0) return (void *)-1;
+    if (p->vma == 0) {
+      printf("%s:%d\n", __FILE__, __LINE__);
+      return (void *)-1;
+    }
     memset(p->vma, 0, PGSIZE);
   }
 
@@ -406,7 +409,11 @@ void *mmap(size_t len, int prot, int flags, struct file *f) {
       }
     }
   }
-
+  start_addr = PGROUNDUP(start_addr);  // 向上找一个页
+  if (!(VMA_BEGIN <= start_addr && start_addr < MAXVA)) {
+    printf("%s:%d\n", __FILE__, __LINE__);
+    return (void *)-1;
+  }
   // find a free slot
   int i, found = 0;
   for (i = 0; i < VMA_LENGTH; i++) {
@@ -426,18 +433,23 @@ void *mmap(size_t len, int prot, int flags, struct file *f) {
 
   if (!found) return (void *)-1;
 
-  pte_t *pte = walk(p->pagetable, start_addr, 1);
-  if (pte == 0) {  // reroll
-    p->vma[i].vma_start = 0;
-    p->vma[i].vma_end = 0;
-    p->vma[i]._mode_value = 0;
-    p->vma[i].file = 0;
-    return (void *)-1;
+  uint64 last = start_addr;
+  while (last < start_addr + len) {
+    pte_t *pte = walk(p->pagetable, last, 1);
+    if (pte == 0) {  // reroll
+      p->vma[i].vma_start = 0;
+      p->vma[i].vma_end = 0;
+      p->vma[i]._mode_value = 0;
+      p->vma[i].file = 0;
+      printf("%s:%d\n", __FILE__, __LINE__);
+      return (void *)-1;
+    }
+    uint64 pte_flags = PTE_U;  // 没有 PTE_V, 要引发 page fault
+    if (prot & PROT_READ) pte_flags |= PTE_R;
+    if (prot & PROT_WRITE) pte_flags |= PTE_W;
+    *pte = pte_flags;
+    last += PGSIZE;
   }
-  uint64 pte_flags = PTE_U;  // 没有 PTE_V, 要引发 page fault
-  if (prot & PROT_READ) pte_flags |= PTE_R;
-  if (prot & PROT_WRITE) pte_flags |= PTE_W;
-  *pte = pte_flags;
 
   acquire(&ftable.lock);
   if (f->ref < 1) panic("filedup");

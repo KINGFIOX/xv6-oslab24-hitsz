@@ -74,7 +74,10 @@ void usertrap(void) {
         printf("            sepc=%p stval=%p\n", r_sepc(), r_stval());
         setkilled(p);
       } else {
-        uint64 va0 = PGROUNDDOWN(va);
+        // uint64 va0 = PGROUNDDOWN(va);
+        printf("usertrap(): unexpected scause %p pid=%d\n", r_scause(), p->pid);
+        printf("            sepc=%p stval=%p\n", r_sepc(), r_stval());
+        setkilled(p);
       }
     }
   } else {
