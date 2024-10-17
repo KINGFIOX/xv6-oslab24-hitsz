@@ -11,11 +11,11 @@
       "-I",
       "/nix/store/n15bxkd7id2gvlwpihm4kp675aqkrwmj-glibc-2.40-36-dev/include",
       "-o",
-      "ph",
-      "notxv6/ph.c"
+      "barrier",
+      "notxv6/barrier.c"
     ],
     "directory": "/home/wangfiox/Documents/xv6-oslab24-hitsz",
-    "file": "/home/wangfiox/Documents/xv6-oslab24-hitsz/notxv6/ph.c",
-    "output": "/home/wangfiox/Documents/xv6-oslab24-hitsz/ph"
+    "file": "/home/wangfiox/Documents/xv6-oslab24-hitsz/notxv6/barrier.c",
+    "output": "/home/wangfiox/Documents/xv6-oslab24-hitsz/barrier"
   }
 ]
