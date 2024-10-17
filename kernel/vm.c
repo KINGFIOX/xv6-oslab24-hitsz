@@ -378,9 +378,73 @@ int copyinstr(pagetable_t pagetable, char *dst, uint64 srcva, uint64 max) {
 
 /* ---------- ---------- mmap ---------- ---------- */
 
-void *mmap(void *addr, size_t len, int prot, int flags, int fd, off_t offset) {
-  // TODO
-  return (void *)-1;
+#include "spinlock.h"
+#include "proc.h"
+#include "fcntl.h"
+#include "sleeplock.h"
+#include "file.h"
+
+extern struct {
+  struct spinlock lock;
+  struct file file[NFILE];
+} ftable;
+
+void *mmap(size_t len, int prot, int flags, struct file *f) {
+  struct proc *p = myproc();
+  if (p->vma == 0) {
+    p->vma = (vm_area_t *)kalloc();
+    if (p->vma == 0) return (void *)-1;
+    memset(p->vma, 0, PGSIZE);
+  }
+
+  // select a start address
+  uint64 start_addr = VMA_BEGIN;
+  for (int i = 0; i < VMA_LENGTH; i++) {
+    if (p->vma[i].valid == 1) {
+      if (start_addr < p->vma[i].vma_end) {
+        start_addr = p->vma[i].vma_end;
+      }
+    }
+  }
+
+  // find a free slot
+  int i, found = 0;
+  for (i = 0; i < VMA_LENGTH; i++) {
+    if (p->vma[i].valid == 0) {
+      p->vma[i].valid = 1;
+      p->vma[i].read = !!(prot & PROT_READ);
+      p->vma[i].write = !!(prot & PROT_WRITE);
+      p->vma[i].execute = 0;
+      p->vma[i].private = !!(flags & MAP_PRIVATE);
+      p->vma[i].vma_start = start_addr;
+      p->vma[i].vma_end = start_addr + len;
+      p->vma[i].file = f;
+      found = 1;
+      break;
+    }
+  }
+
+  if (!found) return (void *)-1;
+
+  pte_t *pte = walk(p->pagetable, start_addr, 1);
+  if (pte == 0) {  // reroll
+    p->vma[i].vma_start = 0;
+    p->vma[i].vma_end = 0;
+    p->vma[i]._mode_value = 0;
+    p->vma[i].file = 0;
+    return (void *)-1;
+  }
+  uint64 pte_flags = PTE_U;  // 没有 PTE_V, 要引发 page fault
+  if (prot & PROT_READ) pte_flags |= PTE_R;
+  if (prot & PROT_WRITE) pte_flags |= PTE_W;
+  *pte = pte_flags;
+
+  acquire(&ftable.lock);
+  if (f->ref < 1) panic("filedup");
+  f->ref++;
+  release(&ftable.lock);
+
+  return (void *)start_addr;
 }
 
 int munmap(void *addr, size_t len) {
@@ -391,15 +455,20 @@ int munmap(void *addr, size_t len) {
 uint64 sys_mmap(void) {
   uint64 addr, len, offset;
   int prot, flags, fd;
+
   argaddr(0, &addr);
   if (addr != 0) addr = 0;  // 😝
-  argaddr(1, &len);
+  argaddr(5, &offset);
+  if (offset == 0) offset = 0;
+  argaddr(1, &len);  // args
   argint(2, &prot);
   argint(3, &flags);
   argint(4, &fd);
-  argaddr(5, &offset);
-  if (offset == 0) offset = 0;
-  return (uint64)mmap((void *)addr, len, prot, flags, fd, offset);
+
+  struct file *f;
+  if (fd < 0 || fd >= NOFILE || (f = myproc()->ofile[fd]) == 0) return -1;
+
+  return (uint64)mmap(len, prot, flags, f);
 }
 
 uint64 sys_munmap(void) {

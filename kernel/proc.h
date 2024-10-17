@@ -1,3 +1,30 @@
+struct file;
+
+#define VMA_R (1 << 0)
+#define VMA_W (1 << 1)
+#define VMA_X (1 << 2)
+#define VMA_PRIVATE (1 << 3)
+#define VMA_VALID (1 << 4)
+
+/// @brief 这个只会用来表示 user space 的
+typedef struct VIRTUAL_MEMORY_AREA_STRUCT {
+  uint64 vma_start;
+  uint64 vma_end;
+  union {
+    uint64 _mode_value;
+    struct {
+      uint64 read : 1;
+      uint64 write : 1;
+      uint64 execute : 1;  // 这个对于 mmap 来说是无效的
+      uint64 private : 1;
+      uint64 valid : 1;  // 是否有效
+    };
+  };
+  struct file *file;
+} vm_area_t;
+
+#define VMA_LENGTH (PGSIZE / sizeof(vm_area_t))
+
 // Saved registers for kernel context switches.
 struct context {
   uint64 ra;
@@ -104,4 +131,6 @@ struct proc {
   struct file *ofile[NOFILE];   // Open files
   struct inode *cwd;            // Current directory
   char name[16];                // Process name (debugging)
+
+  vm_area_t *vma;  // 目前只维护 mmap/munmap 的 vma, 并不维护 .text/.data/.bss 之类的
 };

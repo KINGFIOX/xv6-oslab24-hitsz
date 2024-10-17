@@ -12,4 +12,7 @@
 
 #define MAP_SHARED 0x01
 #define MAP_PRIVATE 0x02
+
+#define VMA_BEGIN 0x01000000  // 0x0100_0000
+
 #endif

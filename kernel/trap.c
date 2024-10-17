@@ -55,6 +55,28 @@ void usertrap(void) {
     syscall();
   } else if ((which_dev = devintr()) != 0) {
     // ok
+  } else if (r_scause() == 0xd || r_scause() == 0xf) {
+    if (!p->vma) {
+      printf("usertrap(): unexpected scause %p pid=%d\n", r_scause(), p->pid);
+      printf("            sepc=%p stval=%p\n", r_sepc(), r_stval());
+      setkilled(p);
+    } else {  // mmap
+      int i, found = 0;
+      uint64 va = r_stval();
+      for (i = 0; i < VMA_LENGTH; i++) {
+        if (p->vma[i].vma_start <= va && va < p->vma[i].vma_end && p->vma[i].valid) {
+          found = 1;
+          break;
+        }
+      }
+      if (!found) {
+        printf("usertrap(): unexpected scause %p pid=%d\n", r_scause(), p->pid);
+        printf("            sepc=%p stval=%p\n", r_sepc(), r_stval());
+        setkilled(p);
+      } else {
+        uint64 va0 = PGROUNDDOWN(va);
+      }
+    }
   } else {
     printf("usertrap(): unexpected scause %p pid=%d\n", r_scause(), p->pid);
     printf("            sepc=%p stval=%p\n", r_sepc(), r_stval());
