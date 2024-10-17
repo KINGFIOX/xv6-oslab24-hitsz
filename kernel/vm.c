@@ -378,9 +378,6 @@ int copyinstr(pagetable_t pagetable, char *dst, uint64 srcva, uint64 max) {
 
 /* ---------- ---------- mmap ---------- ---------- */
 
-typedef uint64 size_t;
-typedef long int off_t;
-
 void *mmap(void *addr, size_t len, int prot, int flags, int fd, off_t offset) {
   // TODO
   return (void *)-1;

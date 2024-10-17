@@ -5,6 +5,8 @@
 
 -include conf/lab.mk
 
+LAB_MMAP = 1
+
 K=kernel
 U=user
 
