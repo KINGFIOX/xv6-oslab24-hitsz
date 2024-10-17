@@ -25,3 +25,6 @@ barrier
 .DS_Store
 *.dSYM
 *.pcap
+
+.direnv
+.cache
