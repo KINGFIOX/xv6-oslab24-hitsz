@@ -289,10 +289,6 @@ int fork(void) {
   np->parent = p;
   release(&wait_lock);
 
-  acquire(&np->lock);
-  np->state = RUNNABLE;
-  release(&np->lock);
-
   // vma for child
   if (p->vma) {
     printf("%s:%d vma for child\n", __FILE__, __LINE__);
@@ -348,6 +344,10 @@ int fork(void) {
 
   // printf("---------- father ----------\n");
   // vmprint(p->pagetable);
+
+  acquire(&np->lock);
+  np->state = RUNNABLE;
+  release(&np->lock);
 
   return pid;
 }
