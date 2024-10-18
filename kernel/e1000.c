@@ -122,6 +122,19 @@ static void e1000_recv(void) {
   // Check for packets that have arrived from the e1000
   // Create and deliver an mbuf for each packet (using net_rx()).
   //
+  int rear = (regs[E1000_RDT] + 1) % RX_RING_SIZE;
+  // 循环是为了: 因为可能: 一次收到了多个包, 这些包都需要处理完, 否则: testing multi-process pings will fail.
+  while (rx_ring[rear].status & E1000_RXD_STAT_DD) {
+    struct mbuf *m = rx_mbufs[rear];
+    m->len = rx_ring[rear].length;
+    net_rx(m);
+    rx_mbufs[rear] = mbufalloc(0);
+    if (!rx_mbufs[rear]) panic("e1000_recv");
+    rx_ring[rear].addr = (uint64)rx_mbufs[rear]->head;  // 不过, 这里多核居然没有问题 😝
+    rx_ring[rear].status = 0;
+    regs[E1000_RDT] = rear;
+    rear = (rear + 1) % RX_RING_SIZE;
+  }
 }
 
 void e1000_intr(void) {
