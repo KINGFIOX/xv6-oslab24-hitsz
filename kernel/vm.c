@@ -148,18 +148,19 @@ void uvmunmap(pagetable_t pagetable, uint64 va, uint64 npages, int do_free) {
   if ((va % PGSIZE) != 0) panic("uvmunmap: not aligned");
 
   for (uint64 a = va; a < va + npages * PGSIZE; a += PGSIZE) {
-    pte_t *pte;
-    if ((pte = walk(pagetable, a, 0)) == 0) panic("uvmunmap: walk");
-    // if ((*pte & PTE_V) == 0) panic("uvmunmap: not mapped");
-    // if (!(PTE_FLAGS(*pte) & PTE_R) && !(PTE_FLAGS(*pte) & PTE_W) && !(PTE_FLAGS(*pte) & PTE_X)) panic("uvmunmap: not a leaf");
-    // 因为我这里是: 直接就不分配 pte 了
-    if (do_free) {
-      if (*pte & PTE_V) {
-        uint64 pa = PTE2PA(*pte);
-        kfree((void *)pa);
+    pte_t *pte = walk(pagetable, a, 0);
+    if (pte) {
+      // if ((*pte & PTE_V) == 0) panic("uvmunmap: not mapped");
+      // if (!(PTE_FLAGS(*pte) & PTE_R) && !(PTE_FLAGS(*pte) & PTE_W) && !(PTE_FLAGS(*pte) & PTE_X)) panic("uvmunmap: not a leaf");
+      // 因为我这里是: 直接就不分配 pte 了
+      if (do_free) {
+        if (*pte & PTE_V) {
+          uint64 pa = PTE2PA(*pte);
+          kfree((void *)pa);
+        }
       }
+      *pte = 0;
     }
-    *pte = 0;
   }
 }
 
@@ -255,28 +256,27 @@ void uvmfree(pagetable_t pagetable, uint64 sz) {
 // returns 0 on success, -1 on failure.
 // frees any allocated pages on failure.
 int uvmcopy(pagetable_t old, pagetable_t new, uint64 sz) {
-  pte_t *pte;
-  uint64 pa, i;
-  uint flags;
-  char *mem;
-
-  for (i = 0; i < sz; i += PGSIZE) {
-    if ((pte = walk(old, i, 0)) == 0) panic("uvmcopy: pte should exist");
-    if ((*pte & PTE_V) == 0) panic("uvmcopy: page not present");
-    pa = PTE2PA(*pte);
-    flags = PTE_FLAGS(*pte);
-    if ((mem = kalloc()) == 0) goto err;
-    memmove(mem, (char *)pa, PGSIZE);
-    if (mappages(new, i, PGSIZE, (uint64)mem, flags) != 0) {
-      kfree(mem);
-      goto err;
+  for (uint64 i = 0; i < sz; i += PGSIZE) {
+    pte_t *pte = walk(old, i, 0);
+    if (pte) {             // 只有 pte 存在
+      if (*pte & PTE_V) {  // 并且 pte 有效
+        uint64 pa = PTE2PA(*pte);
+        uint flags = PTE_FLAGS(*pte);
+        char *mem = kalloc();
+        if (!mem) {
+          uvmunmap(new, 0, i / PGSIZE, 1);
+          return -1;
+        }
+        memmove(mem, (char *)pa, PGSIZE);  // 才会进行 copy
+        if (mappages(new, i, PGSIZE, (uint64)mem, flags) != 0) {
+          kfree(mem);
+          uvmunmap(new, 0, i / PGSIZE, 1);
+          return -1;
+        }
+      }
     }
   }
   return 0;
-
-err:
-  uvmunmap(new, 0, i / PGSIZE, 1);
-  return -1;
 }
 
 // mark a PTE invalid for user access.
