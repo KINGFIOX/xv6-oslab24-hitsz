@@ -51,10 +51,8 @@ char *mbuftrim(struct mbuf *m, unsigned int len) {
 
 // Allocates a packet buffer.
 struct mbuf *mbufalloc(unsigned int headroom) {
-  struct mbuf *m;
-
   if (headroom > MBUF_SIZE) return 0;
-  m = kalloc();
+  struct mbuf *m = kalloc();
   if (m == 0) return 0;
   m->next = 0;
   m->head = (char *)m->buf + headroom;

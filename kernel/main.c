@@ -30,7 +30,7 @@ void main() {
     fileinit();          // file table
     virtio_disk_init();  // emulated hard disk
 #ifdef LAB_NET
-    pci_init();
+    pci_init();  // 里面有 e1000_init
     sockinit();
 #endif
     userinit();  // first user process

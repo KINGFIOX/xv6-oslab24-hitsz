@@ -9,7 +9,7 @@
 #include "net.h"
 
 #define TX_RING_SIZE 16
-static struct tx_desc tx_ring[TX_RING_SIZE] __attribute__((aligned(16)));
+static struct tx_desc tx_ring[TX_RING_SIZE] __attribute__((aligned(16)));  // 循环数组
 static struct mbuf *tx_mbufs[TX_RING_SIZE];
 
 #define RX_RING_SIZE 16
@@ -25,8 +25,6 @@ struct spinlock e1000_lock;
 // xregs is the memory address at which the
 // e1000's registers are mapped.
 void e1000_init(uint32 *xregs) {
-  int i;
-
   initlock(&e1000_lock, "e1000");
 
   regs = xregs;
@@ -39,18 +37,18 @@ void e1000_init(uint32 *xregs) {
 
   // [E1000 14.5] Transmit initialization
   memset(tx_ring, 0, sizeof(tx_ring));
-  for (i = 0; i < TX_RING_SIZE; i++) {
+  for (int i = 0; i < TX_RING_SIZE; i++) {
     tx_ring[i].status = E1000_TXD_STAT_DD;
     tx_mbufs[i] = 0;
   }
   regs[E1000_TDBAL] = (uint64)tx_ring;
   if (sizeof(tx_ring) % 128 != 0) panic("e1000");
   regs[E1000_TDLEN] = sizeof(tx_ring);
-  regs[E1000_TDH] = regs[E1000_TDT] = 0;
+  regs[E1000_TDH] = regs[E1000_TDT] = 0;  // head == tail == 0
 
   // [E1000 14.4] Receive initialization
   memset(rx_ring, 0, sizeof(rx_ring));
-  for (i = 0; i < RX_RING_SIZE; i++) {
+  for (int i = 0; i < RX_RING_SIZE; i++) {
     rx_mbufs[i] = mbufalloc(0);
     if (!rx_mbufs[i]) panic("e1000");
     rx_ring[i].addr = (uint64)rx_mbufs[i]->head;
@@ -94,6 +92,25 @@ int e1000_transmit(struct mbuf *m) {
   // the TX descriptor ring so that the e1000 sends it. Stash
   // a pointer so that it can be freed after sending.
   //
+  int rear = regs[E1000_TDT];   // 可用位置
+  int front = regs[E1000_TDH];  // 头
+  if ((rear + 1) % TX_RING_SIZE == front) {
+    printf("%s:%d transmit queue has been full.\n", __FILE__, __LINE__);
+    return -1;
+  }
+  if (!(tx_ring[rear].status & E1000_TXD_STAT_DD)) {
+    printf("%s:%d previous transmission not finished.\n", __FILE__, __LINE__);
+    return -1;
+  }
+  if (tx_mbufs[rear] != 0) {
+    mbuffree(tx_mbufs[rear]);
+    tx_mbufs[rear] = 0;
+  }
+  tx_ring[rear].addr = (uint64)m->head;
+  tx_ring[rear].length = m->len;
+  tx_ring[rear].cmd = E1000_TXD_CMD_RS | E1000_TXD_CMD_EOP;
+  tx_mbufs[rear] = m;  // stash a pointer for later freeing. it is above mbuffree(tx_mbufs[rear])
+  regs[E1000_TDT] = (regs[E1000_TDT] + 1) % TX_RING_SIZE;
 
   return 0;
 }
