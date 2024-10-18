@@ -1,6 +1,6 @@
 import os
 
-c_extensions = (".c")
+c_extensions = (".c", ".h")
 
 for root, dirs, files in os.walk("kernel"):
     for file in files:
