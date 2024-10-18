@@ -188,14 +188,11 @@ void uvminit(pagetable_t pagetable, uchar *src, uint sz) {
 // Allocate PTEs and physical memory to grow process from oldsz to
 // newsz, which need not be page aligned.  Returns new size or 0 on error.
 uint64 uvmalloc(pagetable_t pagetable, uint64 oldsz, uint64 newsz) {
-  char *mem;
-  uint64 a;
-
   if (newsz < oldsz) return oldsz;
 
   oldsz = PGROUNDUP(oldsz);
-  for (a = oldsz; a < newsz; a += PGSIZE) {
-    mem = kalloc();
+  for (uint64 a = oldsz; a < newsz; a += PGSIZE) {
+    char *mem = kalloc();
     if (mem == 0) {
       uvmdealloc(pagetable, a, oldsz);
       return 0;
