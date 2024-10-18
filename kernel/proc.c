@@ -176,10 +176,9 @@ void proc_freepagetable(pagetable_t pagetable, uint64 sz) {
 
 // a user program that calls exec("/init")
 // od -t xC initcode
-uchar initcode[] = {0x17, 0x05, 0x00, 0x00, 0x13, 0x05, 0x45, 0x02, 0x97, 0x05, 0x00, 0x00, 0x93,
-                    0x85, 0x35, 0x02, 0x93, 0x08, 0x70, 0x00, 0x73, 0x00, 0x00, 0x00, 0x93, 0x08,
-                    0x20, 0x00, 0x73, 0x00, 0x00, 0x00, 0xef, 0xf0, 0x9f, 0xff, 0x2f, 0x69, 0x6e,
-                    0x69, 0x74, 0x00, 0x00, 0x24, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+uchar initcode[] = {0x17, 0x05, 0x00, 0x00, 0x13, 0x05, 0x45, 0x02, 0x97, 0x05, 0x00, 0x00, 0x93, 0x85, 0x35, 0x02, 0x93, 0x08,
+                    0x70, 0x00, 0x73, 0x00, 0x00, 0x00, 0x93, 0x08, 0x20, 0x00, 0x73, 0x00, 0x00, 0x00, 0xef, 0xf0, 0x9f, 0xff,
+                    0x2f, 0x69, 0x6e, 0x69, 0x74, 0x00, 0x00, 0x24, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
 
 // Set up first user process.
 void userinit(void) {
@@ -299,6 +298,17 @@ void exit(int status) {
 
   if (p == initproc) panic("init exiting");
 
+  static char *states[] = {[UNUSED] "unused", [SLEEPING] "sleep ", [RUNNABLE] "runble", [RUNNING] "run   ", [ZOMBIE] "zombie"};
+
+  printf("proc %d exit, parent pid %d, name %s, state %s\n", p->pid, p->parent->pid, p->parent->name, states[p->parent->state]);
+
+  int i = 0;
+  for (struct proc *child = proc; child < &proc[NPROC]; child++) {
+    if (child->parent == p) {
+      printf("proc %d exit, child %d, pid %d, name %s, state %s\n", p->pid, i++, child->pid, child->name, states[child->state]);
+    }
+  }
+
   // Close all open files.
   for (int fd = 0; fd < NOFILE; fd++) {
     if (p->ofile[fd]) {
@@ -356,7 +366,7 @@ void exit(int status) {
 
 // Wait for a child process to exit and return its pid.
 // Return -1 if this process has no children.
-int wait(uint64 addr) {
+int wait(uint64 addr, int flags) {
   struct proc *np;
   int havekids, pid;
   struct proc *p = myproc();
@@ -364,6 +374,29 @@ int wait(uint64 addr) {
   // hold p->lock for the whole time to avoid lost
   // wakeups from a child's exit().
   acquire(&p->lock);
+
+  if (flags == 1) {  // 非阻塞
+    for (struct proc *child = proc; child < &proc[NPROC]; child++) {
+      if (child->parent == p) {
+        acquire(&child->lock);
+        if (child->state == ZOMBIE) {
+          pid = child->pid;
+          if (addr != 0 && copyout(p->pagetable, addr, (char *)&child->xstate, sizeof(child->xstate)) < 0) {
+            release(&child->lock);
+            release(&p->lock);
+            return -1;
+          }
+          freeproc(child);
+          release(&child->lock);
+          release(&p->lock);
+          return pid;
+        }
+        release(&child->lock);
+      }
+    }  // 走到这里, 说明已经遍历完了
+    release(&p->lock);
+    return -1;
+  }
 
   for (;;) {
     // Scan through table looking for exited children.
@@ -428,6 +461,7 @@ void scheduler(void) {
         // Switch to chosen process.  It is the process's job
         // to release its lock and then reacquire it
         // before jumping back to us.
+
         p->state = RUNNING;
         c->proc = p;
         swtch(&c->context, &p->context);
@@ -603,8 +637,7 @@ int either_copyin(void *dst, int user_src, uint64 src, uint64 len) {
 // Runs when user types ^P on console.
 // No lock to avoid wedging a stuck machine further.
 void procdump(void) {
-  static char *states[] = {
-      [UNUSED] "unused", [SLEEPING] "sleep ", [RUNNABLE] "runble", [RUNNING] "run   ", [ZOMBIE] "zombie"};
+  static char *states[] = {[UNUSED] "unused", [SLEEPING] "sleep ", [RUNNABLE] "runble", [RUNNING] "run   ", [ZOMBIE] "zombie"};
   struct proc *p;
   char *state;
 
