@@ -4,6 +4,8 @@
 #include "elf.h"
 #include "riscv.h"
 #include "defs.h"
+#include "spinlock.h"
+#include "proc.h"
 #include "fs.h"
 
 /*
@@ -84,16 +86,34 @@ pte_t *walk(pagetable_t pagetable, uint64 va, int alloc) {
 // or 0 if not mapped.
 // Can only be used to look up user pages.
 uint64 walkaddr(pagetable_t pagetable, uint64 va) {
-  pte_t *pte;
-  uint64 pa;
-
   if (va >= MAXVA) return 0;
 
-  pte = walk(pagetable, va, 0);
-  if (pte == 0) return 0;
-  if ((*pte & PTE_V) == 0) return 0;
-  if ((*pte & PTE_U) == 0) return 0;
-  pa = PTE2PA(*pte);
+  pte_t *pte = walk(pagetable, va, 1);
+  if (!pte) return 0;
+  uint64 mem = 0;
+  struct proc *p = myproc();
+  if (!(*pte & PTE_V)) {
+    if (va >= p->sz) {
+      return 0;
+    }
+    mem = (uint64)kalloc();
+    if (!mem) {
+      return 0;
+    } else {
+      uint64 va0 = PGROUNDDOWN(va);
+      if (mappages(pagetable, va0, PGSIZE, mem, PTE_R | PTE_W | PTE_U) != 0) {
+        kfree((void *)mem);
+        return 0;
+      }
+    }
+  }
+  if ((*pte & PTE_U) == 0) {
+    if (mem) {
+      kfree((void *)mem);
+    }
+    return 0;
+  }
+  uint64 pa = PTE2PA(*pte);
   return pa;
 }
 
@@ -132,7 +152,8 @@ int mappages(pagetable_t pagetable, uint64 va, uint64 size, uint64 pa, int perm)
   last = PGROUNDDOWN(va + size - 1);
   for (;;) {
     if ((pte = walk(pagetable, a, 1)) == 0) return -1;
-    if (*pte & PTE_V) panic("remap");
+    // if (*pte & PTE_V) panic("remap");
+    if (*pte & PTE_V) return -1;
     *pte = PA2PTE(pa) | perm | PTE_V;
     if (a == last) break;
     a += PGSIZE;
