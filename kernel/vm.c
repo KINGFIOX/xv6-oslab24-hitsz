@@ -368,3 +368,62 @@ int copyinstr(pagetable_t pagetable, char *dst, uint64 srcva, uint64 max) {
     return -1;
   }
 }
+
+static inline char *setflags(pte_t pte) {
+  static char flags[] = "----";
+  flags[0] = (pte & PTE_R) ? 'r' : '-';
+  flags[1] = (pte & PTE_W) ? 'w' : '-';
+  flags[2] = (pte & PTE_X) ? 'x' : '-';
+  flags[3] = (pte & PTE_U) ? 'u' : '-';
+  return flags;
+}
+
+static void _vmprint0(pagetable_t pgtbl, uint64 vpn2, uint64 vpn1) {
+  for (int i = 0; i < 512; i++) {
+    pte_t pte = pgtbl[i];
+    if (pte & PTE_V) {
+      char *flags = setflags(pte);
+      uint64 va = (vpn2 << 30) | (vpn1 << 21) | (i << 12);
+#if 1
+      if ((KERNBASE <= va && va < PHYSTOP) || (PLIC <= va && va < PLIC + 0x400000)) {
+        continue;
+      }
+#endif
+      printf("||   ||   ||idx: %d: va: %p -> pa: %p, flags: %s\n", i, va, PTE2PA(pte), flags);
+    }
+  }
+  return;
+}
+
+static void _vmprint1(pagetable_t pgtbl, uint64 vpn2) {
+  for (int i = 0; i < 512; i++) {
+    pte_t pte = pgtbl[i];
+    if (pte & PTE_V) {
+      uint64 child = PTE2PA(pte);
+      char *flags = setflags(pte);
+#if 1
+      uint64 va = (vpn2 << 30) | (i << 21) | (0 << 12);
+      if ((KERNBASE <= va && va < PHYSTOP) || (PLIC <= va && va < PLIC + 0x400000)) {
+        continue;
+      }
+#endif
+      printf("||   ||idx: %d: pa: %p, flags: %s\n", i, child, flags);
+      _vmprint0((pagetable_t)child, vpn2, i);
+    }
+  }
+  return;
+}
+
+void vmprint(pagetable_t pgtbl) {
+  printf("page table %p\n", pgtbl);
+  for (int i = 0; i < 512; i++) {
+    pte_t pte = pgtbl[i];
+    if (pte & PTE_V) {
+      uint64 child = PTE2PA(pte);
+      char *flags = setflags(pte);
+      printf("||idx: %d: pa: %p, flags: %s\n", i, child, flags);
+      _vmprint1((pagetable_t)child, i);
+    }
+  }
+  return;
+}

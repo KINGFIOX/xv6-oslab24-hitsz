@@ -53,8 +53,7 @@ static void printptr(uint64 x) {
 }
 
 // Print to the console. only understands %d, %x, %p, %s.
-void printf(char *fmt, ...) {
-  va_list ap;
+void vprintf(char *fmt, va_list ap) {
   int i, c, locking;
   char *s;
 
@@ -63,7 +62,6 @@ void printf(char *fmt, ...) {
 
   if (fmt == 0) panic("null fmt");
 
-  va_start(ap, fmt);
   for (i = 0; (c = fmt[i] & 0xff) != 0; i++) {
     if (c != '%') {
       consputc(c);
@@ -99,10 +97,20 @@ void printf(char *fmt, ...) {
   if (locking) release(&pr.lock);
 }
 
-void panic(char *s) {
+void printf(char *fmt, ...) {
+  va_list ap;
+  va_start(ap, fmt);
+  vprintf(fmt, ap);
+  va_end(ap);
+}
+
+void panic(char *s, ...) {
   pr.locking = 0;
   printf("panic: ");
-  printf(s);
+  va_list ap;
+  va_start(ap, s);
+  vprintf(s, ap);
+  va_end(ap);
   printf("\n");
   panicked = 1;  // freeze uart output from other CPUs
   for (;;)
