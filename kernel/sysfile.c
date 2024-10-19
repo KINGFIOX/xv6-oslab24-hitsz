@@ -309,26 +309,26 @@ uint64 sys_open(void) {
       struct inode *cur = ip;
       int r = r = readi(ip, 0, (uint64)target, 0, MAXPATH);
       if (r < 0) {
-        // printf("%s:%d file: readi failed\n", __FILE__, __LINE__);
         iunlockput(ip);
         end_op();
+        // printf("%s:%d file: readi failed\n", __FILE__, __LINE__);
         return -1;
       }
       ip = namei(target);
       if (!ip) {
-        // printf("%s:%d namei failed\n", __FILE__, __LINE__);
         iunlockput(cur);
         end_op();
+        // printf("%s:%d namei failed\n", __FILE__, __LINE__);
         return -1;
       }
       if (threshold++ > 10) {
-        // printf("%s:%d recursive depth to threshold\n", __FILE__, __LINE__);
         iunlockput(cur);
         end_op();
+        // printf("%s:%d recursive depth to threshold\n", __FILE__, __LINE__);
         return -1;
       }
-      iunlockput(cur);  // cur is not needed anymore, so put it
       ilock(ip);        // 注意一下这个位置, 可能有死锁, 也可能有数据竞争
+      iunlockput(cur);  // cur is not needed anymore, so put it
     }
   }
 
@@ -501,8 +501,8 @@ static int symlink(const char *target, const char *path) {
   begin_op();
   struct inode *dp = nameiparent(path, name);
   if (!dp) {
-    // printf("%s:%d parent dir does not exist\n", __FILE__, __LINE__);
     end_op();
+    // printf("%s:%d parent dir does not exist\n", __FILE__, __LINE__);
     return -1;
   }
 
@@ -512,18 +512,18 @@ static int symlink(const char *target, const char *path) {
 
   struct inode *ip = dirlookup(dp, name, 0);  // dirlookup 并不会
   if (ip) {
-    // printf("%s:%d file: %s has existed\n", path, __FILE__, __LINE__);
     iunlockput(dp);
     end_op();
+    // printf("%s:%d file: %s has existed\n", path, __FILE__, __LINE__);
     return -1;
   }
 
   // create
   ip = ialloc(dp->dev, T_SYMLINK);
   if (!ip) {
-    // printf("%s:%d ialloc failed\n", __FILE__, __LINE__);
     iunlockput(dp);
     end_op();
+    // printf("%s:%d ialloc failed\n", __FILE__, __LINE__);
     return 0;
   }
 
@@ -535,12 +535,12 @@ static int symlink(const char *target, const char *path) {
 
   if (dirlink(dp, name, ip->inum) < 0) {
     // something went wrong. de-allocate ip.
-    // printf("%s:%d failed to write default entry in dir parent\n", __FILE__, __LINE__);
     ip->nlink = 0;  // roll back
     iupdate(ip);
     iunlockput(ip);
     iunlockput(dp);
     end_op();
+    // printf("%s:%d failed to write default entry in dir parent\n", __FILE__, __LINE__);
     return 0;
   }
 
@@ -551,11 +551,11 @@ static int symlink(const char *target, const char *path) {
   begin_op();
   int r = writei(ip, 0, (uint64)target, 0, n);
   if (r != n) {
-    // printf("%s:%d writei failed\n", __FILE__, __LINE__);
     ip->nlink = 0;  // roll back
     iupdate(ip);
     iunlockput(ip);
     end_op();
+    // printf("%s:%d writei failed\n", __FILE__, __LINE__);
     return -1;
   }
   iunlockput(ip);
