@@ -276,17 +276,16 @@ static struct inode *create(const char *path, short type, short major, short min
 
 uint64 sys_open(void) {
   char path[MAXPATH];
-  int fd, omode;
-  struct file *f;
-  struct inode *ip;
-  int n;
 
+  int omode;
   argint(1, &omode);
+  int n;
   if ((n = argstr(0, path, MAXPATH)) < 0) return -1;
 
   begin_op();
 
-  if (omode & O_CREATE) {
+  struct inode *ip;
+  if (omode & O_CREATE) {  // 不能通过 O_CREATE 打开软连接
     ip = create(path, T_FILE, 0, 0);
     if (ip == 0) {
       end_op();
@@ -311,6 +310,8 @@ uint64 sys_open(void) {
     return -1;
   }
 
+  int fd;
+  struct file *f;
   if ((f = filealloc()) == 0 || (fd = fdalloc(f)) < 0) {
     if (f) fileclose(f);
     iunlockput(ip);
@@ -481,6 +482,7 @@ static int symlink(const char *target, const char *path) {
   if (!ip) {
     iunlockput(dp);
     printf("%s:%d ialloc failed\n", __FILE__, __LINE__);
+    end_op();
     return 0;
   }
 
@@ -497,6 +499,7 @@ static int symlink(const char *target, const char *path) {
     iupdate(ip);
     iunlockput(ip);
     iunlockput(dp);
+    end_op();
     return 0;
   }
 
@@ -511,6 +514,8 @@ static int symlink(const char *target, const char *path) {
     ip->nlink = 0;  // roll back
     iupdate(ip);
     iunlockput(ip);
+    end_op();
+    return -1;
   }
   iunlock(ip);
   end_op();
