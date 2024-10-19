@@ -204,7 +204,16 @@ bad:
   return -1;
 }
 
-static struct inode *create(char *path, short type, short major, short minor) {
+/**
+ * @brief
+ *
+ * @param path
+ * @param type
+ * @param major
+ * @param minor
+ * @return struct inode* 0 on failure, inode on success
+ */
+static struct inode *create(const char *path, short type, short major, short minor) {
   struct inode *ip, *dp;
   char name[DIRSIZ];
 
@@ -212,7 +221,7 @@ static struct inode *create(char *path, short type, short major, short minor) {
 
   ilock(dp);
 
-  if ((ip = dirlookup(dp, name, 0)) != 0) {
+  if ((ip = dirlookup(dp, name, 0)) != 0) {  // already exists
     iunlockput(dp);
     ilock(ip);
     if (type == T_FILE && (ip->type == T_FILE || ip->type == T_DEVICE)) return ip;
@@ -222,6 +231,7 @@ static struct inode *create(char *path, short type, short major, short minor) {
 
   if ((ip = ialloc(dp->dev, type)) == 0) {
     iunlockput(dp);
+    printf("%s:%d ialloc failed\n", __FILE__, __LINE__);
     return 0;
   }
 
@@ -233,10 +243,25 @@ static struct inode *create(char *path, short type, short major, short minor) {
 
   if (type == T_DIR) {  // Create . and .. entries.
     // No ip->nlink++ for ".": avoid cyclic ref count.
-    if (dirlink(ip, ".", ip->inum) < 0 || dirlink(ip, "..", dp->inum) < 0) goto fail;
+    if (dirlink(ip, ".", ip->inum) < 0 || dirlink(ip, "..", dp->inum) < 0) {  // something went wrong. de-allocate ip.
+      printf("%s:%d failed to write default entry in self\n", __FILE__, __LINE__);
+      ip->nlink = 0;
+      iupdate(ip);
+      iunlockput(ip);
+      iunlockput(dp);
+      return 0;
+    }
   }
 
-  if (dirlink(dp, name, ip->inum) < 0) goto fail;
+  if (dirlink(dp, name, ip->inum) < 0) {
+    // something went wrong. de-allocate ip.
+    printf("%s:%d failed to write default entry in dir parent\n", __FILE__, __LINE__);
+    ip->nlink = 0;
+    iupdate(ip);
+    iunlockput(ip);
+    iunlockput(dp);
+    return 0;
+  }
 
   if (type == T_DIR) {
     // now that success is guaranteed:
@@ -247,14 +272,6 @@ static struct inode *create(char *path, short type, short major, short minor) {
   iunlockput(dp);
 
   return ip;
-
-fail:
-  // something went wrong. de-allocate ip.
-  ip->nlink = 0;
-  iupdate(ip);
-  iunlockput(ip);
-  iunlockput(dp);
-  return 0;
 }
 
 uint64 sys_open(void) {
@@ -439,7 +456,65 @@ uint64 sys_pipe(void) {
 }
 
 static int symlink(const char *target, const char *path) {
-  // do something
+  char name[DIRSIZ];
+
+  struct inode *dp = nameiparent(path, name);
+  if (!dp) {
+    printf("%s:%d parent dir does not exist\n", __FILE__, __LINE__);
+    return -1;
+  }
+
+  int n = strlen(target);
+
+  ilock(dp);
+
+  struct inode *ip = dirlookup(dp, name, 0);  // dirlookup 并不会
+  if (ip) {
+    iunlockput(dp);
+    printf("%s:%d file: %s has existed\n", path, __FILE__, __LINE__);
+    return -1;
+  }
+
+  // create
+  begin_op();
+  ip = ialloc(dp->dev, T_SYMLINK);
+  if (!ip) {
+    iunlockput(dp);
+    printf("%s:%d ialloc failed\n", __FILE__, __LINE__);
+    return 0;
+  }
+
+  ilock(ip);  // ilock here, ip
+  ip->major = 0;
+  ip->minor = 0;
+  ip->nlink = 1;
+  iupdate(ip);
+
+  if (dirlink(dp, name, ip->inum) < 0) {
+    // something went wrong. de-allocate ip.
+    printf("%s:%d failed to write default entry in dir parent\n", __FILE__, __LINE__);
+    ip->nlink = 0;  // roll back
+    iupdate(ip);
+    iunlockput(ip);
+    iunlockput(dp);
+    return 0;
+  }
+
+  iunlockput(dp);
+  end_op();
+
+  // write
+  begin_op();
+  int r = writei(ip, 0, (uint64)target, 0, n);
+  if (r != n) {
+    printf("%s:%d writei failed\n", __FILE__, __LINE__);
+    ip->nlink = 0;  // roll back
+    iupdate(ip);
+    iunlockput(ip);
+  }
+  iunlock(ip);
+  end_op();
+
   return 0;
 }
 

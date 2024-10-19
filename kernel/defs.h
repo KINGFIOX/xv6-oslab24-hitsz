@@ -48,10 +48,10 @@ void iunlockput(struct inode *);
 void iupdate(struct inode *);
 int namecmp(const char *, const char *);
 struct inode *namei(char *);
-struct inode *nameiparent(char *, char *);
+struct inode *nameiparent(const char *, char *);
 int readi(struct inode *, int, uint64, uint, uint);
 void stati(struct inode *, struct stat *);
-int writei(struct inode *, int, uint64, uint, uint);
+int writei(struct inode *ip, int user_src, uint64 src, uint off, uint n);
 void itrunc(struct inode *);
 
 // ramdisk.c
