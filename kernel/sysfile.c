@@ -284,34 +284,73 @@ uint64 sys_open(void) {
 
   begin_op();
 
-  struct inode *ip;
-  if (omode & O_CREATE) {  // 不能通过 O_CREATE 打开软连接
+  // get the inode
+  struct inode *ip;        // if-else 初始化了 ip
+  if (omode & O_CREATE) {  // O_CREATE 只能创建 T_FILE
     ip = create(path, T_FILE, 0, 0);
     if (ip == 0) {
       end_op();
       return -1;
     }
   } else {
-    if ((ip = namei(path)) == 0) {
+    ip = namei(path);
+    if (!ip) {
       end_op();
       return -1;
     }
     ilock(ip);
-    if (ip->type == T_DIR && omode != O_RDONLY) {
-      iunlockput(ip);
-      end_op();
-      return -1;
+  }
+
+  if (ip->type == T_SYMLINK && !(omode & O_NOFOLLOW)) {
+    char target[MAXPATH];
+
+    int threshold = 0;
+    while (ip->type == T_SYMLINK) {
+      struct inode *cur = ip;
+      int r = r = readi(ip, 0, (uint64)target, 0, MAXPATH);
+      if (r < 0) {
+        printf("%s:%d file: readi failed\n", __FILE__, __LINE__);
+        iunlockput(ip);
+        end_op();
+        return -1;
+      }
+      ip = namei(target);
+      if (!ip) {
+        printf("%s:%d namei failed\n", __FILE__, __LINE__);
+        iunlockput(cur);
+        end_op();
+        return -1;
+      }
+      if (threshold++ > 10) {
+        printf("%s:%d recursive depth to threshold\n", __FILE__, __LINE__);
+        iunlockput(cur);
+        end_op();
+        return -1;
+      }
+      iunlockput(cur);  // cur is not needed anymore, so put it
+      ilock(ip);        // 注意一下这个位置, 可能有死锁, 也可能有数据竞争
     }
   }
 
+  // check the flags sanity
+  if (ip->type == T_DIR && omode != O_RDONLY) {  // dir 只能是 O_RDONLY
+    iunlockput(ip);
+    end_op();
+    return -1;
+  }
+  if (ip->type != T_SYMLINK && (omode & O_NOFOLLOW)) {  // 只有 symlink 可以 O_NOFOLLOW
+    iunlockput(ip);
+    end_op();
+    return -1;
+  }
   if (ip->type == T_DEVICE && (ip->major < 0 || ip->major >= NDEV)) {
     iunlockput(ip);
     end_op();
     return -1;
   }
 
-  int fd;
-  struct file *f;
+  int fd;          // 为当前进程分配一个 fd
+  struct file *f;  // 分配一个 handler (打开文件表)
   if ((f = filealloc()) == 0 || (fd = fdalloc(f)) < 0) {
     if (f) fileclose(f);
     iunlockput(ip);
@@ -330,11 +369,11 @@ uint64 sys_open(void) {
   f->readable = !(omode & O_WRONLY);
   f->writable = (omode & O_WRONLY) || (omode & O_RDWR);
 
-  if ((omode & O_TRUNC) && ip->type == T_FILE) {
+  if ((omode & O_TRUNC) && ip->type == T_FILE) {  // 清空文件
     itrunc(ip);
   }
 
-  iunlock(ip);
+  iunlock(ip);  // 之所以不用 iunlockput, 是因为: 这个 inode 是被 file 结构体持有的, 不需要释放
   end_op();
 
   return fd;
@@ -517,7 +556,7 @@ static int symlink(const char *target, const char *path) {
     end_op();
     return -1;
   }
-  iunlock(ip);
+  iunlockput(ip);
   end_op();
 
   return 0;
