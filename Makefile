@@ -309,11 +309,12 @@ endif
 qemu: $K/kernel fs.img
 	$(QEMU) $(QEMUOPTS)
 
-gdb:
-	$(TOOLPREFIX)gdb -ex 'target remote localhost:$(GDBPORT)' $K/kernel
 
 .gdbinit: .gdbinit.tmpl-riscv
 	sed "s/:1234/:$(GDBPORT)/" < $^ > $@
+
+gdb: .gdbinit
+	$(TOOLPREFIX)gdb -x .gdbinit
 
 qemu-gdb: $K/kernel .gdbinit fs.img
 	@echo "*** Now run 'gdb' in another window." 1>&2
@@ -330,8 +331,6 @@ ping:
 	python3 ping.py $(FWDPORT)
 endif
 
-gdb: 
-	$(GDB)
 
 ##
 ##  FOR testing lab grading script
