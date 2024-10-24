@@ -127,7 +127,7 @@ int fsfd;
 struct superblock sb;
 char zeroes[BSIZE];
 uint freeinode = 1;
-uint freeblock;
+uint used_block;
 
 void balloc(int);
 void wsect(uint bno, const void *buf);
@@ -191,7 +191,7 @@ int main(int argc, char *argv[]) {
 
   printf("nmeta %d (boot, super, log blocks %u inode blocks %u, bitmap blocks %u) blocks %d total %d\n", nmeta, nlog, ninodeblocks, nbitmap, nblocks, FSSIZE);
 
-  freeblock = nmeta;  // the first free block that we can allocate
+  used_block = nmeta;  // the first free block that we can allocate
 
   for (int i = 0; i < FSSIZE; i++) wsect(i, zeroes);  // clear all blocks
 
@@ -261,7 +261,7 @@ int main(int argc, char *argv[]) {
   din.size = xint(off);
   winode(rootino, &din);
 
-  balloc(freeblock);
+  balloc(used_block);
 
   exit(0);
 }
@@ -312,7 +312,7 @@ void rinode(uint inum, struct dinode *ip) {
 /**
  * @brief
  *
- * @param sec
+ * @param bno
  * @param buf (mut)
  */
 void rsect(uint bno, void *buf) {
@@ -345,6 +345,11 @@ uint ialloc(ushort type) {
   return inum;
 }
 
+/**
+ * @brief set bitmap
+ *
+ * @param used
+ */
 void balloc(int used) {
   uchar buf[BSIZE];
 
@@ -382,17 +387,17 @@ void iappend(uint inum, const void *xp, int n) {
     uint x;
     if (fbn < NDIRECT) {
       if (xint(din.addrs[fbn]) == 0) {
-        din.addrs[fbn] = xint(freeblock++);
+        din.addrs[fbn] = xint(used_block++);
       }
       x = xint(din.addrs[fbn]);
     } else {
       if (xint(din.addrs[NDIRECT]) == 0) {
-        din.addrs[NDIRECT] = xint(freeblock++);
+        din.addrs[NDIRECT] = xint(used_block++);
       }
       uint indirect[NINDIRECT];
       rsect(xint(din.addrs[NDIRECT]), (char *)indirect);
       if (indirect[fbn - NDIRECT] == 0) {
-        indirect[fbn - NDIRECT] = xint(freeblock++);
+        indirect[fbn - NDIRECT] = xint(used_block++);
         wsect(xint(din.addrs[NDIRECT]), (char *)indirect);
       }
       x = xint(indirect[fbn - NDIRECT]);
