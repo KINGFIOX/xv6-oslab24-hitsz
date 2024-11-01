@@ -27,3 +27,4 @@ barrier
 .direnv
 .cache
 compile_commands.json
+commit.patch
