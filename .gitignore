@@ -19,3 +19,7 @@ user/usys.S
 myapi.key
 *-handin.tar.gz
 xv6.out*
+.cache
+compile_commands.json
+commit.patch
+.vscode
