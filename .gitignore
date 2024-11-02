@@ -19,3 +19,5 @@ user/usys.S
 .vscode
 .cache
 /xv6.out
+commit.patch
+compile_commands.json
