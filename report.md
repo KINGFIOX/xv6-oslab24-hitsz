@@ -163,3 +163,9 @@ uint64 walkaddr(pagetable_t pagetable, uint64 va) {
   return pa;
 }
 ```
+
+## make grade
+
+![](image/grade.png)
+
+BUGS: 只能在 qemu 5.x 版本上运行, 原因出在: mret 并没有正确被跳转.
