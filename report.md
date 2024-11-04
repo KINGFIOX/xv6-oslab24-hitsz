@@ -347,3 +347,7 @@ uint64 sys_open(void) {
   return fd;
 }
 ```
+
+## make grade
+
+![](image/grade.png)
