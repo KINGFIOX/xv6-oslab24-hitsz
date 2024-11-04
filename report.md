@@ -426,3 +426,7 @@ void uvmunmap_f(pagetable_t pagetable, uint64 va, uint64 npages) {
   }
 }
 ```
+
+## make grade
+
+![](image/grade.png)
