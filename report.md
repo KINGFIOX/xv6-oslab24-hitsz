@@ -204,3 +204,7 @@ int sigreturn(void) {
   return p->trapframe->a0;
 }
 ```
+
+## make grade
+
+![](image/grade.png)
