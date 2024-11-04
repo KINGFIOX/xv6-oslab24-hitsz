@@ -76,3 +76,9 @@ static void e1000_recv(void) {
   }
 }
 ```
+
+## make grade
+
+国内环境似乎没法 `ping pdos.csail.mit.edu`
+
+![alt text](image/grade.png)
