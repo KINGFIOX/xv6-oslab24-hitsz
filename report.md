@@ -193,3 +193,7 @@ static void barrier() {
   pthread_mutex_unlock(&bstate.barrier_mutex);
 }
 ```
+
+## make gradeo
+
+![alt text](image/grade.png)
