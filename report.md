@@ -12,7 +12,10 @@ mit's xv6 实验指导书中有提示
 
 ### 设计
 
-主要是添加一个数据结构, 这个数据结构是参考的 csapp
+主要是添加一个数据结构, 这个数据结构是参考的 csapp.
+
+> update: 2024-12-11 如果现在让我设计这个 struct proc, vm_area_struct,
+> 我会设计成 侵入式链表的形式(参考 linux)
 
 ```c
 typedef struct VIRTUAL_MEMORY_AREA_STRUCT {
@@ -426,3 +429,7 @@ void uvmunmap_f(pagetable_t pagetable, uint64 va, uint64 npages) {
   }
 }
 ```
+
+## make grade
+
+![](image/grade.png)
